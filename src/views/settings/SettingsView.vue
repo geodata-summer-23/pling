@@ -16,12 +16,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useUserStore } from '@/stores/userStore'
-import esriId from '@arcgis/core/identity/IdentityManager'
+import { useUserStore, signIn } from '@/stores/userStore'
 
 const userStore = useUserStore()
-
-const signIn = async () => {
-  esriId.getCredential(userStore.oAuthInfo.portalUrl + '/sharing')
-}
 </script>
