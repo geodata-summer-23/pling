@@ -1,11 +1,24 @@
 <template>
-  <Map v-if="userStore.apiKey.length > 0" :api-key="userStore.apiKey"></Map>
-  <p v-else>API key is not defined! Go to settings to add an API key</p>
+  <Map v-if="userStore.signedIn"></Map>
+  <div v-if="!userStore.signedIn" class="message-container">
+    <p>You are not signed in.</p>
+    <RouterLink to="/settings">Go to settings.</RouterLink>
+  </div>
 </template>
 
 <script lang="ts" setup>
-import { useUserStore } from '@/stores/userStore'
 import Map from './Map.vue'
+import { useUserStore } from '@/stores/userStore'
+import { RouterLink } from 'vue-router'
 
 const userStore = useUserStore()
 </script>
+
+<style scoped>
+.message-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+</style>
