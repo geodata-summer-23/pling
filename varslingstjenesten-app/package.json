@@ -10,7 +10,9 @@
   },
   "dependencies": {
     "@arcgis/core": "^4.27.6",
-    "vue": "^3.2.47"
+    "pinia": "^2.1.4",
+    "vue": "^3.2.47",
+    "vue-router": "^4.2.2"
   },
   "devDependencies": {
     "@types/node": "^20.3.2",

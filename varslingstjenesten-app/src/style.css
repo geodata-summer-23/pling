@@ -2,3 +2,12 @@ body {
   background-color: black;
   margin: 0;
 }
+
+input {
+  padding: 0.5em;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+}
