@@ -12,10 +12,12 @@
         Sign In
       </button>
     </div>
+    <nowcast></nowcast>
   </div>
 </template>
 
 <script lang="ts" setup>
+import nowcast from '../map/nowcast.vue';
 import { useUserStore } from '@/stores/userStore'
 import esriId from '@arcgis/core/identity/IdentityManager'
 
