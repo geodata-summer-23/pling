@@ -1,14 +1,24 @@
 <template>
   <Map v-if="userStore.signedIn"></Map>
-  <p v-if="!userStore.signedIn">You are not signed in. Go to settings.</p>
+  <div v-if="!userStore.signedIn" class="message-container">
+    <p>You are not signed in.</p>
+    <RouterLink to="/settings">Go to settings.</RouterLink>
+  </div>
 </template>
 
 <script lang="ts" setup>
-import { useUserStore } from '@/stores/userStore'
 import Map from './Map.vue'
-import { onMounted } from 'vue'
+import { useUserStore } from '@/stores/userStore'
+import { RouterLink } from 'vue-router'
 
 const userStore = useUserStore()
-
-onMounted(() => {})
 </script>
+
+<style scoped>
+.message-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+</style>
