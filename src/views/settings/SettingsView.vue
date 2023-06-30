@@ -25,12 +25,12 @@ const oAuthInfo = new OAuthInfo({
 
 const userStore = useUserStore()
 
-const signIn = () => {
+const signIn = async () => {
   esriId.registerOAuthInfos([oAuthInfo])
 
-  esriId.getCredential(oAuthInfo.portalUrl + '/sharing')
+  await esriId.getCredential(oAuthInfo.portalUrl + '/sharing')
 
-  esriId
+  await esriId
     .checkSignInStatus(oAuthInfo.portalUrl + '/sharing')
     .then(() => {
       userStore.signedIn = true
