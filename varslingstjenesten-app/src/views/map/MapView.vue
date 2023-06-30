@@ -4,7 +4,8 @@
 </template>
 
 <script lang="ts" setup>
-import { useUserStore } from '../../stores/userStore'
+import { useUserStore } from '@/stores/userStore'
 import Map from './Map.vue'
+
 const userStore = useUserStore()
 </script>
