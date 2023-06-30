@@ -1,6 +1,6 @@
 <template>
   <Map v-if="userStore.apiKey.length > 0" :api-key="userStore.apiKey"></Map>
-  <p v-else>API key is not defined! {{ userStore.apiKey }}</p>
+  <p v-else>API key is not defined! Go to settings to add an API key</p>
 </template>
 
 <script lang="ts" setup>
