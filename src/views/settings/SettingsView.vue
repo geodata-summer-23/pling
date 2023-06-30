@@ -12,11 +12,13 @@
         Sign In
       </button>
     </div>
+    <nowcast></nowcast>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { useUserStore, signIn } from '@/stores/userStore'
+import nowcast from '../map/nowcast.vue'
 
 const userStore = useUserStore()
 </script>
