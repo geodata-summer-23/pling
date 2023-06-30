@@ -23,7 +23,7 @@ const getOAuth = () => {
 
 export const useUserStore = defineStore('user', {
   state: () => ({
-    apiKey: import.meta.env.VUE_APP_ARCGIS_API_KEY ?? '',
+    // apiKey: import.meta.env.VUE_APP_ARCGIS_API_KEY ?? '',
     signedIn: false,
     oAuthInfo: getOAuth(),
   }),
