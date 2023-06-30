@@ -15,9 +15,9 @@ onMounted(() => {
   arcgisConfig.apiKey = props.apiKey
 
   const map = new WebMap({
-    basemap: 'streets-vector',
+    // basemap: 'streets-vector',
     portalItem: {
-      id: 'b139409c28884967a1a603695e0b478d',
+      id: 'b139409c28884967a1a603695e0b478d', // https://arcg.is/1mTnbH
     },
   })
 
