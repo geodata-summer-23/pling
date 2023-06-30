@@ -5,7 +5,6 @@
 <script lang="ts" setup>
 import WebMap from '@arcgis/core/WebMap'
 import MapView from '@arcgis/core/views/MapView.js'
-import FeatureLayer from '@arcgis/core/layers/FeatureLayer'
 import { onMounted } from 'vue'
 
 onMounted(() => {
@@ -23,28 +22,12 @@ onMounted(() => {
     zoom: 12,
   })
 
-  const featureLayer = new FeatureLayer({
-    url: 'https://services.geodataonline.no/arcgis/rest/services/Geomap_UTM33_EUREF89/GeomapFlom/FeatureServer/0',
-  })
-
-  map.add(featureLayer)
-
   view.when(() => {
     navigator.geolocation.getCurrentPosition(async (position) => {
       view.goTo({
         center: [position.coords.longitude, position.coords.latitude],
         zoom: 12,
       })
-      console.log(position)
-
-      // TODO: weather
-      // weather.value = await
-      // (
-      //   await fetch(
-      //     `https://api.met.no/weatherapi/locationforecast/2.0/compact?altitude=${position.coords.altitude}&lat=${position.coords.latitude}&lon=${position.coords.longitude}`,
-      //     { mode: 'no-cors' }
-      //   )
-      // ).json()
     })
   })
 })
