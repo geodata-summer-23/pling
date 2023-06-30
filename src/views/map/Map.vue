@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts" setup>
-import ArcgisMap from '@arcgis/core/Map'
+import WebMap from '@arcgis/core/WebMap'
 import MapView from '@arcgis/core/views/MapView.js'
 import FeatureLayer from '@arcgis/core/layers/FeatureLayer'
 import arcgisConfig from '@arcgis/core/config'
@@ -14,8 +14,11 @@ const props = defineProps<{ apiKey: string }>()
 onMounted(() => {
   arcgisConfig.apiKey = props.apiKey
 
-  const map = new ArcgisMap({
+  const map = new WebMap({
     basemap: 'streets-vector',
+    portalItem: {
+      id: 'b139409c28884967a1a603695e0b478d',
+    },
   })
 
   const view = new MapView({
