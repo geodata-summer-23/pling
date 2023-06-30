@@ -5,6 +5,11 @@
     <label for="name">Name</label>
     <input id="name" />
   </div>
+  <div>
+    <p>
+      FETTE BRA MED BONUS
+    </p>
+  </div>
 </template>
 
 <script lang="ts" setup>
