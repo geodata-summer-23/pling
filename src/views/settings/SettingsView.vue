@@ -17,27 +17,11 @@
 
 <script lang="ts" setup>
 import { useUserStore } from '@/stores/userStore'
-import OAuthInfo from '@arcgis/core/identity/OAuthInfo'
 import esriId from '@arcgis/core/identity/IdentityManager'
-const oAuthInfo = new OAuthInfo({
-  appId: 'A0NwPKkEBxfkEBvQ',
-})
 
 const userStore = useUserStore()
 
 const signIn = async () => {
-  esriId.registerOAuthInfos([oAuthInfo])
-
-  await esriId.getCredential(oAuthInfo.portalUrl + '/sharing')
-
-  await esriId
-    .checkSignInStatus(oAuthInfo.portalUrl + '/sharing')
-    .then(() => {
-      userStore.signedIn = true
-    })
-    .catch((e: Error) => {
-      console.log(e)
-      userStore.signedIn = false
-    })
+  esriId.getCredential(userStore.oAuthInfo.portalUrl + '/sharing')
 }
 </script>
