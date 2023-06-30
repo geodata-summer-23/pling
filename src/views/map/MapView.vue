@@ -1,10 +1,5 @@
 <template>
-  <Map
-    v-if="userStore.apiKey.length > 0 && userStore.signedIn"
-    :api-key="userStore.apiKey"
-  ></Map>
-  <p v-else>API key is not defined! Go to settings to add an API key</p>
-  <div></div>
+  <Map v-if="userStore.signedIn"></Map>
   <p v-if="!userStore.signedIn">You are not signed in. Go to settings.</p>
 </template>
 
