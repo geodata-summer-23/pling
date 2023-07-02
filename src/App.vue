@@ -1,7 +1,11 @@
 <template>
   <div class="display-container">
     <div class="view-container">
-      <RouterView></RouterView>
+      <RouterView v-slot="{ Component }">
+        <KeepAlive>
+          <component :is="Component" :key="$route.fullPath"></component>
+        </KeepAlive>
+      </RouterView>
     </div>
     <nav class="nav-bottom">
       <RouterLink :to="{ name: 'addresses' }">Addresses</RouterLink>
