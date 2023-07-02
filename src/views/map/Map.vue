@@ -90,6 +90,7 @@ onMounted(() => {
 
   const search = new Search({
     view: view,
+    goToOverride: console.log,
   })
   view.ui.add(search, 'top-right')
 

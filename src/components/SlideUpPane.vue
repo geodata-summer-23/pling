@@ -1,6 +1,6 @@
 <template>
   <div class="slide-up-pane" :class="{ 'hidden-below': !open }">
-    <div class="col">
+    <div class="col center">
       <button class="toggle-button" @click="emit('close')">Close</button>
     </div>
     <div class="slide-up-pane-margins">

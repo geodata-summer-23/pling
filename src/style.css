@@ -17,17 +17,18 @@ button {
 .col {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 
 .row {
   display: flex;
   flex-direction: row;
+}
+
+.center {
   justify-content: center;
   align-items: center;
 }
 
 .view {
-  padding: 1em;
+  padding: 2em;
 }

@@ -6,8 +6,7 @@
     <nav class="nav-bottom">
       <RouterLink :to="{ name: 'addresses' }">Addresses</RouterLink>
       <RouterLink :to="{ name: 'map' }">Map</RouterLink>
-      <RouterLink :to="{ name: 'settings' }">Settings</RouterLink>
-      <RouterLink :to="{ name: 'setUser' }">User</RouterLink>
+      <RouterLink :to="{ name: 'user' }">User</RouterLink>
     </nav>
   </div>
 </template>

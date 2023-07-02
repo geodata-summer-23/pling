@@ -1,8 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import MapView from '@/views/map/MapView.vue'
-import SettingsView from '@/views/settings/SettingsView.vue'
 import AddressesView from '@/views/addresses/AddressesView.vue'
-import setUserView from '@/views/setUser/setUserView.vue'
+import UserView from '@/views/user/UserView.vue'
 
 const routes = [
   {
@@ -10,10 +9,9 @@ const routes = [
     name: 'root',
     redirect: { name: 'map' },
     children: [
-      { path: '/map', name: 'map', component: MapView },
-      { path: '/settings', name: 'settings', component: SettingsView },
-      { path: '/setUser', name: 'setUser', component: setUserView },
       { path: '/addresses', name: 'addresses', component: AddressesView },
+      { path: '/map', name: 'map', component: MapView },
+      { path: '/user', name: 'user', component: UserView },
     ],
   },
   { path: '/:pathMatch(.*)*', name: 'not-found', redirect: '/' },
