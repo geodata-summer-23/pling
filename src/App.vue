@@ -8,7 +8,7 @@
       </RouterView>
     </div>
     <nav class="nav-bottom">
-      <RouterLink :to="{ name: 'addresses' }">Addresses</RouterLink>
+      <RouterLink :to="{ name: 'places' }">Places</RouterLink>
       <RouterLink :to="{ name: 'map' }">Map</RouterLink>
       <RouterLink :to="{ name: 'user' }">User</RouterLink>
     </nav>
