@@ -1,15 +1,16 @@
 <template>
   <Map v-if="userStore.signedIn"></Map>
-  <div v-if="!userStore.signedIn" class="message-container">
+  <div v-else class="message-container">
+    <br />
     <p>You are not signed in.</p>
-    <RouterLink to="/settings">Go to settings.</RouterLink>
+    <br />
+    <button @click="signIn">Sign In</button>
   </div>
 </template>
 
 <script lang="ts" setup>
 import Map from './Map.vue'
-import { useUserStore } from '@/stores/userStore'
-import { RouterLink } from 'vue-router'
+import { signIn, useUserStore } from '@/stores/userStore'
 
 const userStore = useUserStore()
 </script>

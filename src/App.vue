@@ -12,7 +12,19 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted, onUnmounted } from 'vue'
 import { RouterView } from 'vue-router'
+import { useUserStore } from './stores/userStore'
+
+const userStore = useUserStore()
+
+onMounted(() => {
+  userStore.loadFromLocalStorage()
+})
+
+onUnmounted(() => {
+  userStore.saveToLocalStorage()
+})
 </script>
 
 <style scoped>

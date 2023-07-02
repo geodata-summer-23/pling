@@ -12,9 +12,9 @@
     </div>
     <br />
     <label for="name">Name:</label>
-    <input id="name" type="text" v-model="name" />
+    <input id="name" type="text" v-model="userStore.name" />
     <label for="age">Age:</label>
-    <input id="age" type="number" v-model.number="age" />
+    <input id="age" type="number" v-model.number="userStore.age" />
     <br />
     <label style="font-weight: bold">Weather test</label>
     <Nowcast></Nowcast>
@@ -24,19 +24,6 @@
 <script lang="ts" setup>
 import Nowcast from '../map/Nowcast.vue'
 import { useUserStore, signIn } from '@/stores/userStore'
-import { ref, onUnmounted } from 'vue'
 
 const userStore = useUserStore()
-
-const name = ref(localStorage.getItem('name') ?? '')
-const age = ref(localStorage.getItem('age') ?? '')
-
-onUnmounted(() => {
-  if (name.value) {
-    localStorage.setItem('name', name.value)
-  }
-  if (age.value) {
-    localStorage.setItem('age', age.value)
-  }
-})
 </script>
