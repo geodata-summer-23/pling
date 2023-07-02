@@ -2,9 +2,13 @@
   <div class="view col">
     <label style="font-weight: bold">User Information</label>
     <br />
-    <div>
+    <div class="row spaced">
       <label for="signIn">
-        {{ userStore.signedIn ? 'You are signed in with ArcGIS.' : 'Sign In' }}
+        {{
+          userStore.signedIn
+            ? 'You are signed in with ArcGIS.'
+            : 'You are not signed in.'
+        }}
       </label>
       <button v-if="!userStore.signedIn" id="signIn" @click="signIn">
         Sign In

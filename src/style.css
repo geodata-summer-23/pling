@@ -29,6 +29,11 @@ button {
   align-items: center;
 }
 
+.spaced {
+  justify-content: space-between;
+  align-items: center;
+}
+
 .view {
   padding: 2em;
 }
