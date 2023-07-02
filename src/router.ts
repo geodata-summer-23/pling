@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import MapView from '@/views/map/MapView.vue'
 import SettingsView from '@/views/settings/SettingsView.vue'
+import AddressesView from '@/views/addresses/AddressesView.vue'
 import setUserView from '@/views/setUser/setUserView.vue'
 
 const routes = [
@@ -12,6 +13,7 @@ const routes = [
       { path: '/map', name: 'map', component: MapView },
       { path: '/settings', name: 'settings', component: SettingsView },
       { path: '/setUser', name: 'setUser', component: setUserView },
+      { path: '/addresses', name: 'addresses', component: AddressesView },
     ],
   },
   { path: '/:pathMatch(.*)*', name: 'not-found', redirect: '/' },

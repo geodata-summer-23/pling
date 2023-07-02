@@ -4,9 +4,10 @@
       <RouterView></RouterView>
     </div>
     <nav class="nav-bottom">
+      <RouterLink :to="{ name: 'addresses' }">Addresses</RouterLink>
       <RouterLink :to="{ name: 'map' }">Map</RouterLink>
       <RouterLink :to="{ name: 'settings' }">Settings</RouterLink>
-      <RouterLink :to="{ name: 'setUser' }">Set name and age</RouterLink>
+      <RouterLink :to="{ name: 'setUser' }">User</RouterLink>
     </nav>
   </div>
 </template>
@@ -23,8 +24,10 @@ import { RouterView } from 'vue-router'
 }
 
 .view-container {
-  height: calc(100% - 3em);
+  position: relative;
+  height: calc(100% - 4em);
   background-color: white;
+  overflow: hidden;
 }
 
 .nav-bottom {
@@ -33,7 +36,7 @@ import { RouterView } from 'vue-router'
   justify-content: space-evenly;
   align-items: center;
   bottom: 0;
-  height: 3em;
-  background-color: white;
+  height: 4em;
+  background-color: snow;
 }
 </style>
