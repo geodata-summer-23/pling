@@ -1,7 +1,7 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
 import MapView from '@/views/map/MapView.vue'
 import PlacesView from '@/views/places/PlacesView.vue'
 import UserView from '@/views/user/UserView.vue'
+import { createRouter, createWebHashHistory } from 'vue-router'
 
 const routes = [
   {
@@ -9,7 +9,11 @@ const routes = [
     name: 'root',
     redirect: { name: 'map' },
     children: [
-      { path: '/places', name: 'places', component: PlacesView },
+      {
+        path: '/places',
+        name: 'places',
+        component: PlacesView,
+      },
       { path: '/map', name: 'map', component: MapView },
       { path: '/user', name: 'user', component: UserView },
     ],

@@ -8,26 +8,32 @@
       </RouterView>
     </div>
     <nav class="nav-bottom">
-      <RouterLink :to="{ name: 'places' }">Places</RouterLink>
-      <RouterLink :to="{ name: 'map' }">Map</RouterLink>
-      <RouterLink :to="{ name: 'user' }">User</RouterLink>
+      <RouterLink :to="{ name: 'places' }">
+        <NavItem text="Places"><WarningIcon /></NavItem>
+      </RouterLink>
+      <RouterLink :to="{ name: 'map' }">
+        <NavItem text="Map"><GlobeIcon /></NavItem>
+      </RouterLink>
+      <RouterLink :to="{ name: 'user' }">
+        <NavItem text="User"><UserIcon /></NavItem>
+      </RouterLink>
     </nav>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, onUnmounted } from 'vue'
+import NavItem from '@/components/NavItem.vue'
+import GlobeIcon from '@/components/icons/GlobeIcon.vue'
+import UserIcon from '@/components/icons/UserIcon.vue'
+import WarningIcon from '@/components/icons/WarningIcon.vue'
+import { onMounted } from 'vue'
 import { RouterView } from 'vue-router'
-import { useUserStore } from './stores/userStore'
-
-const userStore = useUserStore()
+import { usePlaceStore } from '@/stores/placeStore'
+import { useUserStore } from '@/stores/userStore'
 
 onMounted(() => {
-  userStore.loadFromLocalStorage()
-})
-
-onUnmounted(() => {
-  userStore.saveToLocalStorage()
+  usePlaceStore().loadFromLocalStorage()
+  useUserStore().loadFromLocalStorage()
 })
 </script>
 

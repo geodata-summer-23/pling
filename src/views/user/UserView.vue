@@ -16,9 +16,21 @@
     </div>
     <br />
     <label for="name">Name:</label>
-    <input id="name" type="text" v-model="userStore.name" />
+    <input
+      id="name"
+      type="text"
+      :value="userStore.name"
+      @change="userStore.setName(($event.target as HTMLInputElement).value)"
+    />
     <label for="age">Age:</label>
-    <input id="age" type="number" v-model.number="userStore.age" />
+    <input
+      id="age"
+      type="number"
+      :value="userStore.age"
+      @change="
+        userStore.setAge(($event.target as HTMLInputElement).valueAsNumber)
+      "
+    />
     <br />
     <label style="font-weight: bold">Weather test</label>
     <WeatherNowcast></WeatherNowcast>
