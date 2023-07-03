@@ -40,5 +40,12 @@ export const usePlaceStore = defineStore('place', {
         this.places.splice(index, 1)
       }
     },
+    loadFromLocalStorage() {
+      this.places = JSON.parse(localStorage.getItem('places') ?? '[]')
+    },
+
+    saveToLocalStorage() {
+      localStorage.setItem('places', JSON.stringify(this.places))
+    },
   },
 })
