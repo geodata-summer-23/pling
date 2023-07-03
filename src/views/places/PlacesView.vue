@@ -6,9 +6,12 @@
       <SearchBar placeholder="+ Add place" @search="search"></SearchBar>
       <br />
       <div class="col" style="gap: 0.5em">
-        <div v-for="place in placeStore.places" class="address-item">
-          {{ place.name }}
-          {{ place.address.street ?? place.address.city }}
+        <div v-for="place in placeStore.places" class="address-item row spaced">
+          <div>
+            {{ place.name }}
+            {{ place.address.street ?? place.address.city }}
+          </div>
+          <button @click="placeStore.removePlace(place)">X</button>
         </div>
       </div>
     </div>
