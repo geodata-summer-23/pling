@@ -1,17 +1,34 @@
 <template>
   <div class="display-container">
     <div class="view-container">
-      <RouterView></RouterView>
+      <RouterView v-slot="{ Component }">
+        <KeepAlive>
+          <component :is="Component" :key="$route.fullPath"></component>
+        </KeepAlive>
+      </RouterView>
     </div>
     <nav class="nav-bottom">
+      <RouterLink :to="{ name: 'places' }">Places</RouterLink>
       <RouterLink :to="{ name: 'map' }">Map</RouterLink>
-      <RouterLink :to="{ name: 'settings' }">Settings</RouterLink>
+      <RouterLink :to="{ name: 'user' }">User</RouterLink>
     </nav>
   </div>
 </template>
 
 <script setup lang="ts">
+import { onMounted, onUnmounted } from 'vue'
 import { RouterView } from 'vue-router'
+import { useUserStore } from './stores/userStore'
+
+const userStore = useUserStore()
+
+onMounted(() => {
+  userStore.loadFromLocalStorage()
+})
+
+onUnmounted(() => {
+  userStore.saveToLocalStorage()
+})
 </script>
 
 <style scoped>
@@ -22,8 +39,10 @@ import { RouterView } from 'vue-router'
 }
 
 .view-container {
-  height: calc(100% - 3em);
+  position: relative;
+  height: calc(100% - 4em);
   background-color: white;
+  overflow: hidden;
 }
 
 .nav-bottom {
@@ -32,7 +51,7 @@ import { RouterView } from 'vue-router'
   justify-content: space-evenly;
   align-items: center;
   bottom: 0;
-  height: 3em;
-  background-color: white;
+  height: 4em;
+  background-color: snow;
 }
 </style>

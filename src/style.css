@@ -4,10 +4,36 @@ body {
 }
 
 input {
-  padding: 0.5em;
+  padding: 0.5em 1em;
+}
+
+button {
+  padding: 0.5em 1em;
+  border-radius: 0.5em;
+  border: 1px solid gray;
+  cursor: pointer;
 }
 
 .col {
   display: flex;
   flex-direction: column;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.center {
+  justify-content: center;
+  align-items: center;
+}
+
+.spaced {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.view {
+  padding: 2em;
 }
