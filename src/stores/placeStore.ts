@@ -34,5 +34,11 @@ export const usePlaceStore = defineStore('place', {
         excludeDangers: [],
       })
     },
+    removePlace(place: Place) {
+      const index = this.places.indexOf(place)
+      if (index != -1) {
+        this.places.splice(index, 1)
+      }
+    },
   },
 })
