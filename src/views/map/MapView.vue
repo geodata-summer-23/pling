@@ -1,5 +1,9 @@
 <template>
-  <Map v-if="userStore.signedIn"></Map>
+  <Map
+    v-if="userStore.signedIn"
+    :latitude="latitude"
+    :longitude="longitude"
+  ></Map>
   <div v-else class="message-container">
     <br />
     <p>You are not signed in.</p>
@@ -11,8 +15,17 @@
 <script lang="ts" setup>
 import Map from './Map.vue'
 import { signIn, useUserStore } from '@/stores/userStore'
+import { router } from '@/router'
+import { computed } from 'vue'
 
 const userStore = useUserStore()
+
+const latitude = computed(
+  () => router.currentRoute.value.query.latitude as string | undefined
+)
+const longitude = computed(
+  () => router.currentRoute.value.query.longitude as string | undefined
+)
 </script>
 
 <style scoped>

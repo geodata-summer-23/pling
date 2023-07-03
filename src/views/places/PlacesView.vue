@@ -8,7 +8,8 @@
       <div class="col" style="gap: 0.5em">
         <div
           v-for="(place, i) in placeStore.places"
-          class="address-item row spaced"
+          class="address-item row spaced clickable"
+          @click="clickPlace(place)"
         >
           <div class="col">
             {{ place.name }}
@@ -27,12 +28,25 @@
 
 <script lang="ts" setup>
 import SearchBar from '@/components/SearchBar.vue'
-import { usePlaceStore } from '@/stores/placeStore'
+import { router } from '@/router'
+import { usePlaceStore, Place } from '@/stores/placeStore'
 
 const placeStore = usePlaceStore()
 
 const search = (newSearchString: string) => {
   placeStore.addPlace(newSearchString)
+}
+
+const clickPlace = (place: Place) => {
+  if (place.address.latitude && place.address.longitude) {
+    router.push({
+      name: 'map',
+      query: {
+        latitude: place.address.latitude,
+        longitude: place.address.longitude,
+      },
+    })
+  }
 }
 </script>
 

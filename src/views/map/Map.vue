@@ -23,10 +23,30 @@ import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer'
 import Search from '@arcgis/core/widgets/Search'
 import LayerList from '@arcgis/core/widgets/LayerList'
 import SlideUpPane from '@/components/SlideUpPane.vue'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
+
+const props = defineProps<{
+  latitude?: number | string
+  longitude?: number | string
+}>()
 
 const graphicsLayer = new GraphicsLayer()
 const paneOpen = ref(false)
+const mapView = ref<MapView | null>(null)
+
+watch(
+  () => [props.latitude, props.longitude],
+  () => {
+    if (!props.longitude || !props.latitude) return
+    mapView.value?.when(() => {
+      mapView.value?.goTo({
+        center: [props.longitude, props.latitude],
+        zoom: 12,
+      })
+    })
+  },
+  { immediate: true }
+)
 
 const initLayerList = (view: MapView) => {
   view.map.layers.map((layer) => {
@@ -98,13 +118,15 @@ onMounted(() => {
 
   view.when(() => {
     navigator.geolocation.getCurrentPosition(async (position) => {
-      view.goTo({
+      view?.goTo({
         center: [position.coords.longitude, position.coords.latitude],
         zoom: 12,
       })
       initPoint(position)
     })
   })
+
+  mapView.value = view
 })
 </script>
 

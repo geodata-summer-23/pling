@@ -37,3 +37,7 @@ button {
 .view {
   padding: 2em;
 }
+
+.clickable {
+  cursor: pointer;
+}
