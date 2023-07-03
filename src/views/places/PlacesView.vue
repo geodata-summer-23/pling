@@ -10,8 +10,12 @@
           v-for="(place, i) in placeStore.places"
           class="address-item row spaced"
         >
-          <div>
+          <div class="col">
             {{ place.name }}
+            <span
+              >{{ place.address.latitude?.toFixed(2) ?? 'unknown' }} °N
+              {{ place.address.longitude?.toFixed(2) ?? 'unknown' }} °E</span
+            >
             {{ place.address.street ?? place.address.city }}
           </div>
           <button v-if="i > 0" @click="placeStore.removePlace(place)">X</button>

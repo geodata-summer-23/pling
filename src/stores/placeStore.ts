@@ -19,6 +19,8 @@ export type Address = {
   postalCode?: number
   street?: string
   streetNumber?: string
+  latitude?: number
+  longitude?: number
 }
 
 export const usePlaceStore = defineStore('place', {
@@ -51,6 +53,10 @@ export const usePlaceStore = defineStore('place', {
           excludeDangers: [],
         })
       }
+      navigator.geolocation.getCurrentPosition(async (position) => {
+        this.places[0].address.latitude = position.coords.latitude
+        this.places[0].address.longitude = position.coords.longitude
+      })
     },
     saveToLocalStorage() {
       localStorage.setItem('places', JSON.stringify(this.places))
