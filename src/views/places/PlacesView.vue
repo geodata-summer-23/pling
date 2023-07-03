@@ -1,23 +1,35 @@
 <template>
   <div class="view">
     <div class="col">
-      <SearchBar></SearchBar>
-      <div v-for="address in userStore.addresses" class="address-item">
-        {{ address }}
+      <label style="font-weight: bold">My Places</label>
+      <br />
+      <SearchBar placeholder="+ Add place" @search="search"></SearchBar>
+      <br />
+      <div class="col" style="gap: 0.5em">
+        <div v-for="place in placeStore.places" class="address-item">
+          {{ place.name }}
+          {{ place.address.street ?? place.address.city }}
+        </div>
       </div>
     </div>
-    <button>Add</button>
   </div>
 </template>
 
 <script lang="ts" setup>
 import SearchBar from '@/components/SearchBar.vue'
-import { useUserStore } from '@/stores/userStore'
+import { usePlaceStore } from '@/stores/placeStore'
 
-const userStore = useUserStore()
+const placeStore = usePlaceStore()
+
+const search = (newSearchString: string) => {
+  placeStore.addPlace(newSearchString)
+}
 </script>
 
 <style>
 .address-item {
+  border: 2px solid lightgray;
+  border-radius: 1em;
+  padding: 1em;
 }
 </style>

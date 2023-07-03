@@ -5,7 +5,6 @@ import { defineStore } from 'pinia'
 export const useUserStore = defineStore('user', {
   state: () => ({
     signedIn: false,
-    addresses: [] as string[],
     name: null as null | string,
     age: null as null | number,
   }),
