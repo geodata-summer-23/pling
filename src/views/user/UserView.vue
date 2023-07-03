@@ -21,12 +21,12 @@
     <input id="age" type="number" v-model.number="userStore.age" />
     <br />
     <label style="font-weight: bold">Weather test</label>
-    <Nowcast></Nowcast>
+    <WeatherNowcast></WeatherNowcast>
   </div>
 </template>
 
 <script lang="ts" setup>
-import Nowcast from '../map/Nowcast.vue'
+import WeatherNowcast from '../map/WeatherNowcast.vue'
 import { useUserStore, signIn } from '@/stores/userStore'
 
 const userStore = useUserStore()
