@@ -44,8 +44,14 @@ export const usePlaceStore = defineStore('place', {
     },
     loadFromLocalStorage() {
       this.places = JSON.parse(localStorage.getItem('places') ?? '[]')
+      if (this.places.length == 0) {
+        this.places.push({
+          name: 'My Location',
+          address: {},
+          excludeDangers: [],
+        })
+      }
     },
-
     saveToLocalStorage() {
       localStorage.setItem('places', JSON.stringify(this.places))
     },
