@@ -10,6 +10,16 @@ export const useUserStore = defineStore('user', {
   }),
 
   actions: {
+    setName(name: string) {
+      if (name.length == 0) return
+      this.name = name
+      this.saveToLocalStorage()
+    },
+    setAge(age: number) {
+      if (age < 1) return
+      this.age = age
+      this.saveToLocalStorage()
+    },
     loadFromLocalStorage() {
       this.name = localStorage.getItem('name') ?? null
       const age = localStorage.getItem('age')
@@ -17,7 +27,6 @@ export const useUserStore = defineStore('user', {
         this.age = parseInt(age)
       }
     },
-
     saveToLocalStorage() {
       if (this.name) {
         localStorage.setItem('name', this.name)

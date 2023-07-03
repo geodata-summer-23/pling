@@ -16,22 +16,14 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onUnmounted } from 'vue'
+import { onMounted } from 'vue'
 import { RouterView } from 'vue-router'
-import { useUserStore } from './stores/userStore'
 import { usePlaceStore } from './stores/placeStore'
-
-const userStore = useUserStore()
-const placeStore = usePlaceStore()
+import { useUserStore } from './stores/userStore'
 
 onMounted(() => {
-  userStore.loadFromLocalStorage()
-  placeStore.loadFromLocalStorage()
-})
-
-onUnmounted(() => {
-  userStore.saveToLocalStorage()
-  placeStore.saveToLocalStorage()
+  usePlaceStore().loadFromLocalStorage()
+  useUserStore().loadFromLocalStorage()
 })
 </script>
 

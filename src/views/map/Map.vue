@@ -22,8 +22,8 @@ import Graphic from '@arcgis/core/Graphic'
 import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer'
 import Search from '@arcgis/core/widgets/Search'
 import LayerList from '@arcgis/core/widgets/LayerList'
-import { onMounted, ref } from 'vue'
 import SlideUpPane from '@/components/SlideUpPane.vue'
+import { onMounted, ref } from 'vue'
 
 const graphicsLayer = new GraphicsLayer()
 const paneOpen = ref(false)

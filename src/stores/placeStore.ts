@@ -33,12 +33,14 @@ export const usePlaceStore = defineStore('place', {
         address: {}, // TODO
         excludeDangers: [],
       })
+      this.saveToLocalStorage()
     },
     removePlace(place: Place) {
       const index = this.places.indexOf(place)
       if (index != -1) {
         this.places.splice(index, 1)
       }
+      this.saveToLocalStorage()
     },
     loadFromLocalStorage() {
       this.places = JSON.parse(localStorage.getItem('places') ?? '[]')
