@@ -19,6 +19,12 @@ export type Address = {
   postalCode?: number
   street?: string
   streetNumber?: string
+  point?: AddressPoint
+}
+
+export type AddressPoint = {
+  x?: number
+  y?: number
   latitude?: number
   longitude?: number
 }
@@ -50,8 +56,10 @@ export const usePlaceStore = defineStore('place', {
         })
       }
       navigator.geolocation.getCurrentPosition(async (position) => {
-        this.places[0].address.latitude = position.coords.latitude
-        this.places[0].address.longitude = position.coords.longitude
+        this.places[0].address.point = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        }
       })
     },
     saveToLocalStorage() {

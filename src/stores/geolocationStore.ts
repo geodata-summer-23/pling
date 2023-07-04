@@ -1,8 +1,10 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
+import { AddressPoint } from './placeStore'
 
 export const useGeolocationStore = defineStore('geolocation', {
   state: () => ({
     position: null as null | GeolocationPosition,
+    mapCenter: undefined as undefined | AddressPoint,
   }),
 
   actions: {
