@@ -32,14 +32,19 @@
       "
     />
     <br />
+    
+    <button @click="router.push({ name: 'nameReg' })">Register user data</button>
+
     <label style="font-weight: bold">Weather test</label>
     <WeatherNowcast></WeatherNowcast>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { router } from '@/router';
 import WeatherNowcast from '../map/WeatherNowcast.vue'
 import { useUserStore, signIn } from '@/stores/userStore'
 
 const userStore = useUserStore()
+
 </script>

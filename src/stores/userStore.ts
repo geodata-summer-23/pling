@@ -10,6 +10,7 @@ export const useUserStore = defineStore('user', {
     middleName: null as null | string,
     lastName: null as null | string,
     age: null as null | number,
+    birthday: null as null | Date,
   }),
 
   actions: {
@@ -32,6 +33,11 @@ export const useUserStore = defineStore('user', {
       if (name.length == 0) return
       this.lastName = name
       localStorage.setItem('lastName', this.lastName)
+    },
+    setBirthday(date: Date | null) {
+      if (date === null) return
+      this.birthday = date
+      localStorage.setItem('birthday', this.birthday)
     },
     setAge(age: number) {
       if (age < 1) return
