@@ -6,6 +6,9 @@ export const useUserStore = defineStore('user', {
   state: () => ({
     signedIn: false,
     name: null as null | string,
+    firstName: null as null | string,
+    middleName: null as null | string,
+    lastName: null as null | string,
     age: null as null | number,
   }),
 
@@ -14,6 +17,21 @@ export const useUserStore = defineStore('user', {
       if (name.length == 0) return
       this.name = name
       this.saveToLocalStorage()
+    },
+    setFirstName(name: string) {
+      if (name.length == 0) return
+      this.firstName = name
+      localStorage.setItem('firstName', this.firstName)
+    },
+    setMiddleName(name: string) {
+      if (name.length == 0) return
+      this.middleName = name
+      localStorage.setItem('middelName', this.middleName)
+    },
+    setLastName(name: string) {
+      if (name.length == 0) return
+      this.lastName = name
+      localStorage.setItem('lastName', this.lastName)
     },
     setAge(age: number) {
       if (age < 1) return
@@ -30,6 +48,15 @@ export const useUserStore = defineStore('user', {
     saveToLocalStorage() {
       if (this.name) {
         localStorage.setItem('name', this.name)
+      }
+      if (this.firstName) {
+        localStorage.setItem('firstName', this.firstName)
+      }
+      if (this.middleName) {
+        localStorage.setItem('middelName', this.middleName)
+      }
+      if (this.lastName) {
+        localStorage.setItem('lastName', this.lastName)
       }
       if (this.age) {
         localStorage.setItem('age', this.age.toFixed(0))
