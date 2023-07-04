@@ -38,6 +38,7 @@ import { ref } from 'vue'
 
 export type SearchResult = {
   title: string
+  data?: Record<string, any>
 }
 
 const searchString = ref('')
@@ -62,15 +63,9 @@ const emit = defineEmits<{
   width: 100%;
 }
 
-input {
-  border-radius: 2em;
-}
-
 .result-container {
   position: absolute;
   background-color: #f3f3f3;
-  border-radius: 1em;
-  padding: 0.5em 0;
 }
 
 .result {

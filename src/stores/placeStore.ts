@@ -29,12 +29,8 @@ export const usePlaceStore = defineStore('place', {
   }),
 
   actions: {
-    addPlace(name: string) {
-      this.places.push({
-        name,
-        address: {}, // TODO
-        excludeDangers: [],
-      })
+    addPlace(place: Place) {
+      this.places.push(place)
       this.saveToLocalStorage()
     },
     removePlace(place: Place) {
