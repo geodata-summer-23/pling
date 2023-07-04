@@ -2,9 +2,9 @@
   <div class="display-container">
     <div class="view-container">
       <RouterView v-slot="{ Component }">
-        <KeepAlive>
-          <component :is="Component" :key="$route.fullPath"></component>
-        </KeepAlive>
+        <!-- <KeepAlive> -->
+        <component :is="Component" :key="$route.fullPath"></component>
+        <!-- </KeepAlive> -->
       </RouterView>
     </div>
     <nav class="nav-bottom">

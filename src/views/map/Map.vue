@@ -26,7 +26,8 @@ import Point from '@arcgis/core/geometry/Point'
 import Search from '@arcgis/core/widgets/Search'
 import LayerList from '@arcgis/core/widgets/LayerList'
 import SlideUpPane from '@/components/SlideUpPane.vue'
-import { onMounted, onUnmounted, ref, watch } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
+import { useGeolocationStore } from '@/stores/geolocationStore'
 
 const props = defineProps<{
   latitude?: number
@@ -38,20 +39,6 @@ const paneOpen = ref(false)
 const mapView = ref<MapView | null>(null)
 let point: Graphic | null = null
 let watchPositionReference: number | null = null
-
-watch(
-  () => [props.latitude, props.longitude],
-  () => {
-    mapView.value?.when(() => {
-      if (!props.longitude || !props.latitude) return
-      mapView.value?.goTo({
-        center: [props.longitude, props.latitude],
-        zoom: 12,
-      })
-    })
-  },
-  { immediate: true }
-)
 
 const initLayerList = (view: MapView) => {
   view.map.layers.map((layer) => {
@@ -106,6 +93,7 @@ onMounted(() => {
     center: [11, 60],
     zoom: 12,
   })
+  mapView.value = view
 
   const search = new Search({
     view: view,
@@ -116,13 +104,32 @@ onMounted(() => {
   initLayerList(view)
 
   view.when(() => {
-    watchPositionReference = navigator.geolocation.watchPosition(
-      async (position) => {
+    if (props.latitude && props.longitude) {
+      view.goTo({
+        center: [props.longitude, props.latitude],
+        zoom: 12,
+      })
+    } else {
+      useGeolocationStore().withPosition((position) => {
+        view.goTo({
+          center: [position.coords.longitude, position.coords.latitude],
+          zoom: 12,
+        })
+      })
+    }
+  })
+
+  watchPositionReference = navigator.geolocation.watchPosition(
+    async (position) => {
+      view.when(() => {
         if (point) {
           point.geometry = new Point({
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
           })
+          console.log(
+            `Moved to ${position.coords.latitude}, ${position.coords.longitude}`
+          )
         } else {
           const newPoint = createPointGraphic(
             position.coords.latitude,
@@ -131,9 +138,9 @@ onMounted(() => {
           graphicsLayer.add(newPoint)
           point = newPoint
         }
-      }
-    )
-  })
+      })
+    }
+  )
 
   // view.when(() => {
   //   navigator.geolocation.getCurrentPosition(async (position) => {
@@ -157,8 +164,6 @@ onMounted(() => {
   //     })
   //   })
   // })
-
-  mapView.value = view
 })
 
 onUnmounted(() => {
@@ -195,3 +200,4 @@ onUnmounted(() => {
   margin: 0;
 }
 </style>
+@/stores/geoLocationStore @/stores/geolocationStore
