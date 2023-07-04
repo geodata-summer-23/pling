@@ -1,5 +1,5 @@
 <template>
-  <div class="display-container">
+  <div class="display-container col">
     <div class="view-container">
       <RouterView v-slot="{ Component }">
         <!-- <KeepAlive> -->
@@ -48,15 +48,12 @@ onMounted(() => {
 
 .view-container {
   position: relative;
-  height: 100%;
   background-color: white;
   overflow: hidden;
+  flex-grow: 1;
 }
 
 .nav-bottom {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
