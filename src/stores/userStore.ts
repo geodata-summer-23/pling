@@ -1,6 +1,6 @@
 import OAuthInfo from '@arcgis/core/identity/OAuthInfo'
 import esriId from '@arcgis/core/identity/IdentityManager'
-import { defineStore } from 'pinia'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 
 export const useUserStore = defineStore('user', {
   state: () => ({
@@ -56,4 +56,8 @@ esriId
 
 export const signIn = () => {
   esriId.getCredential(oAuthInfo.portalUrl + '/sharing')
+}
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useUserStore, import.meta.hot))
 }

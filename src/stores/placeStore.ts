@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 
 export enum Danger {
   Flood,
@@ -63,3 +63,7 @@ export const usePlaceStore = defineStore('place', {
     },
   },
 })
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(usePlaceStore, import.meta.hot))
+}
