@@ -39,25 +39,29 @@ onMounted(() => {
 
 <style scoped>
 .display-container {
-  max-width: 450px;
-  height: 90vh;
+  position: relative;
+  max-width: 500px;
+  height: 100svh;
   margin: auto;
+  overflow: hidden;
 }
 
 .view-container {
   position: relative;
-  height: calc(100% - 4em);
+  height: 100%;
   background-color: white;
   overflow: hidden;
 }
 
 .nav-bottom {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
   bottom: 0;
-  height: 4em;
   background-color: snow;
 }
 </style>

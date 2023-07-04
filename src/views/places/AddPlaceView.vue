@@ -42,15 +42,13 @@ const search = (searchString: string) => {
     address: { Adresse: searchString },
     maxLocations: 10,
   }
-
   locator.addressToLocations(geoData, params).then((results) => {
     searchResults.value = results
       .sort((a, b) => a.score - b.score)
       .map((r) => ({
         title: r.address,
         data: {
-          latitude: r.location.x,
-          longitude: r.location.y,
+          point: r.location.toJSON(),
         },
       }))
   })
@@ -58,12 +56,11 @@ const search = (searchString: string) => {
 
 const select = (result: SearchResult) => {
   place.value.address.street = result.title
-  if (result.data?.latitude) {
-    place.value.address.latitude = result.data.latitude
-  }
-  if (result.data?.longitude) {
-    place.value.address.longitude = result.data.longitude
-  }
+  place.value.address = Object.assign(
+    place.value.address ?? {},
+    result.data ?? {}
+  )
+  console.log(place.value.address)
   searchResults.value = []
 }
 

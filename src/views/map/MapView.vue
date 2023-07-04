@@ -1,8 +1,7 @@
 <template>
   <Map
     v-if="userStore.signedIn"
-    :latitude="latitude"
-    :longitude="longitude"
+    :center="(geoLocationStore.mapCenter as Point | undefined)"
   ></Map>
   <div v-else class="message-container">
     <br />
@@ -15,24 +14,11 @@
 <script lang="ts" setup>
 import Map from './Map.vue'
 import { signIn, useUserStore } from '@/stores/userStore'
-import { router } from '@/router'
-import { computed } from 'vue'
-import { LocationQueryValue } from 'vue-router'
+import { useGeolocationStore } from '@/stores/geolocationStore'
+import Point from '@arcgis/core/geometry/Point'
 
 const userStore = useUserStore()
-
-const toFloatOrUndefined = (x: LocationQueryValue | LocationQueryValue[]) => {
-  if (!x) return undefined
-  if (Array.isArray(x)) return undefined
-  return parseFloat(x)
-}
-
-const latitude = computed(() =>
-  toFloatOrUndefined(router.currentRoute.value.query.latitude)
-)
-const longitude = computed(() =>
-  toFloatOrUndefined(router.currentRoute.value.query.longitude)
-)
+const geoLocationStore = useGeolocationStore()
 </script>
 
 <style scoped>

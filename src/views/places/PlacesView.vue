@@ -6,13 +6,22 @@
         <div
           v-for="(place, i) in placeStore.places"
           class="address-item row spaced clickable"
-          @click.prevent="clickPlace(place)"
+          @click.stop="clickPlace(place)"
         >
           <div class="col">
             <span style="font-weight: bold">{{ place.name }}</span>
-            <span>
-              {{ place.address.latitude?.toFixed(2) ?? 'unknown' }} °N
-              {{ place.address.longitude?.toFixed(2) ?? 'unknown' }} °E
+            <span
+              v-if="
+                place.address?.point?.latitude &&
+                place.address?.point?.longitude
+              "
+            >
+              {{ place.address.point.latitude.toFixed(2) ?? 'unknown' }} °N
+              {{ place.address.point.longitude.toFixed(2) ?? 'unknown' }} °E
+            </span>
+            <span v-if="place.address.point?.x && place.address.point?.y">
+              x: {{ place.address.point?.x?.toFixed(2) ?? 'unknown' }} y:
+              {{ place.address.point?.y?.toFixed(2) ?? 'unknown' }}
             </span>
             {{ place.address.street ?? place.address.city }}
           </div>
@@ -26,20 +35,17 @@
 
 <script lang="ts" setup>
 import { router } from '@/router'
+import { useGeolocationStore } from '@/stores/geolocationStore'
 import { usePlaceStore, Place } from '@/stores/placeStore'
 
 const placeStore = usePlaceStore()
+const geolocationStore = useGeolocationStore()
 
 const clickPlace = (place: Place) => {
-  if (place.address.latitude && place.address.longitude) {
-    router.push({
-      name: 'map',
-      query: {
-        latitude: place.address.latitude,
-        longitude: place.address.longitude,
-      },
-    })
+  if (place.address.point) {
+    geolocationStore.mapCenter = place.address.point
   }
+  router.push({ name: 'map' })
 }
 </script>
 

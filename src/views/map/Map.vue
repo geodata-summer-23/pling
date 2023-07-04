@@ -28,10 +28,10 @@ import LayerList from '@arcgis/core/widgets/LayerList'
 import SlideUpPane from '@/components/SlideUpPane.vue'
 import { onMounted, onUnmounted, ref } from 'vue'
 import { useGeolocationStore } from '@/stores/geolocationStore'
+import { AddressPoint } from '@/stores/placeStore'
 
 const props = defineProps<{
-  latitude?: number
-  longitude?: number
+  center?: AddressPoint | undefined
 }>()
 
 const graphicsLayer = new GraphicsLayer()
@@ -104,9 +104,9 @@ onMounted(() => {
   initLayerList(view)
 
   view.when(() => {
-    if (props.latitude && props.longitude) {
+    if (props.center) {
       view.goTo({
-        center: [props.longitude, props.latitude],
+        center: new Point(props.center),
         zoom: 12,
       })
     } else {
