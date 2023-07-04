@@ -17,14 +17,21 @@ import Map from './Map.vue'
 import { signIn, useUserStore } from '@/stores/userStore'
 import { router } from '@/router'
 import { computed } from 'vue'
+import { LocationQueryValue } from 'vue-router'
 
 const userStore = useUserStore()
 
-const latitude = computed(
-  () => router.currentRoute.value.query.latitude as string | undefined
+const toFloatOrUndefined = (x: LocationQueryValue | LocationQueryValue[]) => {
+  if (!x) return undefined
+  if (Array.isArray(x)) return undefined
+  return parseFloat(x)
+}
+
+const latitude = computed(() =>
+  toFloatOrUndefined(router.currentRoute.value.query.latitude)
 )
-const longitude = computed(
-  () => router.currentRoute.value.query.longitude as string | undefined
+const longitude = computed(() =>
+  toFloatOrUndefined(router.currentRoute.value.query.longitude)
 )
 </script>
 
