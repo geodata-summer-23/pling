@@ -3,7 +3,12 @@
     <div class="col">
       <label style="font-weight: bold">My Places</label>
       <br />
-      <SearchBar placeholder="+ Add place" @search="search"></SearchBar>
+      <SearchBar
+        placeholder="+ Add place"
+        :results="searchResults"
+        @input="search"
+        @select="select"
+      ></SearchBar>
       <br />
       <div class="col" style="gap: 0.5em">
         <div
@@ -27,14 +32,36 @@
 </template>
 
 <script lang="ts" setup>
-import SearchBar from '@/components/SearchBar.vue'
+import SearchBar, { SearchResult } from '@/components/SearchBar.vue'
+import * as locator from '@arcgis/core/rest/locator'
 import { router } from '@/router'
 import { usePlaceStore, Place } from '@/stores/placeStore'
+import { ref } from 'vue'
 
 const placeStore = usePlaceStore()
+const searchResults = ref<SearchResult[]>([])
 
-const search = (newSearchString: string) => {
-  placeStore.addPlace(newSearchString)
+const search = (searchString: string) => {
+  const geoData =
+    'https://services.geodataonline.no/arcgis/rest/services/Geosok/GeosokLokasjon2/GeocodeServer'
+
+  const params = {
+    address: { Adresse: searchString },
+    maxLocations: 10,
+  }
+
+  locator.addressToLocations(geoData, params).then((results) => {
+    searchResults.value = results
+      .sort((a, b) => a.score - b.score)
+      .map((r) => ({
+        title: r.address,
+      }))
+  })
+}
+
+const select = (result: SearchResult) => {
+  placeStore.addPlace(result.title)
+  searchResults.value = []
 }
 
 const clickPlace = (place: Place) => {
