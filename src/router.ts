@@ -1,6 +1,7 @@
-import MapView from '@/views/map/MapView.vue'
-import PlacesView from '@/views/places/PlacesView.vue'
-import UserView from '@/views/user/UserView.vue'
+const MapView = () => import('@/views/map/MapView.vue')
+const PlacesView = () => import('@/views/places/PlacesView.vue')
+const AddPlaceView = () => import('@/views/places/AddPlaceView.vue')
+const UserView = () => import('@/views/user/UserView.vue')
 import { createRouter, createWebHashHistory } from 'vue-router'
 
 const routes = [
@@ -14,6 +15,7 @@ const routes = [
         name: 'places',
         component: PlacesView,
       },
+      { path: '/add-place', name: 'add-place', component: AddPlaceView },
       { path: '/map', name: 'map', component: MapView },
       { path: '/user', name: 'user', component: UserView },
     ],

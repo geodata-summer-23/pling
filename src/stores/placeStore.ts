@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 
 export enum Danger {
   Flood,
@@ -29,12 +29,8 @@ export const usePlaceStore = defineStore('place', {
   }),
 
   actions: {
-    addPlace(name: string) {
-      this.places.push({
-        name,
-        address: {}, // TODO
-        excludeDangers: [],
-      })
+    addPlace(place: Place) {
+      this.places.push(place)
       this.saveToLocalStorage()
     },
     removePlace(place: Place) {
@@ -63,3 +59,7 @@ export const usePlaceStore = defineStore('place', {
     },
   },
 })
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(usePlaceStore, import.meta.hot))
+}

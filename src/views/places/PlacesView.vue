@@ -2,17 +2,14 @@
   <div class="view">
     <div class="col">
       <label style="font-weight: bold">My Places</label>
-      <br />
-      <SearchBar placeholder="+ Add place" @search="search"></SearchBar>
-      <br />
       <div class="col" style="gap: 0.5em">
         <div
           v-for="(place, i) in placeStore.places"
           class="address-item row spaced clickable"
-          @click="clickPlace(place)"
+          @click.prevent="clickPlace(place)"
         >
           <div class="col">
-            {{ place.name }}
+            <span style="font-weight: bold">{{ place.name }}</span>
             <span>
               {{ place.address.latitude?.toFixed(2) ?? 'unknown' }} °N
               {{ place.address.longitude?.toFixed(2) ?? 'unknown' }} °E
@@ -21,21 +18,17 @@
           </div>
           <button v-if="i > 0" @click="placeStore.removePlace(place)">X</button>
         </div>
+        <button @click="router.push({ name: 'add-place' })">+ Add</button>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import SearchBar from '@/components/SearchBar.vue'
 import { router } from '@/router'
 import { usePlaceStore, Place } from '@/stores/placeStore'
 
 const placeStore = usePlaceStore()
-
-const search = (newSearchString: string) => {
-  placeStore.addPlace(newSearchString)
-}
 
 const clickPlace = (place: Place) => {
   if (place.address.latitude && place.address.longitude) {
