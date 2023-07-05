@@ -1,7 +1,6 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import proj4 from 'proj4'
 
-
 export enum Danger {
   Flood,
   Fire,
@@ -39,11 +38,15 @@ export const usePlaceStore = defineStore('place', {
   actions: {
     addPlace(place: Place) {
       if (place.address?.point?.x && place.address?.point?.y) {
-        console.log("hei")
-        const fromProj = '+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs +type=crs'
+        console.log('hei')
+        const fromProj =
+          '+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs +type=crs'
         const toProj = '+proj=longlat +datum=WGS84 +no_defs +type=crs'
 
-        const latLon = proj4(fromProj, toProj).forward({x: place.address?.point?.x, y: place.address?.point?.y})
+        const latLon = proj4(fromProj, toProj).forward({
+          x: place.address?.point?.x,
+          y: place.address?.point?.y,
+        })
         place.address.point.latitude = latLon.y
         place.address.point.longitude = latLon.x
       }
@@ -52,10 +55,11 @@ export const usePlaceStore = defineStore('place', {
     },
     removePlace(place: Place) {
       const index = this.places.indexOf(place)
-      if (index != -1) {
+      // cannot delete place 0
+      if (index > 0) {
         this.places.splice(index, 1)
+        this.saveToLocalStorage()
       }
-      this.saveToLocalStorage()
     },
     loadFromLocalStorage() {
       this.places = JSON.parse(localStorage.getItem('places') ?? '[]')

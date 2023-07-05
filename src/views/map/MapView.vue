@@ -15,22 +15,37 @@
     <div>
       <h3>{{ placeStore.currentPlace.nickname }}</h3>
       {{ placeStore.currentPlace }}
+      <br />
+      <br />
+      <button
+        v-if="placeStore.currentPlace != placeStore.places[0]"
+        @click="deleteCurrentPlace"
+      >
+        Delete
+      </button>
     </div>
   </SlideUpPane>
 </template>
 
 <script lang="ts" setup>
 import Map from './Map.vue'
+import SlideUpPane from '@/components/SlideUpPane.vue'
 import { signIn, useUserStore } from '@/stores/userStore'
 import { useGeolocationStore } from '@/stores/geolocationStore'
 import { usePlaceStore } from '@/stores/placeStore'
 import { ref } from 'vue'
-import SlideUpPane from '@/components/SlideUpPane.vue'
+import { router } from '@/router'
 
 const paneOpen = ref(true)
 const userStore = useUserStore()
 const placeStore = usePlaceStore()
 const geoLocationStore = useGeolocationStore()
+
+const deleteCurrentPlace = () => {
+  if (!placeStore.currentPlace) return
+  placeStore.removePlace(placeStore.currentPlace)
+  router.push({ name: 'places' })
+}
 </script>
 
 <style scoped>
