@@ -48,7 +48,7 @@
 </template>
 
 <script lang="ts" setup>
-import WeatherNowcast from '../map/WeatherNowcast.vue'
+import WeatherNowcast from './WeatherNowcast.vue'
 import { router } from '@/router'
 import { usePlaceStore, Place } from '@/stores/placeStore'
 import { useUserStore } from '@/stores/userStore'

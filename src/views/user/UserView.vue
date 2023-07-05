@@ -1,7 +1,7 @@
 <template>
   <div class="view col">
     <div>
-      <button @click="router.back()">Back</button>
+      <button @click="router.push({ name: 'home' })">Back</button>
     </div>
     <br />
     <label style="font-weight: bold">User Information</label>
@@ -40,16 +40,26 @@
     <button @click="router.push({ name: 'nameReg' })">
       Register user data
     </button>
-
-    <label style="font-weight: bold">Weather test</label>
-    <WeatherNowcast></WeatherNowcast>
+    <br />
+    <div>
+      <button @click="reset">Clear all data</button>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { router } from '@/router'
-import WeatherNowcast from '../map/WeatherNowcast.vue'
+import { useGeolocationStore } from '@/stores/geolocationStore'
+import { usePlaceStore } from '@/stores/placeStore'
 import { useUserStore, signIn } from '@/stores/userStore'
 
 const userStore = useUserStore()
+
+const reset = () => {
+  localStorage.clear()
+  userStore.$reset()
+  usePlaceStore().$reset()
+  useGeolocationStore().$reset()
+  location.href = '/'
+}
 </script>
