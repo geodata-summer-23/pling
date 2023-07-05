@@ -90,7 +90,7 @@ onMounted(() => {
     map: map,
     container: 'mapViewDiv',
     center: [11, 60],
-    zoom: 12,
+    zoom: 16,
   })
   mapView.value = view
 
@@ -106,7 +106,7 @@ onMounted(() => {
     if (props.center) {
       view.goTo({
         center: new Point(props.center),
-        zoom: 12,
+        zoom: 16,
       })
       const newPoint = createPointGraphic(props.center)
       graphicsLayer.add(newPoint)
