@@ -11,11 +11,14 @@
   "dependencies": {
     "@arcgis/core": "^4.27.6",
     "pinia": "^2.1.4",
+    "transform-coordinates": "^1.0.0",
     "vue": "^3.2.47",
     "vue-router": "^4.2.2"
   },
   "devDependencies": {
     "@types/node": "^20.3.2",
+    "@types/proj4": "^2.5.2",
+    "@types/transform-coordinates": "^1.0.0",
     "@vitejs/plugin-vue": "^4.1.0",
     "typescript": "^5.0.2",
     "vite": "4.1.4",

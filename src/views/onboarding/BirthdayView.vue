@@ -10,7 +10,7 @@
     />
   </div>
 
-  <button @click="router.push({ name: 'user' })">Done</button>
+  <button @click="router.push({ name: 'languageReg' })">Next</button>
 </template>
 
 <script lang="ts" setup>

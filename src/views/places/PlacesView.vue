@@ -25,6 +25,7 @@
             </span>
             {{ place.address.street ?? place.address.city }}
           </div>
+          <WeatherNowcast :lat="place.address.point?.latitude" :lon="place.address.point?.longitude"></WeatherNowcast>
           <button v-if="i > 0" @click="placeStore.removePlace(place)">X</button>
         </div>
         <button @click="router.push({ name: 'add-place' })">+ Add</button>
@@ -37,6 +38,7 @@
 import { router } from '@/router'
 import { useGeolocationStore } from '@/stores/geolocationStore'
 import { usePlaceStore, Place } from '@/stores/placeStore'
+import WeatherNowcast from '../map/WeatherNowcast.vue'
 
 const placeStore = usePlaceStore()
 const geolocationStore = useGeolocationStore()
