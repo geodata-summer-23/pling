@@ -11,9 +11,24 @@
         <input
           type="text"
           id="street-address"
-          v-model="place.address.street"
+          :value="place.address.street"
+          @input="
+            place.address.street = ($event.target as HTMLInputElement).value
+          "
           style="flex: 4"
         />
+      </div>
+      <div
+        v-if="!selectedResult && results.length > 0"
+        class="result-container col"
+      >
+        <div
+          v-for="result in results"
+          class="result"
+          @click="selectResult(result)"
+        >
+          {{ result.address }}
+        </div>
       </div>
       <br />
       <label>City</label>
@@ -21,31 +36,27 @@
         <input
           type="number"
           id="postal-code"
-          v-model="place.address.postalCode"
+          :value="place.address.postalCode"
+          @input="
+            place.address.postalCode = (
+              $event.target as HTMLInputElement
+            ).valueAsNumber
+          "
           style="flex: 1"
         />
         <input
           type="text"
           id="city"
-          v-model="place.address.city"
+          :value="place.address.city"
+          @input="
+            place.address.city = ($event.target as HTMLInputElement).value
+          "
           style="flex: 2"
         />
       </div>
     </form>
     <br />
-    <div
-      v-if="!selectedResult && results.length > 0"
-      class="result-container col"
-    >
-      <label>Results</label>
-      <div
-        v-for="result in results"
-        class="result"
-        @click="selectResult(result)"
-      >
-        {{ result.address }}
-      </div>
-    </div>
+
     <br />
     <br />
     <br />
