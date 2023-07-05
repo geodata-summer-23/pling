@@ -31,7 +31,7 @@ import { useGeolocationStore } from '@/stores/geolocationStore'
 import { AddressPoint } from '@/stores/placeStore'
 
 const props = defineProps<{
-  center?: AddressPoint | undefined
+  center: AddressPoint | null
 }>()
 
 const graphicsLayer = new GraphicsLayer()

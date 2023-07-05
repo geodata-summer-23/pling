@@ -4,7 +4,7 @@ import { AddressPoint } from './placeStore'
 export const useGeolocationStore = defineStore('geolocation', {
   state: () => ({
     position: null as null | GeolocationPosition,
-    mapCenter: undefined as undefined | AddressPoint,
+    mapCenter: null as null | AddressPoint,
   }),
 
   actions: {

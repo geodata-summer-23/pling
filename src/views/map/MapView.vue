@@ -1,8 +1,5 @@
 <template>
-  <Map
-    v-if="userStore.signedIn"
-    :center="(geoLocationStore.mapCenter as Point | undefined)"
-  ></Map>
+  <Map v-if="userStore.signedIn" :center="geoLocationStore.mapCenter"></Map>
   <div v-else class="message-container">
     <br />
     <p>You are not signed in.</p>
@@ -15,7 +12,6 @@
 import Map from './Map.vue'
 import { signIn, useUserStore } from '@/stores/userStore'
 import { useGeolocationStore } from '@/stores/geolocationStore'
-import Point from '@arcgis/core/geometry/Point'
 
 const userStore = useUserStore()
 const geoLocationStore = useGeolocationStore()
