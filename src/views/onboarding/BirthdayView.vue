@@ -3,13 +3,12 @@
       <input 
         id="birthday"
         type="date"
-        placeholder="Birthday"
-        :value="userStore.birthday"
+        :value="userStore.birthday?.toISOString().split('t')[0]"
         @change="userStore.setBirthday(($event.target as HTMLInputElement).valueAsDate)"
       >
     </div>
   
-    <button @click="router.push({ name: 'birthdayReg' })">Next</button>
+    <button @click="router.push({ name: 'user' })">Done</button>
   
   </template>
   
