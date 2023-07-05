@@ -3,21 +3,29 @@ import { AddressPoint } from './placeStore'
 
 export const useGeolocationStore = defineStore('geolocation', {
   state: () => ({
-    position: null as null | GeolocationPosition,
-    mapCenter: undefined as undefined | AddressPoint,
+    position: null as null | AddressPoint,
+    mapCenter: null as null | AddressPoint,
   }),
 
   actions: {
-    withPosition(f: (pos: GeolocationPosition) => void) {
-      if (this.position) {
-        f(this.position)
-      }
-      navigator.geolocation.getCurrentPosition((position) => {
-        if (position != this.position) {
-          this.position = position
-          f(this.position)
+    init() {
+      navigator.geolocation.watchPosition((position) => {
+        if (
+          position.coords.latitude != this.position?.latitude ||
+          position.coords.longitude != this.position.longitude
+        ) {
+          this.position = {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          }
         }
       })
+    },
+  },
+
+  getters: {
+    getMapCenter: (state) => {
+      return state.mapCenter ?? state.position
     },
   },
 })

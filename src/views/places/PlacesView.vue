@@ -6,12 +6,15 @@
         <div
           v-for="(place, i) in placeStore.places"
           class="address-item row spaced clickable"
-          @click.stop="clickPlace(place)"
+          @click="clickPlace(place)"
         >
           <div class="col">
-            <span style="font-weight: bold">{{ place.name }}</span>
+            <span style="font-weight: bold">{{ place.nickname }}</span>
+            <span v-if="place.address.street || place.address.city">
+              {{ place.address.street ?? '' }}, {{ place.address.city }}
+            </span>
             <span
-              v-if="
+              v-else-if="
                 place.address?.point?.latitude &&
                 place.address?.point?.longitude
               "
@@ -19,11 +22,10 @@
               {{ place.address.point.latitude.toFixed(2) ?? 'unknown' }} °N
               {{ place.address.point.longitude.toFixed(2) ?? 'unknown' }} °E
             </span>
-            <span v-if="place.address.point?.x && place.address.point?.y">
+            <span v-else-if="place.address.point?.x && place.address.point?.y">
               x: {{ place.address.point?.x?.toFixed(2) ?? 'unknown' }} y:
               {{ place.address.point?.y?.toFixed(2) ?? 'unknown' }}
             </span>
-            {{ place.address.street ?? place.address.city }}
           </div>
           <WeatherNowcast :lat="place.address.point?.latitude" :lon="place.address.point?.longitude"></WeatherNowcast>
           <button v-if="i > 0" @click="placeStore.removePlace(place)">X</button>

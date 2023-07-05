@@ -27,17 +27,16 @@ import Search from '@arcgis/core/widgets/Search'
 import LayerList from '@arcgis/core/widgets/LayerList'
 import SlideUpPane from '@/components/SlideUpPane.vue'
 import { onMounted, onUnmounted, ref } from 'vue'
-import { useGeolocationStore } from '@/stores/geolocationStore'
 import { AddressPoint } from '@/stores/placeStore'
 
 const props = defineProps<{
-  center?: AddressPoint | undefined
+  center: AddressPoint | null
 }>()
 
 const graphicsLayer = new GraphicsLayer()
 const paneOpen = ref(false)
 const mapView = ref<MapView | null>(null)
-let point: Graphic | null = null
+let userLocationPoint: Graphic | null = null
 let watchPositionReference: number | null = null
 
 const initLayerList = (view: MapView) => {
@@ -62,7 +61,7 @@ const initLayerList = (view: MapView) => {
   })
 }
 
-const createPointGraphic = (latitude: number, longitude: number) => {
+const createPointGraphic = (point: AddressPoint) => {
   const simpleMarkerSymbol = {
     type: 'simple-marker',
     color: [226, 119, 40], // Orange
@@ -72,7 +71,7 @@ const createPointGraphic = (latitude: number, longitude: number) => {
     },
   }
   const pointGraphic = new Graphic({
-    geometry: new Point({ latitude, longitude }),
+    geometry: new Point(point),
     symbol: simpleMarkerSymbol,
   })
   return pointGraphic
@@ -91,7 +90,7 @@ onMounted(() => {
     map: map,
     container: 'mapViewDiv',
     center: [11, 60],
-    zoom: 12,
+    zoom: 16,
   })
   mapView.value = view
 
@@ -107,23 +106,19 @@ onMounted(() => {
     if (props.center) {
       view.goTo({
         center: new Point(props.center),
-        zoom: 12,
+        zoom: 16,
       })
-    } else {
-      useGeolocationStore().withPosition((position) => {
-        view.goTo({
-          center: [position.coords.longitude, position.coords.latitude],
-          zoom: 12,
-        })
-      })
+      const newPoint = createPointGraphic(props.center)
+      graphicsLayer.add(newPoint)
+      userLocationPoint = newPoint
     }
   })
 
   watchPositionReference = navigator.geolocation.watchPosition(
     async (position) => {
       view.when(() => {
-        if (point) {
-          point.geometry = new Point({
+        if (userLocationPoint) {
+          userLocationPoint.geometry = new Point({
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
           })
@@ -131,12 +126,9 @@ onMounted(() => {
             `Moved to ${position.coords.latitude}, ${position.coords.longitude}`
           )
         } else {
-          const newPoint = createPointGraphic(
-            position.coords.latitude,
-            position.coords.longitude
-          )
+          const newPoint = createPointGraphic(position.coords)
           graphicsLayer.add(newPoint)
-          point = newPoint
+          userLocationPoint = newPoint
         }
       })
     }

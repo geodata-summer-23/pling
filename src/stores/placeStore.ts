@@ -11,7 +11,7 @@ export enum Danger {
 }
 
 export type Place = {
-  name: string
+  nickname: string
   address: Address
   excludeDangers: Danger[]
 }
@@ -20,7 +20,6 @@ export type Address = {
   city?: string
   postalCode?: number
   street?: string
-  streetNumber?: string
   point?: AddressPoint
 }
 
@@ -61,10 +60,13 @@ export const usePlaceStore = defineStore('place', {
       this.places = JSON.parse(localStorage.getItem('places') ?? '[]')
       if (this.places.length == 0) {
         this.places.push({
-          name: 'My Location',
+          nickname: 'My Location',
           address: {},
           excludeDangers: [],
         })
+      } else {
+        // @ts-ignore
+        this.places[0].nickname = this.places[0].name // old
       }
       navigator.geolocation.getCurrentPosition(async (position) => {
         this.places[0].address.point = {
