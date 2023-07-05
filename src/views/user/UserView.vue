@@ -1,5 +1,9 @@
 <template>
   <div class="view col">
+    <div>
+      <button @click="router.back()">Back</button>
+    </div>
+    <br />
     <label style="font-weight: bold">User Information</label>
     <br />
     <div class="row spaced">
@@ -32,8 +36,10 @@
       "
     />
     <br />
-    
-    <button @click="router.push({ name: 'nameReg' })">Register user data</button>
+
+    <button @click="router.push({ name: 'nameReg' })">
+      Register user data
+    </button>
 
     <label style="font-weight: bold">Weather test</label>
     <WeatherNowcast></WeatherNowcast>
@@ -41,10 +47,9 @@
 </template>
 
 <script lang="ts" setup>
-import { router } from '@/router';
+import { router } from '@/router'
 import WeatherNowcast from '../map/WeatherNowcast.vue'
 import { useUserStore, signIn } from '@/stores/userStore'
 
 const userStore = useUserStore()
-
 </script>

@@ -1,10 +1,10 @@
 <template>
   <div
     class="nav-item col center"
-    :class="{ active: router.currentRoute.value.name == text.toLowerCase() }"
+    :class="{ active: router.currentRoute.value.name == route }"
   >
     <slot class="icon"></slot>
-    <span>{{ text }}</span>
+    <span v-if="text">{{ text }}</span>
   </div>
 </template>
 
@@ -12,7 +12,8 @@
 import { router } from '@/router'
 
 defineProps<{
-  text: string
+  route: string
+  text?: string
 }>()
 </script>
 
@@ -20,6 +21,8 @@ defineProps<{
 .nav-item {
   padding: 0.5em;
   width: 80px;
+  min-height: 3em;
+  color: steelblue;
 }
 
 .active {

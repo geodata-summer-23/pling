@@ -8,14 +8,16 @@
       </RouterView>
     </div>
     <nav class="nav-bottom">
-      <RouterLink :to="{ name: 'places' }">
-        <NavItem text="Places"><WarningIcon /></NavItem>
+      <RouterLink :to="{ name: 'home' }">
+        <NavItem route="home"><fa-icon size="xl" icon="house" /></NavItem>
       </RouterLink>
       <RouterLink :to="{ name: 'map' }">
-        <NavItem text="Map"><GlobeIcon /></NavItem>
+        <NavItem route="map"
+          ><fa-icon size="xl" icon="earth-americas"
+        /></NavItem>
       </RouterLink>
-      <RouterLink :to="{ name: 'user' }">
-        <NavItem text="User"><UserIcon /></NavItem>
+      <RouterLink :to="{ name: 'message' }">
+        <NavItem route="message"><fa-icon size="xl" icon="comment" /></NavItem>
       </RouterLink>
     </nav>
   </div>
@@ -23,9 +25,6 @@
 
 <script setup lang="ts">
 import NavItem from '@/components/NavItem.vue'
-import GlobeIcon from '@/components/icons/GlobeIcon.vue'
-import UserIcon from '@/components/icons/UserIcon.vue'
-import WarningIcon from '@/components/icons/WarningIcon.vue'
 import { onMounted } from 'vue'
 import { RouterView } from 'vue-router'
 import { usePlaceStore } from '@/stores/placeStore'
