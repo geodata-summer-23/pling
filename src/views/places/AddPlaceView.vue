@@ -117,7 +117,7 @@ const selectResult = (result: Record<string, any>) => {
 const submit = () => {
   place.value.address.point = Object.assign(
     place.value.address.point ?? {},
-    selectedResult.value
+    selectedResult.value?.location
   )
   placeStore.addPlace(place.value)
   router.back()
