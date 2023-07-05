@@ -1,7 +1,15 @@
 <template>
-  <div class="slide-up-pane" :class="{ 'hidden-below': !open }">
+  <div
+    class="slide-up-pane"
+    :class="{
+      'almost-hidden': !open && hideMode == 'show-top',
+      'completely-hidden': !open && hideMode == 'hidden',
+    }"
+  >
     <div class="col center">
-      <button class="toggle-button" @click="emit('close')">Close</button>
+      <button class="toggle-button" @click="emit('toggle')">
+        <fa-icon :icon="open ? 'angle-down' : 'angle-up'" />
+      </button>
     </div>
     <div class="slide-up-pane-margins">
       <slot></slot>
@@ -10,9 +18,10 @@
 </template>
 
 <script lang="ts" setup>
-defineProps<{ open: boolean }>()
+defineProps<{ open: boolean; hideMode: 'show-top' | 'hidden' }>()
+
 const emit = defineEmits<{
-  (e: 'close'): void
+  (e: 'toggle'): void
 }>()
 </script>
 
@@ -33,12 +42,16 @@ const emit = defineEmits<{
 }
 
 .slide-up-pane-margins {
-  padding: 2em;
+  padding: 0em 2em 2em 2em;
   max-height: 400px;
   overflow: auto;
 }
 
-.hidden-below {
-  transform: translateY(150%);
+.almost-hidden {
+  transform: translateY(calc(100% - 3em));
+}
+
+.completely-hidden {
+  transform: translateY(100%);
 }
 </style>

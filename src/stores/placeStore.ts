@@ -31,6 +31,7 @@ export type AddressPoint = {
 export const usePlaceStore = defineStore('place', {
   state: () => ({
     places: [] as Place[],
+    currentPlace: null as null | Place,
   }),
 
   actions: {

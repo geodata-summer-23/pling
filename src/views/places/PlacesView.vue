@@ -39,15 +39,13 @@
 
 <script lang="ts" setup>
 import { router } from '@/router'
-import { useGeolocationStore } from '@/stores/geolocationStore'
 import { usePlaceStore, Place } from '@/stores/placeStore'
 
 const placeStore = usePlaceStore()
-const geolocationStore = useGeolocationStore()
 
 const clickPlace = (place: Place) => {
   if (place.address.point) {
-    geolocationStore.mapCenter = place.address.point
+    placeStore.currentPlace = place
   }
   router.push({ name: 'map' })
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="view col">
     <input
-      id="birthday"
+      id="bday"
       type="date"
       :value="userStore.birthday?.toISOString().split('T')[0]"
       @blur="

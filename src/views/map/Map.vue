@@ -8,7 +8,11 @@
       Layers
     </button>
   </div>
-  <SlideUpPane :open="paneOpen" @close="paneOpen = false">
+  <SlideUpPane
+    :open="paneOpen"
+    hide-mode="hidden"
+    @toggle="paneOpen = !paneOpen"
+  >
     <div class="layerListPane">
       <div id="layerList"></div>
     </div>

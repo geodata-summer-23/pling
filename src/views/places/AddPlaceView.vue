@@ -7,17 +7,15 @@
       <input type="text" id="nickname" v-model="place.nickname" />
       <br />
       <label>Street</label>
-      <div class="row" style="gap: 1em">
-        <input
-          type="text"
-          id="street-address"
-          :value="place.address.street"
-          @input="
-            place.address.street = ($event.target as HTMLInputElement).value
-          "
-          style="flex: 4"
-        />
-      </div>
+      <input
+        type="text"
+        id="street-address"
+        :value="place.address.street"
+        @input="
+          place.address.street = ($event.target as HTMLInputElement).value
+        "
+        style="flex: 4"
+      />
       <div
         v-if="!selectedResult && results.length > 0"
         class="result-container col"
