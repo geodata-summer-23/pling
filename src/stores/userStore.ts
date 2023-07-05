@@ -36,9 +36,7 @@ export const useUserStore = defineStore('user', {
     },
     setBirthday(date: Date | null) {
       if (date === null) return
-      console.log("date was ", this.birthday)
       this.birthday = date
-      console.log("set", date)
       localStorage.setItem('birthday', this.birthday.toISOString())
     },
     setAge(age: number) {
@@ -56,10 +54,8 @@ export const useUserStore = defineStore('user', {
       this.middleName = localStorage.getItem('middelName') ?? null
       this.lastName = localStorage.getItem('lastName') ?? null
       const date = localStorage.getItem('birthday')
-      console.log(date)
       if (date) {
-        this.birthday = new Date(date)
-        console.log("date have been updated", this.birthday)
+        this.birthday = new Date(date) 
       }
     },
     saveToLocalStorage() {

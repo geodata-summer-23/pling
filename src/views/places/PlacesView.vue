@@ -27,9 +27,8 @@
               {{ place.address.point?.y?.toFixed(2) ?? 'unknown' }}
             </span>
           </div>
-          <button v-if="i > 0" @click.stop="placeStore.removePlace(place)">
-            X
-          </button>
+          <WeatherNowcast :lat="place.address.point?.latitude" :lon="place.address.point?.longitude"></WeatherNowcast>
+          <button v-if="i > 0" @click="placeStore.removePlace(place)">X</button>
         </div>
         <button @click="router.push({ name: 'add-place' })">+ Add</button>
       </div>
@@ -40,6 +39,7 @@
 <script lang="ts" setup>
 import { router } from '@/router'
 import { usePlaceStore, Place } from '@/stores/placeStore'
+import WeatherNowcast from '../map/WeatherNowcast.vue'
 
 const placeStore = usePlaceStore()
 
