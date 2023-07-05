@@ -71,7 +71,7 @@ export const usePlaceStore = defineStore('place', {
         })
       } else {
         // @ts-ignore
-        this.places[0].nickname = this.places[0].name // old
+        this.places[0].nickname = 'My Location' // old
       }
       navigator.geolocation.getCurrentPosition(async (position) => {
         this.places[0].address.point = {

@@ -1,6 +1,15 @@
 <template>
   <div class="view">
     <div class="col">
+      <div class="row spaced">
+        <span>{{ userStore.name }}</span>
+        <fa-icon
+          size="3x"
+          icon="circle-user"
+          class="clickable"
+          @click="router.push({ name: 'user' })"
+        />
+      </div>
       <label style="font-weight: bold">My Places</label>
       <div class="col" style="gap: 0.5em">
         <div
@@ -27,7 +36,10 @@
               {{ place.address.point?.y?.toFixed(2) ?? 'unknown' }}
             </span>
           </div>
-          <WeatherNowcast :lat="place.address.point?.latitude" :lon="place.address.point?.longitude"></WeatherNowcast>
+          <WeatherNowcast
+            :lat="place.address.point?.latitude"
+            :lon="place.address.point?.longitude"
+          ></WeatherNowcast>
           <button v-if="i > 0" @click="placeStore.removePlace(place)">X</button>
         </div>
         <button @click="router.push({ name: 'add-place' })">+ Add</button>
@@ -37,10 +49,12 @@
 </template>
 
 <script lang="ts" setup>
+import WeatherNowcast from '../map/WeatherNowcast.vue'
 import { router } from '@/router'
 import { usePlaceStore, Place } from '@/stores/placeStore'
-import WeatherNowcast from '../map/WeatherNowcast.vue'
+import { useUserStore } from '@/stores/userStore'
 
+const userStore = useUserStore()
 const placeStore = usePlaceStore()
 
 const clickPlace = (place: Place) => {

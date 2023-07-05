@@ -6,10 +6,11 @@ import { createPinia } from 'pinia'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { registerIcons } from './icons'
 
-createApp(App)
+const app = createApp(App)
   .use(createPinia())
   .use(router)
   .component('fa-icon', FontAwesomeIcon)
-  .mount('#app')
 
 registerIcons()
+
+app.mount('#app')
