@@ -13,7 +13,7 @@
       <label style="font-weight: bold">My Places</label>
       <div class="col" style="gap: 0.5em">
         <div
-          v-for="(place, i) in placeStore.places"
+          v-for="place in placeStore.places"
           class="address-item row spaced clickable"
           @click="clickPlace(place)"
         >
@@ -40,7 +40,6 @@
             :lat="place.address.point?.latitude"
             :lon="place.address.point?.longitude"
           ></WeatherNowcast>
-          <button v-if="i > 0" @click="placeStore.removePlace(place)">X</button>
         </div>
         <button @click="router.push({ name: 'add-place' })">+ Add</button>
       </div>
