@@ -33,10 +33,25 @@
       </div>
     </form>
     <br />
+    <div
+      v-if="!selectedResult && results.length > 0"
+      class="result-container col"
+    >
+      <label>Results</label>
+      <div
+        v-for="result in results"
+        class="result"
+        @click="selectResult(result)"
+      >
+        {{ result.address }}
+      </div>
+    </div>
+    <br />
+    <br />
     <br />
     <div class="row spaced">
       <button @click="router.back()">Back</button>
-      <button @click="submit" :disabled="!place.nickname || !result">
+      <button @click="submit" :disabled="!place.nickname || !selectedResult">
         Submit
       </button>
     </div>
@@ -50,8 +65,30 @@ import { ref, watch } from 'vue'
 import { router } from '@/router'
 
 const placeStore = usePlaceStore()
-const result = ref<Record<string, any> | null>(null)
+const selectedResult = ref<Record<string, any> | null>(null)
+const results = ref<Record<string, any>[]>([])
 const place = ref<Place>({ nickname: '', address: {}, excludeDangers: [] })
+
+const search = () => {
+  const geoData =
+    'https://services.geodataonline.no/arcgis/rest/services/Geosok/GeosokLokasjon2/GeocodeServer'
+
+  const params = {
+    address: {
+      Adresse: place.value.address.street,
+      // Stedsnavn: '',
+      Postnummer: place.value.address.postalCode,
+      Poststed: place.value.address.city,
+      // Kommune: '',
+    },
+    maxLocations: 10,
+  }
+  locator.addressToLocations(geoData, params).then((candidates) => {
+    results.value = candidates
+      .sort((a, b) => b.score - a.score)
+      .map((r) => r.toJSON())
+  })
+}
 
 watch(
   () => [
@@ -61,40 +98,48 @@ watch(
   ],
   () => {
     search()
-  }
+  },
+  { immediate: true }
 )
 
-const search = () => {
-  const geoData =
-    'https://services.geodataonline.no/arcgis/rest/services/Geosok/GeosokLokasjon2/GeocodeServer'
-
-  const params = {
-    address: {
-      Adresse: place.value.address.street,
-      Stedsnavn: '',
-      Postnummer: place.value.address.postalCode,
-      Poststed: place.value.address.city,
-      Kommune: '',
-    },
-    maxLocations: 10,
+const selectResult = (result: Record<string, any>) => {
+  selectedResult.value = result
+  const [streetAddress, postalCodeAndCity] = result.address.split(',')
+  place.value.address.street = streetAddress
+  if (postalCodeAndCity) {
+    const [postalCode, city] = postalCodeAndCity.trim().split(' ')
+    place.value.address.postalCode = parseInt(postalCode)
+    place.value.address.city = city
   }
-  locator.addressToLocations(geoData, params).then((results) => {
-    result.value = results.find((r) => r.score == 100)?.toJSON().location
-  })
+  results.value = []
 }
 
 const submit = () => {
   place.value.address.point = Object.assign(
     place.value.address.point ?? {},
-    result.value
+    selectedResult.value
   )
   placeStore.addPlace(place.value)
   router.back()
 }
 </script>
 
-<style>
+<style scoped>
 input {
   min-width: 20px;
+}
+
+.result-container {
+  background-color: #f3f3f3;
+}
+
+.result {
+  padding: 0.5em 1.5em;
+  cursor: pointer;
+}
+
+.result:hover {
+  background-color: lightblue;
+  cursor: pointer;
 }
 </style>
