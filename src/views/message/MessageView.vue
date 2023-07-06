@@ -27,7 +27,7 @@ const postAlert = async () => {
   const data = {
     message: 'Help!',
     position: { latitude: pos.latitude, longitude: pos.longitude },
-    timestamp: 0,
+    timestamp: Date.now(),
   }
   try {
     const response = await fetch(`http://127.0.0.1:8000/alert`, {
