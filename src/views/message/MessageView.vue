@@ -7,6 +7,8 @@
     <p v-if="requestState == 'success'">Success!</p>
     <button @click="getAlerts">Get alerts</button>
     <p>Alerts: {{ alerts }}</p>
+    <p v-if="alerts.length > 0">Alerts: {{ alerts[0].message }}</p>
+    <p>Alerts: {{ typeof alerts }}</p>
   </div>
 </template>
 
@@ -28,6 +30,7 @@ const postAlert = async () => {
     message: 'Help!',
     position: { latitude: pos.latitude, longitude: pos.longitude },
     timestamp: Date.now(),
+    category: 'Flood',
   }
   try {
     const response = await fetch(`http://127.0.0.1:8000/alert`, {
@@ -49,10 +52,10 @@ const getAlerts = async () => {
   }
   try {
     const response = await fetch(
-      `http://127.0.0.1:8000/alerts/?lat=${pos.latitude}&lon=${pos.longitude}`,
+      `http://127.0.0.1:8000/alerts?lat=${pos.latitude}&lon=${pos.longitude}`,
       { headers: { 'Content-Type': 'application/json' } }
     )
-    alerts.value = await response.json()
+    alerts.value = JSON.parse(await response.json())
     console.log('got alerts')
   } catch {
     console.log('failed to get alerts')
