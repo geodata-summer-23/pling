@@ -8,11 +8,7 @@
       Layers
     </button>
   </div>
-  <SlideUpPane
-    :open="paneOpen"
-    hide-mode="hidden"
-    @toggle="paneOpen = !paneOpen"
-  >
+  <SlideUpPane :open="paneOpen" @close="paneOpen = false">
     <div class="layerListPane">
       <div id="layerList"></div>
     </div>
@@ -30,18 +26,32 @@ import Point from '@arcgis/core/geometry/Point'
 import Search from '@arcgis/core/widgets/Search'
 import LayerList from '@arcgis/core/widgets/LayerList'
 import SlideUpPane from '@/components/SlideUpPane.vue'
-import { onMounted, onUnmounted, ref } from 'vue'
-import { AddressPoint } from '@/stores/placeStore'
+import { onMounted, onUnmounted, ref, watch } from 'vue'
 
 const props = defineProps<{
-  center: AddressPoint | null
+  latitude?: number
+  longitude?: number
 }>()
 
 const graphicsLayer = new GraphicsLayer()
 const paneOpen = ref(false)
 const mapView = ref<MapView | null>(null)
-let userLocationPoint: Graphic | null = null
+let point: Graphic | null = null
 let watchPositionReference: number | null = null
+
+watch(
+  () => [props.latitude, props.longitude],
+  () => {
+    mapView.value?.when(() => {
+      if (!props.longitude || !props.latitude) return
+      mapView.value?.goTo({
+        center: [props.longitude, props.latitude],
+        zoom: 12,
+      })
+    })
+  },
+  { immediate: true }
+)
 
 const initLayerList = (view: MapView) => {
   view.map.layers.map((layer) => {
@@ -65,7 +75,7 @@ const initLayerList = (view: MapView) => {
   })
 }
 
-const createPointGraphic = (point: AddressPoint) => {
+const createPointGraphic = (latitude: number, longitude: number) => {
   const simpleMarkerSymbol = {
     type: 'simple-marker',
     color: [226, 119, 40], // Orange
@@ -75,7 +85,7 @@ const createPointGraphic = (point: AddressPoint) => {
     },
   }
   const pointGraphic = new Graphic({
-    geometry: new Point(point),
+    geometry: new Point({ latitude, longitude }),
     symbol: simpleMarkerSymbol,
   })
   return pointGraphic
@@ -88,15 +98,15 @@ onMounted(() => {
       id: 'b139409c28884967a1a603695e0b478d', // https://arcg.is/1mTnbH
     },
   })
+
   map.add(graphicsLayer)
 
   const view = new MapView({
     map: map,
     container: 'mapViewDiv',
     center: [11, 60],
-    zoom: 16,
+    zoom: 12,
   })
-  mapView.value = view
 
   const search = new Search({
     view: view,
@@ -107,36 +117,24 @@ onMounted(() => {
   initLayerList(view)
 
   view.when(() => {
-    if (props.center) {
-      view.goTo({
-        center: new Point(props.center),
-        zoom: 16,
-      })
-      const newPoint = createPointGraphic(props.center)
-      graphicsLayer.add(newPoint)
-      userLocationPoint = newPoint
-    }
-  })
-
-  watchPositionReference = navigator.geolocation.watchPosition(
-    async (position) => {
-      view.when(() => {
-        if (userLocationPoint) {
-          userLocationPoint.geometry = new Point({
+    watchPositionReference = navigator.geolocation.watchPosition(
+      async (position) => {
+        if (point) {
+          point.geometry = new Point({
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
           })
-          console.log(
-            `Moved to ${position.coords.latitude}, ${position.coords.longitude}`
-          )
         } else {
-          const newPoint = createPointGraphic(position.coords)
+          const newPoint = createPointGraphic(
+            position.coords.latitude,
+            position.coords.longitude
+          )
           graphicsLayer.add(newPoint)
-          userLocationPoint = newPoint
+          point = newPoint
         }
-      })
-    }
-  )
+      }
+    )
+  })
 
   // view.when(() => {
   //   navigator.geolocation.getCurrentPosition(async (position) => {
@@ -160,6 +158,8 @@ onMounted(() => {
   //     })
   //   })
   // })
+
+  mapView.value = view
 })
 
 onUnmounted(() => {
@@ -188,6 +188,7 @@ onUnmounted(() => {
 //     console.log(res)
 //   })
 // }
+
 </script>
 
 <style>
@@ -196,4 +197,3 @@ onUnmounted(() => {
   margin: 0;
 }
 </style>
-@/stores/geoLocationStore @/stores/geolocationStore
