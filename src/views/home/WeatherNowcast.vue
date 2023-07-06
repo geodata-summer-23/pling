@@ -25,11 +25,9 @@ onMounted(async () => {
     const response = await fetch(
       `http://127.0.0.1:8000/met/nowcast?lat=${props.lat}&lon=${props.lon}`
     )
-    console.log(response.ok)
     if (response.ok) {
       responseCode.value = true
       const resJson = await response.json()
-      console.log(JSON.stringify(resJson))
       temp.value =
         resJson.properties.timeseries[0].data.instant.details.air_temperature
       precipitation.value =
@@ -40,7 +38,7 @@ onMounted(async () => {
       console.log(symbol.value)
     }
   } catch (error) {
-    console.log('Error: ', error)
+    console.error(error)
     responseCode.value = false
   }
 })

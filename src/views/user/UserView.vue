@@ -1,7 +1,7 @@
 <template>
   <div class="view col">
     <div>
-      <button @click="router.push({ name: 'home' })">Back</button>
+      <button @click="back">Back</button>
     </div>
     <br />
     <label style="font-weight: bold">User Information</label>
@@ -54,6 +54,10 @@ import { usePlaceStore } from '@/stores/placeStore'
 import { useUserStore, signIn } from '@/stores/userStore'
 
 const userStore = useUserStore()
+
+const back = () => {
+  router.push({ name: 'home' })
+}
 
 const reset = () => {
   localStorage.clear()
