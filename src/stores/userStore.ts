@@ -7,7 +7,6 @@ export const useUserStore = defineStore('user', {
   state: () => ({
     guid: null as null | string,
     signedInToArcGis: false,
-    name: null as null | string,
     firstName: null as null | string,
     middleName: null as null | string,
     lastName: null as null | string,

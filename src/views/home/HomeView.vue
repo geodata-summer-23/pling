@@ -1,15 +1,16 @@
 <template>
   <div class="view col">
-    <div class="row" style="justify-content: end">
-      <span>{{ userStore.name }}</span>
+    <div class="row center" style="gap: 1em; justify-content: end">
+      <span>{{ userStore.firstName }}</span>
       <fa-icon
         size="3x"
         icon="circle-user"
         class="clickable"
+        style="color: var(--c-dark-gray)"
         @click="router.push({ name: 'user' })"
       />
     </div>
-    <h2>My Places</h2>
+    <h2 style="margin-top: 0">My Places</h2>
     <div class="col" style="gap: 0.5em">
       <div
         v-for="place in placeStore.places"
@@ -31,7 +32,7 @@
     </div>
     <br />
     <div>
-      {{ userStore.name ?? 'Hei' }}, du er i følgende faresoner:
+      {{ userStore.firstName ?? 'Hei' }}, du er i følgende faresoner:
       {{ dangers }}
     </div>
   </div>
