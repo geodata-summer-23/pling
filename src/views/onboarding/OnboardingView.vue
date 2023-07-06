@@ -7,10 +7,10 @@
       <BirthdayView v-if="page == Page.Birthday"></BirthdayView>
       <LanguageView v-if="page == Page.Language"></LanguageView>
     </div>
-    <div class="view-bottom col">
-      <button v-if="page != 0" class="btn" @click="nextPage">Skip</button>
-      <button class="btn" @click="nextPage">Continue</button>
-    </div>
+  </div>
+  <div class="view-bottom col">
+    <button v-if="page != 0" class="btn" @click="nextPage">Skip</button>
+    <button class="btn" @click="nextPage">Continue</button>
   </div>
 </template>
 

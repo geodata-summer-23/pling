@@ -7,7 +7,10 @@
         <!-- </KeepAlive> -->
       </RouterView>
     </div>
-    <nav class="nav-bottom">
+    <nav
+      v-if="['home', 'map', 'message'].includes(router.currentRoute.value.name as string)"
+      class="nav-bottom"
+    >
       <RouterLink :to="{ name: 'home' }">
         <NavItem route="home"><fa-icon size="xl" icon="house" /></NavItem>
       </RouterLink>

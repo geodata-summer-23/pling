@@ -52,9 +52,9 @@ button {
 .view-bottom {
   position: absolute;
   bottom: 2em;
-  width: 80%;
-  padding: 1em;
   gap: 1em;
+  width: calc(100% - 4em);
+  padding: 0em 2em;
 }
 
 .clickable {

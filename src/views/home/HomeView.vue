@@ -1,6 +1,6 @@
 <template>
   <div class="view col">
-    <div class="row spaced">
+    <div class="row" style="justify-content: end">
       <span>{{ userStore.name }}</span>
       <fa-icon
         size="3x"
@@ -45,11 +45,11 @@
       {{ userStore.name ?? 'Hei' }}, du er i følgende faresoner:
       {{ dangers }}
     </div>
-    <div class="view-bottom col">
-      <button class="btn" @click="router.push({ name: 'add-place' })">
-        Add Place
-      </button>
-    </div>
+  </div>
+  <div class="view-bottom col">
+    <button class="btn" @click="router.push({ name: 'add-place' })">
+      Add Place
+    </button>
   </div>
 </template>
 

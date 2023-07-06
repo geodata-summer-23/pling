@@ -14,13 +14,12 @@
         Sign In
       </button>
     </div>
-
-    <div class="view-bottom col">
-      <button class="btn" @click="router.push({ name: 'onboarding' })">
-        Edit information
-      </button>
-      <button class="btn" @click="reset">Clear all data</button>
-    </div>
+  </div>
+  <div class="view-bottom col">
+    <button class="btn" @click="router.push({ name: 'onboarding' })">
+      Edit information
+    </button>
+    <button class="btn" @click="reset">Clear all data</button>
   </div>
 </template>
 

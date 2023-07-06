@@ -51,16 +51,15 @@
       </div>
     </div>
     <br />
-
-    <div class="view-bottom col">
-      <button
-        class="btn"
-        :disabled="!place.nickname || !selectedResult"
-        @click="submit"
-      >
-        Submit
-      </button>
-    </div>
+  </div>
+  <div class="view-bottom col">
+    <button
+      class="btn"
+      :disabled="!place.nickname || !selectedResult"
+      @click="submit"
+    >
+      Submit
+    </button>
   </div>
 </template>
 
