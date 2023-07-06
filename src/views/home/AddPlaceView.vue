@@ -133,7 +133,7 @@ input {
 }
 
 .result-container {
-  background-color: #f3f3f3;
+  background-color: var(--c-light-gray);
 }
 
 .result {
@@ -142,7 +142,7 @@ input {
 }
 
 .result:hover {
-  background-color: lightblue;
+  background-color: var(--c-dark-gray);
   cursor: pointer;
 }
 </style>

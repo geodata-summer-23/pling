@@ -38,7 +38,6 @@ export const usePlaceStore = defineStore('place', {
   actions: {
     addPlace(place: Place) {
       if (place.address?.point?.x && place.address?.point?.y) {
-        console.log('hei')
         const fromProj =
           '+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs +type=crs'
         const toProj = '+proj=longlat +datum=WGS84 +no_defs +type=crs'
