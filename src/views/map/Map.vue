@@ -8,7 +8,7 @@
       Layers
     </button>
   </div>
-  <SlideUpPane :open="paneOpen" @close="paneOpen = false">
+  <SlideUpPane :open="paneOpen" hideMode="hidden" @close="paneOpen = false">
     <div class="layerListPane">
       <div id="layerList"></div>
     </div>
@@ -28,8 +28,6 @@ import LayerList from '@arcgis/core/widgets/LayerList'
 import SlideUpPane from '@/components/SlideUpPane.vue'
 import { onMounted, onUnmounted, ref, watch } from 'vue'
 import Legend from '@arcgis/core/widgets/Legend'
-import { onMounted, onUnmounted, ref } from 'vue'
-import { AddressPoint } from '@/stores/placeStore'
 
 const props = defineProps<{
   latitude?: number
@@ -203,7 +201,6 @@ onUnmounted(() => {
 //     console.log(res)
 //   })
 // }
-
 </script>
 
 <style>

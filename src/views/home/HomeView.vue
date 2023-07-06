@@ -40,27 +40,33 @@
         ></WeatherNowcast>
       </div>
     </div>
+    <br />
+    <div>
+      {{ userStore.name ?? 'Hei' }}, du er i følgende faresoner:
+      {{ dangers }}
+    </div>
     <div class="view-bottom col">
       <button class="btn" @click="router.push({ name: 'add-place' })">
         Add Place
       </button>
-    </div>
-    <div>
-      {{ userStore.name }}, du er i følgende faresoner: (sjekk konsoll)
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import WeatherNowcast from './WeatherNowcast.vue'
+import FeatureLayer from '@arcgis/core/layers/FeatureLayer'
+import Point from '@arcgis/core/geometry/Point.js'
 import { router } from '@/router'
 import { usePlaceStore, Place } from '@/stores/placeStore'
 import { useUserStore } from '@/stores/userStore'
-import FeatureLayer from '@arcgis/core/layers/FeatureLayer'
-import Point from "@arcgis/core/geometry/Point.js";
+import { onMounted, ref } from 'vue'
+import { useGeolocationStore } from '@/stores/geolocationStore'
 
 const userStore = useUserStore()
 const placeStore = usePlaceStore()
+
+const dangers = ref<string[]>([])
 
 const clickPlace = (place: Place) => {
   if (place.address.point) {
@@ -69,40 +75,33 @@ const clickPlace = (place: Place) => {
   router.push({ name: 'map' })
 }
 
-// Reference query layer
-const metAlertsLayer = new FeatureLayer({
-  url: "https://utility.arcgis.com/usrsvcs/servers/f7978b8123424646bb5960e25d83c606/rest/services/MetAlerts/FeatureServer/0",
-});
-
-// Point to query
-const point = new Point({
-  latitude: placeStore.places[0].address.point.latitude.toFixed(3),
-  longitude: placeStore.places[0].address.point.longitude.toFixed(3),
-});
-
-// Description of the alert
-const description = ""
-
-function queryFeaturelayer(geometry) {
+onMounted(() => {
+  const metAlertsLayer = new FeatureLayer({
+    url: 'https://utility.arcgis.com/usrsvcs/servers/f7978b8123424646bb5960e25d83c606/rest/services/MetAlerts/FeatureServer/0',
+  })
+  const position = useGeolocationStore().position
+  if (!position) {
+    console.error('invalid position')
+    return
+  }
 
   const alertQuery = {
-  spatialRelationship: "intersects", // Relationship operation to apply
-  geometry: point,
-  outFields: ["description"], // Attributes to return
-  returnGeometry: false
-  };
+    spatialRelationship: 'intersects', // Relationship operation to apply
+    geometry: new Point(position),
+    outFields: ['description'], // Attributes to return
+    returnGeometry: false,
+  }
 
-  metAlertsLayer.queryFeatures(alertQuery)
-  .then((results) => {
-
-    console.log("Feature count: " + results.features.length)
-    console.log(results.features[0].attributes.description)
-
-  }).catch((error) => {
-    console.log(error);
-  });
-}
-queryFeaturelayer();
+  metAlertsLayer
+    // @ts-ignore
+    .queryFeatures(alertQuery)
+    .then((results) => {
+      dangers.value = results.features.map((f) => f.attributes.description)
+    })
+    .catch((error) => {
+      console.error(error)
+    })
+})
 </script>
 
 <style>
