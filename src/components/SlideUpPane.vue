@@ -1,6 +1,6 @@
 <template>
   <div
-    class="slide-up-pane"
+    class="slide-up-pane animated"
     :class="{
       'almost-hidden': !open && hideMode == 'show-top',
       'completely-hidden': !open && hideMode == 'hidden',
@@ -36,7 +36,6 @@ const emit = defineEmits<{
   border-radius: 2em 2em 0 0;
   width: 100%;
   bottom: 0;
-  transition: all 400ms;
   background-color: white;
   box-shadow: 0px 0px 20px var(--c-dark-gray);
 }

@@ -37,13 +37,21 @@
     </div>
   </div>
   <div class="view-bottom col">
-    <div v-if="actionsOpen" class="row" style="justify-content: end">
+    <div
+      class="row animated"
+      :class="{ 'hidden-right': !actionsOpen }"
+      style="justify-content: end"
+    >
       <button class="btn btn-shadow" @click="router.push({ name: 'message' })">
         <fa-icon icon="triangle-exclamation" />
         <span style="margin: 0 0.5em">Request Help</span>
       </button>
     </div>
-    <div v-if="actionsOpen" class="row" style="justify-content: end">
+    <div
+      class="row animated"
+      :class="{ 'hidden-right': !actionsOpen }"
+      style="justify-content: end"
+    >
       <button
         class="btn btn-shadow"
         @click="router.push({ name: 'add-place' })"
@@ -129,5 +137,9 @@ onMounted(() => {
   border-radius: 1em;
   padding: 1em;
   box-shadow: 0 0.4em 0.6em var(--c-medium-gray);
+}
+
+.hidden-right {
+  transform: translateX(100%);
 }
 </style>
