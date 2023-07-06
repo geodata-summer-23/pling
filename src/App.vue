@@ -20,7 +20,7 @@
         /></NavItem>
       </RouterLink>
       <RouterLink :to="{ name: 'message' }">
-        <NavItem route="message"><fa-icon size="xl" icon="comment" /></NavItem>
+        <NavItem route="message"><fa-icon size="xl" icon="bell" /></NavItem>
       </RouterLink>
     </nav>
   </div>
