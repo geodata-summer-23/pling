@@ -21,17 +21,9 @@ export const useUserStore = defineStore('user', {
       this.guid = nanoid()
       localStorage.setItem('guid', this.guid)
     },
-    setName(name: string) {
-      this.name = name
-      localStorage.setItem('name', this.name)
-    },
     setFirstName(name: string) {
       this.firstName = name
       localStorage.setItem('firstName', this.firstName)
-    },
-    setMiddleName(name: string) {
-      this.middleName = name
-      localStorage.setItem('middleName', this.middleName)
     },
     setLastName(name: string) {
       this.lastName = name
@@ -42,20 +34,9 @@ export const useUserStore = defineStore('user', {
       this.birthday = date
       localStorage.setItem('birthday', this.birthday.toISOString())
     },
-    setAge(age: number) {
-      if (age < 1) return
-      this.age = age
-      localStorage.setItem('age', this.age.toFixed(0))
-    },
     loadFromLocalStorage() {
-      this.name = localStorage.getItem('name') ?? null
       this.guid = localStorage.getItem('guid') ?? null
-      const age = localStorage.getItem('age')
-      if (age) {
-        this.age = parseInt(age)
-      }
-      this.firstName = localStorage.getItem('fistName') ?? null
-      this.middleName = localStorage.getItem('middleName') ?? null
+      this.firstName = localStorage.getItem('firstName') ?? null
       this.lastName = localStorage.getItem('lastName') ?? null
       const date = localStorage.getItem('birthday')
       if (date) {

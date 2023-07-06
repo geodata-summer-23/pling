@@ -11,15 +11,6 @@
       "
     />
     <input
-      id="middleName"
-      type="text"
-      placeholder="Middle name"
-      :value="userStore.middleName"
-      @change="
-        userStore.setMiddleName(($event.target as HTMLInputElement).value)
-      "
-    />
-    <input
       id="family-name"
       type="text"
       placeholder="Last name"
