@@ -7,7 +7,7 @@
 }
 
 body {
-  background-color: black;
+  background-color: var(--c-medium-gray);
   margin: 0;
   color: var(--c-text);
 }
@@ -63,7 +63,7 @@ button {
 
 .btn {
   font-size: large;
-  padding: 1em;
+  padding: 0.8em;
   background-color: var(--c-medium-gray);
   color: var(--c-text);
   border: none;

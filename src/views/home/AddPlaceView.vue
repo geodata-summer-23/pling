@@ -58,7 +58,7 @@
       :disabled="!place.nickname || !selectedResult"
       @click="submit"
     >
-      Submit
+      Add
     </button>
   </div>
 </template>

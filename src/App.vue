@@ -51,10 +51,11 @@ onBeforeMount(() => {
 <style scoped>
 .display-container {
   position: relative;
-  max-width: 500px;
+  max-width: 450px;
   height: 100svh;
   margin: auto;
   overflow: hidden;
+  box-shadow: 0 0 3em var(--c-dark-gray);
 }
 
 .view-container {
