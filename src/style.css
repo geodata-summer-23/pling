@@ -40,6 +40,14 @@ button {
   padding: 2em;
 }
 
+.view-bottom {
+  position: absolute;
+  bottom: 2em;
+  width: 80%;
+  padding: 1em;
+  gap: 1em;
+}
+
 .clickable {
   cursor: pointer;
 }

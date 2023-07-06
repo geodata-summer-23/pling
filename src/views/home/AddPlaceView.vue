@@ -1,66 +1,59 @@
 <template>
-  <div class="view">
-    <form class="col">
-      <label style="font-weight: bold">Add Place</label>
-      <br />
-      <label for="nickname">Nickname</label>
-      <input type="text" id="nickname" v-model="place.nickname" />
-      <br />
-      <label>Street</label>
+  <div class="view col">
+    <BackButton @click="router.push({ name: 'home' })"></BackButton>
+    <h2>Add Place</h2>
+    <label for="nickname">Nickname</label>
+    <input type="text" id="nickname" v-model="place.nickname" />
+    <br />
+    <label>Street</label>
+    <input
+      type="text"
+      id="street-address"
+      :value="place.address.street"
+      @input="place.address.street = ($event.target as HTMLInputElement).value"
+      style="flex: 4"
+    />
+    <div
+      v-if="!selectedResult && results.length > 0"
+      class="result-container col"
+    >
+      <div
+        v-for="result in results"
+        class="result"
+        @click="selectResult(result)"
+      >
+        {{ result.address }}
+      </div>
+    </div>
+    <br />
+    <label>City</label>
+    <div class="row" style="gap: 1em">
+      <input
+        type="number"
+        id="postal-code"
+        :value="place.address.postalCode"
+        @input="
+          place.address.postalCode = (
+            $event.target as HTMLInputElement
+          ).valueAsNumber
+        "
+        style="flex: 1"
+      />
       <input
         type="text"
-        id="street-address"
-        :value="place.address.street"
-        @input="
-          place.address.street = ($event.target as HTMLInputElement).value
-        "
-        style="flex: 4"
+        id="city"
+        :value="place.address.city"
+        @input="place.address.city = ($event.target as HTMLInputElement).value"
+        style="flex: 2"
       />
-      <div
-        v-if="!selectedResult && results.length > 0"
-        class="result-container col"
-      >
-        <div
-          v-for="result in results"
-          class="result"
-          @click="selectResult(result)"
-        >
-          {{ result.address }}
-        </div>
-      </div>
-      <br />
-      <label>City</label>
-      <div class="row" style="gap: 1em">
-        <input
-          type="number"
-          id="postal-code"
-          :value="place.address.postalCode"
-          @input="
-            place.address.postalCode = (
-              $event.target as HTMLInputElement
-            ).valueAsNumber
-          "
-          style="flex: 1"
-        />
-        <input
-          type="text"
-          id="city"
-          :value="place.address.city"
-          @input="
-            place.address.city = ($event.target as HTMLInputElement).value
-          "
-          style="flex: 2"
-        />
-      </div>
-    </form>
-    <br />
+    </div>
 
-    <br />
-    <br />
-    <br />
-    <div class="row spaced">
-      <button @click="router.back()">Back</button>
-      <button @click="submit" :disabled="!place.nickname || !selectedResult">
+    <div class="view-bottom col">
+      <button
+        class="btn"
+        :disabled="!place.nickname || !selectedResult"
+        @click="submit"
+      >
         Submit
       </button>
     </div>
@@ -68,6 +61,7 @@
 </template>
 
 <script lang="ts" setup>
+import BackButton from '@/components/BackButton.vue'
 import * as locator from '@arcgis/core/rest/locator'
 import { Place, usePlaceStore } from '@/stores/placeStore'
 import { ref, watch } from 'vue'
@@ -129,7 +123,7 @@ const submit = () => {
     selectedResult.value?.location
   )
   placeStore.addPlace(place.value)
-  router.back()
+  router.push({ name: 'home' })
 }
 </script>
 

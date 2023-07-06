@@ -1,15 +1,13 @@
 <template>
   <div class="view col spaced" style="gap: 2em">
-    <span v-if="page != 0" class="btn-icon" @click="prevPage">
-      <fa-icon size="2xl" icon="angle-left" />
-    </span>
+    <BackButton v-if="page != 0" @click="prevPage"></BackButton>
     <div>
       <WelcomeView v-if="page == Page.Welcome"></WelcomeView>
       <NameView v-if="page == Page.Name"></NameView>
       <BirthdayView v-if="page == Page.Birthday"></BirthdayView>
       <LanguageView v-if="page == Page.Language"></LanguageView>
     </div>
-    <div class="bottom col">
+    <div class="view-bottom col">
       <button v-if="page != 0" class="btn" @click="nextPage">Skip</button>
       <button class="btn" @click="nextPage">Continue</button>
     </div>
@@ -24,6 +22,7 @@ import WelcomeView from './WelcomeView.vue'
 import { ref } from 'vue'
 import { router } from '@/router'
 import { useUserStore } from '@/stores/userStore'
+import BackButton from '@/components/BackButton.vue'
 
 enum Page {
   Welcome,
@@ -48,12 +47,4 @@ const nextPage = () => {
 }
 </script>
 
-<style scoped>
-.bottom {
-  position: absolute;
-  bottom: 2em;
-  width: 80%;
-  padding: 1em;
-  gap: 1em;
-}
-</style>
+<style scoped></style>
