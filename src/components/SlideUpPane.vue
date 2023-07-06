@@ -7,7 +7,7 @@
     }"
   >
     <div class="row center">
-      <h3 v-if="title" style="margin: 0 1em">{{ title }}</h3>
+      <h3 v-if="title" style="margin: 0.5em 1em">{{ title }}</h3>
       <span class="btn-icon" style="padding: 0.5em" @click="emit('toggle')">
         <fa-icon size="xl" :icon="open ? 'angle-down' : 'angle-up'" />
       </span>
