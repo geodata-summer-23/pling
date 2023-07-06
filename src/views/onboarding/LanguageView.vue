@@ -1,22 +1,11 @@
 <template>
-    <div class="view col">
-      <p>Select language</p>
-    </div>
+  <p>Select language</p>
 
-    <div>
-      <input type="radio" id="norsk" name="language" value="Norsk">
-      <label for="norsk">Norsk</label><br>
+  <input type="radio" id="norsk" name="language" value="Norsk" />
+  <label for="norsk">Norsk</label><br />
 
-      <input type="radio" id="english" name="language" value="English">
-      <label for="english">English</label>
+  <input type="radio" id="english" name="language" value="English" />
+  <label for="english">English</label>
+</template>
 
-
-    </div>
-  
-    <button @click="router.push({ name: 'user' })">Done</button>
-  </template>
-  
-  <script lang="ts" setup>
-  import { router } from '@/router'
-  
-  </script>
+<script lang="ts" setup></script>

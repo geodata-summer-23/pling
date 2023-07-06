@@ -79,9 +79,7 @@ export const usePlaceStore = defineStore('place', {
         }
       })
     },
-    saveToLocalStorage() {
-      localStorage.setItem('places', JSON.stringify(this.places))
-    },
+    saveToLocalStorage() {},
   },
 })
 

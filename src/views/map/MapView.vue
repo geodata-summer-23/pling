@@ -1,5 +1,8 @@
 <template>
-  <Map v-if="userStore.signedIn" :center="geoLocationStore.getMapCenter"></Map>
+  <Map
+    v-if="userStore.signedInToArcGis"
+    :center="geoLocationStore.getMapCenter"
+  ></Map>
   <div v-else class="message-container">
     <br />
     <p>You are not signed in.</p>

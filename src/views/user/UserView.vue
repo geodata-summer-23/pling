@@ -9,12 +9,12 @@
     <div class="row spaced">
       <label for="signIn">
         {{
-          userStore.signedIn
+          userStore.signedInToArcGis
             ? 'You are signed in with ArcGIS.'
             : 'You are not signed in.'
         }}
       </label>
-      <button v-if="!userStore.signedIn" id="signIn" @click="signIn">
+      <button v-if="!userStore.signedInToArcGis" id="signIn" @click="signIn">
         Sign In
       </button>
     </div>
@@ -36,10 +36,6 @@
       "
     />
     <br />
-
-    <button @click="router.push({ name: 'nameReg' })">
-      Register user data
-    </button>
     <br />
     <div>
       <button @click="reset">Clear all data</button>
