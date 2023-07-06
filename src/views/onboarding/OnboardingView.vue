@@ -43,7 +43,7 @@ const nextPage = () => {
   page.value = page.value + 1
   if (page.value == Page.End) {
     useUserStore().setGuid()
-    router.push({ name: 'root' })
+    router.push({ name: 'home' })
   }
 }
 </script>

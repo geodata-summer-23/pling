@@ -140,13 +140,11 @@ onMounted(() => {
   )
 
   view.when(() => {
-    const featureLayer = map.layers.getItemAt(0)
     const legend = new Legend({
       view: view,
       layerInfos: [
         {
-          layer: featureLayer,
-          title: '--insert title--',
+          layer: view.map.layers.find((m) => m.title == 'Utsatte bygninger'),
         },
       ],
     })
