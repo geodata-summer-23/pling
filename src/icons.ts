@@ -10,6 +10,10 @@ import {
   faEarthAmericas,
   faComment,
   faCircleUser,
+  faPlus,
+  faEllipsisVertical,
+  faXmark,
+  faTriangleExclamation,
 } from '@fortawesome/free-solid-svg-icons'
 
 export const registerIcons = () => {
@@ -23,4 +27,8 @@ export const registerIcons = () => {
   library.add(faEarthAmericas)
   library.add(faComment)
   library.add(faCircleUser)
+  library.add(faPlus)
+  library.add(faEllipsisVertical)
+  library.add(faXmark)
+  library.add(faTriangleExclamation)
 }

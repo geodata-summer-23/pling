@@ -2,8 +2,9 @@
   --c-dark-gray: #babae0;
   --c-medium-gray: #e9e9f9;
   --c-light-gray: #f5f5ff;
-  --c-blue: #0b148b;
   --c-text: #04094f;
+  --c-blue: #0b148b;
+  --c-light-blue: #4b70e8;
 }
 
 body {
@@ -74,7 +75,6 @@ button {
 .view {
   padding: 1.6em;
   padding-bottom: 10em;
-  /* flex-grow: 1; */
   overflow: auto;
 }
 
@@ -91,6 +91,8 @@ button {
 }
 
 .btn {
+  min-width: 3.2em;
+  min-height: 3.2em;
   font-size: large;
   padding: 0.8em;
   background-color: var(--c-medium-gray);
@@ -99,11 +101,23 @@ button {
   border-radius: 2em;
 }
 
+.btn:disabled {
+  color: var(--c-dark-gray);
+}
+
 .btn-icon {
-  width: 2em;
-  height: 2em;
-  cursor: pointer;
+  border-radius: 5em;
+  width: min-content;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.btn-shadow {
+  box-shadow: 0 0.3em 0.6em var(--c-dark-gray);
+}
+
+.transparent {
+  background-color: transparent;
+  border: none;
 }

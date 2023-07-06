@@ -14,7 +14,7 @@
     <div class="col" style="gap: 0.5em">
       <div
         v-for="place in placeStore.places"
-        class="address-item row spaced clickable"
+        class="address-item shadow row spaced clickable"
         @click="clickPlace(place)"
       >
         <div class="col">
@@ -37,9 +37,36 @@
     </div>
   </div>
   <div class="view-bottom col">
-    <button class="btn" @click="router.push({ name: 'add-place' })">
-      Add Place
-    </button>
+    <div v-if="actionsOpen" class="row" style="justify-content: end">
+      <button class="btn btn-shadow" @click="router.push({ name: 'message' })">
+        <fa-icon icon="triangle-exclamation" />
+        <span style="margin: 0 0.5em">Request Help</span>
+      </button>
+    </div>
+    <div v-if="actionsOpen" class="row" style="justify-content: end">
+      <button
+        class="btn btn-shadow"
+        @click="router.push({ name: 'add-place' })"
+      >
+        <fa-icon icon="house" />
+        <span style="margin: 0 0.5em">Add Place</span>
+      </button>
+    </div>
+    <div class="row" style="justify-content: end">
+      <button
+        class="btn btn-icon btn-shadow"
+        style="
+          background-color: var(--c-light-blue);
+          color: var(--c-medium-gray);
+        "
+        @click="actionsOpen = !actionsOpen"
+      >
+        <fa-icon
+          size="lg"
+          :icon="actionsOpen ? 'xmark' : 'ellipsis-vertical'"
+        />
+      </button>
+    </div>
   </div>
 </template>
 
@@ -47,17 +74,18 @@
 import WeatherNowcast from './WeatherNowcast.vue'
 import FeatureLayer from '@arcgis/core/layers/FeatureLayer'
 import Point from '@arcgis/core/geometry/Point.js'
+import Coordinates from '@/components/Coordinates.vue'
 import { router } from '@/router'
 import { usePlaceStore, Place } from '@/stores/placeStore'
 import { useUserStore } from '@/stores/userStore'
 import { onMounted, ref } from 'vue'
 import { useGeolocationStore } from '@/stores/geolocationStore'
-import Coordinates from '@/components/Coordinates.vue'
 
 const userStore = useUserStore()
 const placeStore = usePlaceStore()
 
 const dangers = ref<string[]>([])
+const actionsOpen = ref(false)
 
 const clickPlace = (place: Place) => {
   if (place.address.point) {

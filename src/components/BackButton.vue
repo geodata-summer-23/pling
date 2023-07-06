@@ -1,7 +1,7 @@
 <template>
-  <span class="btn-icon" @click="emit('click')">
+  <button class="btn-icon transparent" @click="emit('click')">
     <fa-icon size="2xl" icon="angle-left" />
-  </span>
+  </button>
 </template>
 
 <script lang="ts" setup>
