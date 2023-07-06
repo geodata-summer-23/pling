@@ -64,9 +64,9 @@ onBeforeMount(() => {
 .nav-bottom {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
   bottom: 0;
-  background-color: snow;
+  background-color: white;
 }
 </style>

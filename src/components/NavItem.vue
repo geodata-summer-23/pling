@@ -20,12 +20,13 @@ defineProps<{
 <style scoped>
 .nav-item {
   padding: 0.5em;
-  width: 80px;
+  width: 120px;
   min-height: 3em;
-  color: steelblue;
+  color: var(--c-dark-gray);
 }
 
 .active {
-  background-color: #00000010;
+  color: var(--c-blue);
+  border-top: 4px solid var(--c-blue);
 }
 </style>

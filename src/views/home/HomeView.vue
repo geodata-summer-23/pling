@@ -67,8 +67,9 @@ const clickPlace = (place: Place) => {
 
 <style>
 .address-item {
-  border: 2px solid lightgray;
+  border: 1px solid var(--c-medium-gray);
   border-radius: 1em;
   padding: 1em;
+  box-shadow: 0 0.4em 0.6em var(--c-medium-gray);
 }
 </style>
