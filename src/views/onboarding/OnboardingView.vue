@@ -19,10 +19,10 @@ import NameView from './NameView.vue'
 import BirthdayView from './BirthdayView.vue'
 import LanguageView from './LanguageView.vue'
 import WelcomeView from './WelcomeView.vue'
+import BackButton from '@/components/BackButton.vue'
 import { ref } from 'vue'
 import { router } from '@/router'
 import { useUserStore } from '@/stores/userStore'
-import BackButton from '@/components/BackButton.vue'
 
 enum Page {
   Welcome,
@@ -40,7 +40,7 @@ const prevPage = () => {
 
 const nextPage = () => {
   page.value = page.value + 1
-  if (page.value == Page.End) {
+  if (page.value >= Page.End) {
     useUserStore().setGuid()
     router.push({ name: 'home' })
   }

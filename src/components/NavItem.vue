@@ -20,7 +20,7 @@ defineProps<{
 <style scoped>
 .nav-item {
   padding: 0.5em;
-  width: 120px;
+  width: 100px;
   min-height: 3em;
   color: var(--c-dark-gray);
 }
