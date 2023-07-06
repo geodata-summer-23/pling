@@ -18,6 +18,7 @@ export const useUserStore = defineStore('user', {
   actions: {
     setGuid() {
       this.guid = nanoid()
+      localStorage.setItem('guid', this.guid)
     },
     setName(name: string) {
       this.name = name

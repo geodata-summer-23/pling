@@ -3,6 +3,8 @@ import {
   faUserSecret,
   faAngleDown,
   faAngleUp,
+  faAngleLeft,
+  faAngleRight,
   faHouse,
   faMap,
   faEarthAmericas,
@@ -14,6 +16,8 @@ export const registerIcons = () => {
   library.add(faUserSecret)
   library.add(faAngleDown)
   library.add(faAngleUp)
+  library.add(faAngleLeft)
+  library.add(faAngleRight)
   library.add(faHouse)
   library.add(faMap)
   library.add(faEarthAmericas)

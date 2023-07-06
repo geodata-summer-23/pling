@@ -1,16 +1,17 @@
 <template>
-  <div class="view col spaced">
+  <div class="view col spaced" style="gap: 2em">
+    <span v-if="page != 0" class="btn-icon" @click="prevPage">
+      <fa-icon size="2xl" icon="angle-left" />
+    </span>
     <div>
       <WelcomeView v-if="page == Page.Welcome"></WelcomeView>
       <NameView v-if="page == Page.Name"></NameView>
       <BirthdayView v-if="page == Page.Birthday"></BirthdayView>
       <LanguageView v-if="page == Page.Language"></LanguageView>
     </div>
-    <div class="bottom">
-      <div class="row spaced" style="gap: 10em">
-        <!-- <button v-if="page != 0" @click="prevPage">Back</button> -->
-        <button @click="nextPage">Continue</button>
-      </div>
+    <div class="bottom col">
+      <button v-if="page != 0" class="btn" @click="nextPage">Skip</button>
+      <button class="btn" @click="nextPage">Continue</button>
     </div>
   </div>
 </template>
@@ -34,9 +35,9 @@ enum Page {
 
 const page = ref<Page>(0)
 
-// const prevPage = () => {
-//   page.value = Math.max(0, page.value - 1)
-// }
+const prevPage = () => {
+  page.value = Math.max(0, page.value - 1)
+}
 
 const nextPage = () => {
   page.value = page.value + 1
@@ -51,5 +52,8 @@ const nextPage = () => {
 .bottom {
   position: absolute;
   bottom: 2em;
+  width: 80%;
+  padding: 1em;
+  gap: 1em;
 }
 </style>

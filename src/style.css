@@ -4,7 +4,9 @@ body {
 }
 
 input {
-  padding: 0.5em 1em;
+  padding: 1.1em 1em;
+  border-radius: 0.5em;
+  border: 1px solid gray;
 }
 
 button {
@@ -31,7 +33,7 @@ button {
 
 .spaced {
   justify-content: space-between;
-  align-items: center;
+  /* align-items: center; */
 }
 
 .view {
@@ -40,4 +42,21 @@ button {
 
 .clickable {
   cursor: pointer;
+}
+
+.btn {
+  font-size: large;
+  padding: 1em;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 2em;
+}
+
+.btn-icon {
+  width: 2em;
+  height: 2em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

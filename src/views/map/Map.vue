@@ -30,6 +30,7 @@ import Point from '@arcgis/core/geometry/Point'
 import Search from '@arcgis/core/widgets/Search'
 import LayerList from '@arcgis/core/widgets/LayerList'
 import SlideUpPane from '@/components/SlideUpPane.vue'
+import Legend from '@arcgis/core/widgets/Legend'
 import { onMounted, onUnmounted, ref } from 'vue'
 import { AddressPoint } from '@/stores/placeStore'
 
@@ -137,6 +138,20 @@ onMounted(() => {
       })
     }
   )
+
+  view.when(() => {
+    const featureLayer = map.layers.getItemAt(0)
+    const legend = new Legend({
+      view: view,
+      layerInfos: [
+        {
+          layer: featureLayer,
+          title: '--insert title--',
+        },
+      ],
+    })
+    view.ui.add(legend, 'bottom-right')
+  })
 
   // view.when(() => {
   //   navigator.geolocation.getCurrentPosition(async (position) => {
