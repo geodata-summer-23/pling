@@ -5,27 +5,6 @@
     <label for="nickname">Nickname</label>
     <input type="text" id="nickname" v-model="place.nickname" />
     <br />
-    <label>Street</label>
-    <input
-      type="text"
-      id="street-address"
-      :value="place.address.street"
-      @input="place.address.street = ($event.target as HTMLInputElement).value"
-      style="flex: 4"
-    />
-    <div
-      v-if="!selectedResult && results.length > 0"
-      class="result-container col"
-    >
-      <div
-        v-for="result in results"
-        class="result"
-        @click="selectResult(result)"
-      >
-        {{ result.address }}
-      </div>
-    </div>
-    <br />
     <label>City</label>
     <div class="row" style="gap: 1em">
       <input
@@ -47,6 +26,31 @@
         style="flex: 2"
       />
     </div>
+    <br />
+    <label>Street</label>
+    <input
+      type="text"
+      id="street-address"
+      :value="place.address.street"
+      @input="(event) => {
+        place.address.street = (event.target as HTMLInputElement).value;
+        selectedResult = null
+      }"
+      style="flex: 4"
+    />
+    <div
+      v-if="!selectedResult && results.length > 0"
+      class="result-container col"
+    >
+      <div
+        v-for="result in results"
+        class="result"
+        @click="selectResult(result)"
+      >
+        {{ result.address }}
+      </div>
+    </div>
+    <br />
 
     <div class="view-bottom col">
       <button

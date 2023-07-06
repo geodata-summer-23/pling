@@ -49,7 +49,6 @@ const emit = defineEmits<{
 
 .almost-hidden {
   transform: translateY(calc(100% - 3em));
-  box-shadow: none;
 }
 
 .completely-hidden {
