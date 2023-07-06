@@ -75,25 +75,37 @@ const selectedResult = ref<Record<string, any> | null>(null)
 const results = ref<Record<string, any>[]>([])
 const place = ref<Place>({ nickname: '', address: {}, excludeDangers: [] })
 
-const search = () => {
-  const geoData =
-    'https://services.geodataonline.no/arcgis/rest/services/Geosok/GeosokLokasjon2/GeocodeServer'
+const geoData =
+  'https://services.geodataonline.no/arcgis/rest/services/Geosok/GeosokLokasjon2/GeocodeServer'
 
-  const params = {
-    address: {
-      Adresse: place.value.address.street,
-      // Stedsnavn: '',
-      Postnummer: place.value.address.postalCode,
-      Poststed: place.value.address.city,
-      // Kommune: '',
-    },
-    maxLocations: 10,
-  }
-  locator.addressToLocations(geoData, params).then((candidates) => {
-    results.value = candidates
-      .sort((a, b) => b.score - a.score)
-      .map((r) => r.toJSON())
-  })
+const search = () => {
+  locator
+    .addressToLocations(geoData, {
+      address: {
+        Adresse: place.value.address.street ?? '',
+        Postnummer: place.value.address.postalCode ?? '',
+        Poststed: place.value.address.city ?? '',
+      },
+      maxLocations: 5,
+    })
+    .then((candidates) => {
+      results.value = candidates.map((r) => r.toJSON())
+
+      locator
+        .addressToLocations(geoData, {
+          address: {
+            Adresse: place.value.address.street ?? '',
+          },
+          maxLocations: 5,
+        })
+        .then((candidates) => {
+          results.value = results.value.concat(
+            candidates
+              .map((r) => r.toJSON())
+              .filter((a) => !results.value.some((b) => a.address == b.address))
+          )
+        })
+    })
 }
 
 watch(
@@ -110,6 +122,13 @@ watch(
 
 const selectResult = (result: Record<string, any>) => {
   selectedResult.value = result
+  if (!result.address.includes(',')) {
+    const [postalCode, city] = result.address.trim().split(' ')
+    place.value.address.postalCode = parseInt(postalCode)
+    place.value.address.city = city
+    place.value.address.street = ''
+    return
+  }
   const [streetAddress, postalCodeAndCity] = result.address.split(',')
   place.value.address.street = streetAddress
   if (postalCodeAndCity) {
@@ -137,10 +156,14 @@ input {
 
 .result-container {
   background-color: var(--c-light-gray);
+  border-radius: 0.5em;
+  max-height: 12em;
+  overflow: auto;
 }
 
 .result {
   padding: 0.5em 1.5em;
+  border-radius: 0.5em;
   cursor: pointer;
 }
 
