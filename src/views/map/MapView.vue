@@ -12,14 +12,13 @@
   <SlideUpPane
     v-if="placeStore.currentPlace"
     :open="paneOpen"
+    :title="placeStore.currentPlace.nickname"
     hide-mode="show-top"
     @toggle="paneOpen = !paneOpen"
   >
     <div>
-      <h3>{{ placeStore.currentPlace.nickname }}</h3>
-      {{ placeStore.currentPlace }}
-      <br />
-      <br />
+      {{ placeStore.currentPlace.address.street }}
+      <Coordinates :place="placeStore.currentPlace"></Coordinates>
       <button
         v-if="placeStore.currentPlace != placeStore.places[0]"
         @click="deleteCurrentPlace"
@@ -38,6 +37,7 @@ import { useGeolocationStore } from '@/stores/geolocationStore'
 import { usePlaceStore } from '@/stores/placeStore'
 import { ref } from 'vue'
 import { router } from '@/router'
+import Coordinates from '@/components/Coordinates.vue'
 
 const paneOpen = ref(true)
 const userStore = useUserStore()

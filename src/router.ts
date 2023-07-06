@@ -12,19 +12,17 @@ const routes = [
     path: '/',
     name: 'root',
     redirect: { name: 'home' },
-    children: [
-      {
-        path: '/home',
-        name: 'home',
-        component: HomeView,
-      },
-      { path: '/add-place', name: 'add-place', component: AddPlaceView },
-      { path: '/map', name: 'map', component: MapView },
-      { path: '/user', name: 'user', component: UserView },
-      { path: '/message', name: 'message', component: MessageView },
-      { path: '/onboarding', name: 'onboarding', component: OnboardingView },
-    ],
   },
+  {
+    path: '/home',
+    name: 'home',
+    component: HomeView,
+  },
+  { path: '/add-place', name: 'add-place', component: AddPlaceView },
+  { path: '/map', name: 'map', component: MapView },
+  { path: '/user', name: 'user', component: UserView },
+  { path: '/message', name: 'message', component: MessageView },
+  { path: '/onboarding', name: 'onboarding', component: OnboardingView },
   { path: '/:pathMatch(.*)*', name: 'not-found', redirect: '/' },
 ]
 

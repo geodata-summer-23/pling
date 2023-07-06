@@ -21,18 +21,7 @@
           <span v-if="place.address.street || place.address.city">
             {{ place.address.street ?? '' }}, {{ place.address.city }}
           </span>
-          <span
-            v-else-if="
-              place.address?.point?.latitude && place.address?.point?.longitude
-            "
-          >
-            {{ place.address.point.latitude.toFixed(2) ?? 'unknown' }} °N
-            {{ place.address.point.longitude.toFixed(2) ?? 'unknown' }} °E
-          </span>
-          <span v-else-if="place.address.point?.x && place.address.point?.y">
-            x: {{ place.address.point?.x?.toFixed(2) ?? 'unknown' }} y:
-            {{ place.address.point?.y?.toFixed(2) ?? 'unknown' }}
-          </span>
+          <Coordinates v-else :place="place"></Coordinates>
         </div>
         <WeatherNowcast
           :lat="place.address.point?.latitude"
@@ -62,6 +51,7 @@ import { usePlaceStore, Place } from '@/stores/placeStore'
 import { useUserStore } from '@/stores/userStore'
 import { onMounted, ref } from 'vue'
 import { useGeolocationStore } from '@/stores/geolocationStore'
+import Coordinates from '@/components/Coordinates.vue'
 
 const userStore = useUserStore()
 const placeStore = usePlaceStore()

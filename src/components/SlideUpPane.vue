@@ -6,9 +6,10 @@
       'completely-hidden': !open && hideMode == 'hidden',
     }"
   >
-    <div class="col center">
-      <span class="btn-icon" style="padding: 0.5em 4em" @click="emit('toggle')">
-        <fa-icon size="2xl" :icon="open ? 'angle-down' : 'angle-up'" />
+    <div class="row center">
+      <h3 v-if="title" style="margin: 0 1em">{{ title }}</h3>
+      <span class="btn-icon" style="padding: 0.5em" @click="emit('toggle')">
+        <fa-icon size="xl" :icon="open ? 'angle-down' : 'angle-up'" />
       </span>
     </div>
     <div class="slide-up-pane-margins">
@@ -18,7 +19,11 @@
 </template>
 
 <script lang="ts" setup>
-defineProps<{ open: boolean; hideMode: 'show-top' | 'hidden' }>()
+defineProps<{
+  title?: string
+  open: boolean
+  hideMode: 'show-top' | 'hidden'
+}>()
 
 const emit = defineEmits<{
   (e: 'toggle'): void
