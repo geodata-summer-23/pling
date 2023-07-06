@@ -1,53 +1,31 @@
 <template>
   <div class="view col">
-    <div>
-      <button @click="back">Back</button>
-    </div>
-    <br />
-    <label style="font-weight: bold">User Information</label>
-    <br />
+    <BackButton @click="back"></BackButton>
+    <h2>User Information</h2>
     <div class="row spaced">
       <label for="signIn">
         {{
-          userStore.signedIn
+          userStore.signedInToArcGis
             ? 'You are signed in with ArcGIS.'
             : 'You are not signed in.'
         }}
       </label>
-      <button v-if="!userStore.signedIn" id="signIn" @click="signIn">
+      <button v-if="!userStore.signedInToArcGis" id="signIn" @click="signIn">
         Sign In
       </button>
     </div>
-    <br />
-    <label for="name">Name:</label>
-    <input
-      id="name"
-      type="text"
-      :value="userStore.name"
-      @change="userStore.setName(($event.target as HTMLInputElement).value)"
-    />
-    <label for="age">Age:</label>
-    <input
-      id="age"
-      type="number"
-      :value="userStore.age"
-      @change="
-        userStore.setAge(($event.target as HTMLInputElement).valueAsNumber)
-      "
-    />
-    <br />
 
-    <button @click="router.push({ name: 'nameReg' })">
-      Register user data
-    </button>
-    <br />
-    <div>
-      <button @click="reset">Clear all data</button>
+    <div class="view-bottom col">
+      <button class="btn" @click="router.push({ name: 'onboarding' })">
+        Edit information
+      </button>
+      <button class="btn" @click="reset">Clear all data</button>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import BackButton from '@/components/BackButton.vue'
 import { router } from '@/router'
 import { useGeolocationStore } from '@/stores/geolocationStore'
 import { usePlaceStore } from '@/stores/placeStore'
@@ -64,6 +42,6 @@ const reset = () => {
   userStore.$reset()
   usePlaceStore().$reset()
   useGeolocationStore().$reset()
-  location.href = '/'
+  location.reload()
 }
 </script>

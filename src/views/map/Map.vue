@@ -26,7 +26,13 @@ import Point from '@arcgis/core/geometry/Point'
 import Search from '@arcgis/core/widgets/Search'
 import LayerList from '@arcgis/core/widgets/LayerList'
 import SlideUpPane from '@/components/SlideUpPane.vue'
+<<<<<<< HEAD
 import { onMounted, onUnmounted, ref, watch } from 'vue'
+=======
+import Legend from '@arcgis/core/widgets/Legend'
+import { onMounted, onUnmounted, ref } from 'vue'
+import { AddressPoint } from '@/stores/placeStore'
+>>>>>>> ed99ec4b8b9d3ec3f886fc5951232d841e323af3
 
 const props = defineProps<{
   latitude?: number
@@ -134,6 +140,18 @@ onMounted(() => {
         }
       }
     )
+  })
+
+  view.when(() => {
+    const legend = new Legend({
+      view: view,
+      layerInfos: [
+        {
+          layer: view.map.layers.find((m) => m.title == 'Utsatte bygninger'),
+        },
+      ],
+    })
+    view.ui.add(legend, 'bottom-right')
   })
 
   // view.when(() => {

@@ -1,5 +1,6 @@
 <template>
-  <div class="view col">
+  <h2>Tell us a bit about yourself</h2>
+  <div class="col" style="gap: 1em">
     <input
       id="given-name"
       type="text"
@@ -26,12 +27,9 @@
       @change="userStore.setLastName(($event.target as HTMLInputElement).value)"
     />
   </div>
-
-  <button @click="router.push({ name: 'birthdayReg' })">Next</button>
 </template>
 
 <script lang="ts" setup>
-import { router } from '@/router'
 import { useUserStore } from '@/stores/userStore'
 
 const userStore = useUserStore()

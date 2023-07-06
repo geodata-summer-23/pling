@@ -25,16 +25,23 @@
 
 <script setup lang="ts">
 import NavItem from '@/components/NavItem.vue'
-import { onMounted } from 'vue'
+import { onBeforeMount } from 'vue'
 import { RouterView } from 'vue-router'
 import { usePlaceStore } from '@/stores/placeStore'
 import { useUserStore } from '@/stores/userStore'
-import { useGeolocationStore } from './stores/geolocationStore'
+import { useGeolocationStore } from '@/stores/geolocationStore'
+import { router } from './router'
 
-onMounted(() => {
+const userStore = useUserStore()
+
+onBeforeMount(() => {
+  userStore.loadFromLocalStorage()
   usePlaceStore().loadFromLocalStorage()
-  useUserStore().loadFromLocalStorage()
   useGeolocationStore().init()
+
+  if (!userStore.guid && router.currentRoute.value.name != 'onboarding') {
+    router.push({ name: 'onboarding' })
+  }
 })
 </script>
 
@@ -57,9 +64,9 @@ onMounted(() => {
 .nav-bottom {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
   bottom: 0;
-  background-color: snow;
+  background-color: white;
 }
 </style>

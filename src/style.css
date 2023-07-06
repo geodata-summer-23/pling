@@ -1,16 +1,27 @@
+:root {
+  --c-dark-gray: #babae0;
+  --c-medium-gray: #e9e9f9;
+  --c-light-gray: #f2f2f2;
+  --c-blue: #0b148b;
+  --c-text: #04094f;
+}
+
 body {
   background-color: black;
   margin: 0;
+  color: var(--c-text);
 }
 
 input {
-  padding: 0.5em 1em;
+  padding: 1.1em 1em;
+  border-radius: 0.5em;
+  border: 1px solid var(--c-dark-gray);
 }
 
 button {
   padding: 0.5em 1em;
   border-radius: 0.5em;
-  border: 1px solid gray;
+  border: 1px solid var(--c-dark-gray);
   cursor: pointer;
 }
 
@@ -31,13 +42,39 @@ button {
 
 .spaced {
   justify-content: space-between;
-  align-items: center;
+  /* align-items: center; */
 }
 
 .view {
   padding: 2em;
 }
 
+.view-bottom {
+  position: absolute;
+  bottom: 2em;
+  width: 80%;
+  padding: 1em;
+  gap: 1em;
+}
+
 .clickable {
   cursor: pointer;
+}
+
+.btn {
+  font-size: large;
+  padding: 1em;
+  background-color: var(--c-medium-gray);
+  color: var(--c-text);
+  border: none;
+  border-radius: 2em;
+}
+
+.btn-icon {
+  width: 2em;
+  height: 2em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

@@ -3,9 +3,7 @@ const HomeView = () => import('@/views/home/HomeView.vue')
 const AddPlaceView = () => import('@/views/home/AddPlaceView.vue')
 const UserView = () => import('@/views/user/UserView.vue')
 const MessageView = () => import('@/views/message/MessageView.vue')
-const NameView = () => import('@/views/onboarding/NameView.vue')
-const BirthdayView = () => import('@/views/onboarding/BirthdayView.vue')
-const LanguageView = () => import('@/views/onboarding/LanguageView.vue')
+const OnboardingView = () => import('@/views/onboarding/OnboardingView.vue')
 
 import { createRouter, createWebHashHistory } from 'vue-router'
 
@@ -24,9 +22,7 @@ const routes = [
       { path: '/map', name: 'map', component: MapView },
       { path: '/user', name: 'user', component: UserView },
       { path: '/message', name: 'message', component: MessageView },
-      { path: '/onboarding', name: 'nameReg', component: NameView },
-      { path: '/onboarding', name: 'birthdayReg', component: BirthdayView },
-      { path: '/onboarding', name: 'languageReg', component: LanguageView },
+      { path: '/onboarding', name: 'onboarding', component: OnboardingView },
     ],
   },
   { path: '/:pathMatch(.*)*', name: 'not-found', redirect: '/' },

@@ -1,5 +1,6 @@
 <template>
-  <div class="view col">
+  <h2>What's your birthdate?</h2>
+  <div class="col">
     <input
       id="bday"
       type="date"
@@ -9,12 +10,9 @@
       "
     />
   </div>
-
-  <button @click="router.push({ name: 'languageReg' })">Next</button>
 </template>
 
 <script lang="ts" setup>
-import { router } from '@/router'
 import { useUserStore } from '@/stores/userStore'
 
 const userStore = useUserStore()

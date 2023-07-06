@@ -7,9 +7,9 @@
     }"
   >
     <div class="col center">
-      <button class="toggle-button" @click="emit('toggle')">
-        <fa-icon :icon="open ? 'angle-down' : 'angle-up'" />
-      </button>
+      <span class="btn-icon" style="padding: 0.5em 4em" @click="emit('toggle')">
+        <fa-icon size="2xl" :icon="open ? 'angle-down' : 'angle-up'" />
+      </span>
     </div>
     <div class="slide-up-pane-margins">
       <slot></slot>
@@ -32,8 +32,8 @@ const emit = defineEmits<{
   width: 100%;
   bottom: 0;
   transition: all 400ms;
-  background-color: #f3f3f3;
-  box-shadow: 0px 0px 20px gray;
+  background-color: white;
+  box-shadow: 0px 0px 20px var(--c-dark-gray);
 }
 
 .toggle-button {
@@ -49,9 +49,11 @@ const emit = defineEmits<{
 
 .almost-hidden {
   transform: translateY(calc(100% - 3em));
+  box-shadow: none;
 }
 
 .completely-hidden {
   transform: translateY(100%);
+  box-shadow: none;
 }
 </style>
