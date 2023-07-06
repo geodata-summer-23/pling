@@ -29,7 +29,7 @@ import { onMounted } from 'vue'
 import { RouterView } from 'vue-router'
 import { usePlaceStore } from '@/stores/placeStore'
 import { useUserStore } from '@/stores/userStore'
-import { useGeolocationStore } from './stores/geolocationStore'
+import { useGeolocationStore } from '@/stores/geolocationStore'
 
 onMounted(() => {
   usePlaceStore().loadFromLocalStorage()
