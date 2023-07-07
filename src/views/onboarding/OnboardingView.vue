@@ -21,14 +21,16 @@
     </div>
   </div>
   <div class="view-bottom col">
-    <button v-if="page != 0" class="btn" @click="nextPage">Skip</button>
+    <button v-if="page != 0" class="btn" @click="nextPage">
+      {{ $t().skip }}
+    </button>
     <button
       class="btn"
       :class="{ blue: valid }"
       :disabled="!valid"
       @click="nextPage"
     >
-      Continue
+      {{ $t().continue }}
     </button>
   </div>
 </template>
@@ -42,6 +44,7 @@ import BackButton from '@/components/BackButton.vue'
 import { ref } from 'vue'
 import { router } from '@/router'
 import { useUserStore } from '@/stores/userStore'
+import { $t } from '@/translation'
 
 enum Page {
   Welcome,

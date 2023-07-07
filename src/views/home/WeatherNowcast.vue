@@ -1,6 +1,6 @@
 <template>
   <div v-if="!responseCode">
-    <p>Can't connect to the server</p>
+    <p>{{ $t().serverError }}</p>
   </div>
   <div v-if="responseCode" class="row center" style="width: 6em; gap: 0.5em">
     <span>{{ temp }}°</span>
@@ -10,6 +10,7 @@
 </template>
 
 <script lang="ts" setup>
+import { $t } from '@/translation'
 import { onMounted, ref } from 'vue'
 
 const props = defineProps<{ lat?: number; lon?: number }>()

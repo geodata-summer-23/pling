@@ -1,6 +1,5 @@
 <template>
-  <h2>Select a language</h2>
-  <small style="font-style: bold; color: gray">Choose one</small>
+  <h2>{{ $t().selectLanguage }}</h2>
   <br />
   <br />
   <div class="col">
@@ -11,8 +10,8 @@
         id="norsk"
         name="language"
         value="norsk"
-        :checked="userStore.language == 'norsk'"
-        @click="userStore.language = 'norsk'"
+        :checked="userStore.language == 'norwegian'"
+        @click="userStore.language = 'norwegian'"
       />
     </div>
     <hr />
@@ -32,6 +31,7 @@
 
 <script lang="ts" setup>
 import { useUserStore } from '@/stores/userStore'
+import { $t } from '@/translation'
 import { watch } from 'vue'
 
 const emit = defineEmits<{

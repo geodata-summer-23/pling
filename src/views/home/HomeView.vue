@@ -10,7 +10,7 @@
         @click="router.push({ name: 'user' })"
       />
     </div>
-    <h2 style="margin-top: 0">My Places</h2>
+    <h2 style="margin-top: 0">{{ $t().myPlaces }}</h2>
     <div class="col" style="gap: 0.5em">
       <div
         v-for="place in placeStore.places"
@@ -44,7 +44,7 @@
     >
       <button class="btn btn-shadow" @click="router.push({ name: 'message' })">
         <fa-icon icon="triangle-exclamation" />
-        <span style="margin: 0 0.5em">Request Help</span>
+        <span style="margin: 0 0.5em">{{ $t().requestHelp }}</span>
       </button>
     </div>
     <div
@@ -57,7 +57,7 @@
         @click="router.push({ name: 'add-place' })"
       >
         <fa-icon icon="house" />
-        <span style="margin: 0 0.5em">Add Place</span>
+        <span style="margin: 0 0.5em">{{ $t().addPlace }}</span>
       </button>
     </div>
     <div class="row" style="justify-content: end">
@@ -88,6 +88,7 @@ import { usePlaceStore, Place } from '@/stores/placeStore'
 import { useUserStore } from '@/stores/userStore'
 import { onMounted, ref } from 'vue'
 import { useGeolocationStore } from '@/stores/geolocationStore'
+import { $t } from '@/translation'
 
 const userStore = useUserStore()
 const placeStore = usePlaceStore()

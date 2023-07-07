@@ -5,9 +5,9 @@
   ></Map>
   <div v-else class="message-container">
     <br />
-    <p>You are not signed in.</p>
+    <p>{{ $t().notSignedIn }}</p>
     <br />
-    <button @click="signIn">Sign In</button>
+    <button @click="signIn">{{ $t().signIn }}</button>
   </div>
   <SlideUpPane
     v-if="placeStore.currentPlace"
@@ -23,7 +23,7 @@
         v-if="placeStore.currentPlace != placeStore.places[0]"
         @click="deleteCurrentPlace"
       >
-        Delete
+        {{ $t().delete }}
       </button>
     </div>
   </SlideUpPane>
@@ -38,6 +38,7 @@ import { usePlaceStore } from '@/stores/placeStore'
 import { ref } from 'vue'
 import { router } from '@/router'
 import Coordinates from '@/components/Coordinates.vue'
+import { $t } from '@/translation'
 
 const paneOpen = ref(true)
 const userStore = useUserStore()

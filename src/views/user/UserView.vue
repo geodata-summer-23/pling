@@ -1,25 +1,23 @@
 <template>
   <div class="view col">
     <BackButton @click="back"></BackButton>
-    <h2>User Information</h2>
+    <h2>{{ $t().userInformation }}</h2>
     <div class="row spaced">
       <label for="signIn">
         {{
-          userStore.signedInToArcGis
-            ? 'You are signed in with ArcGIS.'
-            : 'You are not signed in.'
+          userStore.signedInToArcGis ? $t().signedInArcGis : $t().notSignedIn
         }}
       </label>
       <button v-if="!userStore.signedInToArcGis" id="signIn" @click="signIn">
-        Sign In
+        {{ $t().signIn }}
       </button>
     </div>
   </div>
   <div class="view-bottom col">
     <button class="btn" @click="router.push({ name: 'onboarding' })">
-      Edit information
+      {{ $t().editInformation }}
     </button>
-    <button class="btn" @click="reset">Clear all data</button>
+    <button class="btn" @click="reset">{{ $t().clearAllData }}</button>
   </div>
 </template>
 
@@ -29,6 +27,7 @@ import { router } from '@/router'
 import { useGeolocationStore } from '@/stores/geolocationStore'
 import { usePlaceStore } from '@/stores/placeStore'
 import { useUserStore, signIn } from '@/stores/userStore'
+import { $t } from '@/translation'
 
 const userStore = useUserStore()
 

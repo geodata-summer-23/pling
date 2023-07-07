@@ -2,8 +2,8 @@ import OAuthInfo from '@arcgis/core/identity/OAuthInfo'
 import esriId from '@arcgis/core/identity/IdentityManager'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { nanoid } from 'nanoid'
-
-export type Language = 'norsk' | 'english'
+import { $t, Language } from '@/translation'
+import { usePlaceStore } from './placeStore'
 
 export const useUserStore = defineStore('user', {
   state: () => ({
@@ -14,7 +14,7 @@ export const useUserStore = defineStore('user', {
     lastName: null as null | string,
     age: null as null | number,
     birthday: null as null | Date,
-    language: 'english' as Language,
+    language: 'norwegian' as Language,
   }),
 
   actions: {
@@ -36,10 +36,17 @@ export const useUserStore = defineStore('user', {
       this.birthday = date
       localStorage.setItem('birthday', this.birthday.toISOString())
     },
+    setLanguage(language: Language) {
+      this.language = language
+      localStorage.setItem('language', this.language)
+      usePlaceStore().places[0].nickname = $t().myLocation
+    },
     loadFromLocalStorage() {
       this.guid = localStorage.getItem('guid') ?? null
       this.firstName = localStorage.getItem('firstName') ?? null
       this.lastName = localStorage.getItem('lastName') ?? null
+      this.language =
+        (localStorage.getItem('language') as Language) ?? 'norwegian'
       const date = localStorage.getItem('birthday')
       if (date) {
         this.birthday = new Date(date)

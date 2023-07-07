@@ -1,11 +1,11 @@
 <template>
   <div class="view col">
     <BackButton @click="router.push({ name: 'home' })"></BackButton>
-    <h2>Add Place</h2>
-    <label for="nickname">Nickname</label>
+    <h2>{{ $t().addPlace }}</h2>
+    <label for="nickname">{{ $t().name }}</label>
     <input type="text" id="nickname" v-model="place.nickname" />
     <br />
-    <label>City</label>
+    <label>{{ $t().city }}</label>
     <div class="row" style="gap: 1em">
       <input
         type="number"
@@ -27,7 +27,7 @@
       />
     </div>
     <br />
-    <label>Street</label>
+    <label>{{ $t().street }}</label>
     <input
       type="text"
       id="street-address"
@@ -58,7 +58,7 @@
       :disabled="!place.nickname || !selectedResult"
       @click="submit"
     >
-      Add
+      {{ $t().add }}
     </button>
   </div>
 </template>
@@ -69,6 +69,7 @@ import * as locator from '@arcgis/core/rest/locator'
 import { Place, usePlaceStore } from '@/stores/placeStore'
 import { ref, watch } from 'vue'
 import { router } from '@/router'
+import { $t } from '@/translation'
 
 const placeStore = usePlaceStore()
 const selectedResult = ref<Record<string, any> | null>(null)

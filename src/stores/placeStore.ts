@@ -1,3 +1,4 @@
+import { $t } from '@/translation'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import proj4 from 'proj4'
 
@@ -64,12 +65,12 @@ export const usePlaceStore = defineStore('place', {
       this.places = JSON.parse(localStorage.getItem('places') ?? '[]')
       if (this.places.length == 0) {
         this.places.push({
-          nickname: 'My Location',
+          nickname: $t().myLocation,
           address: {},
           excludeDangers: [],
         })
       } else {
-        this.places[0].nickname = 'My Location'
+        this.places[0].nickname = $t().myLocation
       }
       this.currentPlace = this.places[0]
       navigator.geolocation.getCurrentPosition(async (position) => {
