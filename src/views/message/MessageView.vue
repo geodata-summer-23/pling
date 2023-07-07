@@ -9,6 +9,8 @@
     <p>Alerts: {{ alerts }}</p>
     <p v-if="alerts.length > 0">Alerts: {{ alerts[0].message }}</p>
     <p>Alerts: {{ typeof alerts }}</p>
+
+    <select name="" id=""></select>
   </div>
 </template>
 
@@ -62,3 +64,9 @@ const getAlerts = async () => {
   }
 }
 </script>
+
+<style>
+select {
+  padding: 1em;
+}
+</style>

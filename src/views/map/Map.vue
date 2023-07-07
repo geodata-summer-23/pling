@@ -1,20 +1,49 @@
 <template>
-  <div id="mapViewDiv">
-    <button
-      class="esri-ui-top-right esri-ui-corner"
-      style="margin-top: 5em; margin-right: 1em"
-      @click="paneOpen = !paneOpen"
-    >
-      {{ $t().layers }}
-    </button>
+  <div id="mapViewDiv"></div>
+  <div class="overlay col" style="gap: 1em; top: 5em; right: 1em">
+    <div class="row" style="justify-content: end">
+      <button
+        class="btn btn-icon shadow"
+        @click="
+          () => {
+            layersOpen = !layersOpen
+            infoOpen = false
+          }
+        "
+      >
+        <fa-icon size="xl" icon="layer-group"></fa-icon>
+      </button>
+    </div>
+    <div class="row" style="justify-content: end">
+      <button
+        class="btn btn-icon shadow"
+        @click="
+          () => {
+            infoOpen = !infoOpen
+            layersOpen = false
+          }
+        "
+      >
+        <fa-icon size="xl" icon="info"></fa-icon>
+      </button>
+    </div>
   </div>
   <SlideUpPane
-    :open="paneOpen"
+    :open="layersOpen"
     hide-mode="hidden"
-    @toggle="paneOpen = !paneOpen"
+    @toggle="layersOpen = !layersOpen"
   >
-    <div class="layerListPane">
-      <div id="layerList"></div>
+    <div>
+      <div id="layerListDiv"></div>
+    </div>
+  </SlideUpPane>
+  <SlideUpPane
+    :open="infoOpen"
+    hide-mode="hidden"
+    @toggle="infoOpen = !infoOpen"
+  >
+    <div>
+      <div id="legendDiv"></div>
     </div>
   </SlideUpPane>
 </template>
@@ -24,8 +53,6 @@ import WebMap from '@arcgis/core/WebMap'
 import MapView from '@arcgis/core/views/MapView'
 import Graphic from '@arcgis/core/Graphic'
 import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer'
-// import FeatureLayer from '@arcgis/core/layers/FeatureLayer'
-// import FeatureLayerView from '@arcgis/core/views/layers/FeatureLayerView'
 import Point from '@arcgis/core/geometry/Point'
 import Search from '@arcgis/core/widgets/Search'
 import LayerList from '@arcgis/core/widgets/LayerList'
@@ -33,39 +60,17 @@ import SlideUpPane from '@/components/SlideUpPane.vue'
 import Legend from '@arcgis/core/widgets/Legend'
 import { onMounted, onUnmounted, ref } from 'vue'
 import { AddressPoint } from '@/stores/placeStore'
-import { $t } from '@/translation'
 
 const props = defineProps<{
   center: AddressPoint | null
 }>()
 
 const graphicsLayer = new GraphicsLayer()
-const paneOpen = ref(false)
+const layersOpen = ref(false)
+const infoOpen = ref(false)
 const mapView = ref<MapView | null>(null)
 let userLocationPoint: Graphic | null = null
 let watchPositionReference: number | null = null
-
-const initLayerList = (view: MapView) => {
-  view.map.layers.map((layer) => {
-    layer.watch(
-      'visible',
-      (visible) => {
-        if (visible) {
-          view.map.layers.map((layer) => {
-            if (layer.title !== layer.title) {
-              layer.visible = false
-            }
-          })
-        }
-      },
-      !!layer.title
-    )
-  })
-  new LayerList({
-    view: view,
-    container: 'layerList',
-  })
-}
 
 const createPointGraphic = (point: AddressPoint) => {
   const simpleMarkerSymbol = {
@@ -106,7 +111,22 @@ onMounted(() => {
   })
   view.ui.add(search, 'top-right')
 
-  initLayerList(view)
+  view.when(() => {
+    new LayerList({
+      view: view,
+      container: 'layerListDiv',
+    })
+
+    new Legend({
+      view: view,
+      container: 'legendDiv',
+      layerInfos: [
+        {
+          layer: view.map.layers.find((m) => m.title == 'Utsatte bygninger'),
+        },
+      ],
+    })
+  })
 
   view.when(() => {
     if (props.center) {
@@ -139,41 +159,6 @@ onMounted(() => {
       })
     }
   )
-
-  view.when(() => {
-    const legend = new Legend({
-      view: view,
-      layerInfos: [
-        {
-          layer: view.map.layers.find((m) => m.title == 'Utsatte bygninger'),
-        },
-      ],
-    })
-    view.ui.add(legend, 'bottom-right')
-  })
-
-  // view.when(() => {
-  //   navigator.geolocation.getCurrentPosition(async (position) => {
-  //     // Try to query
-
-  //     console.log(view.map.allLayers)
-  //     const featureLayer = view.map.allLayers.find(
-  //       (m) => m.type == 'feature' // no matches :(
-  //     ) as FeatureLayer | null
-
-  //     if (!featureLayer) {
-  //       console.error('Could not find any FeatureLayer')
-  //       return
-  //     }
-  //     view.whenLayerView(featureLayer).then(function (layerView) {
-  //       layerView.watch('updating', function (updating) {
-  //         if (!updating) {
-  //           queryFeatureLayer(layerView, featureLayer, position)
-  //         }
-  //       })
-  //     })
-  //   })
-  // })
 })
 
 onUnmounted(() => {
@@ -181,32 +166,22 @@ onUnmounted(() => {
     navigator.geolocation.clearWatch(watchPositionReference)
   }
 })
-
-// const queryFeatureLayer = (
-//   layerView: FeatureLayerView,
-//   featureLayer: FeatureLayer,
-//   position: GeolocationPosition
-// ) => {
-//   const query = featureLayer.createQuery()
-//   query.geometry = new Point({
-//     latitude: position.coords.latitude,
-//     longitude: position.coords.longitude,
-//   })
-//   query.distance = 100
-//   query.units = 'miles'
-//   query.spatialRelationship = 'intersects' // this is the default
-//   query.returnGeometry = true
-//   query.outFields = ['*']
-
-//   layerView.queryFeatures(query).then((res: any) => {
-//     console.log(res)
-//   })
-// }
 </script>
 
 <style>
 #mapViewDiv {
   height: 100%;
   margin: 0;
+}
+
+.overlay {
+  position: absolute;
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+}
+
+.overlay > * {
+  pointer-events: all;
 }
 </style>

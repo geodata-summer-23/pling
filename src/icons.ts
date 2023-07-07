@@ -15,6 +15,8 @@ import {
   faXmark,
   faTriangleExclamation,
   faBell,
+  faLayerGroup,
+  faInfo,
 } from '@fortawesome/free-solid-svg-icons'
 
 export const registerIcons = () => {
@@ -33,4 +35,6 @@ export const registerIcons = () => {
   library.add(faXmark)
   library.add(faTriangleExclamation)
   library.add(faBell)
+  library.add(faLayerGroup)
+  library.add(faInfo)
 }

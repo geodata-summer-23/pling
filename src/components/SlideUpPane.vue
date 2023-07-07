@@ -6,9 +6,9 @@
       'completely-hidden': !open && hideMode == 'hidden',
     }"
   >
-    <div class="row center">
+    <div class="row center clickable" @click="emit('toggle')">
       <h3 v-if="title" style="margin: 0.5em 1em">{{ title }}</h3>
-      <span class="btn-icon" style="padding: 0.5em" @click="emit('toggle')">
+      <span class="btn-icon" style="padding: 0.5em">
         <fa-icon size="xl" :icon="open ? 'angle-down' : 'angle-up'" />
       </span>
     </div>
@@ -47,7 +47,7 @@ const emit = defineEmits<{
 
 .slide-up-pane-margins {
   padding: 0em 2em 2em 2em;
-  max-height: 400px;
+  max-height: 300px;
   overflow: auto;
 }
 
