@@ -1,4 +1,8 @@
 <template>
-  <h3>Legg til et bilde</h3>
+  <h3> {{ $t().pictureEvent }}</h3>
 
 </template>
+
+<script lang="ts" setup>
+	import { $t } from '@/translation'
+</script>

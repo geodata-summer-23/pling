@@ -31,6 +31,19 @@ const norwegian = {
   appName: 'Varslingstjenesten',
   editInformation: 'Rediger informasjon',
   clearAllData: 'Fjern all informasjon',
+  report: 'Varsle',
+  reportAnEvent: 'Varsle en hendelse',
+  whatKindEvent: 'Hvilken type hendelse gjelder det?',
+  whereEvent: 'Hvor skjer dette',
+  describeEvent: 'Forklar situasjonen',
+  pictureEvent: 'Legg til et bilde',
+  flood: 'Flom',
+  torrentialRain: 'Styrtregn',
+  fire: 'Brann',
+  windDamage: 'Skade fra vind',
+  avalanche: 'Skred',
+  other: 'Annet',
+  eventDescriptionText: 'Her kan man skrive inn tekst som forklarer situasjonen...'
 }
 
 const english = {
@@ -58,4 +71,17 @@ const english = {
   appName: 'Varslingstjenesten',
   editInformation: 'Edit information',
   clearAllData: 'Clear all data',
+  report: 'Report',
+  reportAnEvent: 'Report an event',
+  whatKindEvent: 'What type of event is it?',
+  whereEvent: 'Where is it?',
+  describeEvent: 'Describe the situation',
+  pictureEvent: 'Add a picture',
+  flood: 'Flood',
+  torrentialRain: 'Torrential rain',
+  fire: 'Fire',
+  windDamage: 'Wind damage',
+  avalanche: 'Avalanche/landslide',
+  other: 'Other',
+  eventDescriptionText: 'Here you can enter text that explains the situation...'
 }

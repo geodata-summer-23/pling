@@ -90,6 +90,7 @@ import { onMounted, ref } from 'vue'
 import { useGeolocationStore } from '@/stores/geolocationStore'
 import { $t } from '@/translation'
 
+
 const userStore = useUserStore()
 const placeStore = usePlaceStore()
 

@@ -2,7 +2,7 @@
     <div class="view col spaced" style="gap: 2em">
       <div class="row">
         <BackButton v-if="page != 0" @click="prevPage"></BackButton>
-        <h2>Varsle en hendelse</h2>
+        <h2>{{ $t().reportAnEvent }}</h2>
       </div>
 
       <div>
@@ -27,6 +27,7 @@ import BackButton from '@/components/BackButton.vue'
 import { ref } from 'vue'
 import { router } from '@/router'
 import { useUserStore } from '@/stores/userStore'
+import { $t } from '@/translation'
 
 enum Page {
   Category,
