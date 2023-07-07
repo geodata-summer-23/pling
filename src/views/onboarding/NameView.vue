@@ -22,6 +22,18 @@
 
 <script lang="ts" setup>
 import { useUserStore } from '@/stores/userStore'
+import { watch } from 'vue'
 
+const emit = defineEmits<{
+  (e: 'update-valid', valid: boolean): void
+}>()
 const userStore = useUserStore()
+
+watch(
+  () => [userStore.firstName, userStore.lastName],
+  () => {
+    emit('update-valid', !!userStore.firstName && !!userStore.lastName)
+  },
+  { immediate: true }
+)
 </script>

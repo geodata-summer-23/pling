@@ -3,6 +3,8 @@ import esriId from '@arcgis/core/identity/IdentityManager'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { nanoid } from 'nanoid'
 
+export type Language = 'norsk' | 'english'
+
 export const useUserStore = defineStore('user', {
   state: () => ({
     guid: null as null | string,
@@ -12,6 +14,7 @@ export const useUserStore = defineStore('user', {
     lastName: null as null | string,
     age: null as null | number,
     birthday: null as null | Date,
+    language: 'english' as Language,
   }),
 
   actions: {
