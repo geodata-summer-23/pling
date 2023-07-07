@@ -13,25 +13,15 @@ export const useGeolocationStore = defineStore('geolocation', {
 
   actions: {
     init() {
+      navigator.geolocation.getCurrentPosition((position) => {
+        updatePosition(position)
+      })
       navigator.geolocation.watchPosition((position) => {
         if (
           position.coords.latitude != this.position?.latitude ||
-          position.coords.longitude != this.position.longitude
+          position.coords.longitude != this.position?.longitude
         ) {
-          this.position = {
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-          }
-          locator
-            .locationToAddress(geoData, {
-              location: new Point(this.position),
-            })
-            .then((candidate) => {
-              const address = usePlaceStore().places[0].address
-              address.street = candidate.attributes.Adresse
-              address.postalCode = candidate.attributes.Postnummer
-              address.city = candidate.attributes.Poststed
-            })
+          updatePosition(position)
         }
       })
     },
@@ -43,6 +33,24 @@ export const useGeolocationStore = defineStore('geolocation', {
     },
   },
 })
+
+const updatePosition = (position: GeolocationPosition) => {
+  const addressPosition = {
+    latitude: position.coords.latitude,
+    longitude: position.coords.longitude,
+  }
+  useGeolocationStore().position = addressPosition
+  locator
+    .locationToAddress(geoData, {
+      location: new Point(addressPosition),
+    })
+    .then((candidate) => {
+      const address = usePlaceStore().places[0].address
+      address.street = candidate.attributes.Adresse
+      address.postalCode = candidate.attributes.Postnummer
+      address.city = candidate.attributes.Poststed
+    })
+}
 
 if (import.meta.hot) {
   import.meta.hot.accept(acceptHMRUpdate(useGeolocationStore, import.meta.hot))
