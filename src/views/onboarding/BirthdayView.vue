@@ -35,7 +35,7 @@ import { ref, watch } from 'vue'
 const formatDate = (date: Date | null) => {
   if (!date) return { dd: '', mm: '', yyyy: '' }
   const yyyy = date.getFullYear().toString()
-  let mm = date.getMonth() + 1
+  let mm = date.getMonth()
   let dd = date.getDate()
 
   return {
