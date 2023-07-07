@@ -1,5 +1,5 @@
 <template>
-  <h2>What's your birthdate?</h2>
+  <h2>{{ $t().whatsYourBirthdate }}</h2>
   <div class="col">
     <div class="row" style="gap: 1em">
       <input
@@ -29,6 +29,7 @@
 
 <script lang="ts" setup>
 import { useUserStore } from '@/stores/userStore'
+import { $t } from '@/translation'
 import { ref, watch } from 'vue'
 
 const formatDate = (date: Date | null) => {

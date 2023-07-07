@@ -1,5 +1,5 @@
 <template>
-  <h2>Tell us a bit about yourself</h2>
+  <h2>{{ $t().tellUsAboutYou }}</h2>
   <div class="col" style="gap: 1em">
     <input
       id="given-name"
@@ -22,6 +22,7 @@
 
 <script lang="ts" setup>
 import { useUserStore } from '@/stores/userStore'
+import { $t } from '@/translation'
 import { watch } from 'vue'
 
 const emit = defineEmits<{

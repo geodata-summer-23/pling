@@ -5,7 +5,7 @@
       style="margin-top: 5em; margin-right: 1em"
       @click="paneOpen = !paneOpen"
     >
-      Layers
+      {{ $t().layers }}
     </button>
   </div>
   <SlideUpPane
@@ -33,6 +33,7 @@ import SlideUpPane from '@/components/SlideUpPane.vue'
 import Legend from '@arcgis/core/widgets/Legend'
 import { onMounted, onUnmounted, ref } from 'vue'
 import { AddressPoint } from '@/stores/placeStore'
+import { $t } from '@/translation'
 
 const props = defineProps<{
   center: AddressPoint | null

@@ -1,9 +1,10 @@
 <template>
-  <h1>Welcome to</h1>
-  <h1 style="text-align: right">Varslingstjenesten</h1>
+  <h1>{{ $t().welcomeTo }}</h1>
+  <h1 style="text-align: right">{{ $t().appName }}</h1>
 </template>
 
 <script lang="ts" setup>
+import { $t } from '@/translation'
 import { onMounted } from 'vue'
 
 const emit = defineEmits<{
