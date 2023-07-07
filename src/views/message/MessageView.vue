@@ -6,15 +6,27 @@
     <p v-if="requestState == 'fail'">Failed!</p>
     <p v-if="requestState == 'success'">Success!</p>
     <button @click="getAlerts">Get alerts</button>
-    <p>Alerts: {{ alerts }}</p>
-    <p v-if="alerts.length > 0">Alerts: {{ alerts[0].message }}</p>
-    <p>Alerts: {{ typeof alerts }}</p>
+    <button @click="router.push({ name: 'event' })">Varsle</button>
+    <h3>Hendelser</h3>
+    <p>Dette er hendelser som kan påvirke deg</p>
+    <div class="col" style="gap: 0.5em">
+        <div
+        v-for="a in alerts"
+        class="alert-box"
+      >
+        <p>{{ a.category }}</p>
+        <p>{{ a.message }}</p>
+        
+      </div>
+    </div>
+
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { useGeolocationStore } from '@/stores/geolocationStore'
+import { router } from '@/router'
 
 type RequestState = 'not-sent' | 'fail' | 'success'
 const requestState = ref<RequestState>('not-sent')
@@ -46,7 +58,8 @@ const postAlert = async () => {
 
 const getAlerts = async () => {
   const pos = useGeolocationStore().position
-  if (!pos?.latitude || !pos.longitude) {
+  if (!pos?.latitude || !pos?.longitude) {
+    console.log(pos)
     console.error('Invalid position')
     return
   }
@@ -62,3 +75,12 @@ const getAlerts = async () => {
   }
 }
 </script>
+
+<style>
+.alert-box {
+  border: 1px solid var(--c-medium-gray);
+  border-radius: 1em;
+  padding: 1em;
+  box-shadow: 0 0.4em 0.6em var(--c-medium-gray);
+}
+</style>

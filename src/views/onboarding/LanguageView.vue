@@ -4,7 +4,7 @@
   <br />
   <br />
   <div class="col">
-    <div class="row spaced">
+    <div class="row spaced center">
       <label for="norsk">Norsk</label>
       <input
         type="radio"
@@ -16,7 +16,7 @@
       />
     </div>
     <hr />
-    <div class="row spaced">
+    <div class="row spaced center">
       <label for="english">English</label>
       <input
         type="radio"
