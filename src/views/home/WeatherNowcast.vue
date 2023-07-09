@@ -24,7 +24,7 @@ const symbol = ref(null)
 onMounted(async () => {
   try {
     const response = await fetch(
-      `http://127.0.0.1:8000/met/nowcast?lat=${props.lat}&lon=${props.lon}`
+      `http://localhost:8000/met/nowcast?lat=${props.lat}&lon=${props.lon}`
     )
     if (response.ok) {
       responseCode.value = true

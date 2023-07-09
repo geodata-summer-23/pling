@@ -40,7 +40,7 @@ const postAlert = async () => {
     category: 'Flood',
   }
   try {
-    const response = await fetch(`http://127.0.0.1:8000/alert`, {
+    const response = await fetch(`http://localhost:8000/alert`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
@@ -60,7 +60,7 @@ const getAlerts = async () => {
   }
   try {
     const response = await fetch(
-      `http://127.0.0.1:8000/alerts?lat=${pos.latitude}&lon=${pos.longitude}`,
+      `http://localhost:8000/alerts?lat=${pos.latitude}&lon=${pos.longitude}`,
       { headers: { 'Content-Type': 'application/json' } }
     )
     alerts.value = JSON.parse(await response.json())
