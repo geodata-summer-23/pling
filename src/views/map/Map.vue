@@ -4,19 +4,31 @@
     <input
       type="text"
       id="street-address"
-      placeholder="Search for an address.."
+      :placeholder="$t().searchAddress"
       @input="(event) => {
         emit('search', (event.target as HTMLInputElement).value)
       }"
+      @blur="emit('search-blur')"
     />
-    <div v-if="searchResults.length > 0" class="result-container col">
-      <div
-        v-for="result in searchResults"
-        class="result"
-        @click="emit('select-result', result)"
-      >
-        {{ result.address }}
+    <div>
+      <div v-if="searchResults.length > 0" class="result-container col">
+        <div
+          v-for="result in searchResults"
+          class="result"
+          @click="emit('select-result', result)"
+        >
+          {{ result.address }}
+        </div>
       </div>
+    </div>
+    <div class="places-row row" style="gap: 1em; overflow: auto">
+      <button
+        v-for="place in places"
+        class="place-button"
+        @click="emit('select-place', place)"
+      >
+        {{ place.nickname }}
+      </button>
     </div>
     <div class="row" style="justify-content: end">
       <button
@@ -76,16 +88,20 @@ import LayerList from '@arcgis/core/widgets/LayerList'
 import SlideUpPane from '@/components/SlideUpPane.vue'
 import Legend from '@arcgis/core/widgets/Legend'
 import { onMounted, onUnmounted, ref, watch } from 'vue'
-import { AddressPoint } from '@/stores/placeStore'
+import { AddressPoint, Place } from '@/stores/placeStore'
+import { $t } from '@/translation'
 
 const props = defineProps<{
   center: AddressPoint | null
   searchResults: Record<string, any>[]
+  places: Place[]
 }>()
 
 const emit = defineEmits<{
-  (e: 'select-result', place: Record<string, any>): void
+  (e: 'select-result', result: Record<string, any>): void
+  (e: 'select-place', place: Place): void
   (e: 'search', searchString: string): void
+  (e: 'search-blur'): void
 }>()
 
 const graphicsLayer = new GraphicsLayer()
@@ -219,5 +235,14 @@ watch(
 #street-address {
   border-radius: 2em;
   padding-left: 2em;
+}
+
+.place-button {
+  white-space: nowrap;
+}
+
+.places-row {
+  /* -webkit-mask-image: linear-gradient(to right, black 90%, transparent 100%); */
+  /* mask-image: linear-gradient(to right, black 90%, transparent 100%); */
 }
 </style>

@@ -12,12 +12,7 @@
     </div>
     <h2 style="margin-top: 0">{{ $t().myPlaces }}</h2>
     <div class="col" style="gap: 0.5em">
-      <div>
-        <PlaceBox
-          v-for="place in placeStore.places"
-          :place="place"
-        />
-      </div>
+      <PlaceBox v-for="place in placeStore.places" :place="place" />
     </div>
     <br />
     <div>
@@ -71,21 +66,18 @@
 import FeatureLayer from '@arcgis/core/layers/FeatureLayer'
 import Point from '@arcgis/core/geometry/Point.js'
 import { router } from '@/router'
-import { usePlaceStore} from '@/stores/placeStore'
+import { usePlaceStore } from '@/stores/placeStore'
 import { useUserStore } from '@/stores/userStore'
 import { onMounted, ref } from 'vue'
 import { useGeolocationStore } from '@/stores/geolocationStore'
 import { $t } from '@/translation'
 import PlaceBox from './PlaceBox.vue'
 
-
 const userStore = useUserStore()
 const placeStore = usePlaceStore()
 
 const dangers = ref<string[]>([])
 const actionsOpen = ref(false)
-
-
 
 onMounted(() => {
   const metAlertsLayer = new FeatureLayer({
@@ -99,17 +91,21 @@ onMounted(() => {
 
   const alertQuery = {
     spatialRelationship: 'intersects', // Relationship operation to apply
-    geometry: new Point({latitude: position.latitude, longitude: position.longitude}),
+    geometry: new Point({
+      latitude: position.latitude,
+      longitude: position.longitude,
+    }),
     outFields: ['description', 'eventAwarenessName'], // Attributes to return
     returnGeometry: false,
   }
-
 
   metAlertsLayer
     // @ts-ignore
     .queryFeatures(alertQuery)
     .then((results) => {
-      dangers.value = results.features.map((f) => f.attributes.eventAwarenessName)
+      dangers.value = results.features.map(
+        (f) => f.attributes.eventAwarenessName
+      )
     })
     .catch((error) => {
       console.error(error)

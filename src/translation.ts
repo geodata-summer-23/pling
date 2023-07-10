@@ -43,7 +43,9 @@ const norwegian = {
   windDamage: 'Skade fra vind',
   avalanche: 'Skred',
   other: 'Annet',
-  eventDescriptionText: 'Her kan man skrive inn tekst som forklarer situasjonen...'
+  eventDescriptionText:
+    'Her kan man skrive inn tekst som forklarer situasjonen...',
+  searchAddress: 'Søk etter en adresse..',
 }
 
 const english = {
@@ -83,5 +85,7 @@ const english = {
   windDamage: 'Wind damage',
   avalanche: 'Avalanche/landslide',
   other: 'Other',
-  eventDescriptionText: 'Here you can enter text that explains the situation...'
+  eventDescriptionText:
+    'Here you can enter text that explains the situation...',
+  searchAddress: 'Search for an address..',
 }

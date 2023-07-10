@@ -3,8 +3,11 @@
     v-if="userStore.signedInToArcGis"
     :center="geoLocationStore.getMapCenter"
     :search-results="results"
+    :places="placeStore.places"
+    @select-place="placeStore.currentPlace = $event"
     @select-result="selectResultAndClear"
     @search="search"
+    @search-blur="searchBlur"
   ></Map>
   <div v-else class="message-container">
     <br />
@@ -78,6 +81,10 @@ const deleteCurrentPlace = () => {
 const addCurrentPlace = () => {
   if (!placeStore.currentPlace) return
   placeStore.addPlace(placeStore.currentPlace)
+}
+
+const searchBlur = () => {
+  setTimeout(() => (results.value = []), 100)
 }
 </script>
 
