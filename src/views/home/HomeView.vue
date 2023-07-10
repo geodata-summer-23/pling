@@ -12,22 +12,11 @@
     </div>
     <h2 style="margin-top: 0">{{ $t().myPlaces }}</h2>
     <div class="col" style="gap: 0.5em">
-      <div
-        v-for="place in placeStore.places"
-        class="address-item shadow row spaced clickable"
-        @click="clickPlace(place)"
-      >
-        <div class="col">
-          <span style="font-weight: bold">{{ place.nickname }}</span>
-          <span v-if="place.address.street || place.address.city">
-            {{ place.address.street ?? '' }}, {{ place.address.city }}
-          </span>
-          <Coordinates v-else :place="place"></Coordinates>
-        </div>
-        <WeatherNowcast
-          :lat="place.address.point?.latitude"
-          :lon="place.address.point?.longitude"
-        ></WeatherNowcast>
+      <div>
+        <PlaceBox
+          v-for="place in placeStore.places"
+          :place="place"
+        />
       </div>
     </div>
     <br />
@@ -79,16 +68,15 @@
 </template>
 
 <script lang="ts" setup>
-import WeatherNowcast from './WeatherNowcast.vue'
 import FeatureLayer from '@arcgis/core/layers/FeatureLayer'
 import Point from '@arcgis/core/geometry/Point.js'
-import Coordinates from '@/components/Coordinates.vue'
 import { router } from '@/router'
-import { usePlaceStore, Place } from '@/stores/placeStore'
+import { usePlaceStore} from '@/stores/placeStore'
 import { useUserStore } from '@/stores/userStore'
 import { onMounted, ref } from 'vue'
 import { useGeolocationStore } from '@/stores/geolocationStore'
 import { $t } from '@/translation'
+import PlaceBox from './PlaceBox.vue'
 
 
 const userStore = useUserStore()
@@ -97,12 +85,7 @@ const placeStore = usePlaceStore()
 const dangers = ref<string[]>([])
 const actionsOpen = ref(false)
 
-const clickPlace = (place: Place) => {
-  if (place.address.point) {
-    placeStore.currentPlace = place
-  }
-  router.push({ name: 'map' })
-}
+
 
 onMounted(() => {
   const metAlertsLayer = new FeatureLayer({
@@ -116,16 +99,17 @@ onMounted(() => {
 
   const alertQuery = {
     spatialRelationship: 'intersects', // Relationship operation to apply
-    geometry: new Point(position),
-    outFields: ['description'], // Attributes to return
+    geometry: new Point({latitude: position.latitude, longitude: position.longitude}),
+    outFields: ['description', 'eventAwarenessName'], // Attributes to return
     returnGeometry: false,
   }
+
 
   metAlertsLayer
     // @ts-ignore
     .queryFeatures(alertQuery)
     .then((results) => {
-      dangers.value = results.features.map((f) => f.attributes.description)
+      dangers.value = results.features.map((f) => f.attributes.eventAwarenessName)
     })
     .catch((error) => {
       console.error(error)
