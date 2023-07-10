@@ -5,6 +5,7 @@
       type="text"
       id="street-address"
       :placeholder="$t().searchAddress"
+      style="margin: 1em 1em 0 1em"
       @input="(event) => {
         emit('search', (event.target as HTMLInputElement).value)
       }"
@@ -27,10 +28,13 @@
         class="place-button"
         @click="emit('select-place', place)"
       >
-        {{ place.nickname }}
+        <div class="col">
+          <fa-icon icon="house"></fa-icon>
+          {{ maxChars(place.nickname, 8) }}
+        </div>
       </button>
     </div>
-    <div class="row" style="justify-content: end">
+    <div class="row" style="margin-right: 1em; justify-content: end">
       <button
         class="btn btn-icon btn-shadow"
         @click="
@@ -40,10 +44,10 @@
           }
         "
       >
-        <fa-icon size="lg" icon="layer-group"></fa-icon>
+        <fa-icon icon="layer-group"></fa-icon>
       </button>
     </div>
-    <div class="row" style="justify-content: end">
+    <div class="row" style="margin-right: 1em; justify-content: end">
       <button
         class="btn btn-icon btn-shadow"
         @click="
@@ -53,7 +57,7 @@
           }
         "
       >
-        <fa-icon size="lg" icon="info"></fa-icon>
+        <fa-icon icon="info"></fa-icon>
       </button>
     </div>
   </div>
@@ -110,6 +114,10 @@ const infoOpen = ref(false)
 let mapView: MapView | null = null
 let mapCenterPoint: Graphic | null = null
 let watchPositionReference: number | null = null
+
+const maxChars = (text: string, n: number) => {
+  return text.length > n + 2 ? text.slice(0, n) + '..' : text
+}
 
 const createPointGraphic = (point: AddressPoint) => {
   const simpleMarkerSymbol = {
@@ -216,11 +224,9 @@ watch(
   position: absolute;
   pointer-events: none;
   touch-action: none;
-  width: 90%;
+  width: 100%;
   height: 100%;
-  gap: 1em;
-  margin-left: 5%;
-  margin-top: 5%;
+  gap: 0.6em;
 }
 
 .overlay > * {
@@ -239,6 +245,8 @@ watch(
 
 .place-button {
   white-space: nowrap;
+  border: none;
+  background-color: var(--c-light-gray);
 }
 
 .places-row {
