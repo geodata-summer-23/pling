@@ -10,10 +10,10 @@
     <h3>Hendelser</h3>
     <p>Dette er hendelser som kan påvirke deg</p>
     <div class="col" style="gap: 0.5em">
-      <div v-for="a in alerts" class="alert-box">
-        <p>{{ a.category }}</p>
-        <p>{{ a.message }}</p>
-      </div>
+      <EventBox 
+        v-for="a in alerts" 
+        :event="a"
+      />
     </div>
   </div>
 </template>
@@ -22,10 +22,12 @@
 import { ref } from 'vue'
 import { useGeolocationStore } from '@/stores/geolocationStore'
 import { router } from '@/router'
+import EventBox from '../event/EventBox.vue'
+import { AlertData } from '../event/EventView.vue';
 
 type RequestState = 'not-sent' | 'fail' | 'success'
 const requestState = ref<RequestState>('not-sent')
-const alerts = ref<Record<string, any>[]>([])
+const alerts = ref<AlertData[]>([])
 
 const postAlert = async () => {
   const pos = useGeolocationStore().position

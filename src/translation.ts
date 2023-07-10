@@ -43,7 +43,10 @@ const norwegian = {
   windDamage: 'Skade fra vind',
   avalanche: 'Skred',
   other: 'Annet',
-  eventDescriptionText: 'Her kan man skrive inn tekst som forklarer situasjonen...'
+  eventDescriptionText: 'Her kan man skrive inn tekst som forklarer situasjonen...',
+  addPictureDescription: 'Bildet blir brukt for å dokumentere hendelesen og deles offentlig i innlegget.',
+  overview: 'Se over og legg ut',
+  publish: 'Legg ut',
 }
 
 const english = {
@@ -83,5 +86,8 @@ const english = {
   windDamage: 'Wind damage',
   avalanche: 'Avalanche/landslide',
   other: 'Other',
-  eventDescriptionText: 'Here you can enter text that explains the situation...'
+  eventDescriptionText: 'Here you can enter text that explains the situation...',
+  addPictureDescription: 'The image is used to document the incident and is shared to other users.',
+  overview: 'Summary',
+  publish: 'Publish',
 }
