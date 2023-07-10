@@ -22,15 +22,19 @@
     <div>
       {{ placeStore.currentPlace.address.street }}
       <Coordinates :place="placeStore.currentPlace"></Coordinates>
-      <button
-        v-if="
-          placeStore.places.includes(placeStore.currentPlace) &&
-          placeStore.currentPlace != placeStore.places[0]
-        "
-        @click="deleteCurrentPlace"
-      >
-        {{ $t().delete }}
-      </button>
+      <div v-if="placeStore.places.includes(placeStore.currentPlace)">
+        <button
+          v-if="placeStore.currentPlace != placeStore.places[0]"
+          @click="deleteCurrentPlace"
+        >
+          {{ $t().delete }}
+        </button>
+      </div>
+      <div v-else>
+        <button @click="addCurrentPlace">
+          {{ $t().add }}
+        </button>
+      </div>
     </div>
   </SlideUpPane>
 </template>
@@ -42,7 +46,6 @@ import { signIn, useUserStore } from '@/stores/userStore'
 import { useGeolocationStore } from '@/stores/geolocationStore'
 import { searchAddress, selectResult, usePlaceStore } from '@/stores/placeStore'
 import { ref } from 'vue'
-import { router } from '@/router'
 import Coordinates from '@/components/Coordinates.vue'
 import { $t } from '@/translation'
 
@@ -70,7 +73,11 @@ const search = (searchString: string) => {
 const deleteCurrentPlace = () => {
   if (!placeStore.currentPlace) return
   placeStore.removePlace(placeStore.currentPlace)
-  router.push({ name: 'places' })
+}
+
+const addCurrentPlace = () => {
+  if (!placeStore.currentPlace) return
+  placeStore.addPlace(placeStore.currentPlace)
 }
 </script>
 

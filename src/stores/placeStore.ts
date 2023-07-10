@@ -86,7 +86,6 @@ export const usePlaceStore = defineStore('place', {
 })
 
 export const selectResult = (result: Record<string, any>) => {
-  console.log(result)
   const place: Place = {
     nickname: 'Search result',
     address: {
@@ -99,14 +98,17 @@ export const selectResult = (result: Record<string, any>) => {
     place.address.postalCode = parseInt(postalCode)
     place.address.city = city
     place.address.street = ''
+    place.nickname = `${postalCode} ${city}`
     return place
   }
   const [streetAddress, postalCodeAndCity] = result.address.split(',')
   place.address.street = streetAddress
+  place.nickname = streetAddress
   if (postalCodeAndCity) {
     const [postalCode, city] = postalCodeAndCity.trim().split(' ')
     place.address.postalCode = parseInt(postalCode)
     place.address.city = city
+    place.nickname += `, ${postalCode} ${city}`
   }
   return place
 }
