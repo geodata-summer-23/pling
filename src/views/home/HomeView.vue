@@ -113,14 +113,7 @@ onMounted(() => {
 })
 </script>
 
-<style>
-.address-item {
-  border: 1px solid var(--c-medium-gray);
-  border-radius: 1em;
-  padding: 1em;
-  box-shadow: 0 0.4em 0.6em var(--c-medium-gray);
-}
-
+<style scoped>
 .hidden-right {
   transform: translateX(100%);
 }

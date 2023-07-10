@@ -4,7 +4,7 @@
   </div>
   <div v-if="responseCode" class="row center" style="width: 6em; gap: 0.5em">
     <span>{{ temp }}°</span>
-    <img v-if="symbol" :src="`weatherSymbols/${symbol}.svg`" />
+    <img v-if="symbol" :src="`./weatherIcons/${symbol}.svg`" />
     <!-- <span>{{ units ? units.air_temperature : '' }}</span> -->
   </div>
 </template>
