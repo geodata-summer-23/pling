@@ -45,7 +45,7 @@
       <div
         v-for="result in results"
         class="result"
-        @click="selectResult(result)"
+        @click="selectResultAndClear(result)"
       >
         {{ result.address }}
       </div>
@@ -65,8 +65,12 @@
 
 <script lang="ts" setup>
 import BackButton from '@/components/BackButton.vue'
-import * as locator from '@arcgis/core/rest/locator'
-import { Place, usePlaceStore } from '@/stores/placeStore'
+import {
+  Place,
+  selectResult,
+  usePlaceStore,
+  searchAddress,
+} from '@/stores/placeStore'
 import { ref, watch } from 'vue'
 import { router } from '@/router'
 import { $t } from '@/translation'
@@ -76,39 +80,6 @@ const selectedResult = ref<Record<string, any> | null>(null)
 const results = ref<Record<string, any>[]>([])
 const place = ref<Place>({ nickname: '', address: {}, excludeDangers: [] })
 
-const geoData =
-  'https://services.geodataonline.no/arcgis/rest/services/Geosok/GeosokLokasjon2/GeocodeServer'
-
-const search = () => {
-  locator
-    .addressToLocations(geoData, {
-      address: {
-        Adresse: place.value.address.street ?? '',
-        Postnummer: place.value.address.postalCode ?? '',
-        Poststed: place.value.address.city ?? '',
-      },
-      maxLocations: 5,
-    })
-    .then((candidates) => {
-      results.value = candidates.map((r) => r.toJSON())
-
-      locator
-        .addressToLocations(geoData, {
-          address: {
-            Adresse: place.value.address.street ?? '',
-          },
-          maxLocations: 5,
-        })
-        .then((candidates) => {
-          results.value = results.value.concat(
-            candidates
-              .map((r) => r.toJSON())
-              .filter((a) => !results.value.some((b) => a.address == b.address))
-          )
-        })
-    })
-}
-
 watch(
   () => [
     place.value.address.city,
@@ -116,35 +87,21 @@ watch(
     place.value.address.postalCode,
   ],
   () => {
-    search()
+    searchAddress(place.value.address, (r) => (results.value = r))
   },
   { immediate: true }
 )
 
-const selectResult = (result: Record<string, any>) => {
+const selectResultAndClear = (result: Record<string, any>) => {
   selectedResult.value = result
-  if (!result.address.includes(',')) {
-    const [postalCode, city] = result.address.trim().split(' ')
-    place.value.address.postalCode = parseInt(postalCode)
-    place.value.address.city = city
-    place.value.address.street = ''
-    return
-  }
-  const [streetAddress, postalCodeAndCity] = result.address.split(',')
-  place.value.address.street = streetAddress
-  if (postalCodeAndCity) {
-    const [postalCode, city] = postalCodeAndCity.trim().split(' ')
-    place.value.address.postalCode = parseInt(postalCode)
-    place.value.address.city = city
-  }
+  place.value.address.point = Object.assign(
+    place.value.address.point ?? {},
+    selectResult(result).address.point
+  )
   results.value = []
 }
 
 const submit = () => {
-  place.value.address.point = Object.assign(
-    place.value.address.point ?? {},
-    selectedResult.value?.location
-  )
   placeStore.addPlace(place.value)
   router.push({ name: 'home' })
 }
@@ -153,23 +110,5 @@ const submit = () => {
 <style scoped>
 input {
   min-width: 20px;
-}
-
-.result-container {
-  background-color: var(--c-light-gray);
-  border-radius: 0.5em;
-  max-height: 12em;
-  overflow: auto;
-}
-
-.result {
-  padding: 0.5em 1.5em;
-  border-radius: 0.5em;
-  cursor: pointer;
-}
-
-.result:hover {
-  background-color: var(--c-dark-gray);
-  cursor: pointer;
 }
 </style>

@@ -2,6 +2,9 @@
   <Map
     v-if="userStore.signedInToArcGis"
     :center="geoLocationStore.getMapCenter"
+    :search-results="results"
+    @select-result="selectResultAndClear"
+    @search="search"
   ></Map>
   <div v-else class="message-container">
     <br />
@@ -20,7 +23,10 @@
       {{ placeStore.currentPlace.address.street }}
       <Coordinates :place="placeStore.currentPlace"></Coordinates>
       <button
-        v-if="placeStore.currentPlace != placeStore.places[0]"
+        v-if="
+          placeStore.places.includes(placeStore.currentPlace) &&
+          placeStore.currentPlace != placeStore.places[0]
+        "
         @click="deleteCurrentPlace"
       >
         {{ $t().delete }}
@@ -34,7 +40,7 @@ import Map from './Map.vue'
 import SlideUpPane from '@/components/SlideUpPane.vue'
 import { signIn, useUserStore } from '@/stores/userStore'
 import { useGeolocationStore } from '@/stores/geolocationStore'
-import { usePlaceStore } from '@/stores/placeStore'
+import { searchAddress, selectResult, usePlaceStore } from '@/stores/placeStore'
 import { ref } from 'vue'
 import { router } from '@/router'
 import Coordinates from '@/components/Coordinates.vue'
@@ -44,6 +50,22 @@ const paneOpen = ref(true)
 const userStore = useUserStore()
 const placeStore = usePlaceStore()
 const geoLocationStore = useGeolocationStore()
+const results = ref<Record<string, any>[]>([])
+
+const selectResultAndClear = (result: Record<string, any>) => {
+  const currentPlace = usePlaceStore().currentPlace
+  if (!currentPlace) return
+  usePlaceStore().currentPlace = selectResult(result)
+  results.value = []
+}
+
+const search = (searchString: string) => {
+  searchAddress({ street: searchString }, (r) => {
+    if (r.length > 0) {
+      results.value = r
+    }
+  })
+}
 
 const deleteCurrentPlace = () => {
   if (!placeStore.currentPlace) return

@@ -36,7 +36,6 @@ onMounted(async () => {
       units.value = resJson.properties.meta.units
       symbol.value =
         resJson.properties.timeseries[0].data.next_1_hours.summary.symbol_code
-      console.log(symbol.value)
     }
   } catch (error) {
     console.error(error)

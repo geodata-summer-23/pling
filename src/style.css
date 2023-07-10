@@ -92,8 +92,8 @@ button {
 }
 
 .btn {
-  min-width: 3.2em;
-  min-height: 3.2em;
+  min-width: 3.1em;
+  min-height: 3.1em;
   font-size: large;
   padding: 0.8em;
   background-color: var(--c-medium-gray);
@@ -115,7 +115,7 @@ button {
 }
 
 .btn-shadow {
-  box-shadow: 0 0.3em 0.6em var(--c-dark-gray);
+  box-shadow: 0 0.3em 0.6em #04094f57;
 }
 
 .transparent {
@@ -125,4 +125,22 @@ button {
 
 .animated {
   transition: all 400ms;
+}
+
+.result-container {
+  background-color: var(--c-light-gray);
+  border-radius: 0.5em;
+  max-height: 12em;
+  overflow: auto;
+}
+
+.result {
+  padding: 0.5em 1.5em;
+  border-radius: 0.5em;
+  cursor: pointer;
+}
+
+.result:hover {
+  background-color: var(--c-dark-gray);
+  cursor: pointer;
 }
