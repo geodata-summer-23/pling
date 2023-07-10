@@ -119,10 +119,10 @@ const maxChars = (text: string, n: number) => {
   return text.length > n + 2 ? text.slice(0, n) + '..' : text
 }
 
-const createPointGraphic = (point: AddressPoint) => {
+const createPointGraphic = (point: AddressPoint, color = '#2b95d6') => {
   const simpleMarkerSymbol = {
     type: 'simple-marker',
-    color: [226, 119, 40], // Orange
+    color, // Orange
     outline: {
       color: [255, 255, 255], // White
       width: 1,
@@ -174,6 +174,11 @@ onMounted(() => {
   })
 
   view.when(() => {
+    props.places.forEach((place) => {
+      if (!place.address.point || place.address.point == props.center) return
+      const newPoint = createPointGraphic(place.address.point, '#1fe063')
+      graphicsLayer.add(newPoint)
+    })
     if (props.center) {
       view.goTo({
         center: new Point(props.center),
