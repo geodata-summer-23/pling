@@ -177,11 +177,13 @@ onUnmounted(() => {
 .overlay {
   position: absolute;
   pointer-events: none;
+  touch-action: none;
   width: 100%;
   height: 100%;
 }
 
 .overlay > * {
   pointer-events: all;
+  touch-action: all;
 }
 </style>
