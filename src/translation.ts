@@ -47,6 +47,7 @@ const norwegian = {
   addPictureDescription: 'Bildet blir brukt for å dokumentere hendelesen og deles offentlig i innlegget.',
   overview: 'Se over og legg ut',
   publish: 'Legg ut',
+  searchAddress: 'Søk etter en adresse..',
 }
 
 const english = {
@@ -90,4 +91,5 @@ const english = {
   addPictureDescription: 'The image is used to document the incident and is shared to other users.',
   overview: 'Summary',
   publish: 'Publish',
+  searchAddress: 'Search for an address..',
 }

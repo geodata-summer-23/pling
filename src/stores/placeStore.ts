@@ -1,6 +1,7 @@
 import { $t } from '@/translation'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import proj4 from 'proj4'
+import * as locator from '@arcgis/core/rest/locator'
 
 export enum Danger {
   Flood,
@@ -80,9 +81,78 @@ export const usePlaceStore = defineStore('place', {
         }
       })
     },
-    saveToLocalStorage() {},
+    saveToLocalStorage() {
+      localStorage.setItem('places', JSON.stringify(this.places))
+    },
   },
 })
+
+export const selectResult = (result: Record<string, any>) => {
+  const place: Place = {
+    nickname: 'Search result',
+    address: {
+      point: result.location,
+    },
+    excludeDangers: [],
+  }
+  if (!result.address.includes(',')) {
+    const [postalCode, city] = result.address.trim().split(' ')
+    place.address.postalCode = parseInt(postalCode)
+    place.address.city = city
+    place.address.street = ''
+    place.nickname = `${postalCode} ${city}`
+    return place
+  }
+  const [streetAddress, postalCodeAndCity] = result.address.split(',')
+  place.address.street = streetAddress
+  place.nickname = streetAddress
+  if (postalCodeAndCity) {
+    const [postalCode, city] = postalCodeAndCity.trim().split(' ')
+    place.address.postalCode = parseInt(postalCode)
+    place.address.city = city
+    place.nickname += `, ${postalCode} ${city}`
+  }
+  return place
+}
+
+const geoData =
+  'https://services.geodataonline.no/arcgis/rest/services/Geosok/GeosokLokasjon2/GeocodeServer'
+
+export const searchAddress = async (
+  address: Address,
+  withResults: (results: Record<string, any>[]) => void
+) => {
+  let results: Record<string, any>[] = []
+  locator
+    .addressToLocations(geoData, {
+      address: {
+        Adresse: address.street ?? '',
+        Postnummer: address.postalCode ?? '',
+        Poststed: address.city ?? '',
+      },
+      maxLocations: 5,
+    })
+    .then((candidates) => {
+      results = candidates.map((r) => r.toJSON())
+      withResults(results)
+
+      locator
+        .addressToLocations(geoData, {
+          address: {
+            Adresse: address.street ?? '',
+          },
+          maxLocations: 5,
+        })
+        .then((candidates) => {
+          results = results.concat(
+            candidates
+              .map((r) => r.toJSON())
+              .filter((a) => !results.some((b) => a.address == b.address))
+          )
+          withResults(results)
+        })
+    })
+}
 
 if (import.meta.hot) {
   import.meta.hot.accept(acceptHMRUpdate(usePlaceStore, import.meta.hot))

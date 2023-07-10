@@ -4,7 +4,7 @@
   </div>
   <div v-if="responseCode" class="row center" style="width: 6em; gap: 0.5em">
     <span>{{ temp }}°</span>
-    <img v-if="symbol" :src="`weatherSymbols/${symbol}.svg`" />
+    <img v-if="symbol" :src="`./weatherIcons/${symbol}.svg`" />
     <!-- <span>{{ units ? units.air_temperature : '' }}</span> -->
   </div>
 </template>
@@ -36,7 +36,6 @@ onMounted(async () => {
       units.value = resJson.properties.meta.units
       symbol.value =
         resJson.properties.timeseries[0].data.next_1_hours.summary.symbol_code
-      console.log(symbol.value)
     }
   } catch (error) {
     console.error(error)
