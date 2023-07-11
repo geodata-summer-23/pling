@@ -68,7 +68,9 @@
     @toggle="layersOpen = !layersOpen"
   >
     <div>
-      <button @click="toggleSatelitte">Toggle satelitte</button>
+      <!-- <button @click="toggleSatelitte">
+        Toggle {{ satellite ? 'vector' : 'satellite' }}
+      </button> -->
       <div id="layerListDiv"></div>
     </div>
   </SlideUpPane>
@@ -117,16 +119,16 @@ const infoOpen = ref(false)
 let mapView: MapView | null = null
 let mapCenterPoint: Graphic | null = null
 let watchPositionReference: number | null = null
-let satellite = false
+// const satellite = ref(false)
 
-const toggleSatelitte = () => {
-  if (!mapView?.map) return
-  satellite = !satellite
-  // @ts-ignore
-  mapView.map.basemap = getBasemap()
-}
+// const toggleSatelitte = () => {
+//   if (!mapView?.map) return
+//   satellite.value = !satellite.value
+//   // @ts-ignore
+//   mapView.map.basemap = getBasemap()
+// }
 
-const getBasemap = () => (satellite ? 'satellite' : 'osm-light-gray')
+// const getBasemap = () => (satellite.value ? 'streets-vector' : 'osm-light-gray')
 // https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html#basemap
 
 const createPointGraphic = (point: AddressPoint, color = '#2b95d6') => {
@@ -162,7 +164,7 @@ const createPointGraphic = (point: AddressPoint, color = '#2b95d6') => {
 
 onMounted(() => {
   const map = new WebMap({
-    basemap: getBasemap(),
+    // basemap: getBasemap(),
     portalItem: {
       id: 'b139409c28884967a1a603695e0b478d', // https://arcg.is/1mTnbH
     },
