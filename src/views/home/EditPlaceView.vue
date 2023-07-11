@@ -9,11 +9,7 @@
     ></PlaceForm>
   </div>
   <div class="view-bottom col">
-    <button
-      class="btn"
-      style="background-color: var(--c-red); color: var(--c-white)"
-      @click="onDelete"
-    >
+    <button class="btn btn-red" @click="onDelete">
       {{ $t().delete }}
     </button>
     <button class="btn" :disabled="!canSubmit" @click="onSubmit">

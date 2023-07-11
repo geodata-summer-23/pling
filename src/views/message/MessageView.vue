@@ -6,11 +6,13 @@
       <p>{{ $t().reportInfo }}</p>
       <div class="row center">
         <button
-          class="btn"
-          style="color: var(--c-red)"
+          class="btn btn-red"
+          style="padding-inline: 2em"
           @click="router.push({ name: 'event' })"
         >
-          Varsle <fa-icon icon="angle-right"></fa-icon>
+          <fa-icon icon="triangle-exclamation"></fa-icon>
+          <span> {{ $t().notify }}</span>
+          <fa-icon icon="angle-right"></fa-icon>
         </button>
       </div>
     </div>
@@ -25,12 +27,11 @@ import { router } from '@/router'
 import EventList from '../event/EventList.vue'
 import { $t } from '@/translation'
 import { usePlaceStore } from '@/stores/placeStore'
-import { onMounted } from 'vue';
+import { onMounted } from 'vue'
 
 onMounted(() => {
   usePlaceStore().currentPlace = usePlaceStore().places[0]
 })
-
 </script>
 
 <style>

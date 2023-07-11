@@ -6,15 +6,17 @@ export const $t = () => {
   return useUserStore().language == 'english' ? english : norwegian
 }
 
+type WordKey = keyof ReturnType<typeof $t>
+
 export const translate = (text: string) => {
   const t = $t()
   return text
     .split(' ')
-    .map((word) => (word in t ? t[word] : '?'))
+    .map((word) => (word in t ? t[word as WordKey] : '?'))
     .join(' ')
 }
 
-const norwegian: Record<string, string> = {
+const norwegian = {
   continue: 'Gå videre',
   skip: 'Hopp over',
   add: 'Legg til',
@@ -70,7 +72,8 @@ const norwegian: Record<string, string> = {
   thisPlace: 'dette stedet',
   notImplemented: 'Denne funksjonen er foreløpig ikke implementert.',
   takePicture: 'Ta et bilde',
-}
+  notify: 'Varsle',
+} as const
 
 const english: Record<string, string> = {
   continue: 'Continue',
@@ -129,4 +132,5 @@ const english: Record<string, string> = {
   thisPlace: 'this place',
   notImplemented: 'This function is currently not implemented.',
   takePicture: 'Take a picture',
-}
+  notify: 'Notify',
+} as const
