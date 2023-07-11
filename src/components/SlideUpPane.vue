@@ -41,7 +41,7 @@ const emit = defineEmits<{
   width: 100%;
   bottom: 0;
   background-color: var(--c-white);
-  box-shadow: 0px 0px 20px var(--c-dark-gray);
+  box-shadow: 0 2em 4em var(--c-text);
 }
 
 .toggle-button {
