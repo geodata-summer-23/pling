@@ -44,9 +44,16 @@ const norwegian = {
   windDamage: 'Skade fra vind',
   avalanche: 'Skred',
   other: 'Annet',
-  eventDescriptionText:
-    'Her kan man skrive inn tekst som forklarer situasjonen...',
+  eventDescriptionText: 'Her kan man skrive inn tekst som forklarer situasjonen...',
+  addPictureDescription: 'Bildet blir brukt for å dokumentere hendelesen og deles offentlig i innlegget.',
+  overview: 'Se over og legg ut',
+  publish: 'Legg ut',
   searchAddress: 'Søk etter en adresse..',
+  selectInMap: 'Velg i kart',
+  events: 'Hendelser',
+  eventsDescription: 'Dette er hendelser som kan påvirke deg',
+  wishToReport: 'Ønsker du å varsle en hendelse?',
+  reportInfo: 'Alle varslinger blir sendt til en server for å bli behandlet og deretter sendt ut til nettverket knyttet lokasjonen hvor hendelsen fant sted. Vær dermed obs på at varslene er offentlige.',
 }
 
 const english = {
@@ -87,7 +94,14 @@ const english = {
   windDamage: 'Wind damage',
   avalanche: 'Avalanche/landslide',
   other: 'Other',
-  eventDescriptionText:
-    'Here you can enter text that explains the situation...',
+  eventDescriptionText: 'Here you can enter text that explains the situation...',
+  addPictureDescription: 'The image is used to document the incident and is shared to other users.',
+  overview: 'Summary',
+  publish: 'Publish',
   searchAddress: 'Search for an address..',
+  selectInMap: 'Select in map',
+  events: 'Events',
+  eventsDescription: 'These are events that can affect you',
+  wishToReport: 'Do you want to report an event?',
+  reportInfo: 'All notifications are sent to a server to be processed and then sent out to the network associated with the location where the event took place. Please note that the notifications are public.',
 }

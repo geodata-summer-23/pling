@@ -2,54 +2,39 @@
   <div class="view col">
     <label style="font-weight: bold">Messages</label>
     <br />
-    <button @click="postAlert">I am in danger</button>
-    <p v-if="requestState == 'fail'">Failed!</p>
-    <p v-if="requestState == 'success'">Success!</p>
-    <button @click="getAlerts">Get alerts</button>
-    <button @click="router.push({ name: 'event' })">Varsle</button>
-    <h3>Hendelser</h3>
-    <p>Dette er hendelser som kan påvirke deg</p>
-    <div class="col" style="gap: 0.5em">
-      <div v-for="a in alerts" class="alert-box">
-        <p>{{ a.category }}</p>
-        <p>{{ a.message }}</p>
+    <div class="report-box">
+      <h3>{{ $t().wishToReport }}</h3>
+      <p>{{ $t().reportInfo }}</p>
+      <div class="row center">
+        <button class="btn" style="color: red" @click="router.push({ name: 'event' })">Varsle <fa-icon icon="angle-right"></fa-icon> </button>
       </div>
+
+    </div>
+    <h3>{{ $t().events }}</h3>
+    <p>{{ $t().eventsDescription }}</p>
+    <div class="col" style="gap: 0.5em">
+      <EventBox 
+        v-for="a in alerts" 
+        :event="a"
+      />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useGeolocationStore } from '@/stores/geolocationStore'
 import { router } from '@/router'
+import EventBox from '../event/EventBox.vue'
+import { AlertData } from '../event/EventView.vue';
+import { $t } from '@/translation'
 
-type RequestState = 'not-sent' | 'fail' | 'success'
-const requestState = ref<RequestState>('not-sent')
-const alerts = ref<Record<string, any>[]>([])
+const alerts = ref<AlertData[]>([])
 
-const postAlert = async () => {
-  const pos = useGeolocationStore().position
-  if (!pos?.latitude || !pos.longitude) {
-    console.error('Invalid position')
-    return
-  }
-  const data = {
-    message: 'Help!',
-    position: { latitude: pos.latitude, longitude: pos.longitude },
-    timestamp: Date.now(),
-    category: 'Flood',
-  }
-  try {
-    const response = await fetch(`http://localhost:8000/alert`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    })
-    requestState.value = response.ok ? 'success' : 'fail'
-  } catch {
-    requestState.value = 'fail'
-  }
-}
+
+onMounted(() => {
+  getAlerts()
+})
 
 const getAlerts = async () => {
   const pos = useGeolocationStore().position
@@ -73,6 +58,13 @@ const getAlerts = async () => {
 
 <style>
 .alert-box {
+  border: 1px solid var(--c-medium-gray);
+  border-radius: 1em;
+  padding: 1em;
+  box-shadow: 0 0.4em 0.6em var(--c-medium-gray);
+}
+
+.report-box {
   border: 1px solid var(--c-medium-gray);
   border-radius: 1em;
   padding: 1em;
