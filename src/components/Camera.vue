@@ -36,7 +36,7 @@ const takePicture = (fileList: FileList | null) => {
 }
 </script>
 
-<style>
+<style scoped>
 img {
   width: 100%;
 }
