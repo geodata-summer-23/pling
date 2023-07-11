@@ -13,6 +13,7 @@ export enum Danger {
 
 export type Place = {
   nickname: string
+  icon: string
   address: Address
   excludeDangers: Danger[]
 }
@@ -30,6 +31,13 @@ export type AddressPoint = {
   latitude?: number
   longitude?: number
 }
+
+const defaultMyLocation = () => ({
+  nickname: $t().myLocation,
+  icon: 'location-crosshairs',
+  address: {},
+  excludeDangers: [],
+})
 
 export const usePlaceStore = defineStore('place', {
   state: () => ({
@@ -64,14 +72,15 @@ export const usePlaceStore = defineStore('place', {
     },
     loadFromLocalStorage() {
       this.places = JSON.parse(localStorage.getItem('places') ?? '[]')
+      this.places.forEach((place) => {
+        if (!place.icon) {
+          place.icon = 'house'
+        }
+      })
       if (this.places.length == 0) {
-        this.places.push({
-          nickname: $t().myLocation,
-          address: {},
-          excludeDangers: [],
-        })
+        this.places.push(defaultMyLocation())
       } else {
-        this.places[0].nickname = $t().myLocation
+        Object.assign(this.places[0], defaultMyLocation())
       }
       this.currentPlace = this.places[0]
       navigator.geolocation.getCurrentPosition(async (position) => {
@@ -90,6 +99,7 @@ export const usePlaceStore = defineStore('place', {
 export const selectResult = (result: Record<string, any>) => {
   const place: Place = {
     nickname: 'Search result',
+    icon: 'location-dot',
     address: {
       point: result.location,
     },

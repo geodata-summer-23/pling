@@ -18,7 +18,7 @@
     <div class="col">
       <span style="font-weight: bold">
         <fa-icon
-          icon="house"
+          :icon="place.icon"
           style="padding-right: 0.3em; color: var(--c-dark-gray)"
         ></fa-icon>
         {{ maxChars(place.nickname, 20) }}</span

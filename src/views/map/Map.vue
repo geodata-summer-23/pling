@@ -3,6 +3,7 @@
   <div class="overlay col clickthrough">
     <input
       type="text"
+      ref="searchInputRef"
       id="street-address"
       :placeholder="$t().searchAddress"
       style="margin: 1em 1em 0 1em"
@@ -16,27 +17,48 @@
         <div
           v-for="result in searchResults"
           class="result"
-          @click="emit('select-result', result)"
+          @click="
+            () => {
+              emit('select-result', result)
+              if (searchInputRef) {
+                searchInputRef.value = ''
+              }
+            }
+          "
         >
           {{ result.address }}
         </div>
       </div>
     </div>
-    <div
-      class="row clickthrough"
-      style="margin-left: 1em; gap: 1em; overflow: auto"
-    >
+    <div class="row" style="margin-left: 1em; gap: 1em; overflow: auto">
       <button
-        v-for="place in places"
         class="place-button"
-        @click="emit('select-place', place)"
+        :class="{ 'place-selected': lastClicked == -1 }"
+        @click="
+          () => {
+            lastClicked = -1
+            zoomOut()
+          }
+        "
       >
         <div class="col">
-          <fa-icon icon="house"></fa-icon>
+          <fa-icon icon="earth-americas"></fa-icon>
+          World
+        </div>
+      </button>
+      <button
+        v-for="(place, i) in places"
+        class="place-button"
+        :class="{ 'place-selected': lastClicked == i }"
+        @click="selectPlace(place)"
+      >
+        <div class="col">
+          <fa-icon :icon="place.icon"></fa-icon>
           {{ maxChars(place.nickname, 8) }}
         </div>
       </button>
     </div>
+
     <div
       class="row clickthrough"
       style="margin-right: 1em; justify-content: end"
@@ -124,8 +146,13 @@ const emit = defineEmits<{
 const graphicsLayer = new GraphicsLayer()
 const layersOpen = ref(false)
 const infoOpen = ref(false)
+const searchInputRef = ref<HTMLInputElement>()
+const lastClicked = ref(
+  props.places.findIndex((place) => place.address.point == props.center)
+)
 let mapView: MapView | null = null
 let mapCenterPoint: Graphic | null = null
+let goToTimeout: NodeJS.Timeout | undefined = undefined
 
 onMounted(() => {
   const map = new WebMap({
@@ -179,12 +206,50 @@ watch(
   }
 )
 
+const animationDuration = 1000
+const selectPlace = (place: Place) => {
+  lastClicked.value = props.places.indexOf(place)
+  if (goToTimeout) {
+    clearInterval(goToTimeout)
+    goToTimeout = undefined
+  }
+  if ((mapView?.zoom ?? 0) < 10) {
+    emit('select-place', place)
+  } else {
+    zoomOut()
+    goToTimeout = setTimeout(
+      () => emit('select-place', place),
+      animationDuration
+    )
+  }
+}
+
+const zoomOut = () => {
+  mapView?.goTo(
+    {
+      zoom: 2,
+    },
+    {
+      animate: true,
+      duration: animationDuration,
+      easing: 'ease-in-out',
+    }
+  )
+}
+
 const goToAndDrawCenter = () => {
   if (!props.center || !mapView) return
-  mapView.goTo({
-    center: new Point(props.center),
-    zoom: 15,
-  })
+  mapView.goTo(
+    {
+      center: new Point(props.center),
+      zoom: 15,
+    },
+    {
+      animate: true,
+      duration: animationDuration,
+      easing: 'ease-in-out',
+    }
+  )
   if (mapCenterPoint) {
     mapCenterPoint.geometry = new Point(props.center)
   } else {
@@ -268,6 +333,10 @@ const createEventGraphic = (point: AddressPoint) => {
   white-space: nowrap;
   border: none;
   background-color: var(--c-light-gray);
+}
+
+.place-selected {
+  background-color: var(--c-dark-gray);
 }
 </style>
 

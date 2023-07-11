@@ -5,7 +5,7 @@
     :search-results="results"
     :places="placeStore.places"
     :events="useEventStore().events"
-    @select-place="placeStore.currentPlace = $event"
+    @select-place="selectPlace"
     @select-result="selectResultAndClear"
     @search="search"
     @search-blur="searchBlur"
@@ -54,7 +54,12 @@ import SlideUpPane from '@/components/SlideUpPane.vue'
 import EventList from '../event/EventList.vue'
 import { signIn, useUserStore } from '@/stores/userStore'
 import { useGeolocationStore } from '@/stores/geolocationStore'
-import { searchAddress, selectResult, usePlaceStore } from '@/stores/placeStore'
+import {
+  Place,
+  searchAddress,
+  selectResult,
+  usePlaceStore,
+} from '@/stores/placeStore'
 import { ref } from 'vue'
 import { $t } from '@/translation'
 import { router } from '@/router'
@@ -65,6 +70,14 @@ const userStore = useUserStore()
 const placeStore = usePlaceStore()
 const geoLocationStore = useGeolocationStore()
 const results = ref<Record<string, any>[]>([])
+
+const selectPlace = (place: Place) => {
+  placeStore.currentPlace = place
+  // Trigger watch
+  placeStore.currentPlace.address.point = {
+    ...placeStore.currentPlace.address.point,
+  }
+}
 
 const selectResultAndClear = (result: Record<string, any>) => {
   const currentPlace = usePlaceStore().currentPlace
