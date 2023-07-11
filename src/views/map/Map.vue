@@ -297,8 +297,8 @@ const createEventGraphic = (point: AddressPoint) => {
       // @ts-ignore
       type: 'picture-marker',
       url: './warningIcons/icon-warning-extreme.svg',
-      width: '64px',
-      height: '64px',
+      width: '40px',
+      height: '40px',
     },
   })
 }
