@@ -1,6 +1,8 @@
 <template>
   <div class="camera">
-    <video ref="videoRef" id="video">Video stream not available.</video>
+    <video muted autoplay ref="videoRef" id="video">
+      Video stream not available.
+    </video>
     <button id="startbutton" @click="takePicture">Take photo</button>
   </div>
   <canvas ref="canvasRef" id="canvas" hidden> </canvas>
@@ -25,11 +27,15 @@ const photoRef = ref<HTMLImageElement | null>(null)
 
 onMounted(() => {
   navigator.mediaDevices
-    .getUserMedia({ video: true, audio: false })
+    .getUserMedia({
+      video: {
+        facingMode: 'environment',
+      },
+      audio: false,
+    })
     .then((stream) => {
       if (!videoRef.value) return
       videoRef.value.srcObject = stream
-      videoRef.value.play()
     })
     .catch((err) => {
       console.error(`An error occurred: ${err}`)
