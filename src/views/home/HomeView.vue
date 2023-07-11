@@ -1,13 +1,16 @@
 <template>
   <div class="view col">
-    <div class="row center" style="gap: 1em; justify-content: end">
+    <div
+      class="row center"
+      style="gap: 1em; justify-content: end"
+      @click="router.push({ name: 'user' })"
+    >
       <span>{{ userStore.firstName }}</span>
       <fa-icon
         size="3x"
         icon="circle-user"
         class="clickable"
         style="color: var(--c-dark-gray)"
-        @click="router.push({ name: 'user' })"
       />
     </div>
     <h2 style="margin-top: 0">{{ $t().myPlaces }}</h2>
