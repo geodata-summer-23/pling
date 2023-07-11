@@ -93,7 +93,7 @@
     </div>
   </div>
   <SlideUpPane
-    :open="layersOpen"
+    :show="layersOpen"
     hide-mode="hidden"
     :z-index="100"
     @toggle="layersOpen = !layersOpen"
@@ -103,7 +103,7 @@
     </div>
   </SlideUpPane>
   <SlideUpPane
-    :open="infoOpen"
+    :show="infoOpen"
     hide-mode="hidden"
     :z-index="100"
     @toggle="infoOpen = !infoOpen"
