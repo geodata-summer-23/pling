@@ -7,7 +7,7 @@
       <div class="row center">
         <button
           class="btn"
-          style="color: red"
+          style="color: var(--c-red)"
           @click="router.push({ name: 'event' })"
         >
           Varsle <fa-icon icon="angle-right"></fa-icon>
@@ -16,44 +16,15 @@
     </div>
     <h3>{{ $t().events }}</h3>
     <p>{{ $t().eventsDescription }}</p>
-    <div class="col" style="gap: 0.5em">
-      <EventBox v-for="a in alerts" :event="a" />
-    </div>
+    <EventList :point="usePlaceStore().places[0].address.point"></EventList>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue'
-import { useGeolocationStore } from '@/stores/geolocationStore'
 import { router } from '@/router'
-import EventBox from '../event/EventBox.vue'
-import { AlertData } from '../event/EventView.vue'
+import EventList from '../event/EventList.vue'
 import { $t } from '@/translation'
-
-const alerts = ref<AlertData[]>([])
-
-onMounted(() => {
-  getAlerts()
-})
-
-const getAlerts = async () => {
-  const pos = useGeolocationStore().position
-  if (!pos?.latitude || !pos?.longitude) {
-    console.log(pos)
-    console.error('Invalid position')
-    return
-  }
-  try {
-    const response = await fetch(
-      `http://localhost:8000/alerts?lat=${pos.latitude}&lon=${pos.longitude}`,
-      { headers: { 'Content-Type': 'application/json' } }
-    )
-    alerts.value = JSON.parse(await response.json())
-    console.log('got alerts')
-  } catch {
-    console.log('failed to get alerts')
-  }
-}
+import { usePlaceStore } from '@/stores/placeStore'
 </script>
 
 <style>

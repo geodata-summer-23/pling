@@ -23,42 +23,7 @@
     @toggle="paneOpen = !paneOpen"
   >
     <div class="col" style="gap: 1em">
-      <div class="box">
-        <h2>Det brenner!!</h2>
-        <p>
-          Når det er risiko for fare i dette området, vil du kunne se varsler
-          her.
-        </p>
-        <h3>Tiltak</h3>
-        <p>
-          For hvert varsel vil du bli informert om hvilke tiltak du bør gjøre
-          for å forebygge for skader.
-        </p>
-      </div>
-      <div class="box">
-        <h2>Fare for styrtregn</h2>
-        <p>
-          Når det er risiko for fare i dette området, vil du kunne se varsler
-          her.
-        </p>
-        <h3>Tiltak</h3>
-        <p>
-          For hvert varsel vil du bli informert om hvilke tiltak du bør gjøre
-          for å forebygge for skader.
-        </p>
-      </div>
-      <div class="box">
-        <h2>Langtidsrisiko, skredfare</h2>
-        <p>
-          Når det er risiko for fare i dette området, vil du kunne se varsler
-          her.
-        </p>
-        <h3>Tiltak</h3>
-        <p>
-          For hvert varsel vil du bli informert om hvilke tiltak du bør gjøre
-          for å forebygge for skader.
-        </p>
-      </div>
+      <EventList :point="placeStore.currentPlace.address?.point"></EventList>
     </div>
     <div v-if="placeStore.places.includes(placeStore.currentPlace)">
       <button
@@ -85,6 +50,7 @@ import { useGeolocationStore } from '@/stores/geolocationStore'
 import { searchAddress, selectResult, usePlaceStore } from '@/stores/placeStore'
 import { ref } from 'vue'
 import { $t } from '@/translation'
+import EventList from '../event/EventList.vue'
 
 const paneOpen = ref(true)
 const userStore = useUserStore()
