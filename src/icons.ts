@@ -17,6 +17,7 @@ import {
   faBell,
   faLayerGroup,
   faInfo,
+  faPencil,
 } from '@fortawesome/free-solid-svg-icons'
 
 export const registerIcons = () => {
@@ -37,4 +38,5 @@ export const registerIcons = () => {
   library.add(faBell)
   library.add(faLayerGroup)
   library.add(faInfo)
+  library.add(faPencil)
 }

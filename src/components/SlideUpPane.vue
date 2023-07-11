@@ -5,6 +5,9 @@
       'almost-hidden': !open && hideMode == 'show-top',
       'completely-hidden': !open && hideMode == 'hidden',
     }"
+    :style="{
+      'z-index': zIndex,
+    }"
   >
     <div class="row center clickable" @click="emit('toggle')">
       <h3 v-if="title" style="margin: 0.5em 1em">{{ title }}</h3>
@@ -23,6 +26,7 @@ defineProps<{
   title?: string
   open: boolean
   hideMode: 'show-top' | 'hidden'
+  zIndex?: number
 }>()
 
 const emit = defineEmits<{
@@ -36,7 +40,7 @@ const emit = defineEmits<{
   border-radius: 2em 2em 0 0;
   width: 100%;
   bottom: 0;
-  background-color: white;
+  background-color: var(--c-white);
   box-shadow: 0px 0px 20px var(--c-dark-gray);
 }
 
@@ -47,7 +51,7 @@ const emit = defineEmits<{
 
 .slide-up-pane-margins {
   padding: 0em 2em 2em 2em;
-  max-height: 300px;
+  max-height: 500px;
   overflow: auto;
 }
 

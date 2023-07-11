@@ -12,9 +12,17 @@
       />
     </div>
     <div class="col">
-      <span style="font-weight: bold">{{ place.nickname }}</span>
+      <span style="font-weight: bold">
+        <fa-icon
+          icon="house"
+          style="padding-right: 0.3em; color: var(--c-dark-gray)"
+        ></fa-icon>
+        {{ maxChars(place.nickname, 20) }}</span
+      >
       <span v-if="place.address.street || place.address.city">
-        {{ place.address.street ?? '' }}, {{ place.address.city }}
+        <span style="font-size: small">
+          {{ place.address.street ?? '' }}, {{ place.address.city }}
+        </span>
       </span>
       <Coordinates v-else :place="place"></Coordinates>
     </div>
@@ -33,6 +41,7 @@ import FeatureLayer from '@arcgis/core/layers/FeatureLayer'
 import Point from '@arcgis/core/geometry/Point.js'
 import { onMounted, ref } from 'vue'
 import { router } from '@/router'
+import { maxChars } from '@/utils'
 
 const placeStore = usePlaceStore()
 const props = defineProps<{ place: Place }>()

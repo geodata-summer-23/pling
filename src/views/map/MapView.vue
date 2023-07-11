@@ -22,22 +22,57 @@
     hide-mode="show-top"
     @toggle="paneOpen = !paneOpen"
   >
-    <div>
-      {{ placeStore.currentPlace.address.street }}
-      <Coordinates :place="placeStore.currentPlace"></Coordinates>
-      <div v-if="placeStore.places.includes(placeStore.currentPlace)">
-        <button
-          v-if="placeStore.currentPlace != placeStore.places[0]"
-          @click="deleteCurrentPlace"
-        >
-          {{ $t().delete }}
-        </button>
+    <div class="col" style="gap: 1em">
+      <div class="box">
+        <h2>Det brenner!!</h2>
+        <p>
+          Når det er risiko for fare i dette området, vil du kunne se varsler
+          her.
+        </p>
+        <h3>Tiltak</h3>
+        <p>
+          For hvert varsel vil du bli informert om hvilke tiltak du bør gjøre
+          for å forebygge for skader.
+        </p>
       </div>
-      <div v-else>
-        <button @click="addCurrentPlace">
-          {{ $t().add }}
-        </button>
+      <div class="box">
+        <h2>Fare for styrtregn</h2>
+        <p>
+          Når det er risiko for fare i dette området, vil du kunne se varsler
+          her.
+        </p>
+        <h3>Tiltak</h3>
+        <p>
+          For hvert varsel vil du bli informert om hvilke tiltak du bør gjøre
+          for å forebygge for skader.
+        </p>
       </div>
+      <div class="box">
+        <h2>Langtidsrisiko, skredfare</h2>
+        <p>
+          Når det er risiko for fare i dette området, vil du kunne se varsler
+          her.
+        </p>
+        <h3>Tiltak</h3>
+        <p>
+          For hvert varsel vil du bli informert om hvilke tiltak du bør gjøre
+          for å forebygge for skader.
+        </p>
+      </div>
+    </div>
+    <div v-if="placeStore.places.includes(placeStore.currentPlace)">
+      <button
+        v-if="placeStore.currentPlace != placeStore.places[0]"
+        class="btn btn-icon"
+        @click="deleteCurrentPlace"
+      >
+        <fa-icon icon="pencil"></fa-icon>
+      </button>
+    </div>
+    <div v-else>
+      <button @click="addCurrentPlace">
+        {{ $t().add }}
+      </button>
     </div>
   </SlideUpPane>
 </template>
@@ -49,7 +84,6 @@ import { signIn, useUserStore } from '@/stores/userStore'
 import { useGeolocationStore } from '@/stores/geolocationStore'
 import { searchAddress, selectResult, usePlaceStore } from '@/stores/placeStore'
 import { ref } from 'vue'
-import Coordinates from '@/components/Coordinates.vue'
 import { $t } from '@/translation'
 
 const paneOpen = ref(true)
@@ -94,5 +128,11 @@ const searchBlur = () => {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.box {
+  border: 1px solid var(--c-text);
+  padding: 0em 1em;
+  border-radius: 1em;
 }
 </style>

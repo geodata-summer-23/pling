@@ -76,6 +76,6 @@ const nextPage = () => {
 <style scoped>
 .blue {
   background-color: var(--c-light-blue);
-  color: white;
+  color: var(--c-white);
 }
 </style>

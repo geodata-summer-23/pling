@@ -2,10 +2,23 @@
   --c-dark-gray: #babae0;
   --c-medium-gray: #e9e9f9;
   --c-light-gray: #f5f5ff;
+  --c-white: white;
   --c-text: #04094f;
   --c-blue: #0b148b;
   --c-light-blue: #4b70e8;
 }
+/* 
+@media (prefers-color-scheme: dark) {
+  :root {
+    --c-dark-gray: #6f6f6f;
+    --c-medium-gray: #484848;
+    --c-light-gray: #1d1d1d;
+    --c-white: rgb(0, 0, 0);
+    --c-text: #ffffff;
+    --c-blue: #3341ff;
+    --c-light-blue: #84a1ff;
+  }
+} */
 
 body {
   background-color: var(--c-medium-gray);
@@ -14,6 +27,7 @@ body {
 }
 
 input {
+  background-color: var(--c-medium-gray);
   padding: 1.1em 1em;
   border-radius: 0.5em;
   border: 1px solid var(--c-dark-gray);
@@ -25,6 +39,12 @@ button {
   border-radius: 0.5em;
   border: 1px solid var(--c-dark-gray);
   cursor: pointer;
+  background-color: var(--c-light-gray);
+  color: var(--c-text);
+}
+
+button svg {
+  margin: 0em 0.2em;
 }
 
 .col {
@@ -48,7 +68,7 @@ button {
 }
 
 .display-container {
-  background-color: white;
+  background-color: var(--c-white);
   position: relative;
   max-width: 450px;
   height: 100svh;

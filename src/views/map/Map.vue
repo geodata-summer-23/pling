@@ -22,7 +22,7 @@
         </div>
       </div>
     </div>
-    <div class="places-row row" style="gap: 1em; overflow: auto">
+    <div class="row" style="gap: 1em; overflow: auto">
       <button
         v-for="place in places"
         class="place-button"
@@ -64,15 +64,18 @@
   <SlideUpPane
     :open="layersOpen"
     hide-mode="hidden"
+    :z-index="100"
     @toggle="layersOpen = !layersOpen"
   >
     <div>
+      <button @click="toggleSatelitte">Toggle satelitte</button>
       <div id="layerListDiv"></div>
     </div>
   </SlideUpPane>
   <SlideUpPane
     :open="infoOpen"
     hide-mode="hidden"
+    :z-index="100"
     @toggle="infoOpen = !infoOpen"
   >
     <div>
@@ -87,13 +90,13 @@ import MapView from '@arcgis/core/views/MapView'
 import Graphic from '@arcgis/core/Graphic'
 import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer'
 import Point from '@arcgis/core/geometry/Point'
-// import Search from '@arcgis/core/widgets/Search'
 import LayerList from '@arcgis/core/widgets/LayerList'
 import SlideUpPane from '@/components/SlideUpPane.vue'
 import Legend from '@arcgis/core/widgets/Legend'
 import { onMounted, onUnmounted, ref, watch } from 'vue'
 import { AddressPoint, Place } from '@/stores/placeStore'
 import { $t } from '@/translation'
+import { maxChars } from '@/utils'
 
 const props = defineProps<{
   center: AddressPoint | null
@@ -114,10 +117,17 @@ const infoOpen = ref(false)
 let mapView: MapView | null = null
 let mapCenterPoint: Graphic | null = null
 let watchPositionReference: number | null = null
+let satellite = false
 
-const maxChars = (text: string, n: number) => {
-  return text.length > n + 2 ? text.slice(0, n) + '..' : text
+const toggleSatelitte = () => {
+  if (!mapView?.map) return
+  satellite = !satellite
+  // @ts-ignore
+  mapView.map.basemap = getBasemap()
 }
+
+const getBasemap = () => (satellite ? 'satellite' : 'osm-light-gray')
+// https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html#basemap
 
 const createPointGraphic = (point: AddressPoint, color = '#2b95d6') => {
   const simpleMarkerSymbol = {
@@ -137,6 +147,7 @@ const createPointGraphic = (point: AddressPoint, color = '#2b95d6') => {
 
 onMounted(() => {
   const map = new WebMap({
+    basemap: getBasemap(),
     portalItem: {
       id: 'b139409c28884967a1a603695e0b478d', // https://arcg.is/1mTnbH
     },
@@ -150,11 +161,6 @@ onMounted(() => {
     zoom: 16,
   })
   mapView = view
-
-  // const search = new Search({
-  //   view: view,
-  // })
-  // view.ui.add(search, 'top-right')
 
   view.when(() => {
     new LayerList({
@@ -252,10 +258,5 @@ watch(
   white-space: nowrap;
   border: none;
   background-color: var(--c-light-gray);
-}
-
-.places-row {
-  /* -webkit-mask-image: linear-gradient(to right, black 90%, transparent 100%); */
-  /* mask-image: linear-gradient(to right, black 90%, transparent 100%); */
 }
 </style>
