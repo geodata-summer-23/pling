@@ -7,23 +7,23 @@
     </div>
 
     <div>
-      <CategoryView
+      <CategoryForm
         v-if="page == Page.Category"
         @category="alertData.category = $event"
-      ></CategoryView>
-      <LocationView
+      ></CategoryForm>
+      <LocationForm
         v-if="page == Page.Location"
         @location="alertData.position = $event"
-      ></LocationView>
-      <DescriptionView
+      ></LocationForm>
+      <DescriptionForm
         v-if="page == Page.Description"
         @description="alertData.message = $event"
-      ></DescriptionView>
-      <PictureView v-if="page == Page.Picture"></PictureView>
-      <OverviewView
+      ></DescriptionForm>
+      <PictureForm v-if="page == Page.Picture"></PictureForm>
+      <OverviewForm
         v-if="page == Page.Overview"
         :event="alertData"
-      ></OverviewView>
+      ></OverviewForm>
     </div>
   </div>
   <!-- <p>{{ data }}</p> -->
@@ -38,15 +38,15 @@
 </template>
 
 <script lang="ts" setup>
-import CategoryView from './CategoryView.vue'
-import LocationView from './LocationView.vue'
-import DescriptionView from './DescriptionView.vue'
-import PictureView from './PictureView.vue'
+import CategoryForm from './CategoryForm.vue'
+import LocationForm from './LocationForm.vue'
+import DescriptionForm from './DescriptionForm.vue'
+import PictureForm from './PictureForm.vue'
 import BackButton from '@/components/BackButton.vue'
+import OverviewForm from './OverviewForm.vue'
 import { reactive, ref } from 'vue'
 import { router } from '@/router'
 import { $t } from '@/translation'
-import OverviewView from './OverviewView.vue'
 import { AddressPoint } from '@/stores/placeStore'
 
 enum Page {

@@ -2,22 +2,22 @@
   <div class="view col spaced" style="gap: 2em">
     <BackButton v-if="page != 0" @click="prevPage"></BackButton>
     <div>
-      <WelcomeView
+      <WelcomeForm
         v-if="page == Page.Welcome"
         @update-valid="valid = $event"
-      ></WelcomeView>
-      <NameView
+      ></WelcomeForm>
+      <NameForm
         v-if="page == Page.Name"
         @update-valid="valid = $event"
-      ></NameView>
-      <BirthdayView
+      ></NameForm>
+      <BirthdayForm
         v-if="page == Page.Birthday"
         @update-valid="valid = $event"
-      ></BirthdayView>
-      <LanguageView
+      ></BirthdayForm>
+      <LanguageForm
         v-if="page == Page.Language"
         @update-valid="valid = $event"
-      ></LanguageView>
+      ></LanguageForm>
     </div>
   </div>
   <div class="view-bottom col">
@@ -36,10 +36,10 @@
 </template>
 
 <script lang="ts" setup>
-import NameView from './NameView.vue'
-import BirthdayView from './BirthdayView.vue'
-import LanguageView from './LanguageView.vue'
-import WelcomeView from './WelcomeView.vue'
+import NameForm from './NameForm.vue'
+import BirthdayForm from './BirthdayForm.vue'
+import LanguageForm from './LanguageForm.vue'
+import WelcomeForm from './WelcomeForm.vue'
 import BackButton from '@/components/BackButton.vue'
 import { ref } from 'vue'
 import { router } from '@/router'
