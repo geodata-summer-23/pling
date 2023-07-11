@@ -99,11 +99,13 @@ import { onMounted, onUnmounted, ref, watch } from 'vue'
 import { AddressPoint, Place } from '@/stores/placeStore'
 import { $t } from '@/translation'
 import { maxChars } from '@/utils'
+import { AlertData } from '@/stores/eventStore'
 
 const props = defineProps<{
   center: AddressPoint | null
   searchResults: Record<string, any>[]
   places: Place[]
+  events: AlertData[]
 }>()
 
 const emit = defineEmits<{
@@ -147,20 +149,20 @@ const createPointGraphic = (point: AddressPoint, color = '#2b95d6') => {
   return pointGraphic
 }
 
-// const createEventGraphic = (point: AddressPoint, color = '#2b95d6') => {
-//   const pictureMarkerSymbol = {
-//     type: 'picture-marker',
-//     url: './warningIcons/icon-warning-extreme.svg',
-//     width: '64px',
-//     height: '64px'
-//   }
-//   const pointGraphic = new Graphic({
-//     geometry: new Point(point),
-//     // @ts-ignore
-//     symbol: pictureMarkerSymbol,
-//   })
-//   return pointGraphic
-// }
+const createEventGraphic = (point: AddressPoint) => {
+  const pictureMarkerSymbol = {
+    type: 'picture-marker',
+    url: './warningIcons/icon-warning-extreme.svg',
+    width: '64px',
+    height: '64px'
+  }
+  const pointGraphic = new Graphic({
+    geometry: new Point(point),
+    // @ts-ignore
+    symbol: pictureMarkerSymbol,
+  })
+  return pointGraphic
+}
 
 onMounted(() => {
   const map = new WebMap({
@@ -211,6 +213,13 @@ onMounted(() => {
       graphicsLayer.add(newPoint)
       mapCenterPoint = newPoint
     }
+  })
+
+  view.when(() => {
+    props.events.forEach((event) => {
+      const newPoint = createEventGraphic(event.position)
+      graphicsLayer.add(newPoint)
+    })
   })
 })
 

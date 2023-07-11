@@ -6,7 +6,17 @@ export const $t = () => {
   return useUserStore().language == 'english' ? english : norwegian
 }
 
-const norwegian = {
+export const translate = (text: string) => {
+  const t = $t()
+  return text.split(' ').map(word => {
+    if (word in t) {
+      return t[word]
+    }
+    return "?"
+  }).join(' ')
+}
+
+const norwegian: Record<string, string> = {
   continue: 'Gå videre',
   skip: 'Hopp over',
   add: 'Legg til',
@@ -64,7 +74,7 @@ const norwegian = {
   takePicture: 'Ta et bilde',
 }
 
-const english = {
+const english: Record<string, string> = {
   continue: 'Continue',
   skip: 'Skip',
   add: 'Add',

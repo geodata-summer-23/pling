@@ -3,7 +3,7 @@
     <h3>{{ props.event.category }}</h3>
     <div class="row location-box">
       <fa-icon icon="location-dot"></fa-icon>
-      <p v-if="props.event.dist <= 1000">{{ props.event.dist }}m unna</p>
+      <p v-if="props.event.dist <= 100000">{{ props.event.dist }}m unna</p>
       <p v-if="props.event.dist > 1000">>1000m unna</p>
     </div>
     <p>{{ props.event.message }}</p>
@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts" setup>
-import { AlertData } from './EventView.vue'
+import { AlertData } from '@/stores/eventStore'
 
 const props = defineProps<{ event: AlertData }>()
 </script>

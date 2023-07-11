@@ -4,6 +4,7 @@
     :center="geoLocationStore.getMapCenter"
     :search-results="results"
     :places="placeStore.places"
+    :events="useEventStore().events"
     @select-place="placeStore.currentPlace = $event"
     @select-result="selectResultAndClear"
     @search="search"
@@ -57,6 +58,7 @@ import { ref } from 'vue'
 import { $t } from '@/translation'
 import EventList from '../event/EventList.vue'
 import { router } from '@/router'
+import { useEventStore } from '@/stores/eventStore'
 
 const paneOpen = ref(true)
 const userStore = useUserStore()

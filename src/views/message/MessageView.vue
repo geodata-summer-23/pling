@@ -25,6 +25,12 @@ import { router } from '@/router'
 import EventList from '../event/EventList.vue'
 import { $t } from '@/translation'
 import { usePlaceStore } from '@/stores/placeStore'
+import { onMounted } from 'vue';
+
+onMounted(() => {
+  usePlaceStore().currentPlace = usePlaceStore().places[0]
+})
+
 </script>
 
 <style>
