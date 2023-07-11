@@ -68,9 +68,6 @@
     @toggle="layersOpen = !layersOpen"
   >
     <div>
-      <!-- <button @click="toggleSatelitte">
-        Toggle {{ satellite ? 'vector' : 'satellite' }}
-      </button> -->
       <div id="layerListDiv"></div>
     </div>
   </SlideUpPane>
@@ -95,7 +92,7 @@ import Point from '@arcgis/core/geometry/Point'
 import LayerList from '@arcgis/core/widgets/LayerList'
 import SlideUpPane from '@/components/SlideUpPane.vue'
 import Legend from '@arcgis/core/widgets/Legend'
-import { onMounted, onUnmounted, ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { AddressPoint, Place } from '@/stores/placeStore'
 import { $t } from '@/translation'
 import { maxChars } from '@/utils'
@@ -120,135 +117,117 @@ const layersOpen = ref(false)
 const infoOpen = ref(false)
 let mapView: MapView | null = null
 let mapCenterPoint: Graphic | null = null
-let watchPositionReference: number | null = null
-// const satellite = ref(false)
-
-// const toggleSatelitte = () => {
-//   if (!mapView?.map) return
-//   satellite.value = !satellite.value
-//   // @ts-ignore
-//   mapView.map.basemap = getBasemap()
-// }
-
-// const getBasemap = () => (satellite.value ? 'streets-vector' : 'osm-light-gray')
-// https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html#basemap
-
-const createPointGraphic = (point: AddressPoint, color = '#2b95d6') => {
-  const simpleMarkerSymbol = {
-    type: 'simple-marker',
-    color, // Orange
-    outline: {
-      color: [255, 255, 255], // White
-      width: 1,
-    },
-  }
-  const pointGraphic = new Graphic({
-    geometry: new Point(point),
-    symbol: simpleMarkerSymbol,
-  })
-  return pointGraphic
-}
-
-const createEventGraphic = (point: AddressPoint) => {
-  const pictureMarkerSymbol = {
-    type: 'picture-marker',
-    url: './warningIcons/icon-warning-extreme.svg',
-    width: '64px',
-    height: '64px',
-  }
-  const pointGraphic = new Graphic({
-    geometry: new Point(point),
-    // @ts-ignore
-    symbol: pictureMarkerSymbol,
-  })
-  return pointGraphic
-}
 
 onMounted(() => {
   const map = new WebMap({
-    // basemap: getBasemap(),
+    // basemap: 'osm-light-gray',
     portalItem: {
       id: 'b139409c28884967a1a603695e0b478d', // https://arcg.is/1mTnbH
     },
   })
   map.add(graphicsLayer)
 
-  const view = new MapView({
+  mapView = new MapView({
     map: map,
     container: 'mapViewDiv',
     center: [11, 60],
-    zoom: 16,
+    zoom: 15,
   })
-  mapView = view
 
-  view.when(() => {
+  mapView.when(() => {
+    if (!mapView) return
+    drawGraphics()
+    goToAndDrawCenter()
+
     new LayerList({
-      view: view,
+      view: mapView,
       container: 'layerListDiv',
     })
 
     new Legend({
-      view: view,
+      view: mapView,
       container: 'legendDiv',
       layerInfos: [
         {
-          layer: view.map.layers.find((m) => m.title == 'Utsatte bygninger'),
+          layer: mapView.map.layers.find((m) => m.title == 'Utsatte bygninger'),
         },
       ],
     })
   })
-
-  view.when(() => {
-    props.places.forEach((place) => {
-      if (!place.address.point || place.address.point == props.center) return
-      const newPoint = createPointGraphic(place.address.point, '#1fe063')
-      graphicsLayer.add(newPoint)
-    })
-    if (props.center) {
-      view.goTo({
-        center: new Point(props.center),
-        zoom: 16,
-      })
-      const newPoint = createPointGraphic(props.center)
-      graphicsLayer.add(newPoint)
-      mapCenterPoint = newPoint
-    }
-  })
-
-  view.when(() => {
-    props.events.forEach((event) => {
-      const newPoint = createEventGraphic(event.position)
-      graphicsLayer.add(newPoint)
-    })
-  })
-})
-
-onUnmounted(() => {
-  if (watchPositionReference) {
-    navigator.geolocation.clearWatch(watchPositionReference)
-  }
 })
 
 watch(
   () => props.center,
   () => {
-    if (!props.center || !mapView) return
-    mapView.when(() => {
-      if (!props.center || !mapView) return
-      mapView.goTo({
-        center: new Point(props.center),
-        zoom: 16,
-      })
-    })
-    if (mapCenterPoint) {
-      mapCenterPoint.geometry = new Point(props.center)
-    } else {
-      const newPoint = createPointGraphic(props.center)
-      graphicsLayer.add(newPoint)
-      mapCenterPoint = newPoint
-    }
+    goToAndDrawCenter()
   }
 )
+
+watch(
+  () => [props.places, props.events],
+  () => {
+    drawGraphics()
+  }
+)
+
+const goToAndDrawCenter = () => {
+  if (!props.center || !mapView) return
+  mapView.goTo({
+    center: new Point(props.center),
+    zoom: 15,
+  })
+  if (mapCenterPoint) {
+    mapCenterPoint.geometry = new Point(props.center)
+  } else {
+    const newPoint = createPointGraphic(props.center)
+    graphicsLayer.add(newPoint)
+    mapCenterPoint = newPoint
+  }
+}
+
+const drawGraphics = () => {
+  graphicsLayer.removeAll()
+  if (mapCenterPoint) {
+    graphicsLayer.add(mapCenterPoint)
+  }
+  props.places.forEach((place) => {
+    if (!place.address.point || place.address.point == props.center) return
+    const newPoint = createPointGraphic(place.address.point, '#1fe063')
+    graphicsLayer.add(newPoint)
+  })
+  props.events.forEach((event) => {
+    const newPoint = createEventGraphic(event.position)
+    graphicsLayer.add(newPoint)
+  })
+}
+
+const createPointGraphic = (point: AddressPoint, color = '#2b95d6') => {
+  return new Graphic({
+    geometry: new Point(point),
+    symbol: {
+      // @ts-ignore
+      type: 'simple-marker',
+      color,
+      outline: {
+        color: '#ffffff',
+        width: 1,
+      },
+    },
+  })
+}
+
+const createEventGraphic = (point: AddressPoint) => {
+  return new Graphic({
+    geometry: new Point(point),
+    symbol: {
+      // @ts-ignore
+      type: 'picture-marker',
+      url: './warningIcons/icon-warning-extreme.svg',
+      width: '64px',
+      height: '64px',
+    },
+  })
+}
 </script>
 
 <style scoped>
