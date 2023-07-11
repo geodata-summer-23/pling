@@ -8,12 +8,10 @@ export const $t = () => {
 
 export const translate = (text: string) => {
   const t = $t()
-  return text.split(' ').map(word => {
-    if (word in t) {
-      return t[word]
-    }
-    return "?"
-  }).join(' ')
+  return text
+    .split(' ')
+    .map((word) => (word in t ? t[word] : '?'))
+    .join(' ')
 }
 
 const norwegian: Record<string, string> = {

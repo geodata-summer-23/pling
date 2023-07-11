@@ -5,6 +5,6 @@
 </template>
 
 <script lang="ts" setup>
-withDefaults(defineProps<{ icon: string }>(), { icon: 'angle-left' })
+withDefaults(defineProps<{ icon?: string }>(), { icon: 'angle-left' })
 const emit = defineEmits<{ (e: 'click'): void }>()
 </script>

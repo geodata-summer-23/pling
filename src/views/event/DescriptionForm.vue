@@ -52,7 +52,7 @@ textarea {
   padding: 1em;
   border-radius: 7px;
   border: 1px solid #000;
-  height: 4em;
+  height: 6em;
 }
 
 input[type='checkbox'] {

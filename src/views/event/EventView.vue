@@ -19,7 +19,11 @@
         v-if="page == Page.Description"
         @description="alertData.message = $event"
       ></DescriptionForm>
-      <PictureForm v-if="page == Page.Picture"></PictureForm>
+      <PictureForm
+        v-if="page == Page.Picture"
+        :image-src="alertData.imageSrc"
+        @update-picture="alertData.imageSrc = $event"
+      ></PictureForm>
       <OverviewForm
         v-if="page == Page.Overview"
         :event="alertData"
@@ -47,7 +51,7 @@ import OverviewForm from './OverviewForm.vue'
 import { reactive, ref } from 'vue'
 import { router } from '@/router'
 import { $t } from '@/translation'
-import { AddressPoint } from '@/stores/placeStore'
+import { AlertData } from '@/stores/eventStore'
 
 enum Page {
   Category,
@@ -68,23 +72,8 @@ const alertData = reactive<AlertData>({
   timestamp: -1,
   category: 'flood',
   dist: -1,
+  imageSrc: '',
 })
-
-export type CategoryState =
-  | 'flood'
-  | 'torrentialRain'
-  | 'fire'
-  | 'wind'
-  | 'avalanche'
-  | 'other'
-
-export type AlertData = {
-  message: string
-  position: AddressPoint
-  timestamp: number
-  category: CategoryState
-  dist: number
-}
 
 const prevPage = () => {
   page.value = Math.max(0, page.value - 1)

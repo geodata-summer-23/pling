@@ -1,17 +1,23 @@
-import { defineStore } from "pinia"
-import { AddressPoint } from "./placeStore"
-import { useGeolocationStore } from "./geolocationStore"
+import { acceptHMRUpdate, defineStore } from 'pinia'
+import { AddressPoint } from './placeStore'
+import { useGeolocationStore } from './geolocationStore'
 
+export type CategoryState =
+  | 'flood'
+  | 'torrentialRain'
+  | 'fire'
+  | 'wind'
+  | 'avalanche'
+  | 'other'
 
-export type CategoryState = 'flood' | 'torrentialRain' | 'fire' | 'wind' | 'avalanche' | 'other'
 export type AlertData = {
-  message: string,
-  position: AddressPoint,
-  timestamp: number,
-  category: CategoryState,
+  message: string
+  position: AddressPoint
+  timestamp: number
+  category: CategoryState
   dist: number
+  imageSrc: string
 }
-
 
 export const useEventStore = defineStore('event', {
   state: () => ({
@@ -20,13 +26,19 @@ export const useEventStore = defineStore('event', {
 
   actions: {
     init() {
-      if (!useGeolocationStore().position?.latitude || !useGeolocationStore().position?.longitude) {
+      if (
+        !useGeolocationStore().position?.latitude ||
+        !useGeolocationStore().position?.longitude
+      ) {
         console.error('Invalid position')
         return
       }
-      this.updateEvents(useGeolocationStore().position?.latitude, useGeolocationStore().position?.longitude)
+      this.updateEvents(
+        useGeolocationStore().position?.latitude,
+        useGeolocationStore().position?.longitude
+      )
     },
-    async updateEvents(lat: number | undefined, lon:number | undefined) {
+    async updateEvents(lat: number | undefined, lon: number | undefined) {
       if (!lat || !lon) {
         console.error('Invalid position')
         return
@@ -41,6 +53,10 @@ export const useEventStore = defineStore('event', {
       } catch {
         console.log('failed to get alerts')
       }
-    }
-  }
+    },
+  },
 })
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useGeolocationStore, import.meta.hot))
+}

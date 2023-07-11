@@ -51,12 +51,12 @@
 <script lang="ts" setup>
 import Map from './Map.vue'
 import SlideUpPane from '@/components/SlideUpPane.vue'
+import EventList from '../event/EventList.vue'
 import { signIn, useUserStore } from '@/stores/userStore'
 import { useGeolocationStore } from '@/stores/geolocationStore'
 import { searchAddress, selectResult, usePlaceStore } from '@/stores/placeStore'
 import { ref } from 'vue'
 import { $t } from '@/translation'
-import EventList from '../event/EventList.vue'
 import { router } from '@/router'
 import { useEventStore } from '@/stores/eventStore'
 
