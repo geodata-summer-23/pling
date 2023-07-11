@@ -70,6 +70,7 @@ const norwegian: Record<string, string> = {
   wishToReport: 'Ønsker du å varsle en hendelse?',
   reportInfo:
     'Alle varslinger blir sendt til en server for å bli behandlet og deretter sendt ut til nettverket knyttet lokasjonen hvor hendelsen fant sted. Vær dermed obs på at varslene er offentlige.',
+  thisPlace: 'dette stedet',
 }
 
 const english: Record<string, string> = {
@@ -126,4 +127,5 @@ const english: Record<string, string> = {
   wishToReport: 'Do you want to report an event?',
   reportInfo:
     'All notifications are sent to a server to be processed and then sent out to the network associated with the location where the event took place. Please note that the notifications are public.',
+  thisPlace: 'this place',
 }

@@ -8,6 +8,7 @@
   --c-light-blue: #4b70e8;
   --c-red: rgb(255, 63, 63);
 }
+
 /* 
 @media (prefers-color-scheme: dark) {
   :root {
@@ -45,8 +46,8 @@ button {
   white-space: nowrap;
 }
 
-button svg {
-  margin: 0em 0.2em;
+button span {
+  margin: 0em 0em 0em 0.5em;
 }
 
 .col {

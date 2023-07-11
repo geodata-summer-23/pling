@@ -24,20 +24,25 @@
   >
     <div class="col" style="gap: 1em">
       <EventList :point="placeStore.currentPlace.address?.point"></EventList>
-    </div>
-    <div v-if="placeStore.places.includes(placeStore.currentPlace)">
-      <button
-        v-if="placeStore.currentPlace != placeStore.places[0]"
-        class="btn btn-icon"
-        @click="deleteCurrentPlace"
+      <div
+        v-if="placeStore.places.includes(placeStore.currentPlace)"
+        class="row center"
       >
-        <fa-icon icon="pencil"></fa-icon>
-      </button>
-    </div>
-    <div v-else>
-      <button @click="addCurrentPlace">
-        {{ $t().add }}
-      </button>
+        <button
+          v-if="placeStore.currentPlace != placeStore.places[0]"
+          class="btn btn-icon"
+          @click="editCurrentPlace"
+        >
+          <fa-icon icon="pencil"></fa-icon>
+          <span> {{ $t().edit }} {{ $t().thisPlace }}</span>
+        </button>
+      </div>
+      <div v-else class="row center">
+        <button class="btn btn-icon" @click="addCurrentPlace">
+          <fa-icon icon="house"></fa-icon>
+          <span>{{ $t().add }} {{ $t().thisPlace }}</span>
+        </button>
+      </div>
     </div>
   </SlideUpPane>
 </template>
@@ -51,6 +56,7 @@ import { searchAddress, selectResult, usePlaceStore } from '@/stores/placeStore'
 import { ref } from 'vue'
 import { $t } from '@/translation'
 import EventList from '../event/EventList.vue'
+import { router } from '@/router'
 
 const paneOpen = ref(true)
 const userStore = useUserStore()
@@ -73,9 +79,9 @@ const search = (searchString: string) => {
   })
 }
 
-const deleteCurrentPlace = () => {
+const editCurrentPlace = () => {
   if (!placeStore.currentPlace) return
-  placeStore.removePlace(placeStore.currentPlace)
+  router.push({ name: 'edit-place' })
 }
 
 const addCurrentPlace = () => {

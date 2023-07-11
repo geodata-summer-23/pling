@@ -39,7 +39,7 @@ const onSubmit = () => {
     placeStore.currentPlace ?? {},
     place.value
   )
-  router.push({ name: 'home' })
+  router.back()
 }
 
 const onDelete = () => {
@@ -47,7 +47,7 @@ const onDelete = () => {
     placeStore.removePlace(placeStore.currentPlace)
     placeStore.currentPlace = placeStore.places[0]
   }
-  router.push({ name: 'home' })
+  router.back()
 }
 </script>
 
