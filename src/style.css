@@ -29,10 +29,22 @@ body {
 }
 
 input {
-  background-color: var(--c-medium-gray);
-  padding: 1.1em 1em;
+  font-size: medium;
+  background-color: var(--c-light-gray);
+  color: var(--c-text);
+  padding: 1em 1em;
   border-radius: 0.5em;
   border: 1px solid var(--c-dark-gray);
+}
+
+input:disabled {
+  background-color: var(--c-light-gray);
+  color: var(--c-dark-gray);
+}
+
+::placeholder {
+  color: var(--c-text);
+  opacity: 0.5;
 }
 
 button {

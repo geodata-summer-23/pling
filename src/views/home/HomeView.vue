@@ -98,7 +98,7 @@
 import { router } from '@/router'
 import { usePlaceStore } from '@/stores/placeStore'
 import { useUserStore } from '@/stores/userStore'
-import { ref } from 'vue'
+import { onDeactivated, ref } from 'vue'
 import { $t } from '@/translation'
 import PlaceBox from './PlaceBox.vue'
 
@@ -107,6 +107,11 @@ const placeStore = usePlaceStore()
 
 const edit = ref(false)
 const actionsOpen = ref(false)
+
+onDeactivated(() => {
+  actionsOpen.value = false
+  edit.value = false
+})
 </script>
 
 <style scoped>
