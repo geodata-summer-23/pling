@@ -25,11 +25,11 @@ import { CategoryState } from './EventView.vue';
 
 <style>
 
-	.category-select {
-		padding: 1em;
-		appearance: initial;
-		flex-shrink: 0;
-	}
+.category-select {
+  padding: 1em;
+  appearance: initial;
+  flex-shrink: 0;
+}
 
 	
 </style>

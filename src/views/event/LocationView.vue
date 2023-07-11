@@ -1,6 +1,13 @@
 <template>
     <h3> {{$t().whereEvent}} </h3>
 
+    <div class="col select">
+		<select class="location-select" name="LocationSelect" id="locationSelect">
+			<option value="myLocation"> {{ $t().myLocation }} </option>
+      <option value="locationOnMap"> {{ $t().selectInMap }}</option>
+		</select>
+	</div>
+
 
 
 
@@ -17,7 +24,14 @@
   }>()
 
   onUnmounted(() => {
-    console.log('loc')
     emit('location', {latitude: useGeolocationStore().position?.latitude, longitude: useGeolocationStore().position?.longitude})
   })
 </script>
+
+<style>
+.location-select {
+  padding: 1em;
+  appearance: initial;
+  flex-shrink: 0;
+}
+</style>
