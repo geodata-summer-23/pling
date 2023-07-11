@@ -14,8 +14,9 @@
 </template>
 
 <script lang="ts" setup>
+  import { CategoryState } from '@/stores/eventStore';
   import { $t } from '@/translation'
-import { CategoryState } from './EventView.vue';
+
 
   const emit = defineEmits<{
     (e: 'category', cat: CategoryState): void

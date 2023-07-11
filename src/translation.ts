@@ -6,7 +6,17 @@ export const $t = () => {
   return useUserStore().language == 'english' ? english : norwegian
 }
 
-const norwegian = {
+export const translate = (text: string) => {
+  const t = $t()
+  return text.split(' ').map(word => {
+    if (word in t) {
+      return t[word]
+    }
+    return "?"
+  }).join(' ')
+}
+
+const norwegian: Record<string, string> = {
   continue: 'Gå videre',
   skip: 'Hopp over',
   add: 'Legg til',
@@ -62,7 +72,7 @@ const norwegian = {
     'Alle varslinger blir sendt til en server for å bli behandlet og deretter sendt ut til nettverket knyttet lokasjonen hvor hendelsen fant sted. Vær dermed obs på at varslene er offentlige.',
 }
 
-const english = {
+const english: Record<string, string> = {
   continue: 'Continue',
   skip: 'Skip',
   add: 'Add',

@@ -30,7 +30,7 @@ import { ref } from 'vue'
 import { router } from '@/router'
 import { $t } from '@/translation'
 import OverviewView from './OverviewView.vue'
-import { AddressPoint } from '@/stores/placeStore'
+import { AlertData } from '@/stores/eventStore'
 
 enum Page {
   Category,
@@ -45,14 +45,6 @@ type RequestState = 'not-sent' | 'fail' | 'success'
 const page = ref<Page>(0)
 const requestState = ref<RequestState>('not-sent')
 
-export type CategoryState = 'flood' | 'torrentialRain' | 'fire' | 'wind' | 'avalanche' | 'other'
-export type AlertData = {
-  message: string,
-  position: AddressPoint,
-  timestamp: number,
-  category: CategoryState,
-  dist: number
-}
 
 let data: AlertData = { 
   message: '',
