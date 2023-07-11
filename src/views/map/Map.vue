@@ -145,6 +145,21 @@ const createPointGraphic = (point: AddressPoint, color = '#2b95d6') => {
   return pointGraphic
 }
 
+const createEventGraphic = (point: AddressPoint, color = '#2b95d6') => {
+  const pictureMarkerSymbol = {
+    type: 'picture-marker',
+    url: './warningIcons/icon-warning-extreme.svg',
+    width: '64px',
+    height: '64px'
+  }
+  const pointGraphic = new Graphic({
+    geometry: new Point(point),
+    // @ts-ignore
+    symbol: pictureMarkerSymbol,
+  })
+  return pointGraphic
+}
+
 onMounted(() => {
   const map = new WebMap({
     basemap: getBasemap(),
