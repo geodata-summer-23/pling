@@ -97,11 +97,13 @@ import { onMounted, onUnmounted, ref, watch } from 'vue'
 import { AddressPoint, Place } from '@/stores/placeStore'
 import { $t } from '@/translation'
 import { maxChars } from '@/utils'
+import { AlertData } from '@/stores/eventStore'
 
 const props = defineProps<{
   center: AddressPoint | null
   searchResults: Record<string, any>[]
   places: Place[]
+  events: AlertData[]
 }>()
 
 const emit = defineEmits<{
@@ -212,8 +214,10 @@ onMounted(() => {
   })
 
   view.when(() => {
-    const newPoint = createEventGraphic({latitude: 60, longitude: 10} as AddressPoint)
-    graphicsLayer.add(newPoint)
+    props.events.forEach((event) => {
+      const newPoint = createEventGraphic(event.position)
+      graphicsLayer.add(newPoint)
+    })
   })
 })
 
