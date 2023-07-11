@@ -22,7 +22,10 @@
         </div>
       </div>
     </div>
-    <div class="row clickthrough" style="gap: 1em; overflow: auto">
+    <div
+      class="row clickthrough"
+      style="margin-left: 1em; gap: 1em; overflow: auto"
+    >
       <button
         v-for="place in places"
         class="place-button"
@@ -247,8 +250,13 @@ const createEventGraphic = (point: AddressPoint) => {
   pointer-events: none;
   touch-action: none;
   width: 100%;
-  height: 100%;
+  height: min-content;
   gap: 0.6em;
+  background: linear-gradient(
+    rgba(15, 15, 50, 0.3) 0%,
+    rgba(15, 15, 50, 0.2) 40%,
+    rgba(255, 255, 255, 0) 80%
+  );
 }
 
 #street-address {

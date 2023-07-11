@@ -7,8 +7,8 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { registerIcons } from './icons'
 
 const app = createApp(App)
-  .use(createPinia())
   .use(router)
+  .use(createPinia())
   .component('fa-icon', FontAwesomeIcon)
 
 registerIcons()
