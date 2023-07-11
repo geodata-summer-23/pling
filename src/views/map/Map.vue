@@ -154,7 +154,7 @@ const createEventGraphic = (point: AddressPoint) => {
     type: 'picture-marker',
     url: './warningIcons/icon-warning-extreme.svg',
     width: '64px',
-    height: '64px'
+    height: '64px',
   }
   const pointGraphic = new Graphic({
     geometry: new Point(point),
@@ -286,5 +286,9 @@ watch(
 <style>
 .esri-zoom {
   display: none;
+}
+
+.esri-view .esri-view-surface--touch-none:focus::after {
+  outline: none !important;
 }
 </style>
