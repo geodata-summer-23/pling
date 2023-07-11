@@ -38,7 +38,7 @@ const norwegian = {
   report: 'Varsle',
   reportAnEvent: 'Varsle en hendelse',
   whatKindEvent: 'Hvilken type hendelse gjelder det?',
-  whereEvent: 'Hvor skjer dette',
+  whereEvent: 'Hvor skjer dette?',
   describeEvent: 'Forklar situasjonen',
   pictureEvent: 'Legg til et bilde',
   flood: 'Flom',
@@ -47,10 +47,9 @@ const norwegian = {
   windDamage: 'Skade fra vind',
   avalanche: 'Skred',
   other: 'Annet',
-  eventDescriptionText:
-    'Her kan man skrive inn tekst som forklarer situasjonen...',
+  eventDescriptionText: 'Er det noe mer du vil informere om?',
   addPictureDescription:
-    'Bildet blir brukt for å dokumentere hendelesen og deles offentlig i innlegget.',
+    'Bildet blir brukt for å dokumentere hendelsen og kan bli delt offentlig.',
   overview: 'Se over og legg ut',
   publish: 'Legg ut',
   searchAddress: 'Søk etter en adresse..',
@@ -61,6 +60,8 @@ const norwegian = {
   reportInfo:
     'Alle varslinger blir sendt til en server for å bli behandlet og deretter sendt ut til nettverket knyttet lokasjonen hvor hendelsen fant sted. Vær dermed obs på at varslene er offentlige.',
   thisPlace: 'dette stedet',
+  notImplemented: 'Denne funksjonen er foreløpig ikke implementert.',
+  takePicture: 'Ta et bilde',
 }
 
 const english = {
@@ -105,9 +106,9 @@ const english = {
   avalanche: 'Avalanche/landslide',
   other: 'Other',
   eventDescriptionText:
-    'Here you can enter text that explains the situation...',
+    'Is there anything else you would like to inform about?',
   addPictureDescription:
-    'The image is used to document the incident and is shared to other users.',
+    'The image is used to document the incident and may be shared to other users.',
   overview: 'Summary',
   publish: 'Publish',
   searchAddress: 'Search for an address..',
@@ -118,4 +119,6 @@ const english = {
   reportInfo:
     'All notifications are sent to a server to be processed and then sent out to the network associated with the location where the event took place. Please note that the notifications are public.',
   thisPlace: 'this place',
+  notImplemented: 'This function is currently not implemented.',
+  takePicture: 'Take a picture',
 }

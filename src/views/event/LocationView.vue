@@ -1,31 +1,39 @@
 <template>
-    <h3> {{$t().whereEvent}} </h3>
+  <h3>{{ $t().whereEvent }}</h3>
+  <div class="col select">
+    <select
+      class="location-select"
+      name="LocationSelect"
+      id="locationSelect"
+      :value="locationOption"
+      @change="locationOption = ($event.target as HTMLSelectElement).value"
+    >
+      <option value="myLocation">{{ $t().myLocation }}</option>
+      <option value="locationInMap">{{ $t().selectInMap }}</option>
+    </select>
+  </div>
 
-    <div class="col select">
-		<select class="location-select" name="LocationSelect" id="locationSelect">
-			<option value="myLocation"> {{ $t().myLocation }} </option>
-      <option value="locationOnMap"> {{ $t().selectInMap }}</option>
-		</select>
-	</div>
-
-
-
-
+  <p v-if="locationOption == 'locationInMap'">{{ $t().notImplemented }}</p>
 </template>
 
 <script lang="ts" setup>
-  import { useGeolocationStore } from '@/stores/geolocationStore';
-  import { AddressPoint } from '@/stores/placeStore';
-  import { $t } from '@/translation'
-  import { onUnmounted } from 'vue';
+import { useGeolocationStore } from '@/stores/geolocationStore'
+import { AddressPoint } from '@/stores/placeStore'
+import { $t } from '@/translation'
+import { onUnmounted, ref } from 'vue'
 
-  const emit = defineEmits<{
-    (e: 'location', lac: AddressPoint): void
-  }>()
+const locationOption = ref('myLocation')
 
-  onUnmounted(() => {
-    emit('location', {latitude: useGeolocationStore().position?.latitude, longitude: useGeolocationStore().position?.longitude})
+const emit = defineEmits<{
+  (e: 'location', lac: AddressPoint): void
+}>()
+
+onUnmounted(() => {
+  emit('location', {
+    latitude: useGeolocationStore().position?.latitude,
+    longitude: useGeolocationStore().position?.longitude,
   })
+})
 </script>
 
 <style>

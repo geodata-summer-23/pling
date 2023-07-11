@@ -1,19 +1,19 @@
 <template>
   <div class="col alert-box" style="gap: 0.5em">
-      <h3>{{ props.event.category }}</h3>
-      <div class="row location-box">
-        <fa-icon icon="location-dot"></fa-icon>
-        <p v-if="props.event.dist <= 1000">{{ props.event.dist }}m unna</p>
-        <p v-if="props.event.dist > 1000"> >1000m unna</p>
-      </div>
-      <p>{{ props.event.message }}</p>
+    <h3>{{ props.event.category }}</h3>
+    <div class="row location-box">
+      <fa-icon icon="location-dot"></fa-icon>
+      <p v-if="props.event.dist <= 1000">{{ props.event.dist }}m unna</p>
+      <p v-if="props.event.dist > 1000">>1000m unna</p>
+    </div>
+    <p>{{ props.event.message }}</p>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { AlertData } from './EventView.vue';
+import { AlertData } from './EventView.vue'
 
-  const props = defineProps<{ event: AlertData }>()
+const props = defineProps<{ event: AlertData }>()
 </script>
 
 <style>
@@ -26,7 +26,7 @@ import { AlertData } from './EventView.vue';
 }
 
 .location-box {
-  background: #F6F6F6;
+  background: #f6f6f6;
   border-radius: 5px;
   align-items: center;
   gap: 1em;

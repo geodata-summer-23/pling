@@ -122,8 +122,6 @@ button span {
 }
 
 .btn {
-  min-width: 3.1em;
-  min-height: 3.1em;
   font-size: large;
   padding: 0.8em;
   background-color: var(--c-medium-gray);
@@ -137,6 +135,8 @@ button span {
 }
 
 .btn-icon {
+  min-width: 3.1em;
+  min-height: 3.1em;
   border-radius: 5em;
   width: min-content;
   display: flex;
