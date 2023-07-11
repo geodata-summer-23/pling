@@ -225,7 +225,7 @@ watch(
 )
 </script>
 
-<style>
+<style scoped>
 #mapViewDiv {
   height: 100%;
   margin: 0;
@@ -245,10 +245,6 @@ watch(
   touch-action: all;
 }
 
-.esri-zoom {
-  display: none;
-}
-
 #street-address {
   border-radius: 2em;
   padding-left: 2em;
@@ -258,5 +254,11 @@ watch(
   white-space: nowrap;
   border: none;
   background-color: var(--c-light-gray);
+}
+</style>
+
+<style>
+.esri-zoom {
+  display: none;
 }
 </style>

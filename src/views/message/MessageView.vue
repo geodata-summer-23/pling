@@ -1,22 +1,23 @@
 <template>
   <div class="view col">
-    <label style="font-weight: bold">Messages</label>
     <br />
     <div class="report-box">
       <h3>{{ $t().wishToReport }}</h3>
       <p>{{ $t().reportInfo }}</p>
       <div class="row center">
-        <button class="btn" style="color: red" @click="router.push({ name: 'event' })">Varsle <fa-icon icon="angle-right"></fa-icon> </button>
+        <button
+          class="btn"
+          style="color: red"
+          @click="router.push({ name: 'event' })"
+        >
+          Varsle <fa-icon icon="angle-right"></fa-icon>
+        </button>
       </div>
-
     </div>
     <h3>{{ $t().events }}</h3>
     <p>{{ $t().eventsDescription }}</p>
     <div class="col" style="gap: 0.5em">
-      <EventBox 
-        v-for="a in alerts" 
-        :event="a"
-      />
+      <EventBox v-for="a in alerts" :event="a" />
     </div>
   </div>
 </template>
@@ -26,11 +27,10 @@ import { onMounted, ref } from 'vue'
 import { useGeolocationStore } from '@/stores/geolocationStore'
 import { router } from '@/router'
 import EventBox from '../event/EventBox.vue'
-import { AlertData } from '../event/EventView.vue';
+import { AlertData } from '../event/EventView.vue'
 import { $t } from '@/translation'
 
 const alerts = ref<AlertData[]>([])
-
 
 onMounted(() => {
   getAlerts()

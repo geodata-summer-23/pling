@@ -7,9 +7,13 @@
       <img
         v-for="icon in alertIcons"
         class="alert-icon"
+        :class="{ 'vertical-shake': !edit }"
         :src="icon"
         width="40"
       />
+    </div>
+    <div v-if="edit && !isMyLocation" class="edit-icon-container">
+      <fa-icon icon="pencil" size="lg" class="vertical-shake"></fa-icon>
     </div>
     <div class="col">
       <span style="font-weight: bold">
@@ -44,7 +48,11 @@ import { router } from '@/router'
 import { maxChars } from '@/utils'
 
 const placeStore = usePlaceStore()
-const props = defineProps<{ place: Place }>()
+const props = defineProps<{
+  place: Place
+  edit: boolean
+  isMyLocation: boolean
+}>()
 
 const alertIcons = ref<string[]>([])
 const alertMessages = ref<string[]>([])
@@ -53,7 +61,13 @@ const clickPlace = (place: Place) => {
   if (place.address.point) {
     placeStore.currentPlace = place
   }
-  router.push({ name: 'map' })
+  if (props.edit) {
+    if (!props.isMyLocation) {
+      router.push({ name: 'edit-place' })
+    }
+  } else {
+    router.push({ name: 'map' })
+  }
 }
 const getDangers = (place: Place) => {
   const metAlertsLayer = new FeatureLayer({
@@ -103,6 +117,16 @@ onMounted(() => {
   display: flex;
   flex-direction: row;
   justify-content: end;
+}
+
+.edit-icon-container {
+  position: absolute;
+  width: 90%;
+  top: -0.2em;
+  left: -0.2em;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
 }
 
 .address-item {
