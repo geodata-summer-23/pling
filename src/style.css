@@ -122,6 +122,7 @@ button span {
   padding: 1.6em;
   position: absolute;
   pointer-events: none;
+  touch-action: none;
 }
 
 .view-bottom > * {
@@ -131,6 +132,16 @@ button span {
 
 .clickable {
   cursor: pointer;
+}
+
+.clickthrough {
+  pointer-events: none !important;
+  touch-action: none !important;
+}
+
+.clickthrough > * {
+  pointer-events: all;
+  touch-action: all;
 }
 
 .btn {

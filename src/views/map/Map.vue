@@ -1,6 +1,6 @@
 <template>
   <div id="mapViewDiv"></div>
-  <div class="overlay col">
+  <div class="overlay col clickthrough">
     <input
       type="text"
       id="street-address"
@@ -22,7 +22,7 @@
         </div>
       </div>
     </div>
-    <div class="row" style="gap: 1em; overflow: auto">
+    <div class="row clickthrough" style="gap: 1em; overflow: auto">
       <button
         v-for="place in places"
         class="place-button"
@@ -34,7 +34,10 @@
         </div>
       </button>
     </div>
-    <div class="row" style="margin-right: 1em; justify-content: end">
+    <div
+      class="row clickthrough"
+      style="margin-right: 1em; justify-content: end"
+    >
       <button
         class="btn btn-icon btn-shadow"
         @click="
@@ -47,7 +50,10 @@
         <fa-icon icon="layer-group"></fa-icon>
       </button>
     </div>
-    <div class="row" style="margin-right: 1em; justify-content: end">
+    <div
+      class="row clickthrough"
+      style="margin-right: 1em; justify-content: end"
+    >
       <button
         class="btn btn-icon btn-shadow"
         @click="
@@ -243,11 +249,6 @@ const createEventGraphic = (point: AddressPoint) => {
   width: 100%;
   height: 100%;
   gap: 0.6em;
-}
-
-.overlay > * {
-  pointer-events: all;
-  touch-action: all;
 }
 
 #street-address {
