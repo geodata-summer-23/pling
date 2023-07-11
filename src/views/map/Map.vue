@@ -145,7 +145,7 @@ const createPointGraphic = (point: AddressPoint, color = '#2b95d6') => {
   return pointGraphic
 }
 
-const createEventGraphic = (point: AddressPoint, color = '#2b95d6') => {
+const createEventGraphic = (point: AddressPoint) => {
   const pictureMarkerSymbol = {
     type: 'picture-marker',
     url: './warningIcons/icon-warning-extreme.svg',
@@ -209,6 +209,11 @@ onMounted(() => {
       graphicsLayer.add(newPoint)
       mapCenterPoint = newPoint
     }
+  })
+
+  view.when(() => {
+    const newPoint = createEventGraphic({latitude: 60, longitude: 10} as AddressPoint)
+    graphicsLayer.add(newPoint)
   })
 })
 
