@@ -95,7 +95,7 @@
   <SlideUpPane
     hide-mode="hidden"
     :z-index="100"
-    :middleSvh="65"
+    :middleSvh="60"
     :show="layersOpen"
     @show="layersOpen = true"
     @hide="layersOpen = false"
@@ -105,12 +105,16 @@
       <h3>{{ $t().category }}</h3>
       <div class="layer-grid">
         <div
-          v-for="layer in layers"
+          v-for="layerOption in layerOptions"
           class="layer-item row center"
-          :class="{ selected: selectedLayer == layer }"
-          @click="selectedLayer = layer"
+          :class="{
+            selected:
+              selectedLayerOption.displayTitle == layerOption.displayTitle,
+            disabled: layerOption.layerId == 'NotImplementedError',
+          }"
+          @click="() => selectLayerOption(layerOption)"
         >
-          {{ layer }}
+          {{ layerOption.displayTitle }}
         </div>
       </div>
     </div>
@@ -118,7 +122,7 @@
   <SlideUpPane
     hide-mode="hidden"
     :z-index="100"
-    :middleSvh="65"
+    :middleSvh="60"
     :show="infoOpen"
     @show="infoOpen = true"
     @hide="infoOpen = false"
@@ -158,15 +162,36 @@ const emit = defineEmits<{
   (e: 'search-blur'): void
 }>()
 
-const layers = [
-  $t().torrentialRain,
-  $t().windDamage,
-  $t().heatWave,
-  $t().flood,
-  $t().fire,
-  $t().avalanche,
+type LayerOption = {
+  displayTitle: string
+  layerId: string
+}
+
+const layerOptions: LayerOption[] = [
+  {
+    displayTitle: $t().torrentialRain,
+    layerId: '1894a0de007-layer-22',
+  },
+  {
+    displayTitle: $t().windSouth,
+    layerId: '1894a266058-layer-27',
+  },
+  {
+    displayTitle: $t().heatWave,
+    layerId: 'NotImplementedError',
+  },
+  {
+    displayTitle: $t().flood,
+    layerId: '1894a08e10a-layer-21',
+  },
+  { displayTitle: $t().fire, layerId: 'NotImplementedError' },
+  {
+    displayTitle: $t().avalanche,
+    layerId: 'NotImplementedError',
+  },
 ]
-const selectedLayer = ref($t().torrentialRain)
+
+const selectedLayerOption = ref(layerOptions[0])
 
 const graphicsLayer = new GraphicsLayer()
 const layersOpen = ref(false)
@@ -183,6 +208,7 @@ onMounted(() => {
   const map = new WebMap({
     // basemap: 'osm-light-gray',
     portalItem: {
+      // id: 'f02309ca204245dcb32ac3fbf652f248', // https://arcg.is/5SaqW
       id: 'b139409c28884967a1a603695e0b478d', // https://arcg.is/1mTnbH
     },
   })
@@ -201,8 +227,10 @@ onMounted(() => {
 
   mapView.when(() => {
     if (!mapView) return
+    // console.log(JSON.parse(JSON.stringify(map.layers)))
     drawGraphics()
     goToAndDrawCenter()
+    selectLayerOption(layerOptions[0])
 
     new LayerList({
       view: mapView,
@@ -220,6 +248,22 @@ onMounted(() => {
     })
   })
 })
+
+const selectLayerOption = (layerOption: LayerOption) => {
+  selectedLayerOption.value = layerOption
+  if (!mapView) return
+  layerOptions.forEach((option) => {
+    if (!mapView) return
+    const layer = mapView.map.findLayerById(option.layerId)
+    if (layer) {
+      layer.visible = false
+    }
+  })
+  const layer = mapView.map.findLayerById(selectedLayerOption.value.layerId)
+  if (layer) {
+    layer.visible = true
+  }
+}
 
 watch(
   () => props.center,
@@ -383,6 +427,10 @@ const createEventGraphic = (point: AddressPoint) => {
 }
 .layer-item.selected {
   background-color: var(--c-dark-gray);
+}
+
+div.disabled {
+  color: var(--c-dark-gray);
 }
 </style>
 
