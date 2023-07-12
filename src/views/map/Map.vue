@@ -106,7 +106,7 @@
       <div class="layer-grid">
         <div
           v-for="layerOption in layerOptions"
-          class="layer-item row center"
+          class="layer-item row center clickable"
           :class="{
             selected:
               selectedLayerOption.displayTitle == layerOption.displayTitle,
