@@ -21,8 +21,8 @@
       ></DescriptionForm>
       <PictureForm
         v-if="page == Page.Picture"
-        :image-src="alertData.imageSrc"
-        @update-picture="alertData.imageSrc = $event"
+        :image-src="alertData.imageSrc[0]"
+        @update-picture="alertData.imageSrc.push($event)"
       ></PictureForm>
       <OverviewForm
         v-if="page == Page.Overview"
@@ -72,7 +72,7 @@ const alertData = reactive<AlertData>({
   timestamp: -1,
   category: 'flood',
   dist: -1,
-  imageSrc: '',
+  imageSrc: [''] as string[],
 })
 
 const prevPage = () => {

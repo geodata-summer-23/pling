@@ -3,8 +3,8 @@
 
   <div class="col" style="gap: 1em">
     <div v-for="(question, i) in questions" class="row spaced">
-      <label :for="`checkbox-${i}`">{{ question }}</label>
-      <input type="checkbox" :id="`checkbox-${i}`" />
+      <label :for="`checkbox-${i}`">{{ question.q }}</label>
+      <input type="checkbox" :id="`checkbox-${i}`" v-model="question.a"/>
     </div>
   </div>
 
@@ -14,13 +14,11 @@
     <textarea
       id="eventDescription"
       type="text"
-      placeholder="..."
-      @focusout="
-        emit('description', ($event.target as HTMLTextAreaElement).value)
-      "
+      placeholder="For eksemple: Det er 15 cm vann i kjelleren min..."
       @input="
         wordCount = ($event.target as HTMLInputElement).value.split(' ').length
       "
+      v-model="eventDescription"
     />
   </div>
   <div class="row" style="justify-content: end">
@@ -30,7 +28,7 @@
 
 <script lang="ts" setup>
 import { $t } from '@/translation'
-import { ref } from 'vue'
+import { onUnmounted, ref } from 'vue'
 
 const emit = defineEmits<{
   (e: 'description', des: string): void
@@ -38,12 +36,29 @@ const emit = defineEmits<{
 
 const wordCount = ref(0)
 
+let eventDescription = ''
+
 const questions = [
-  'Det er fare for liv og helse.',
-  'Det er fare for private eiendeler.',
-  'Det er fare for eiendom eller infrastruktur.',
-  'Jeg ønsker hjelp fra noen i nærheten.',
+  {q: 'Det er fare for liv og helse.', a: false},
+  {q: 'Det er fare for private eiendeler.', a: false},
+  {q: 'Det er fare for eiendom eller infrastruktur.', a: false},
+  {q: 'Jeg ønsker hjelp fra noen i nærheten.', a: false},
 ]
+
+onUnmounted(() => { 
+  let description = ""
+  
+  questions.forEach(question => {
+    if (question.a) {
+      description = description.concat(' ', question.q)
+    }
+  });
+  
+  description = description.concat(' ', eventDescription)
+  
+  emit('description', description)
+})
+
 </script>
 
 <style scoped>
