@@ -93,20 +93,22 @@
     </div>
   </div>
   <SlideUpPane
-    :show="layersOpen"
     hide-mode="hidden"
     :z-index="100"
-    @toggle="layersOpen = !layersOpen"
+    :show="layersOpen"
+    @show="layersOpen = true"
+    @hide="layersOpen = false"
   >
     <div>
       <div id="layerListDiv"></div>
     </div>
   </SlideUpPane>
   <SlideUpPane
-    :show="infoOpen"
     hide-mode="hidden"
     :z-index="100"
-    @toggle="infoOpen = !infoOpen"
+    :show="infoOpen"
+    @show="infoOpen = true"
+    @hide="infoOpen = false"
   >
     <div>
       <div id="legendDiv"></div>

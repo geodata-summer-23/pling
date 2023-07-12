@@ -18,10 +18,11 @@
   </div>
   <SlideUpPane
     v-if="placeStore.currentPlace"
-    :show="paneOpen"
     :title="placeStore.currentPlace.nickname"
     hide-mode="show-top"
-    @toggle="paneOpen = !paneOpen"
+    :show="paneOpen"
+    @show="paneOpen = true"
+    @hide="paneOpen = false"
   >
     <div class="col" style="gap: 1em">
       <EventList :point="placeStore.currentPlace.address?.point"></EventList>
