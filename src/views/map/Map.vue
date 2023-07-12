@@ -270,7 +270,7 @@ const drawGraphics = () => {
     graphicsLayer.add(newPoint)
   })
   props.events.forEach((event) => {
-    const newPoint = createEventGraphic(event.position)
+    const newPoint = createEventGraphic(event.position, event.category)
     graphicsLayer.add(newPoint)
   })
 }
@@ -290,15 +290,28 @@ const createPointGraphic = (point: AddressPoint, color = '#2b95d6') => {
   })
 }
 
-const createEventGraphic = (point: AddressPoint) => {
+const createEventGraphic = (point: AddressPoint, category: string) => {
+  var warningIcon: string = './warningIcons/icon-warning-extrem-red.svg'
+  if (category == 'flood') {
+    warningIcon = './warningIcons/icon-warning-flood-red.svg'
+  } else if (category == 'fire') {
+    warningIcon = './warningIcons/icon-warning-forestfire-red.svg'
+  } else if (category == 'torrentialRain') {
+    warningIcon = './warningIcons/icon-warning-rainflood-red.svg'
+  } else if (category == 'wind') {
+    warningIcon = './warningIcons/icon-warning-wind-red.svg'
+  } else if (category == 'avalanche') {
+    warningIcon = './warningIcons/icon-warning-avalanches-red.svg'
+  }
+
   return new Graphic({
     geometry: new Point(point),
     symbol: {
       // @ts-ignore
       type: 'picture-marker',
-      url: './warningIcons/icon-warning-extreme.svg',
-      width: '40px',
-      height: '40px',
+      url: warningIcon,
+      width: '35px',
+      height: '35px',
     },
   })
 }

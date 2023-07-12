@@ -1,7 +1,7 @@
 <template>
   <div class="row alert-box">
     <div class="col" style="gap: 0.5em; padding: 1em">
-      <h3>{{ props.event.category }}</h3>
+      <h3>{{ translate(props.event.category) }}</h3>
       <div class="row location-box">
         <fa-icon icon="location-dot"></fa-icon>
         <p v-if="props.event.dist <= 100000">{{ props.event.dist }}m unna</p>
@@ -10,13 +10,14 @@
       <p>{{ props.event.message }}</p>
     </div>
     <div>
-      <img v-if="props.event.imageSrc" :src="props.event.imageSrc" alt="" />
+      <img v-if="props.event.imageSrc.length > 0" :src="props.event.imageSrc[0]" alt="" style="height: auto;" />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { AlertData } from '@/stores/eventStore'
+import { translate } from '@/translation'
 
 const props = defineProps<{ event: AlertData }>()
 </script>

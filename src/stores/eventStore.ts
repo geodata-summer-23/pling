@@ -16,7 +16,7 @@ export type AlertData = {
   timestamp: number
   category: CategoryState
   dist: number
-  imageSrc: string
+  imageSrc: string[]
 }
 
 export const useEventStore = defineStore('event', {
