@@ -56,6 +56,7 @@ const norwegian = {
   fire: 'Brann',
   windDamage: 'Skade fra vind',
   avalanche: 'Skred',
+  heatWave: 'Hetebølge',
   other: 'Annet',
   eventDescriptionText: 'Er det noe mer du vil informere om?',
   addPictureDescription:
@@ -73,6 +74,7 @@ const norwegian = {
   notImplemented: 'Denne funksjonen er foreløpig ikke implementert.',
   takePicture: 'Ta et bilde',
   notify: 'Varsle',
+  category: 'Kategori',
 } as const
 
 const english: Record<string, string> = {
@@ -115,6 +117,7 @@ const english: Record<string, string> = {
   fire: 'Fire',
   windDamage: 'Wind damage',
   avalanche: 'Avalanche/landslide',
+  heatWave: 'Heat wave',
   other: 'Other',
   eventDescriptionText:
     'Is there anything else you would like to inform about?',
@@ -133,4 +136,5 @@ const english: Record<string, string> = {
   notImplemented: 'This function is currently not implemented.',
   takePicture: 'Take a picture',
   notify: 'Notify',
+  category: 'Category',
 } as const
