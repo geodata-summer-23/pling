@@ -1,7 +1,7 @@
 <template>
   <div
     ref="bottomSheet"
-    class="slide-up-pane animated"
+    class="slide-up-pane"
     :class="hideMode"
     :style="{
       'z-index': zIndex,
@@ -16,7 +16,7 @@
       <div class="handle"></div>
       <h3 v-if="title" style="margin: 0.5em 1em">{{ title }}</h3>
     </div>
-    <div ref="sheetContent" class="content content">
+    <div ref="sheetContent" class="content">
       <slot></slot>
     </div>
   </div>
@@ -35,15 +35,26 @@ const props = defineProps<{
 const bottomSheet = ref<HTMLDivElement>()
 const sheetContent = ref<HTMLDivElement>()
 
-const updateSheetHeight = (height: number) => {
+const showBottomSheet = () => {
   if (!bottomSheet.value || !sheetContent.value) return
-  bottomSheet.value.classList.add('show')
-  sheetContent.value.style.height = `${height}svh`
+  if (props.show) {
+    bottomSheet.value.classList.add('show')
+    sheetContent.value.classList.add('show')
+    updateSheetHeight(50)
+  }
 }
 
 const hideBottomSheet = () => {
   if (!bottomSheet.value || !sheetContent.value) return
   bottomSheet.value.classList.remove('show')
+  sheetContent.value.classList.remove('show')
+}
+
+const updateSheetHeight = (height: number) => {
+  if (!bottomSheet.value || !sheetContent.value) return
+  bottomSheet.value.classList.add('show')
+  sheetContent.value.classList.add('show')
+  sheetContent.value.style.height = `calc(${height}svh - 12em)`
 }
 
 const dragStart = (e: MouseEvent | TouchEvent) => {
@@ -51,9 +62,20 @@ const dragStart = (e: MouseEvent | TouchEvent) => {
   if (!bottomSheet.value || !sheetContent.value) return
   let isDragging = true
   let startY = e instanceof MouseEvent ? e.pageY : e.touches?.[0].pageY
-  let startHeight = parseInt(sheetContent.value.style.height)
+
+  const styleHeight =
+    sheetContent.value.style.height.length > 0
+      ? sheetContent.value.style.height
+      : 'calc(10svh - 12em)'
+  // Assumes height: calc(100svh - 12em);
+  let startHeight = parseInt(
+    styleHeight.substring(
+      styleHeight.indexOf('(') + 1,
+      styleHeight.indexOf('svh')
+    )
+  )
   let newY = startY
-  bottomSheet.value.classList.add('dragging')
+  sheetContent.value.classList.add('dragging')
 
   const dragging = (e: MouseEvent | TouchEvent) => {
     if (!isDragging) return
@@ -66,21 +88,32 @@ const dragStart = (e: MouseEvent | TouchEvent) => {
   const dragStop = () => {
     if (!bottomSheet.value || !sheetContent.value) return
     isDragging = false
-    bottomSheet.value.classList.remove('dragging')
-    const sheetHeight = parseInt(sheetContent.value.style.height)
-    const isUp = newY - startY < 0
-    console.log(isUp)
-    if (sheetHeight < 25) {
-      if (isUp) {
-        updateSheetHeight(25)
-      } else {
+    sheetContent.value.classList.remove('dragging')
+    const styleHeight = sheetContent.value.style.height
+    const sheetHeight = parseInt(
+      styleHeight.substring(
+        styleHeight.indexOf('(') + 1,
+        styleHeight.indexOf('svh')
+      )
+    )
+
+    if (sheetHeight < 50) {
+      if (newY > startY) {
         hideBottomSheet()
-      }
-    } else {
-      if (isUp) {
-        updateSheetHeight(80)
       } else {
-        updateSheetHeight(25)
+        updateSheetHeight(50)
+      }
+    } else if (sheetHeight == 50) {
+      if (newY > startY) {
+        hideBottomSheet()
+      } else {
+        updateSheetHeight(100)
+      }
+    } else if (sheetHeight > 50) {
+      if (newY >= startY) {
+        updateSheetHeight(50)
+      } else {
+        updateSheetHeight(100)
       }
     }
 
@@ -94,17 +127,6 @@ const dragStart = (e: MouseEvent | TouchEvent) => {
   document.addEventListener('mouseup', dragStop)
   document.addEventListener('touchmove', dragging)
   document.addEventListener('touchend', dragStop)
-}
-
-// sheetOverlay.addEventListener('click', hideBottomSheet)
-// showModalBtn.addEventListener('click', showBottomSheet)
-
-const showBottomSheet = () => {
-  if (!bottomSheet.value) return
-  if (props.show) {
-    bottomSheet.value.classList.add('show')
-    updateSheetHeight(50)
-  }
 }
 
 watch(
@@ -124,8 +146,12 @@ watch(
 
 .content {
   padding: 0em 2em 2em 2em;
-  max-height: 80svh;
   overflow: auto;
+  max-height: 0;
+}
+
+.content.show {
+  max-height: calc(100svh - 12em);
 }
 
 .slide-up-pane {
@@ -136,21 +162,24 @@ watch(
   right: 0;
   background-color: var(--c-white);
   box-shadow: 0 2em 4em var(--c-text);
-  transition: all 0.1s linear;
-  /* opacity: 0; */
-}
-
-.hidden {
-  top: 100svh;
-}
-
-.show-top {
-  top: 85svh;
+  transition: all 100ms;
+  display: none;
 }
 
 .slide-up-pane.show {
-  /* opacity: 1; */
-  top: unset;
+  display: block;
+}
+
+.slide-up-pane.show-top {
+  display: block;
+}
+
+.slide-up-pane > * {
+  transition: all 200ms;
+}
+
+.dragging {
+  transition: none !important;
 }
 
 .handle {

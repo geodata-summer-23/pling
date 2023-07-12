@@ -31,7 +31,7 @@
       >
         <button
           v-if="placeStore.currentPlace != placeStore.places[0]"
-          class="btn btn-icon"
+          class="btn"
           @click="editCurrentPlace"
         >
           <fa-icon icon="pencil"></fa-icon>
@@ -39,7 +39,7 @@
         </button>
       </div>
       <div v-else class="row center">
-        <button class="btn btn-icon" @click="addCurrentPlace">
+        <button class="btn" @click="addCurrentPlace">
           <fa-icon icon="house"></fa-icon>
           <span>{{ $t().add }} {{ $t().thisPlace }}</span>
         </button>
