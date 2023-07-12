@@ -106,7 +106,7 @@ const dragStart = (e: MouseEvent | TouchEvent) => {
         emit('show')
       }
     } else if (sheetHeight == props.middleSvh) {
-      if (newY > startY) {
+      if (newY >= startY) {
         emit('hide')
       } else {
         updateSheetHeight(100)
@@ -180,11 +180,11 @@ watch(
 }
 
 .slide-up-pane.show {
-  transform: translateY(0);
+  transform: translateY(2em);
 }
 
 .slide-up-pane.show-top {
-  transform: translateY(0);
+  transform: translateY(2em);
 }
 
 .slide-up-pane > * {

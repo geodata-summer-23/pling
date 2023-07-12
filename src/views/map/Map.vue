@@ -93,16 +93,16 @@
     </div>
   </div>
   <SlideUpPane
+    :title="$t().category"
     hide-mode="hidden"
     :z-index="100"
-    :middleSvh="60"
+    :middleSvh="50"
     :show="layersOpen"
     @show="layersOpen = true"
     @hide="layersOpen = false"
   >
     <div>
       <!-- <div id="layerListDiv"></div> -->
-      <h3>{{ $t().category }}</h3>
       <div class="layer-grid">
         <div
           v-for="layerOption in layerOptions"
@@ -120,9 +120,10 @@
     </div>
   </SlideUpPane>
   <SlideUpPane
+    :title="$t().mapInfo"
     hide-mode="hidden"
     :z-index="100"
-    :middleSvh="60"
+    :middleSvh="50"
     :show="infoOpen"
     @show="infoOpen = true"
     @hide="infoOpen = false"
@@ -203,6 +204,7 @@ const lastClicked = ref(
 let mapView: MapView | null = null
 let mapCenterPoint: Graphic | null = null
 let goToTimeout: NodeJS.Timeout | undefined = undefined
+let legend: Legend | null = null
 
 onMounted(() => {
   const map = new WebMap({
@@ -237,12 +239,14 @@ onMounted(() => {
       container: 'layerListDiv',
     })
 
-    new Legend({
+    legend = new Legend({
       view: mapView,
       container: 'legendDiv',
       layerInfos: [
         {
-          layer: mapView.map.layers.find((m) => m.title == 'Utsatte bygninger'),
+          layer: mapView.map.layers.find(
+            (m) => m.id == selectedLayerOption.value.layerId
+          ),
         },
       ],
     })
@@ -262,6 +266,9 @@ const selectLayerOption = (layerOption: LayerOption) => {
   const layer = mapView.map.findLayerById(selectedLayerOption.value.layerId)
   if (layer) {
     layer.visible = true
+  }
+  if (legend) {
+    legend.layerInfos = [{ layer }]
   }
 }
 
