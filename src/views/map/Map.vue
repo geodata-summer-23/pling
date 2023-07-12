@@ -172,6 +172,10 @@ onMounted(() => {
     zoom: 15,
   })
 
+  mapView.on('click', (event) => {
+    event.stopPropagation() // Disable default click handler
+  })
+
   mapView.when(() => {
     if (!mapView) return
     drawGraphics()
