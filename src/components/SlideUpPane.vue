@@ -25,12 +25,16 @@
 <script lang="ts" setup>
 import { onMounted, ref, watch } from 'vue'
 
-const props = defineProps<{
-  show: boolean
-  hideMode: 'show-top' | 'hidden'
-  title?: string
-  zIndex?: number
-}>()
+const props = withDefaults(
+  defineProps<{
+    show: boolean
+    hideMode: 'show-top' | 'hidden'
+    title?: string
+    zIndex?: number
+    middleSvh?: number
+  }>(),
+  { middleSvh: 50 }
+)
 
 const emit = defineEmits<{
   (e: 'show'): void
@@ -42,7 +46,7 @@ const sheetContent = ref<HTMLDivElement>()
 
 const showBottomSheet = () => {
   if (!bottomSheet.value || !sheetContent.value) return
-  updateSheetHeight(50)
+  updateSheetHeight(props.middleSvh)
 }
 
 const hideBottomSheet = () => {
@@ -95,21 +99,21 @@ const dragStart = (e: MouseEvent | TouchEvent) => {
       )
     )
 
-    if (sheetHeight < 50) {
+    if (sheetHeight < props.middleSvh) {
       if (newY > startY) {
         emit('hide')
       } else {
         emit('show')
       }
-    } else if (sheetHeight == 50) {
+    } else if (sheetHeight == props.middleSvh) {
       if (newY > startY) {
         emit('hide')
       } else {
         updateSheetHeight(100)
       }
-    } else if (sheetHeight > 50) {
+    } else if (sheetHeight > props.middleSvh) {
       if (newY >= startY) {
-        updateSheetHeight(50)
+        updateSheetHeight(props.middleSvh)
       } else {
         updateSheetHeight(100)
       }

@@ -95,17 +95,30 @@
   <SlideUpPane
     hide-mode="hidden"
     :z-index="100"
+    :middleSvh="65"
     :show="layersOpen"
     @show="layersOpen = true"
     @hide="layersOpen = false"
   >
     <div>
-      <div id="layerListDiv"></div>
+      <!-- <div id="layerListDiv"></div> -->
+      <h3>{{ $t().category }}</h3>
+      <div class="layer-grid">
+        <div
+          v-for="layer in layers"
+          class="layer-item row center"
+          :class="{ selected: selectedLayer == layer }"
+          @click="selectedLayer = layer"
+        >
+          {{ layer }}
+        </div>
+      </div>
     </div>
   </SlideUpPane>
   <SlideUpPane
     hide-mode="hidden"
     :z-index="100"
+    :middleSvh="65"
     :show="infoOpen"
     @show="infoOpen = true"
     @hide="infoOpen = false"
@@ -144,6 +157,16 @@ const emit = defineEmits<{
   (e: 'search', searchString: string): void
   (e: 'search-blur'): void
 }>()
+
+const layers = [
+  $t().torrentialRain,
+  $t().windDamage,
+  $t().heatWave,
+  $t().flood,
+  $t().fire,
+  $t().avalanche,
+]
+const selectedLayer = ref($t().torrentialRain)
 
 const graphicsLayer = new GraphicsLayer()
 const layersOpen = ref(false)
@@ -342,6 +365,23 @@ const createEventGraphic = (point: AddressPoint) => {
 }
 
 .place-selected {
+  background-color: var(--c-dark-gray);
+}
+
+.layer-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 1em;
+  column-gap: 1em;
+}
+
+.layer-item {
+  background-color: var(--c-light-gray);
+  padding: 1em;
+  border-radius: 0.5em;
+  white-space: nowrap;
+}
+.layer-item.selected {
   background-color: var(--c-dark-gray);
 }
 </style>
