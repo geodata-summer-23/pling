@@ -18,7 +18,7 @@
   </div>
   <SlideUpPane
     v-if="placeStore.currentPlace"
-    :open="paneOpen"
+    :show="paneOpen"
     :title="placeStore.currentPlace.nickname"
     hide-mode="show-top"
     @toggle="paneOpen = !paneOpen"

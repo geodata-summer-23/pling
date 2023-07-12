@@ -24,7 +24,12 @@ import { $t } from '@/translation'
 import PlaceForm from './PlaceForm.vue'
 
 const placeStore = usePlaceStore()
-const place = ref<Place>({ nickname: '', address: {}, excludeDangers: [] })
+const place = ref<Place>({
+  nickname: '',
+  icon: 'house',
+  address: {},
+  excludeDangers: [],
+})
 const canSubmit = ref(false)
 
 const submit = () => {
