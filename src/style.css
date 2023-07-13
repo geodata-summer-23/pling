@@ -158,8 +158,11 @@ button span {
   color: var(--c-dark-gray);
 }
 
+.svg-inline--fa {
+  aspect-ratio: 1;
+}
+
 .btn-icon {
-  min-width: 2.6em;
   border-radius: 5em;
   width: min-content;
   display: flex;

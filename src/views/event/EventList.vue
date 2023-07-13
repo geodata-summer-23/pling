@@ -17,20 +17,30 @@
 <script lang="ts" setup>
 import EventBox from './EventBox.vue'
 import { usePlaceStore } from '@/stores/placeStore'
-import { useEventStore } from '@/stores/eventStore'
+import { useEventStore, AlertData } from '@/stores/eventStore'
 import { ref, watch } from 'vue'
 
-const selectedEvent = ref(useEventStore().events[0])
+const selectedEvent = ref<AlertData | null>(null)
+const eventStore = useEventStore()
 
 watch(
   () => usePlaceStore().currentPlace,
   () => {
-    useEventStore().updateEvents(
+    eventStore.updateEvents(
       usePlaceStore().currentPlace?.address.point?.latitude,
       usePlaceStore().currentPlace?.address.point?.longitude
     )
   },
   { immediate: true }
+)
+
+watch(
+  () => eventStore.events,
+  () => {
+    if (eventStore.events.length > 0) {
+      selectedEvent.value = eventStore.events[0]
+    }
+  }
 )
 </script>
 

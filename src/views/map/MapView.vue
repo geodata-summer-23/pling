@@ -14,7 +14,7 @@
     <br />
     <p>{{ $t().notSignedIn }}</p>
     <br />
-    <button @click="signIn">{{ $t().signIn }}</button>
+    <button class="btn" @click="signIn">{{ $t().signIn }}</button>
   </div>
   <SlideUpPane
     v-if="placeStore.currentPlace"
@@ -61,7 +61,7 @@ import {
   selectResult,
   usePlaceStore,
 } from '@/stores/placeStore'
-import { ref } from 'vue'
+import { onActivated, ref } from 'vue'
 import { $t } from '@/translation'
 import { router } from '@/router'
 import { useEventStore } from '@/stores/eventStore'
@@ -71,6 +71,10 @@ const userStore = useUserStore()
 const placeStore = usePlaceStore()
 const geoLocationStore = useGeolocationStore()
 const results = ref<Record<string, any>[]>([])
+
+onActivated(() => {
+  paneOpen.value = true
+})
 
 const selectPlace = (place: Place) => {
   placeStore.currentPlace = place

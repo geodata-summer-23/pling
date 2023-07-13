@@ -47,8 +47,9 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, watch } from 'vue'
 import IconButton from './IconButton.vue'
+import { onMounted, ref, watch } from 'vue'
+import throttle from 'lodash.throttle'
 
 const warningIcons = [
   './warningIcons/icon-warning-flood-red.svg',
@@ -82,19 +83,23 @@ enum State {
 
 const state = ref(State.Down)
 
-const clickRight = () => {
-  switch (state.value) {
-    case State.Down:
-      emit('show')
-      break
-    case State.Middle:
-      state.value = State.Up
-      break
-    case State.Up:
-      state.value = State.Middle
-      break
-  }
-}
+const clickRight = throttle(
+  () => {
+    switch (state.value) {
+      case State.Down:
+        emit('show')
+        break
+      case State.Middle:
+        state.value = State.Up
+        break
+      case State.Up:
+        state.value = State.Middle
+        break
+    }
+  },
+  1000,
+  { trailing: false }
+)
 
 const clickLeft = () => {
   emit('hide')
