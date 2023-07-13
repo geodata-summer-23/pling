@@ -72,6 +72,9 @@
           }
         "
       >
+        <span style="font-size: medium; padding-right: 0.2em">{{
+          selectedLayerOption.displayTitle
+        }}</span>
         <fa-icon icon="layer-group"></fa-icon>
       </button>
     </div>
