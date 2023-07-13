@@ -1,4 +1,9 @@
 import { $t } from '@/translation'
+import MapView from '@arcgis/core/views/MapView'
+
+export const mapObjects = {
+  mapView: null as MapView | null,
+}
 
 export type CategoryOption = {
   displayTitle: string

@@ -74,31 +74,11 @@
       class="row clickthrough"
       style="margin-right: 1em; justify-content: end"
     >
-      <button
-        class="btn btn-icon btn-shadow"
-        @click="
-          () => {
-            infoOpen = !infoOpen
-          }
-        "
-      >
+      <button class="btn btn-icon btn-shadow" @click="onInfoModal">
         <fa-icon icon="info"></fa-icon>
       </button>
     </div>
   </div>
-  <SlideUpPane
-    :title="$t().mapInfo"
-    hide-mode="hidden"
-    :z-index="100"
-    :middleSvh="50"
-    :show="infoOpen"
-    @show="infoOpen = true"
-    @hide="infoOpen = false"
-  >
-    <div>
-      <div id="legendDiv"></div>
-    </div>
-  </SlideUpPane>
 </template>
 
 <script lang="ts" setup>
@@ -109,8 +89,6 @@ import Graphic from '@arcgis/core/Graphic'
 import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer'
 import Point from '@arcgis/core/geometry/Point'
 import LayerList from '@arcgis/core/widgets/LayerList'
-import SlideUpPane from '@/components/SlideUpPane.vue'
-import Legend from '@arcgis/core/widgets/Legend'
 import { onMounted, ref, watch } from 'vue'
 import { AddressPoint, Place } from '@/stores/placeStore'
 import { $t } from '@/translation'
@@ -121,7 +99,8 @@ import {
   getCategoryIconSrc,
 } from '@/stores/eventStore'
 import { useModalStore } from '@/stores/modalStore'
-import { CategoryOption, getCategoryOptions } from './categories'
+import { CategoryOption, getCategoryOptions, mapObjects } from './map'
+import MapInfo from './MapInfo.vue'
 
 const props = defineProps<{
   center: AddressPoint | null
@@ -140,15 +119,12 @@ const emit = defineEmits<{
 const selectedCategory = ref(getCategoryOptions()[0])
 
 const graphicsLayer = new GraphicsLayer()
-const infoOpen = ref(false)
 const searchInputRef = ref<HTMLInputElement>()
 const lastClicked = ref(
   props.places.findIndex((place) => place.address.point == props.center)
 )
-let mapView: MapView | null = null
 let mapCenterPoint: Graphic | null = null
 let goToTimeout: NodeJS.Timeout | undefined = undefined
-let legend: Legend | null = null
 
 onMounted(() => {
   const map = new WebMap({
@@ -159,39 +135,27 @@ onMounted(() => {
   })
   map.add(graphicsLayer)
 
-  mapView = new MapView({
+  mapObjects.mapView = new MapView({
     map: map,
     container: 'mapViewDiv',
     center: [11, 60],
     zoom: 15,
   })
 
-  mapView.on('click', (event) => {
+  mapObjects.mapView.on('click', (event) => {
     event.stopPropagation() // Disable default click handler
   })
 
-  mapView.when(() => {
-    if (!mapView) return
+  mapObjects.mapView.when(() => {
+    if (!mapObjects.mapView) return
     // console.log(JSON.parse(JSON.stringify(map.layers)))
     drawGraphics()
     goToAndDrawCenter()
     selectCategoryOption(getCategoryOptions()[0])
 
     new LayerList({
-      view: mapView,
+      view: mapObjects.mapView,
       container: 'layerListDiv',
-    })
-
-    legend = new Legend({
-      view: mapView,
-      container: 'legendDiv',
-      layerInfos: [
-        {
-          layer: mapView.map.layers.find(
-            (m) => m.id == selectedCategory.value.layerId
-          ),
-        },
-      ],
     })
   })
 })
@@ -199,29 +163,36 @@ onMounted(() => {
 const onCategoryModal = () => {
   useModalStore().push(
     CategoriesSelect,
-    { selectedCategory },
+    { selectedCategory: selectedCategory.value },
     {
       'select-category': selectCategoryOption,
     }
   )
 }
 
+const onInfoModal = () => {
+  useModalStore().push(
+    MapInfo,
+    { selectedCategory: selectedCategory.value },
+    {}
+  )
+}
+
 const selectCategoryOption = (categoryOption: CategoryOption) => {
   selectedCategory.value = categoryOption
-  if (!mapView) return
+  if (!mapObjects.mapView) return
   getCategoryOptions().forEach((option) => {
-    if (!mapView) return
-    const layer = mapView.map.findLayerById(option.layerId)
+    if (!mapObjects.mapView) return
+    const layer = mapObjects.mapView.map.findLayerById(option.layerId)
     if (layer) {
       layer.visible = false
     }
   })
-  const layer = mapView.map.findLayerById(selectedCategory.value.layerId)
+  const layer = mapObjects.mapView.map.findLayerById(
+    selectedCategory.value.layerId
+  )
   if (layer) {
     layer.visible = true
-  }
-  if (legend) {
-    legend.layerInfos = [{ layer }]
   }
 }
 
@@ -246,7 +217,7 @@ const selectPlace = (place: Place) => {
     clearInterval(goToTimeout)
     goToTimeout = undefined
   }
-  if ((mapView?.zoom ?? 0) < 10) {
+  if ((mapObjects.mapView?.zoom ?? 0) < 10) {
     emit('select-place', place)
   } else {
     zoomTo(5)
@@ -258,7 +229,7 @@ const selectPlace = (place: Place) => {
 }
 
 const zoomTo = (zoom: number = 2) => {
-  mapView?.goTo(
+  mapObjects.mapView?.goTo(
     {
       zoom,
     },
@@ -271,8 +242,8 @@ const zoomTo = (zoom: number = 2) => {
 }
 
 const goToAndDrawCenter = () => {
-  if (!props.center || !mapView) return
-  mapView.goTo(
+  if (!props.center || !mapObjects.mapView) return
+  mapObjects.mapView.goTo(
     {
       center: new Point(props.center),
       zoom: 15,
@@ -380,3 +351,4 @@ const createEventGraphic = (point: AddressPoint, category: CategoryState) => {
   outline: none !important;
 }
 </style>
+./map

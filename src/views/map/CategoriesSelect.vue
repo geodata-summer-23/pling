@@ -21,7 +21,7 @@
 import PromptModalContent from '@/components/PromptModalContent.vue'
 import { useModalStore } from '@/stores/modalStore'
 import { $t } from '@/translation'
-import { CategoryOption, getCategoryOptions } from './categories'
+import { CategoryOption, getCategoryOptions } from './map'
 
 defineProps<{
   selectedCategory: CategoryOption
@@ -81,3 +81,4 @@ div.disabled {
   color: var(--c-dark-gray);
 }
 </style>
+./map
