@@ -6,7 +6,6 @@
     <div class="alert-icon-container">
       <img
         v-for="icon in alertIcons"
-        class="alert-icon"
         :class="{ 'vertical-shake': !edit }"
         :src="icon"
         width="40"

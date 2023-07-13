@@ -1,6 +1,6 @@
 <template>
   <div class="view col spaced" style="gap: 2em">
-    <BackButton v-if="page != 0" @click="prevPage"></BackButton>
+    <IconButton v-if="page != 0" @click="prevPage"></IconButton>
     <div>
       <WelcomeForm
         v-if="page == Page.Welcome"
@@ -40,7 +40,7 @@ import NameForm from './NameForm.vue'
 import BirthdayForm from './BirthdayForm.vue'
 import LanguageForm from './LanguageForm.vue'
 import WelcomeForm from './WelcomeForm.vue'
-import BackButton from '@/components/BackButton.vue'
+import IconButton from '@/components/IconButton.vue'
 import { ref } from 'vue'
 import { router } from '@/router'
 import { useUserStore } from '@/stores/userStore'

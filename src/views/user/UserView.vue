@@ -1,6 +1,6 @@
 <template>
   <div class="view col">
-    <BackButton @click="back"></BackButton>
+    <IconButton @click="back"></IconButton>
     <h2>{{ $t().userInformation }}</h2>
     <div class="row spaced">
       <label for="signIn">
@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts" setup>
-import BackButton from '@/components/BackButton.vue'
+import IconButton from '@/components/IconButton.vue'
 import { router } from '@/router'
 import { useGeolocationStore } from '@/stores/geolocationStore'
 import { usePlaceStore } from '@/stores/placeStore'

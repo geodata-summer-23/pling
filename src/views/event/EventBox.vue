@@ -1,16 +1,27 @@
 <template>
   <div class="row alert-box">
-    <div class="col" style="gap: 0.5em; padding: 1em">
-      <h3>{{ translate(props.event.category) }}</h3>
-      <div class="row location-box">
-        <fa-icon icon="location-dot"></fa-icon>
-        <p v-if="props.event.dist <= 100000">{{ props.event.dist }}m unna</p>
-        <p v-if="props.event.dist > 1000">>1000m unna</p>
+    <div class="col" style="padding: 1em">
+      <div class="row center" style="gap: 0.5em">
+        <h3>{{ translate(props.event.category) }}</h3>
+        <div>
+          <div class="row location-box">
+            <fa-icon icon="location-dot"></fa-icon>
+            <span v-if="props.event.dist <= 100000">
+              {{ props.event.dist }}m unna
+            </span>
+            <span v-if="props.event.dist > 1000">>1000m unna</span>
+          </div>
+        </div>
       </div>
       <p>{{ props.event.message }}</p>
     </div>
     <div>
-      <img v-if="props.event.imageSrc.length > 0" :src="props.event.imageSrc[0]" alt="" style="height: auto;" />
+      <img
+        v-if="props.event.imageSrc.length > 0"
+        :src="props.event.imageSrc[0]"
+        alt=""
+        style="height: auto"
+      />
     </div>
   </div>
 </template>
@@ -25,9 +36,10 @@ const props = defineProps<{ event: AlertData }>()
 <style scoped>
 .alert-box {
   border: 1px solid var(--c-medium-gray);
-  border-radius: 1em;
+  border-radius: 0em 0em 1em 1em;
   box-shadow: 0 0.4em 0.6em var(--c-medium-gray);
   overflow: hidden;
+  padding-bottom: 2em;
 }
 
 .location-box {
@@ -37,7 +49,7 @@ const props = defineProps<{ event: AlertData }>()
   gap: 1em;
   width: min-content;
   white-space: nowrap;
-  padding: 0em 1em;
+  padding: 0.5em 1em;
   flex-shrink: 0;
   font-size: x-small;
 }
@@ -46,5 +58,9 @@ img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+p {
+  margin: 0;
 }
 </style>

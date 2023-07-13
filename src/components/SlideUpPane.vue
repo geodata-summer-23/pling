@@ -7,14 +7,36 @@
       'z-index': zIndex,
     }"
   >
-    <div
-      class="col center clickable"
-      style="min-height: 3em"
-      @mousedown="dragStart"
-      @touchstart="dragStart"
-    >
-      <div class="handle"></div>
-      <h3 v-if="title" style="margin: 0.5em 1em">{{ title }}</h3>
+    <div class="row" style="justify-content: space-evenly; align-items: center">
+      <div style="width: 3em; display: flex; justify-content: center">
+        <IconButton
+          v-if="state != State.Down"
+          icon="xmark"
+          @click="clickLeft"
+        ></IconButton>
+
+        <img
+          v-for="icon in warningIcons"
+          :src="icon"
+          alt=""
+          width="40"
+          style="margin-left: -1.5em"
+        />
+      </div>
+      <div
+        class="col center clickable"
+        style="min-height: 3em"
+        @click="clickRight"
+      >
+        <div class="handle"></div>
+        <h3 v-if="title" style="margin: 0.5em 1em">{{ title }}</h3>
+      </div>
+      <div style="width: 3em; display: flex; justify-content: center">
+        <IconButton
+          :icon="state == State.Up ? 'angle-down' : 'angle-up'"
+          @click="clickRight"
+        ></IconButton>
+      </div>
     </div>
     <div ref="sheetContent" class="content" style="height: calc(0svh - 12em)">
       <slot></slot>
@@ -24,6 +46,12 @@
 
 <script lang="ts" setup>
 import { onMounted, ref, watch } from 'vue'
+import IconButton from './IconButton.vue'
+
+const warningIcons = [
+  '/warningIcons/icon-warning-flood-red.svg',
+  '/warningIcons/icon-warning-flood-yellow.svg',
+]
 
 const props = withDefaults(
   defineProps<{
@@ -44,12 +72,34 @@ const emit = defineEmits<{
 const bottomSheet = ref<HTMLDivElement>()
 const sheetContent = ref<HTMLDivElement>()
 
-const showBottomSheet = () => {
-  if (!bottomSheet.value || !sheetContent.value) return
-  updateSheetHeight(props.middleSvh)
+enum State {
+  Down,
+  Middle,
+  Up,
 }
 
-const hideBottomSheet = () => {
+const state = ref(State.Down)
+
+const clickRight = () => {
+  switch (state.value) {
+    case State.Down:
+      emit('show')
+      break
+    case State.Middle:
+      state.value = State.Up
+      break
+    case State.Up:
+      state.value = State.Middle
+      break
+  }
+}
+
+const clickLeft = () => {
+  emit('hide')
+}
+
+const hidePane = () => {
+  state.value = State.Down
   if (!bottomSheet.value || !sheetContent.value) return
   bottomSheet.value.classList.remove('show')
   sheetContent.value.classList.remove('show')
@@ -63,79 +113,11 @@ const updateSheetHeight = (height: number) => {
   sheetContent.value.style.height = `calc(${height}svh - 12em)`
 }
 
-const dragStart = (e: MouseEvent | TouchEvent) => {
-  e.preventDefault()
-  if (!bottomSheet.value || !sheetContent.value) return
-  let isDragging = true
-  let startY = e instanceof MouseEvent ? e.pageY : e.touches?.[0].pageY
-
-  const styleHeight = sheetContent.value.style.height
-  const startHeight = parseInt(
-    styleHeight.substring(
-      styleHeight.indexOf('(') + 1,
-      styleHeight.indexOf('svh')
-    )
-  )
-  let newY = startY
-  sheetContent.value.classList.add('dragging')
-
-  const dragging = (e: MouseEvent | TouchEvent) => {
-    if (!isDragging) return
-    newY = e instanceof MouseEvent ? e.pageY : e.touches?.[0].pageY
-    const delta = startY - newY
-    const newHeight = startHeight + (delta / window.innerHeight) * 100
-    updateSheetHeight(newHeight)
-  }
-
-  const dragStop = () => {
-    if (!bottomSheet.value || !sheetContent.value) return
-    isDragging = false
-    sheetContent.value.classList.remove('dragging')
-    const styleHeight = sheetContent.value.style.height
-    const sheetHeight = parseInt(
-      styleHeight.substring(
-        styleHeight.indexOf('(') + 1,
-        styleHeight.indexOf('svh')
-      )
-    )
-
-    if (sheetHeight < props.middleSvh) {
-      if (newY > startY) {
-        emit('hide')
-      } else {
-        emit('show')
-      }
-    } else if (sheetHeight == props.middleSvh) {
-      if (newY >= startY) {
-        emit('hide')
-      } else {
-        updateSheetHeight(100)
-      }
-    } else if (sheetHeight > props.middleSvh) {
-      if (newY >= startY) {
-        updateSheetHeight(props.middleSvh)
-      } else {
-        updateSheetHeight(100)
-      }
-    }
-
-    document.removeEventListener('mousemove', dragging)
-    document.removeEventListener('mouseup', dragStop)
-    document.removeEventListener('touchmove', dragging)
-    document.removeEventListener('touchend', dragStop)
-  }
-
-  document.addEventListener('mousemove', dragging)
-  document.addEventListener('mouseup', dragStop)
-  document.addEventListener('touchmove', dragging)
-  document.addEventListener('touchend', dragStop)
-}
-
 onMounted(() => {
   if (props.show) {
-    showBottomSheet()
+    state.value = State.Middle
   } else {
-    hideBottomSheet()
+    state.value = State.Down
   }
 })
 
@@ -143,9 +125,26 @@ watch(
   () => props.show,
   () => {
     if (props.show) {
-      showBottomSheet()
+      state.value = State.Middle
     } else {
-      hideBottomSheet()
+      state.value = State.Down
+    }
+  }
+)
+
+watch(
+  () => state.value,
+  () => {
+    switch (state.value) {
+      case State.Down:
+        hidePane()
+        break
+      case State.Middle:
+        updateSheetHeight(props.middleSvh)
+        break
+      case State.Up:
+        updateSheetHeight(100)
+        break
     }
   }
 )

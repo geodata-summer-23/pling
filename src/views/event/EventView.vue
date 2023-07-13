@@ -1,9 +1,9 @@
 <template>
   <div class="view col spaced" style="gap: 2em">
     <div class="row spaced">
-      <BackButton v-if="page != 0" @click="prevPage"></BackButton>
+      <IconButton v-if="page != 0" @click="prevPage"></IconButton>
       <h2>{{ $t().reportAnEvent }}</h2>
-      <BackButton icon="xmark" @click="exitPage"></BackButton>
+      <IconButton icon="xmark" @click="exitPage"></IconButton>
     </div>
 
     <div>
@@ -46,7 +46,7 @@ import CategoryForm from './CategoryForm.vue'
 import LocationForm from './LocationForm.vue'
 import DescriptionForm from './DescriptionForm.vue'
 import PictureForm from './PictureForm.vue'
-import BackButton from '@/components/BackButton.vue'
+import IconButton from '@/components/IconButton.vue'
 import OverviewForm from './OverviewForm.vue'
 import { reactive, ref } from 'vue'
 import { router } from '@/router'

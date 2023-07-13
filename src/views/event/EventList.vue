@@ -1,6 +1,6 @@
 <template>
   <div class="col">
-    <div class="row" style="gap: 1em">
+    <div class="row" style="gap: 0.5em">
       <div
         v-for="event in useEventStore().events"
         class="event-tab"
@@ -41,10 +41,12 @@ watch(
   color: var(--c-dark-gray);
   border-radius: 1em 1em 0em 0em;
   border: 1px solid var(--c-medium-gray);
+  border-bottom: none;
 }
 
 .event-tab.selected {
   background-color: var(--c-white);
   color: var(--c-text);
+  transform: translateY(1px);
 }
 </style>
