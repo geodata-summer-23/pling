@@ -150,7 +150,11 @@ import { onMounted, ref, watch } from 'vue'
 import { AddressPoint, Place } from '@/stores/placeStore'
 import { $t } from '@/translation'
 import { maxChars } from '@/utils'
-import { AlertData } from '@/stores/eventStore'
+import {
+  AlertData,
+  CategoryState,
+  getCategoryIconSrc,
+} from '@/stores/eventStore'
 
 const props = defineProps<{
   center: AddressPoint | null
@@ -213,7 +217,6 @@ onMounted(() => {
   const map = new WebMap({
     // basemap: 'osm-light-gray',
     portalItem: {
-      // id: 'f02309ca204245dcb32ac3fbf652f248', // https://arcg.is/5SaqW
       id: 'b139409c28884967a1a603695e0b478d', // https://arcg.is/1mTnbH
     },
   })
@@ -232,7 +235,7 @@ onMounted(() => {
 
   mapView.when(() => {
     if (!mapView) return
-    // console.log(JSON.parse(JSON.stringify(map.layers)))
+    console.log(JSON.parse(JSON.stringify(map.layers)))
     drawGraphics()
     goToAndDrawCenter()
     selectLayerOption(layerOptions[0])
@@ -373,26 +376,13 @@ const createPointGraphic = (point: AddressPoint, color = '#2b95d6') => {
   })
 }
 
-const createEventGraphic = (point: AddressPoint, category: string) => {
-  var warningIcon: string = './warningIcons/icon-warning-extrem-red.svg'
-  if (category == 'flood') {
-    warningIcon = './warningIcons/icon-warning-flood-red.svg'
-  } else if (category == 'fire') {
-    warningIcon = './warningIcons/icon-warning-forestfire-red.svg'
-  } else if (category == 'torrentialRain') {
-    warningIcon = './warningIcons/icon-warning-rainflood-red.svg'
-  } else if (category == 'wind') {
-    warningIcon = './warningIcons/icon-warning-wind-red.svg'
-  } else if (category == 'avalanche') {
-    warningIcon = './warningIcons/icon-warning-avalanches-red.svg'
-  }
-
+const createEventGraphic = (point: AddressPoint, category: CategoryState) => {
   return new Graphic({
     geometry: new Point(point),
     symbol: {
       // @ts-ignore
       type: 'picture-marker',
-      url: warningIcon,
+      url: getCategoryIconSrc(category),
       width: '35px',
       height: '35px',
     },

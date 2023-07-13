@@ -1,6 +1,6 @@
 <template>
   <div
-    ref="bottomSheet"
+    ref="paneDivRef"
     class="slide-up-pane"
     :class="hideMode"
     :style="{
@@ -15,18 +15,12 @@
           @click="clickLeft"
         ></IconButton>
         <div v-else>
-          <img
-            v-for="icon in warningIcons"
-            :src="icon"
-            alt=""
-            width="40"
-            style="margin-left: -1.5em"
-          />
+          <slot name="top-left"></slot>
         </div>
       </div>
       <div
         class="col center clickable"
-        style="min-height: 3em"
+        style="min-height: 3em; max-width: 12em"
         @mousedown="clickRight"
         @touchstart="clickRight"
       >
@@ -40,7 +34,7 @@
         ></IconButton>
       </div>
     </div>
-    <div ref="sheetContent" class="content" style="height: calc(0svh - 12em)">
+    <div ref="contentDivRef" class="content" style="height: calc(0svh - 12em)">
       <slot></slot>
     </div>
   </div>
@@ -50,11 +44,6 @@
 import IconButton from './IconButton.vue'
 import { onMounted, ref, watch } from 'vue'
 import throttle from 'lodash.throttle'
-
-const warningIcons = [
-  './warningIcons/icon-warning-flood-red.svg',
-  './warningIcons/icon-warning-flood-yellow.svg',
-]
 
 const props = withDefaults(
   defineProps<{
@@ -72,8 +61,8 @@ const emit = defineEmits<{
   (e: 'hide'): void
 }>()
 
-const bottomSheet = ref<HTMLDivElement>()
-const sheetContent = ref<HTMLDivElement>()
+const paneDivRef = ref<HTMLDivElement>()
+const contentDivRef = ref<HTMLDivElement>()
 
 enum State {
   Down,
@@ -97,7 +86,7 @@ const clickRight = throttle(
         break
     }
   },
-  1000,
+  310,
   { trailing: false }
 )
 
@@ -107,17 +96,17 @@ const clickLeft = () => {
 
 const hidePane = () => {
   state.value = State.Down
-  if (!bottomSheet.value || !sheetContent.value) return
-  bottomSheet.value.classList.remove('show')
-  sheetContent.value.classList.remove('show')
-  sheetContent.value.style.height = `calc(0svh - 12em)`
+  if (!paneDivRef.value || !contentDivRef.value) return
+  paneDivRef.value.classList.remove('show')
+  contentDivRef.value.classList.remove('show')
+  contentDivRef.value.style.height = `calc(0svh - 12em)`
 }
 
 const updateSheetHeight = (height: number) => {
-  if (!bottomSheet.value || !sheetContent.value) return
-  bottomSheet.value.classList.add('show')
-  sheetContent.value.classList.add('show')
-  sheetContent.value.style.height = `calc(${height}svh - 12em)`
+  if (!paneDivRef.value || !contentDivRef.value) return
+  paneDivRef.value.classList.add('show')
+  contentDivRef.value.classList.add('show')
+  contentDivRef.value.style.height = `calc(${height}svh - 12em)`
 }
 
 onMounted(() => {
@@ -142,6 +131,7 @@ watch(
 watch(
   () => state.value,
   () => {
+    contentDivRef.value?.scrollTo(0, 0)
     switch (state.value) {
       case State.Down:
         hidePane()

@@ -7,6 +7,7 @@
         :class="{ selected: selectedEvent == event }"
         @click="selectedEvent = event"
       >
+        <img :src="getCategoryIconSrc(event.category)" alt="" width="30" />
         {{ event.message }}
       </div>
     </div>
@@ -17,7 +18,11 @@
 <script lang="ts" setup>
 import EventBox from './EventBox.vue'
 import { usePlaceStore } from '@/stores/placeStore'
-import { useEventStore, AlertData } from '@/stores/eventStore'
+import {
+  useEventStore,
+  AlertData,
+  getCategoryIconSrc,
+} from '@/stores/eventStore'
 import { ref, watch } from 'vue'
 
 const selectedEvent = ref<AlertData | null>(null)

@@ -4,11 +4,17 @@ import { useGeolocationStore } from './geolocationStore'
 
 export type CategoryState =
   | 'flood'
-  | 'torrentialRain'
-  | 'fire'
+  | 'rainflood'
+  | 'forestfire'
   | 'wind'
-  | 'avalanche'
+  | 'avalanches'
   | 'other'
+
+export const getCategoryIconSrc = (category: CategoryState) => {
+  return category == 'other'
+    ? './warningIcons/icon-warning-extreme-red.svg'
+    : `./warningIcons/icon-warning-${category}-red.svg`
+}
 
 export type AlertData = {
   message: string

@@ -24,7 +24,20 @@
     @show="paneOpen = true"
     @hide="paneOpen = false"
   >
-    <div class="col" style="gap: 1em; margin-top: 1em">
+    <template v-slot:top-left>
+      <img
+        v-for="icon in warningIcons"
+        :src="icon"
+        alt=""
+        width="40"
+        style="margin-left: -1.5em"
+      />
+    </template>
+    <div class="col" style="gap: 1em">
+      <p>
+        Oppsummering av varsler... alksjd a slødkjaslkdj als dalks jdlkasjdlkajs
+        d asløkdjlask jd
+      </p>
       <EventList :point="placeStore.currentPlace.address?.point"></EventList>
       <div
         v-if="placeStore.places.includes(placeStore.currentPlace)"
@@ -61,16 +74,22 @@ import {
   selectResult,
   usePlaceStore,
 } from '@/stores/placeStore'
-import { onActivated, ref } from 'vue'
+import { computed, onActivated, ref } from 'vue'
 import { $t } from '@/translation'
 import { router } from '@/router'
 import { useEventStore } from '@/stores/eventStore'
+import { getCategoryIconSrc } from '@/stores/eventStore'
 
 const paneOpen = ref(true)
 const userStore = useUserStore()
 const placeStore = usePlaceStore()
+const eventStore = useEventStore()
 const geoLocationStore = useGeolocationStore()
 const results = ref<Record<string, any>[]>([])
+
+const warningIcons = computed(() =>
+  eventStore.events.map((e) => getCategoryIconSrc(e.category))
+)
 
 onActivated(() => {
   paneOpen.value = true
