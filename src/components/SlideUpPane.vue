@@ -29,7 +29,7 @@
           @mousedown="clickRight"
           @touchstart="clickRight"
         >
-          <div class="handle"></div>
+          <!-- <div class="handle"></div> -->
           <h3 v-if="title" style="margin: 0.5em 1em">{{ title }}</h3>
         </div>
         <div style="width: 3em; display: flex; justify-content: center">

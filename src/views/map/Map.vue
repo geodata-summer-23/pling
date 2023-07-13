@@ -1,7 +1,7 @@
 <template>
   <div id="mapViewDiv"></div>
-  <div class="overlay col clickthrough">
-    <input
+  <div class="places-card overlay col clickthrough">
+    <!-- <input
       type="text"
       ref="searchInputRef"
       id="street-address"
@@ -12,8 +12,8 @@
         emit('search', (event.target as HTMLInputElement).value)
       }"
       @blur="emit('search-blur')"
-    />
-    <div>
+    /> -->
+    <!-- <div>
       <div v-if="searchResults.length > 0" class="result-container col">
         <div
           v-for="result in searchResults"
@@ -30,8 +30,9 @@
           {{ result.address }}
         </div>
       </div>
-    </div>
-    <div class="row" style="padding: 0em 1em 1em 1em; gap: 1em; overflow: auto">
+    </div> -->
+
+    <div class="row" style="padding: 1em; gap: 1em; overflow: auto">
       <button
         class="place-button btn-shadow"
         :class="{ 'place-selected': lastClicked == -1 }"
@@ -43,7 +44,11 @@
         "
       >
         <div class="col">
-          <fa-icon icon="earth-americas"></fa-icon>
+          <fa-icon
+            size="lg"
+            icon="earth-americas"
+            style="margin-bottom: 0.1em"
+          ></fa-icon>
           World
         </div>
       </button>
@@ -54,10 +59,20 @@
         @click="selectPlace(place)"
       >
         <div class="col">
-          <fa-icon :icon="place.icon"></fa-icon>
+          <fa-icon
+            size="lg"
+            :icon="place.icon"
+            style="margin-bottom: 0.1em"
+          ></fa-icon>
           {{ maxChars(place.nickname, 8) }}
         </div>
       </button>
+    </div>
+    <div
+      class="row clickthrough"
+      style="justify-content: end; margin-right: 1em"
+    >
+      <IconButton icon="magnifying-glass" class="btn-shadow"></IconButton>
     </div>
   </div>
 </template>
@@ -70,20 +85,21 @@ import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer'
 import Point from '@arcgis/core/geometry/Point'
 import { onMounted, ref, watch } from 'vue'
 import { AddressPoint, Place } from '@/stores/placeStore'
-import { $t } from '@/translation'
 import { maxChars } from '@/utils'
 import {
   AlertData,
   CategoryState,
   getCategoryIconSrc,
 } from '@/stores/eventStore'
-import { mapObjects } from './map'
+import { mapObjects, ViewClickEvent } from './map'
+import IconButton from '@/components/IconButton.vue'
 
 const props = defineProps<{
   center: AddressPoint | null
   searchResults: Record<string, any>[]
   places: Place[]
   events: AlertData[]
+  currentPlace: Place | null
 }>()
 
 const emit = defineEmits<{
@@ -91,10 +107,11 @@ const emit = defineEmits<{
   (e: 'select-place', place: Place): void
   (e: 'search', searchString: string): void
   (e: 'search-blur'): void
+  (e: 'click', event: ViewClickEvent): void
 }>()
 
 const graphicsLayer = new GraphicsLayer()
-const searchInputRef = ref<HTMLInputElement>()
+// const searchInputRef = ref<HTMLInputElement>()
 const lastClicked = ref(
   props.places.findIndex((place) => place.address.point == props.center)
 )
@@ -119,6 +136,7 @@ onMounted(() => {
 
   mapObjects.mapView.on('click', (event) => {
     event.stopPropagation() // Disable default click handler
+    emit('click', event)
   })
 
   mapObjects.mapView.when(() => {
@@ -247,16 +265,13 @@ const createEventGraphic = (point: AddressPoint, category: CategoryState) => {
   margin: 0;
 }
 
-.overlay {
+.places-card {
   pointer-events: none;
   touch-action: none;
   height: min-content;
-  gap: 0.6em;
-  /* background: linear-gradient(
-    rgba(15, 15, 50, 0.3) 0%,
-    rgba(15, 15, 50, 0.2) 40%,
-    rgba(255, 255, 255, 0) 80%
-  ); */
+  /* background-color: var(--c-white); */
+  /* box-shadow: 0 0 2em #1f214456; */
+  /* border-radius: 0 0 0.5em 0.5em; */
 }
 
 #street-address {
@@ -268,10 +283,16 @@ const createEventGraphic = (point: AddressPoint, category: CategoryState) => {
   white-space: nowrap;
   border: none;
   background-color: var(--c-white);
+  color: var(--c-dark-gray);
+  min-width: 7em;
+  /* padding: 0.5em 0; */
 }
 
 .place-selected {
-  background-color: var(--c-dark-gray);
+  color: var(--c-blue);
+  /* background-color: var(--c-medium-gray); */
+  /* outline: 2px solid var(--c-dark-gray); */
+  /* transform: translateY(0.3em); */
 }
 </style>
 

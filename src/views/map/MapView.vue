@@ -4,11 +4,13 @@
     :center="geoLocationStore.getMapCenter"
     :search-results="results"
     :places="placeStore.places"
+    :current-place="placeStore.currentPlace"
     :events="useEventStore().events"
     @select-place="selectPlace"
     @select-result="selectResultAndClear"
     @search="search"
     @search-blur="searchBlur"
+    @click="paneOpen = false"
   ></Map>
   <div v-else class="message-container">
     <br />
@@ -18,7 +20,7 @@
   </div>
   <SlideUpPane
     v-if="placeStore.currentPlace"
-    :title="placeStore.currentPlace.nickname"
+    title="Varsler"
     hide-mode="show-top"
     :show="paneOpen"
     @show="paneOpen = true"
@@ -39,13 +41,11 @@
           }}</span>
           <fa-icon icon="layer-group"></fa-icon>
         </button>
-        <button
-          class="btn btn-icon btn-shadow"
-          style="background-color: var(--c-white)"
+        <IconButton
+          icon="info"
+          class="btn-shadow"
           @click="onInfoModal"
-        >
-          <fa-icon icon="info"></fa-icon>
-        </button>
+        ></IconButton>
       </div>
     </template>
     <template v-slot:top-left>
@@ -107,6 +107,7 @@ import { useModalStore } from '@/stores/modalStore'
 import CategoriesSelect from './CategoriesSelect.vue'
 import MapInfo from './MapInfo.vue'
 import { CategoryOption, getCategoryOptions, mapObjects } from './map'
+import IconButton from '@/components/IconButton.vue'
 
 const paneOpen = ref(true)
 const userStore = useUserStore()
@@ -165,7 +166,10 @@ const onCategoryModal = () => {
     CategoriesSelect,
     { selectedCategory: selectedCategory.value },
     {
-      'select-category': selectCategoryOption,
+      'select-category': (categoryOption: CategoryOption) => {
+        selectCategoryOption(categoryOption)
+        paneOpen.value = false
+      },
     }
   )
 }

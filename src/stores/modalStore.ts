@@ -2,10 +2,11 @@ import { acceptHMRUpdate, defineStore } from 'pinia'
 import { markRaw } from 'vue'
 
 type Emits = Record<string, (...args: any[]) => any>
+export type DynamicComponent = { component: any; props: object; emits: Emits }
 
 export const useModalStore = defineStore('modal', {
   state: () => ({
-    components: [] as { component: any; props: object; emits: Emits }[],
+    components: [] as DynamicComponent[],
   }),
 
   actions: {

@@ -33,20 +33,7 @@
       class="overlay modal-wrapper col center"
       style="height: 100%"
     >
-      <div class="modal col">
-        <div style="position: absolute; transform: translate(-1em, -1em)">
-          <component
-            :is="IconButton"
-            icon="xmark"
-            v-on="{ click: () => modalStore.pop() }"
-          ></component>
-        </div>
-        <component
-          :is="component.component"
-          v-bind="component.props"
-          v-on="component.emits"
-        ></component>
-      </div>
+      <Modal :component="component"></Modal>
     </div>
   </div>
 </template>
@@ -60,7 +47,7 @@ import { useUserStore } from '@/stores/userStore'
 import { useGeolocationStore } from '@/stores/geolocationStore'
 import { router } from './router'
 import { useModalStore } from './stores/modalStore'
-import IconButton from './components/IconButton.vue'
+import Modal from './components/Modal.vue'
 
 const userStore = useUserStore()
 const modalStore = useModalStore()

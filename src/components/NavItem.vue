@@ -21,8 +21,9 @@ defineProps<{
 .nav-item {
   padding: 0.5em;
   width: 100px;
-  min-height: 3em;
+  min-height: 2.8em;
   color: var(--c-dark-gray);
+  border-top: 4px solid var(--c-light-gray);
 }
 
 .active {

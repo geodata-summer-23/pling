@@ -1,12 +1,27 @@
 <template>
-  <button class="btn-icon transparent" @click="emit('click')">
-    <fa-icon v-if="!hidden" size="2xl" :icon="icon" />
+  <button
+    class="btn btn-icon"
+    :class="class"
+    :style="{ 'background-color': color }"
+    @click="emit('click')"
+  >
+    <fa-icon v-if="!hidden" :size="size" :icon="icon" />
   </button>
 </template>
 
 <script lang="ts" setup>
-withDefaults(defineProps<{ icon?: string; hidden?: boolean }>(), {
-  icon: 'angle-left',
-})
+withDefaults(
+  defineProps<{
+    icon?: string
+    size?: string
+    hidden?: boolean
+    class?: string
+    color?: string
+  }>(),
+  {
+    icon: 'angle-left',
+    color: 'var(--c-white)',
+  }
+)
 const emit = defineEmits<{ (e: 'click'): void }>()
 </script>
