@@ -1,10 +1,5 @@
 <template>
-  <button
-    class="btn-icon transparent"
-    @click="emit('click')"
-    @mousedown="emit('mousedown')"
-    @touchstart="emit('mousedown')"
-  >
+  <button class="btn-icon transparent" @click="emit('click')">
     <fa-icon v-if="!hidden" size="2xl" :icon="icon" />
   </button>
 </template>
@@ -13,5 +8,5 @@
 withDefaults(defineProps<{ icon?: string; hidden?: boolean }>(), {
   icon: 'angle-left',
 })
-const emit = defineEmits<{ (e: 'click'): void; (e: 'mousedown'): void }>()
+const emit = defineEmits<{ (e: 'click'): void }>()
 </script>

@@ -208,6 +208,29 @@ button span {
   cursor: pointer;
 }
 
+.overlay {
+  position: absolute;
+  width: 100%;
+}
+
+.modal-wrapper {
+  z-index: 999;
+}
+
+.modal-wrapper-background {
+  background-color: rgba(4, 9, 79, 0.5);
+  z-index: 999;
+}
+
+.modal {
+  background-color: var(--c-white);
+  border-radius: 1.5em;
+  box-shadow: 0 0.5em 1em rgba(4, 9, 79, 0.5);
+  width: 70%;
+  height: 40%;
+  padding: 2em;
+}
+
 .tilt-shake {
   animation: tilt-shake-anim 0.3s infinite;
 }

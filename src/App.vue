@@ -23,6 +23,31 @@
         <NavItem route="message"><fa-icon size="xl" icon="bell" /></NavItem>
       </RouterLink>
     </nav>
+    <div
+      class="overlay clickthrough"
+      :class="{ 'modal-wrapper-background': modalStore.components.length > 0 }"
+      style="transition: all 200ms; height: 100%"
+    ></div>
+    <div
+      v-for="component in modalStore.components"
+      class="overlay modal-wrapper col center"
+      style="height: 100%"
+    >
+      <div class="modal col">
+        <div style="position: absolute; transform: translate(-1em, -1em)">
+          <component
+            :is="IconButton"
+            icon="xmark"
+            v-on="{ click: () => modalStore.pop() }"
+          ></component>
+        </div>
+        <component
+          :is="component.component"
+          v-bind="component.props"
+          v-on="component.emits"
+        ></component>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -34,8 +59,11 @@ import { usePlaceStore } from '@/stores/placeStore'
 import { useUserStore } from '@/stores/userStore'
 import { useGeolocationStore } from '@/stores/geolocationStore'
 import { router } from './router'
+import { useModalStore } from './stores/modalStore'
+import IconButton from './components/IconButton.vue'
 
 const userStore = useUserStore()
+const modalStore = useModalStore()
 
 onBeforeMount(() => {
   userStore.loadFromLocalStorage()

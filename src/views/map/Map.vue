@@ -37,7 +37,7 @@
         @click="
           () => {
             lastClicked = -1
-            zoomOut()
+            zoomTo()
           }
         "
       >
@@ -63,17 +63,9 @@
       class="row clickthrough"
       style="margin-right: 1em; justify-content: end"
     >
-      <button
-        class="btn btn-icon btn-shadow"
-        @click="
-          () => {
-            layersOpen = !layersOpen
-            infoOpen = false
-          }
-        "
-      >
+      <button class="btn btn-icon btn-shadow" @click="onCategoryModal">
         <span style="font-size: medium; padding-right: 0.2em">{{
-          selectedLayerOption.displayTitle
+          selectedCategory.displayTitle
         }}</span>
         <fa-icon icon="layer-group"></fa-icon>
       </button>
@@ -87,7 +79,6 @@
         @click="
           () => {
             infoOpen = !infoOpen
-            layersOpen = false
           }
         "
       >
@@ -95,33 +86,6 @@
       </button>
     </div>
   </div>
-  <SlideUpPane
-    :title="$t().category"
-    hide-mode="hidden"
-    :z-index="100"
-    :middleSvh="50"
-    :show="layersOpen"
-    @show="layersOpen = true"
-    @hide="layersOpen = false"
-  >
-    <div>
-      <!-- <div id="layerListDiv"></div> -->
-      <div class="layer-grid">
-        <div
-          v-for="layerOption in layerOptions"
-          class="layer-item row center clickable"
-          :class="{
-            selected:
-              selectedLayerOption.displayTitle == layerOption.displayTitle,
-            disabled: layerOption.layerId == 'NotImplementedError',
-          }"
-          @click="() => selectLayerOption(layerOption)"
-        >
-          {{ layerOption.displayTitle }}
-        </div>
-      </div>
-    </div>
-  </SlideUpPane>
   <SlideUpPane
     :title="$t().mapInfo"
     hide-mode="hidden"
@@ -138,6 +102,7 @@
 </template>
 
 <script lang="ts" setup>
+import CategoriesSelect from './CategoriesSelect.vue'
 import WebMap from '@arcgis/core/WebMap'
 import MapView from '@arcgis/core/views/MapView'
 import Graphic from '@arcgis/core/Graphic'
@@ -155,6 +120,8 @@ import {
   CategoryState,
   getCategoryIconSrc,
 } from '@/stores/eventStore'
+import { useModalStore } from '@/stores/modalStore'
+import { CategoryOption, getCategoryOptions } from './categories'
 
 const props = defineProps<{
   center: AddressPoint | null
@@ -170,39 +137,9 @@ const emit = defineEmits<{
   (e: 'search-blur'): void
 }>()
 
-type LayerOption = {
-  displayTitle: string
-  layerId: string
-}
-
-const layerOptions: LayerOption[] = [
-  {
-    displayTitle: $t().torrentialRain,
-    layerId: '1894a0de007-layer-22',
-  },
-  {
-    displayTitle: $t().windSouth,
-    layerId: '1894a266058-layer-27',
-  },
-  {
-    displayTitle: $t().heatWave,
-    layerId: 'NotImplementedError',
-  },
-  {
-    displayTitle: $t().flood,
-    layerId: '1894a08e10a-layer-21',
-  },
-  { displayTitle: $t().fire, layerId: 'NotImplementedError' },
-  {
-    displayTitle: $t().avalanche,
-    layerId: 'NotImplementedError',
-  },
-]
-
-const selectedLayerOption = ref(layerOptions[0])
+const selectedCategory = ref(getCategoryOptions()[0])
 
 const graphicsLayer = new GraphicsLayer()
-const layersOpen = ref(false)
 const infoOpen = ref(false)
 const searchInputRef = ref<HTMLInputElement>()
 const lastClicked = ref(
@@ -235,10 +172,10 @@ onMounted(() => {
 
   mapView.when(() => {
     if (!mapView) return
-    console.log(JSON.parse(JSON.stringify(map.layers)))
+    // console.log(JSON.parse(JSON.stringify(map.layers)))
     drawGraphics()
     goToAndDrawCenter()
-    selectLayerOption(layerOptions[0])
+    selectCategoryOption(getCategoryOptions()[0])
 
     new LayerList({
       view: mapView,
@@ -251,7 +188,7 @@ onMounted(() => {
       layerInfos: [
         {
           layer: mapView.map.layers.find(
-            (m) => m.id == selectedLayerOption.value.layerId
+            (m) => m.id == selectedCategory.value.layerId
           ),
         },
       ],
@@ -259,17 +196,27 @@ onMounted(() => {
   })
 })
 
-const selectLayerOption = (layerOption: LayerOption) => {
-  selectedLayerOption.value = layerOption
+const onCategoryModal = () => {
+  useModalStore().push(
+    CategoriesSelect,
+    { selectedCategory },
+    {
+      'select-category': selectCategoryOption,
+    }
+  )
+}
+
+const selectCategoryOption = (categoryOption: CategoryOption) => {
+  selectedCategory.value = categoryOption
   if (!mapView) return
-  layerOptions.forEach((option) => {
+  getCategoryOptions().forEach((option) => {
     if (!mapView) return
     const layer = mapView.map.findLayerById(option.layerId)
     if (layer) {
       layer.visible = false
     }
   })
-  const layer = mapView.map.findLayerById(selectedLayerOption.value.layerId)
+  const layer = mapView.map.findLayerById(selectedCategory.value.layerId)
   if (layer) {
     layer.visible = true
   }
@@ -302,7 +249,7 @@ const selectPlace = (place: Place) => {
   if ((mapView?.zoom ?? 0) < 10) {
     emit('select-place', place)
   } else {
-    zoomOut()
+    zoomTo(5)
     goToTimeout = setTimeout(
       () => emit('select-place', place),
       animationDuration
@@ -310,10 +257,10 @@ const selectPlace = (place: Place) => {
   }
 }
 
-const zoomOut = () => {
+const zoomTo = (zoom: number = 2) => {
   mapView?.goTo(
     {
-      zoom: 2,
+      zoom,
     },
     {
       animate: true,
@@ -397,10 +344,8 @@ const createEventGraphic = (point: AddressPoint, category: CategoryState) => {
 }
 
 .overlay {
-  position: absolute;
   pointer-events: none;
   touch-action: none;
-  width: 100%;
   height: min-content;
   gap: 0.6em;
   background: linear-gradient(
@@ -423,27 +368,6 @@ const createEventGraphic = (point: AddressPoint, category: CategoryState) => {
 
 .place-selected {
   background-color: var(--c-dark-gray);
-}
-
-.layer-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  row-gap: 1em;
-  column-gap: 1em;
-}
-
-.layer-item {
-  background-color: var(--c-light-gray);
-  padding: 1em;
-  border-radius: 0.5em;
-  white-space: nowrap;
-}
-.layer-item.selected {
-  background-color: var(--c-dark-gray);
-}
-
-div.disabled {
-  color: var(--c-dark-gray);
 }
 </style>
 
