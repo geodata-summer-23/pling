@@ -1,61 +1,11 @@
 <template>
   <div id="mapViewDiv"></div>
   <div class="places-card overlay col clickthrough">
-    <!-- <input
-      type="text"
-      ref="searchInputRef"
-      id="street-address"
-      class="btn-shadow"
-      :placeholder="$t().searchAddress"
-      style="margin: 1em 1em 0 1em"
-      @input="(event) => {
-        emit('search', (event.target as HTMLInputElement).value)
-      }"
-      @blur="emit('search-blur')"
-    /> -->
-    <!-- <div>
-      <div v-if="searchResults.length > 0" class="result-container col">
-        <div
-          v-for="result in searchResults"
-          class="result"
-          @click="
-            () => {
-              emit('select-result', result)
-              if (searchInputRef) {
-                searchInputRef.value = ''
-              }
-            }
-          "
-        >
-          {{ result.address }}
-        </div>
-      </div>
-    </div> -->
-
     <div class="row" style="padding: 1em; gap: 1em; overflow: auto">
       <button
+        v-for="place in places"
         class="place-button btn-shadow"
-        :class="{ 'place-selected': lastClicked == -1 }"
-        @click="
-          () => {
-            lastClicked = -1
-            zoomTo()
-          }
-        "
-      >
-        <div class="col">
-          <fa-icon
-            size="lg"
-            icon="earth-americas"
-            style="margin-bottom: 0.1em"
-          ></fa-icon>
-          World
-        </div>
-      </button>
-      <button
-        v-for="(place, i) in places"
-        class="place-button btn-shadow"
-        :class="{ 'place-selected': lastClicked == i }"
+        :class="{ 'place-selected': place == currentPlace }"
         @click="selectPlace(place)"
       >
         <div class="col">
@@ -68,11 +18,17 @@
         </div>
       </button>
     </div>
-    <div
-      class="row clickthrough"
-      style="justify-content: end; margin-right: 1em"
-    >
-      <IconButton icon="magnifying-glass" class="btn-shadow"></IconButton>
+    <div class="col clickthrough" style="margin-right: 1em; gap: 0.6em">
+      <div class="row clickthrough" style="justify-content: end">
+        <IconButton
+          icon="earth-americas"
+          class="btn-shadow"
+          @click="zoomTo"
+        ></IconButton>
+      </div>
+      <div class="row clickthrough" style="justify-content: end">
+        <IconButton icon="magnifying-glass" class="btn-shadow"></IconButton>
+      </div>
     </div>
   </div>
 </template>
@@ -83,7 +39,7 @@ import MapView from '@arcgis/core/views/MapView'
 import Graphic from '@arcgis/core/Graphic'
 import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer'
 import Point from '@arcgis/core/geometry/Point'
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, watch } from 'vue'
 import { AddressPoint, Place } from '@/stores/placeStore'
 import { maxChars } from '@/utils'
 import {
@@ -111,10 +67,6 @@ const emit = defineEmits<{
 }>()
 
 const graphicsLayer = new GraphicsLayer()
-// const searchInputRef = ref<HTMLInputElement>()
-const lastClicked = ref(
-  props.places.findIndex((place) => place.address.point == props.center)
-)
 let mapCenterPoint: Graphic | null = null
 let goToTimeout: NodeJS.Timeout | undefined = undefined
 
@@ -163,7 +115,6 @@ watch(
 
 const animationDuration = 1000
 const selectPlace = (place: Place) => {
-  lastClicked.value = props.places.indexOf(place)
   if (goToTimeout) {
     clearInterval(goToTimeout)
     goToTimeout = undefined
