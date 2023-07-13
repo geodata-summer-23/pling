@@ -14,14 +14,15 @@
           icon="xmark"
           @click="clickLeft"
         ></IconButton>
-
-        <img
-          v-for="icon in warningIcons"
-          :src="icon"
-          alt=""
-          width="40"
-          style="margin-left: -1.5em"
-        />
+        <div v-else>
+          <img
+            v-for="icon in warningIcons"
+            :src="icon"
+            alt=""
+            width="40"
+            style="margin-left: -1.5em"
+          />
+        </div>
       </div>
       <div
         class="col center clickable"
@@ -49,8 +50,8 @@ import { onMounted, ref, watch } from 'vue'
 import IconButton from './IconButton.vue'
 
 const warningIcons = [
-  '/warningIcons/icon-warning-flood-red.svg',
-  '/warningIcons/icon-warning-flood-yellow.svg',
+  './warningIcons/icon-warning-flood-red.svg',
+  './warningIcons/icon-warning-flood-yellow.svg',
 ]
 
 const props = withDefaults(
