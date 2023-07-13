@@ -24,7 +24,7 @@
     @show="paneOpen = true"
     @hide="paneOpen = false"
   >
-    <div class="col" style="gap: 1em">
+    <div class="col" style="gap: 1em; margin-top: 1em">
       <EventList :point="placeStore.currentPlace.address?.point"></EventList>
       <div
         v-if="placeStore.places.includes(placeStore.currentPlace)"
