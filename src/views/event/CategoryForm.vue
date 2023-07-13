@@ -12,12 +12,9 @@
         )
       "
     >
-      <option value="flood">{{ $t().flood }}</option>
-      <option value="torrentialRain">{{ $t().torrentialRain }}</option>
-      <option value="fire">{{ $t().fire }}</option>
-      <option value="wind">{{ $t().windDamage }}</option>
-      <option value="avalanche">{{ $t().avalanche }}</option>
-      <option value="other">{{ $t().other }}</option>
+      <option v-for="option in options" :value="option.value">
+        {{ option.title }}
+      </option>
     </select>
   </div>
 </template>
@@ -25,6 +22,17 @@
 <script lang="ts" setup>
 import { CategoryState } from '@/stores/eventStore'
 import { $t } from '@/translation'
+
+type CategoryOption = { title: string; value: CategoryState }
+
+const options: CategoryOption[] = [
+  { title: $t().flood, value: 'flood' },
+  { title: $t().torrentialRain, value: 'rainflood' },
+  { title: $t().fire, value: 'forestfire' },
+  { title: $t().windDamage, value: 'wind' },
+  { title: $t().avalanche, value: 'avalanches' },
+  { title: $t().other, value: 'other' },
+]
 
 const emit = defineEmits<{
   (e: 'category', cat: CategoryState): void
