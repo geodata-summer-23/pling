@@ -12,7 +12,7 @@
         <IconButton
           v-if="state != State.Down"
           icon="xmark"
-          @mousedown="clickLeft"
+          @click="clickLeft"
         ></IconButton>
         <div v-else>
           <img
@@ -28,6 +28,7 @@
         class="col center clickable"
         style="min-height: 3em"
         @mousedown="clickRight"
+        @touchstart="clickRight"
       >
         <div class="handle"></div>
         <h3 v-if="title" style="margin: 0.5em 1em">{{ title }}</h3>
@@ -35,7 +36,7 @@
       <div style="width: 3em; display: flex; justify-content: center">
         <IconButton
           :icon="state == State.Up ? 'angle-down' : 'angle-up'"
-          @mousedown="clickRight"
+          @click="clickRight"
         ></IconButton>
       </div>
     </div>

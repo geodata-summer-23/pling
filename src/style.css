@@ -132,6 +132,7 @@ button span {
 
 .clickable {
   cursor: pointer;
+  user-select: none;
 }
 
 .clickthrough {
