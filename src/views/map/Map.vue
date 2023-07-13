@@ -58,37 +58,15 @@
         </div>
       </button>
     </div>
-
-    <div
-      class="row clickthrough"
-      style="margin-right: 1em; justify-content: end"
-    >
-      <button class="btn btn-icon btn-shadow" @click="onCategoryModal">
-        <span style="font-size: medium; padding-right: 0.2em">{{
-          selectedCategory.displayTitle
-        }}</span>
-        <fa-icon icon="layer-group"></fa-icon>
-      </button>
-    </div>
-    <div
-      class="row clickthrough"
-      style="margin-right: 1em; justify-content: end"
-    >
-      <button class="btn btn-icon btn-shadow" @click="onInfoModal">
-        <fa-icon icon="info"></fa-icon>
-      </button>
-    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import CategoriesSelect from './CategoriesSelect.vue'
 import WebMap from '@arcgis/core/WebMap'
 import MapView from '@arcgis/core/views/MapView'
 import Graphic from '@arcgis/core/Graphic'
 import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer'
 import Point from '@arcgis/core/geometry/Point'
-import LayerList from '@arcgis/core/widgets/LayerList'
 import { onMounted, ref, watch } from 'vue'
 import { AddressPoint, Place } from '@/stores/placeStore'
 import { $t } from '@/translation'
@@ -98,9 +76,7 @@ import {
   CategoryState,
   getCategoryIconSrc,
 } from '@/stores/eventStore'
-import { useModalStore } from '@/stores/modalStore'
-import { CategoryOption, getCategoryOptions, mapObjects } from './map'
-import MapInfo from './MapInfo.vue'
+import { mapObjects } from './map'
 
 const props = defineProps<{
   center: AddressPoint | null
@@ -115,8 +91,6 @@ const emit = defineEmits<{
   (e: 'search', searchString: string): void
   (e: 'search-blur'): void
 }>()
-
-const selectedCategory = ref(getCategoryOptions()[0])
 
 const graphicsLayer = new GraphicsLayer()
 const searchInputRef = ref<HTMLInputElement>()
@@ -151,50 +125,8 @@ onMounted(() => {
     // console.log(JSON.parse(JSON.stringify(map.layers)))
     drawGraphics()
     goToAndDrawCenter()
-    selectCategoryOption(getCategoryOptions()[0])
-
-    new LayerList({
-      view: mapObjects.mapView,
-      container: 'layerListDiv',
-    })
   })
 })
-
-const onCategoryModal = () => {
-  useModalStore().push(
-    CategoriesSelect,
-    { selectedCategory: selectedCategory.value },
-    {
-      'select-category': selectCategoryOption,
-    }
-  )
-}
-
-const onInfoModal = () => {
-  useModalStore().push(
-    MapInfo,
-    { selectedCategory: selectedCategory.value },
-    {}
-  )
-}
-
-const selectCategoryOption = (categoryOption: CategoryOption) => {
-  selectedCategory.value = categoryOption
-  if (!mapObjects.mapView) return
-  getCategoryOptions().forEach((option) => {
-    if (!mapObjects.mapView) return
-    const layer = mapObjects.mapView.map.findLayerById(option.layerId)
-    if (layer) {
-      layer.visible = false
-    }
-  })
-  const layer = mapObjects.mapView.map.findLayerById(
-    selectedCategory.value.layerId
-  )
-  if (layer) {
-    layer.visible = true
-  }
-}
 
 watch(
   () => props.center,

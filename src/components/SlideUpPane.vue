@@ -7,35 +7,45 @@
       'z-index': zIndex,
     }"
   >
-    <div class="row" style="justify-content: space-evenly; align-items: center">
-      <div style="width: 3em; display: flex; justify-content: center">
-        <IconButton
-          v-if="state != State.Down"
-          icon="xmark"
-          @click="clickLeft"
-        ></IconButton>
-        <div v-else>
-          <slot name="top-left"></slot>
+    <div><slot name="above"></slot></div>
+    <div class="card">
+      <div
+        class="row"
+        style="justify-content: space-evenly; align-items: center"
+      >
+        <div style="width: 3em; display: flex; justify-content: center">
+          <IconButton
+            v-if="state != State.Down"
+            icon="xmark"
+            @click="clickLeft"
+          ></IconButton>
+          <div v-else>
+            <slot name="top-left"></slot>
+          </div>
+        </div>
+        <div
+          class="col center clickable"
+          style="min-height: 3em; max-width: 12em"
+          @mousedown="clickRight"
+          @touchstart="clickRight"
+        >
+          <div class="handle"></div>
+          <h3 v-if="title" style="margin: 0.5em 1em">{{ title }}</h3>
+        </div>
+        <div style="width: 3em; display: flex; justify-content: center">
+          <IconButton
+            :icon="state == State.Up ? 'angle-down' : 'angle-up'"
+            @click="clickRight"
+          ></IconButton>
         </div>
       </div>
       <div
-        class="col center clickable"
-        style="min-height: 3em; max-width: 12em"
-        @mousedown="clickRight"
-        @touchstart="clickRight"
+        ref="contentDivRef"
+        class="content"
+        style="height: calc(0svh - 12em)"
       >
-        <div class="handle"></div>
-        <h3 v-if="title" style="margin: 0.5em 1em">{{ title }}</h3>
+        <slot></slot>
       </div>
-      <div style="width: 3em; display: flex; justify-content: center">
-        <IconButton
-          :icon="state == State.Up ? 'angle-down' : 'angle-up'"
-          @click="clickRight"
-        ></IconButton>
-      </div>
-    </div>
-    <div ref="contentDivRef" class="content" style="height: calc(0svh - 12em)">
-      <slot></slot>
     </div>
   </div>
 </template>
@@ -165,14 +175,16 @@ watch(
 
 .slide-up-pane {
   position: absolute;
-  border-radius: 2em 2em 0 0;
   bottom: 0;
   left: 0;
   right: 0;
+  transform: translateY(100svh);
+}
+
+.slide-up-pane .card {
+  border-radius: 2em 2em 0 0;
   background-color: var(--c-white);
   box-shadow: 0 2em 4em var(--c-text);
-  transition: all 300ms;
-  transform: translateY(100svh);
 }
 
 .slide-up-pane.show {
@@ -183,7 +195,7 @@ watch(
   transform: translateY(2em);
 }
 
-.slide-up-pane > * {
+* {
   transition: all 300ms;
 }
 

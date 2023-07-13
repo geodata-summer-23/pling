@@ -24,6 +24,30 @@
     @show="paneOpen = true"
     @hide="paneOpen = false"
   >
+    <template v-slot:above>
+      <div
+        class="row clickthrough"
+        style="margin: 0em 1em 1em 0em; justify-content: end; gap: 0.5em"
+      >
+        <button
+          class="btn btn-icon btn-shadow"
+          style="background-color: var(--c-white)"
+          @click="onCategoryModal"
+        >
+          <span style="font-size: medium; padding-right: 0.2em">{{
+            selectedCategory.displayTitle
+          }}</span>
+          <fa-icon icon="layer-group"></fa-icon>
+        </button>
+        <button
+          class="btn btn-icon btn-shadow"
+          style="background-color: var(--c-white)"
+          @click="onInfoModal"
+        >
+          <fa-icon icon="info"></fa-icon>
+        </button>
+      </div>
+    </template>
     <template v-slot:top-left>
       <img
         v-for="icon in warningIcons"
@@ -74,11 +98,15 @@ import {
   selectResult,
   usePlaceStore,
 } from '@/stores/placeStore'
-import { computed, onActivated, ref } from 'vue'
+import { computed, onActivated, onMounted, ref } from 'vue'
 import { $t } from '@/translation'
 import { router } from '@/router'
 import { useEventStore } from '@/stores/eventStore'
 import { getCategoryIconSrc } from '@/stores/eventStore'
+import { useModalStore } from '@/stores/modalStore'
+import CategoriesSelect from './CategoriesSelect.vue'
+import MapInfo from './MapInfo.vue'
+import { CategoryOption, getCategoryOptions, mapObjects } from './map'
 
 const paneOpen = ref(true)
 const userStore = useUserStore()
@@ -131,6 +159,50 @@ const addCurrentPlace = () => {
 const searchBlur = () => {
   setTimeout(() => (results.value = []), 100)
 }
+
+const onCategoryModal = () => {
+  useModalStore().push(
+    CategoriesSelect,
+    { selectedCategory: selectedCategory.value },
+    {
+      'select-category': selectCategoryOption,
+    }
+  )
+}
+
+const onInfoModal = () => {
+  useModalStore().push(
+    MapInfo,
+    { selectedCategory: selectedCategory.value },
+    {}
+  )
+}
+
+const selectedCategory = ref(getCategoryOptions()[0])
+
+const selectCategoryOption = (categoryOption: CategoryOption) => {
+  selectedCategory.value = categoryOption
+  if (!mapObjects.mapView) return
+  getCategoryOptions().forEach((option) => {
+    if (!mapObjects.mapView) return
+    const layer = mapObjects.mapView.map.findLayerById(option.layerId)
+    if (layer) {
+      layer.visible = false
+    }
+  })
+  const layer = mapObjects.mapView.map.findLayerById(
+    selectedCategory.value.layerId
+  )
+  if (layer) {
+    layer.visible = true
+  }
+}
+
+onMounted(() => {
+  mapObjects.mapView?.when(() => {
+    selectCategoryOption(getCategoryOptions()[0])
+  })
+})
 </script>
 
 <style scoped>
