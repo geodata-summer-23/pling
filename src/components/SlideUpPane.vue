@@ -184,7 +184,7 @@ watch(
 .slide-up-pane .card {
   border-radius: 2em 2em 0 0;
   background-color: var(--c-white);
-  box-shadow: 0 2em 4em var(--c-text);
+  box-shadow: 0 2em 4em #1f2144;
 }
 
 .slide-up-pane.show {

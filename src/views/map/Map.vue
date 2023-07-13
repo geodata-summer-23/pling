@@ -5,6 +5,7 @@
       type="text"
       ref="searchInputRef"
       id="street-address"
+      class="btn-shadow"
       :placeholder="$t().searchAddress"
       style="margin: 1em 1em 0 1em"
       @input="(event) => {
@@ -30,9 +31,9 @@
         </div>
       </div>
     </div>
-    <div class="row" style="margin-left: 1em; gap: 1em; overflow: auto">
+    <div class="row" style="padding: 0em 1em 1em 1em; gap: 1em; overflow: auto">
       <button
-        class="place-button"
+        class="place-button btn-shadow"
         :class="{ 'place-selected': lastClicked == -1 }"
         @click="
           () => {
@@ -48,7 +49,7 @@
       </button>
       <button
         v-for="(place, i) in places"
-        class="place-button"
+        class="place-button btn-shadow"
         :class="{ 'place-selected': lastClicked == i }"
         @click="selectPlace(place)"
       >
@@ -251,11 +252,11 @@ const createEventGraphic = (point: AddressPoint, category: CategoryState) => {
   touch-action: none;
   height: min-content;
   gap: 0.6em;
-  background: linear-gradient(
+  /* background: linear-gradient(
     rgba(15, 15, 50, 0.3) 0%,
     rgba(15, 15, 50, 0.2) 40%,
     rgba(255, 255, 255, 0) 80%
-  );
+  ); */
 }
 
 #street-address {
@@ -266,7 +267,7 @@ const createEventGraphic = (point: AddressPoint, category: CategoryState) => {
 .place-button {
   white-space: nowrap;
   border: none;
-  background-color: var(--c-light-gray);
+  background-color: var(--c-white);
 }
 
 .place-selected {
