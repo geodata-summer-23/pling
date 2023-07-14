@@ -18,8 +18,28 @@
         </div>
       </button>
     </div>
-    <div class="col clickthrough" style="margin-right: 1em; gap: 0.6em">
-      <div class="row clickthrough" style="justify-content: end">
+    <div class="col clickthrough" style="margin: 0 1em; gap: 0.6em">
+      <div
+        class="row clickthrough"
+        :style="{
+          'justify-content':
+            currentPlace && !places.includes(currentPlace)
+              ? 'space-between'
+              : 'end',
+        }"
+      >
+        <button
+          v-if="currentPlace && !places.includes(currentPlace)"
+          class="btn btn-shadow"
+          style="background-color: var(--c-white); font-size: medium"
+          @click="addCurrentPlace"
+        >
+          <fa-icon icon="plus"></fa-icon>
+          <span>
+            {{ $t().add }}
+            {{ maxChars(currentPlace?.nickname ?? '', 14) }}
+          </span>
+        </button>
         <IconButton
           icon="earth-americas"
           class="btn-shadow"
@@ -60,6 +80,8 @@ import { mapObjects, ViewClickEvent } from './map'
 import IconButton from '@/components/IconButton.vue'
 import { useModalStore } from '@/stores/modalStore'
 import SearchModalContent from '@/components/SearchModalContent.vue'
+import { $t } from '@/translation'
+import { router } from '@/router'
 
 const props = defineProps<{
   center: AddressPoint | null
@@ -109,6 +131,12 @@ onMounted(() => {
     goToAndDrawCenter()
   })
 })
+
+const addCurrentPlace = () => {
+  if (!props.currentPlace) return
+  usePlaceStore().addPlace(props.currentPlace)
+  router.push({ name: 'edit-place' })
+}
 
 const onSearch = () => {
   useModalStore().push(

@@ -1,7 +1,7 @@
 <template>
   <div class="view col">
-    <IconButton @click="router.push({ name: 'home' })"></IconButton>
-    <h2>{{ $t().editPlace }}</h2>
+    <!-- <IconButton @click="router.push({ name: 'home' })"></IconButton> -->
+    <h2 style="margin-top: 2em">{{ $t().edit }}</h2>
     <PlaceForm
       :place="place"
       :edit="true"
@@ -19,7 +19,6 @@
 </template>
 
 <script lang="ts" setup>
-import IconButton from '@/components/IconButton.vue'
 import { Place, usePlaceStore } from '@/stores/placeStore'
 import { ref } from 'vue'
 import { router } from '@/router'

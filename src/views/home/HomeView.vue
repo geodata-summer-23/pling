@@ -66,7 +66,7 @@
         <span style="margin: 0 0.5em">{{ $t().addPlace }}</span>
       </button>
     </div>
-    <div class="row" style="justify-content: end">
+    <div class="row clickthrough" style="justify-content: end">
       <button
         class="btn btn-icon btn-shadow"
         style="

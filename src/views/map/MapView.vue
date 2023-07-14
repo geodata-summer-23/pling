@@ -63,28 +63,6 @@
         d asløkdjlask jd
       </p>
       <EventList :point="placeStore.currentPlace.address?.point"></EventList>
-      <div
-        v-if="placeStore.places.includes(placeStore.currentPlace)"
-        class="row center"
-      >
-        <button
-          v-if="placeStore.currentPlace != placeStore.places[0]"
-          class="btn"
-          @click="editCurrentPlace"
-        >
-          <fa-icon icon="pencil"></fa-icon>
-          <span> {{ $t().edit }} {{ $t().thisPlace }}</span>
-        </button>
-      </div>
-      <div v-else class="row center">
-        <button class="btn" @click="addCurrentPlace">
-          <fa-icon icon="house"></fa-icon>
-          <span
-            >{{ $t().add }}
-            {{ maxChars(placeStore.currentPlace.nickname, 8) }}</span
-          >
-        </button>
-      </div>
     </div>
   </SlideUpPane>
 </template>
@@ -104,7 +82,6 @@ import {
 } from '@/stores/placeStore'
 import { computed, onActivated, onMounted, ref } from 'vue'
 import { $t } from '@/translation'
-import { router } from '@/router'
 import { useEventStore } from '@/stores/eventStore'
 import { getCategoryIconSrc } from '@/stores/eventStore'
 import { useModalStore } from '@/stores/modalStore'
@@ -112,7 +89,6 @@ import CategoriesSelect from './CategoriesSelect.vue'
 import MapInfo from './MapInfo.vue'
 import { CategoryOption, getCategoryOptions, mapObjects } from './map'
 import IconButton from '@/components/IconButton.vue'
-import { maxChars } from '@/utils'
 
 const paneOpen = ref(true)
 const userStore = useUserStore()
@@ -150,16 +126,6 @@ const search = (searchString: string) => {
       results.value = r
     }
   })
-}
-
-const editCurrentPlace = () => {
-  if (!placeStore.currentPlace) return
-  router.push({ name: 'edit-place' })
-}
-
-const addCurrentPlace = () => {
-  if (!placeStore.currentPlace) return
-  placeStore.addPlace(placeStore.currentPlace)
 }
 
 const searchBlur = () => {

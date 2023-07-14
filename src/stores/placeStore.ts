@@ -46,7 +46,7 @@ export const defaultMyLocation = (): Place => ({
 
 export const defaultPlace = (): Place => ({
   nickname: '',
-  icon: 'house',
+  icon: 'location-dot',
   address: {},
   excludeDangers: [],
 })
@@ -87,7 +87,7 @@ export const usePlaceStore = defineStore('place', {
       this.places = JSON.parse(localStorage.getItem('places') ?? '[]')
       this.places.forEach((place) => {
         if (!place.icon) {
-          place.icon = 'house'
+          place.icon = defaultPlace().icon
         }
       })
       if (this.places.length == 0) {
