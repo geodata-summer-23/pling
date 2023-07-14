@@ -27,7 +27,11 @@
         ></IconButton>
       </div>
       <div class="row clickthrough" style="justify-content: end">
-        <IconButton icon="magnifying-glass" class="btn-shadow"></IconButton>
+        <IconButton
+          icon="magnifying-glass"
+          class="btn-shadow"
+          @click="onSearch"
+        ></IconButton>
       </div>
     </div>
   </div>
@@ -40,7 +44,7 @@ import Graphic from '@arcgis/core/Graphic'
 import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer'
 import Point from '@arcgis/core/geometry/Point'
 import { onMounted, watch } from 'vue'
-import { AddressPoint, Place } from '@/stores/placeStore'
+import { AddressPoint, Place, usePlaceStore } from '@/stores/placeStore'
 import { maxChars } from '@/utils'
 import {
   AlertData,
@@ -49,6 +53,8 @@ import {
 } from '@/stores/eventStore'
 import { mapObjects, ViewClickEvent } from './map'
 import IconButton from '@/components/IconButton.vue'
+import { useModalStore } from '@/stores/modalStore'
+import SearchModalContent from '@/components/SearchModalContent.vue'
 
 const props = defineProps<{
   center: AddressPoint | null
@@ -98,6 +104,19 @@ onMounted(() => {
     goToAndDrawCenter()
   })
 })
+
+const onSearch = () => {
+  useModalStore().push(
+    SearchModalContent,
+    {},
+    {
+      select: (place: Place) => {
+        usePlaceStore().currentPlace = place
+        useModalStore().pop()
+      },
+    }
+  )
+}
 
 watch(
   () => props.center,

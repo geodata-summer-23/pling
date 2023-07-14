@@ -44,7 +44,7 @@ input:disabled {
 
 ::placeholder {
   color: var(--c-text);
-  opacity: 0.5;
+  opacity: 0.3;
 }
 
 button {
@@ -188,26 +188,6 @@ button span {
   transition: all 400ms;
 }
 
-.result-container {
-  position: absolute;
-  width: 100%;
-  background-color: var(--c-light-gray);
-  border-radius: 0.5em;
-  max-height: 12em;
-  overflow: auto;
-}
-
-.result {
-  padding: 0.5em 1.5em;
-  border-radius: 0.5em;
-  cursor: pointer;
-}
-
-.result:hover {
-  background-color: var(--c-dark-gray);
-  cursor: pointer;
-}
-
 .overlay {
   position: absolute;
   width: 100%;
@@ -223,6 +203,7 @@ button span {
 }
 
 .modal {
+  position: relative;
   background-color: var(--c-white);
   border-radius: 1.5em;
   box-shadow: 0 0.5em 1em rgba(4, 9, 79, 0.5);

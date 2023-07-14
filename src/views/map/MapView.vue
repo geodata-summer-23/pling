@@ -79,7 +79,10 @@
       <div v-else class="row center">
         <button class="btn" @click="addCurrentPlace">
           <fa-icon icon="house"></fa-icon>
-          <span>{{ $t().add }} {{ $t().thisPlace }}</span>
+          <span
+            >{{ $t().add }}
+            {{ maxChars(placeStore.currentPlace.nickname, 8) }}</span
+          >
         </button>
       </div>
     </div>
@@ -108,6 +111,7 @@ import CategoriesSelect from './CategoriesSelect.vue'
 import MapInfo from './MapInfo.vue'
 import { CategoryOption, getCategoryOptions, mapObjects } from './map'
 import IconButton from '@/components/IconButton.vue'
+import { maxChars } from '@/utils'
 
 const paneOpen = ref(true)
 const userStore = useUserStore()
