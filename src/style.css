@@ -22,6 +22,11 @@
   }
 } */
 
+html,
+body {
+  overscroll-behavior: none;
+}
+
 body {
   background-color: var(--c-medium-gray);
   margin: 0;
