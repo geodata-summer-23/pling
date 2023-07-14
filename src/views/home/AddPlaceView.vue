@@ -26,6 +26,7 @@ import PlaceForm from './PlaceForm.vue'
 const placeStore = usePlaceStore()
 const getMyLocation = () => {
   const copy: Place = JSON.parse(JSON.stringify(placeStore.places[0]))
+  copy.icon = 'location-dot'
   copy.nickname = ''
   return copy
 }

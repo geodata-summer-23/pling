@@ -21,6 +21,11 @@ import {
   faLocationDot,
   faLocationCrosshairs,
   faMagnifyingGlass,
+  faCarSide,
+  faShop,
+  faHouseChimneyWindow,
+  faDog,
+  faPlane,
 } from '@fortawesome/free-solid-svg-icons'
 
 export const registerIcons = () => {
@@ -45,4 +50,9 @@ export const registerIcons = () => {
   library.add(faLocationDot)
   library.add(faLocationCrosshairs)
   library.add(faMagnifyingGlass)
+  library.add(faCarSide)
+  library.add(faShop)
+  library.add(faHouseChimneyWindow)
+  library.add(faDog)
+  library.add(faPlane)
 }

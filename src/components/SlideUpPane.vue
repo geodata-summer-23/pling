@@ -46,9 +46,7 @@
         class="content"
         style="height: calc(0svh - 12em)"
       >
-        <div style="height: 80svh">
-          <slot></slot>
-        </div>
+        <slot></slot>
       </div>
     </div>
   </div>

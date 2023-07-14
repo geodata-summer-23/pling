@@ -85,6 +85,7 @@ const norwegian = {
   takePicture: 'Ta et bilde',
   notify: 'Varsle',
   category: 'Kategori',
+  icon: 'Ikon',
 } as const
 
 const english: Record<string, string> = {
@@ -157,4 +158,5 @@ const english: Record<string, string> = {
   takePicture: 'Take a picture',
   notify: 'Notify',
   category: 'Category',
+  icon: 'Icon',
 } as const
