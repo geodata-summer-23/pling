@@ -41,6 +41,7 @@
       style="justify-content: end"
     >
       <button
+        v-if="placeStore.places.length > 1"
         class="btn btn-shadow"
         @click="
           () => {
@@ -62,7 +63,7 @@
         class="btn btn-shadow"
         @click="router.push({ name: 'add-place' })"
       >
-        <fa-icon icon="house" />
+        <fa-icon icon="plus" />
         <span style="margin: 0 0.5em">{{ $t().addPlace }}</span>
       </button>
     </div>
