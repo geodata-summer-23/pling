@@ -27,9 +27,18 @@ export const useNotificationStore = defineStore('notification', {
       this.permission = Notification.permission
     },
     notify(text: string) {
+      if (this.permission != 'granted') {
+        // TODO:
+        return
+      }
+
       navigator.serviceWorker.ready.then((registration) => {
         console.log(text)
-        registration.showNotification(text)
+        registration.showNotification(text, {
+          body: text,
+          silent: false,
+          vibrate: [300, 100, 400],
+        })
       })
     },
   },
