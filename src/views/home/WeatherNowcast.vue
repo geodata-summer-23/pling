@@ -24,7 +24,7 @@ const symbol = ref(null)
 onMounted(async () => {
   try {
     const response = await fetch(
-      `http://localhost:8000/met/nowcast?lat=${props.lat}&lon=${props.lon}`
+      `https://varselserver-1-i2815530.deta.app/met/nowcast?lat=${props.lat}&lon=${props.lon}`
     )
     if (response.ok) {
       responseCode.value = true
