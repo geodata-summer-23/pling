@@ -51,7 +51,7 @@ export const useEventStore = defineStore('event', {
       }
       try {
         const response = await fetch(
-          `http://localhost:8000/alerts?lat=${lat}&lon=${lon}`,
+          `https://varselserver-1-i2815530.deta.app/alerts?lat=${lat}&lon=${lon}`,
           { headers: { 'Content-Type': 'application/json' } }
         )
         this.events = JSON.parse(await response.json())

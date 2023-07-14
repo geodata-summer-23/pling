@@ -94,7 +94,7 @@ const exitPage = () => {
 const postAlert = async () => {
   alertData.timestamp = Date.now()
   try {
-    const response = await fetch(`http://localhost:8000/alert`, {
+    const response = await fetch(`https://varselserver-1-i2815530.deta.app/alert`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(alertData),
