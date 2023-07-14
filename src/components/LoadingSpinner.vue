@@ -1,12 +1,16 @@
 <template>
-  <div class="lds-facebook">
+  <div class="lds-facebook" :style="{ scale }">
     <div></div>
     <div></div>
     <div></div>
   </div>
 </template>
 
-<style>
+<script lang="ts" setup>
+withDefaults(defineProps<{ scale: number }>(), { scale: 1 })
+</script>
+
+<style scoped>
 .lds-facebook {
   display: inline-block;
   position: relative;

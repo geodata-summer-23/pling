@@ -1,6 +1,9 @@
 <template>
-  <div v-if="!responseCode">
+  <div v-if="responseCode === false">
     <p>{{ $t().serverError }}</p>
+  </div>
+  <div v-if="responseCode === null">
+    <LoadingSpinner :scale="0.5"></LoadingSpinner>
   </div>
   <div v-if="responseCode" class="row center" style="width: 6em; gap: 0.5em">
     <span>{{ temp }}°</span>
@@ -10,6 +13,7 @@
 </template>
 
 <script lang="ts" setup>
+import LoadingSpinner from '@/components/LoadingSpinner.vue'
 import { $t } from '@/translation'
 import { onMounted, ref } from 'vue'
 
@@ -18,7 +22,7 @@ const props = defineProps<{ lat?: number; lon?: number }>()
 const temp = ref(0)
 const precipitation = ref(0)
 const units = ref(null as any)
-const responseCode = ref(false)
+const responseCode = ref<boolean | null>(null)
 const symbol = ref(null)
 
 onMounted(async () => {
