@@ -1,13 +1,15 @@
 <template>
   <div
     ref="paneDivRef"
-    class="slide-up-pane"
+    class="slide-up-pane clickthrough"
     :class="hideMode"
     :style="{
       'z-index': zIndex,
     }"
   >
-    <div><slot name="above"></slot></div>
+    <div class="clickthrough" :class="{ 'hidden-right': state == State.Up }">
+      <slot name="above"></slot>
+    </div>
     <div class="card">
       <div
         class="row"

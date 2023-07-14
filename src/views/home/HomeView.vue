@@ -117,8 +117,4 @@ onDeactivated(() => {
 })
 </script>
 
-<style scoped>
-.hidden-right {
-  transform: translateX(100%);
-}
-</style>
+<style scoped></style>

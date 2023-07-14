@@ -220,6 +220,10 @@ button span {
   padding: 2em;
 }
 
+.hidden-right {
+  transform: translateX(100%);
+}
+
 .tilt-shake {
   animation: tilt-shake-anim 0.3s infinite;
 }
