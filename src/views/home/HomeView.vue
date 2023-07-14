@@ -111,7 +111,7 @@ onDeactivated(() => {
 })
 
 const onActionButton = () => {
-  useNotificationStore().notify('Hello world!')
+  setTimeout(() => useNotificationStore().notify('Hello world!'), 2000)
   if (edit) {
     edit.value = false
   } else {
