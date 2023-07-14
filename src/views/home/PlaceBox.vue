@@ -45,6 +45,7 @@ import Point from '@arcgis/core/geometry/Point.js'
 import { onMounted, ref } from 'vue'
 import { router } from '@/router'
 import { maxChars } from '@/utils'
+import { useLoadingStore } from '@/stores/loadingStore'
 
 const placeStore = usePlaceStore()
 const props = defineProps<{
@@ -57,7 +58,8 @@ const alertIcons = ref<string[]>([])
 const alertMessages = ref<string[]>([])
 
 const clickPlace = (place: Place) => {
-  if (place.address.point) {
+  if (place.address.point && placeStore.currentPlace != place) {
+    useLoadingStore().mapIsLoading = true
     placeStore.currentPlace = place
   }
   if (props.edit) {

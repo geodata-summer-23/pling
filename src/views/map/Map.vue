@@ -1,5 +1,12 @@
 <template>
   <div id="mapViewDiv"></div>
+  <div
+    v-if="useLoadingStore().mapIsLoading"
+    class="overlay col center"
+    style="height: 100%; background-color: #ffffffaa"
+  >
+    <LoadingSpinner></LoadingSpinner>
+  </div>
   <div class="places-card overlay col clickthrough">
     <div class="row" style="padding: 1em; gap: 1em; overflow: auto">
       <button
@@ -82,6 +89,8 @@ import { useModalStore } from '@/stores/modalStore'
 import SearchModalContent from '@/components/SearchModalContent.vue'
 import { $t } from '@/translation'
 import { router } from '@/router'
+import { useLoadingStore } from '@/stores/loadingStore'
+import LoadingSpinner from '@/components/LoadingSpinner.vue'
 
 const props = defineProps<{
   center: AddressPoint | null
@@ -104,6 +113,8 @@ let mapCenterPoint: Graphic | null = null
 let goToTimeout: NodeJS.Timeout | undefined = undefined
 
 onMounted(() => {
+  useLoadingStore().mapIsLoading = true
+
   const map = new WebMap({
     // basemap: 'osm-light-gray',
     portalItem: {
@@ -129,6 +140,13 @@ onMounted(() => {
     // console.log(JSON.parse(JSON.stringify(map.layers)))
     drawGraphics()
     goToAndDrawCenter()
+    console.log('Done!')
+  })
+
+  mapObjects.mapView.watch('updating', (isLoading) => {
+    if (!isLoading) {
+      useLoadingStore().mapIsLoading = false
+    }
   })
 })
 

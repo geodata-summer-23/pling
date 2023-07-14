@@ -23,6 +23,7 @@
         <NavItem route="message"><fa-icon size="xl" icon="bell" /></NavItem>
       </RouterLink>
     </nav>
+
     <div
       class="overlay"
       :class="{
