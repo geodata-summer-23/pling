@@ -47,6 +47,7 @@ const results = ref<AddressResult[]>([])
 
 onMounted(() => {
   inputRef.value?.focus()
+  search()
 })
 
 const search = () => {

@@ -153,7 +153,10 @@ export const searchAddress = async (
 ) => {
   let results = usePlaceStore()
     .history.reverse()
-    .filter((r) => r.address.includes(address.street ?? ''))
+    .filter((r) =>
+      r.address.toLowerCase().includes(address.street?.toLowerCase() ?? '')
+    )
+  console.log(usePlaceStore().history, results)
   locator
     .addressToLocations(geoData, {
       address: {
@@ -164,7 +167,7 @@ export const searchAddress = async (
       maxLocations: 5,
     })
     .then((candidates) => {
-      results = candidates.map((r) => r.toJSON())
+      results = results.concat(candidates.map((r) => r.toJSON()))
       withResults(results)
 
       locator
