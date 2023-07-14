@@ -1,5 +1,9 @@
 <template>
-  <div class="row spaced" style="margin: 1em">
+  <div
+    class="grid spaced"
+    style="margin: 1em"
+    :style="{ 'grid-template-columns': gridTemplate }"
+  >
     <div
       v-for="option in options"
       :style="{
@@ -17,9 +21,18 @@
 defineProps<{
   value: string
   options: { text?: string; icon?: string; value: string }[]
+  gridTemplate: string
 }>()
 
 const emit = defineEmits<{
   (e: 'change', value: string): void
 }>()
 </script>
+
+<style>
+.grid {
+  display: grid;
+  column-gap: 0.5em;
+  row-gap: 1em;
+}
+</style>

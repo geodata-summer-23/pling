@@ -26,6 +26,12 @@ import {
   faHouseChimneyWindow,
   faDog,
   faPlane,
+  faCartShopping,
+  faBuilding,
+  faBriefcase,
+  faSchool,
+  faCampground,
+  faCity,
 } from '@fortawesome/free-solid-svg-icons'
 
 export const registerIcons = () => {
@@ -55,4 +61,10 @@ export const registerIcons = () => {
   library.add(faHouseChimneyWindow)
   library.add(faDog)
   library.add(faPlane)
+  library.add(faCartShopping)
+  library.add(faBuilding)
+  library.add(faBriefcase)
+  library.add(faSchool)
+  library.add(faCampground)
+  library.add(faCity)
 }

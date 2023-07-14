@@ -1,10 +1,11 @@
 <template>
   <label for="icon">{{ $t().icon }}</label>
-  <HorizontalSelect
+  <GridSelect
     :value="place.icon"
     :options="iconOptions"
+    grid-template="1fr 1fr 1fr 1fr 1fr 1fr"
     @change="place.icon = $event"
-  ></HorizontalSelect>
+  ></GridSelect>
   <label for="nickname">{{ $t().name }}</label>
   <input
     type="text"
@@ -55,7 +56,7 @@ import { $t } from '@/translation'
 import IconButton from '@/components/IconButton.vue'
 import { useModalStore } from '@/stores/modalStore'
 import SearchModalContent from '@/components/SearchModalContent.vue'
-import HorizontalSelect from '@/components/HorizontalSelect.vue'
+import GridSelect from '@/components/GridSelect.vue'
 
 const props = defineProps<{ place: Place; edit: boolean }>()
 const emit = defineEmits<{
@@ -66,10 +67,15 @@ const iconOptions = [
   { icon: 'location-dot', value: 'location-dot' },
   { icon: 'house', value: 'house' },
   { icon: 'house-chimney-window', value: 'house-chimney-window' },
-  // { icon: 'shop', value: 'shop' },
+  { icon: 'building', value: 'building' },
+  { icon: 'school', value: 'school' },
+  { icon: 'city', value: 'city' },
+  { icon: 'campground', value: 'campground' },
   { icon: 'car-side', value: 'car-side' },
   { icon: 'dog', value: 'dog' },
   { icon: 'plane', value: 'plane' },
+  { icon: 'briefcase', value: 'briefcase' },
+  { icon: 'cart-shopping', value: 'cart-shopping' },
 ]
 
 const onSearch = () => {
