@@ -96,6 +96,7 @@ import EventList from '../event/EventList.vue'
 import { signIn, useUserStore } from '@/stores/userStore'
 import { useGeolocationStore } from '@/stores/geolocationStore'
 import {
+  AddressResult,
   Place,
   searchAddress,
   selectResult,
@@ -118,7 +119,7 @@ const userStore = useUserStore()
 const placeStore = usePlaceStore()
 const eventStore = useEventStore()
 const geoLocationStore = useGeolocationStore()
-const results = ref<Record<string, any>[]>([])
+const results = ref<AddressResult[]>([])
 
 const warningIcons = computed(() =>
   eventStore.events.map((e) => getCategoryIconSrc(e.category))
@@ -136,7 +137,7 @@ const selectPlace = (place: Place) => {
   }
 }
 
-const selectResultAndClear = (result: Record<string, any>) => {
+const selectResultAndClear = (result: AddressResult) => {
   const currentPlace = usePlaceStore().currentPlace
   if (!currentPlace) return
   usePlaceStore().currentPlace = selectResult(result)

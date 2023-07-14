@@ -44,7 +44,12 @@ import Graphic from '@arcgis/core/Graphic'
 import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer'
 import Point from '@arcgis/core/geometry/Point'
 import { onMounted, watch } from 'vue'
-import { AddressPoint, Place, usePlaceStore } from '@/stores/placeStore'
+import {
+  AddressPoint,
+  AddressResult,
+  Place,
+  usePlaceStore,
+} from '@/stores/placeStore'
 import { maxChars } from '@/utils'
 import {
   AlertData,
@@ -58,14 +63,14 @@ import SearchModalContent from '@/components/SearchModalContent.vue'
 
 const props = defineProps<{
   center: AddressPoint | null
-  searchResults: Record<string, any>[]
+  searchResults: AddressResult[]
   places: Place[]
   events: AlertData[]
   currentPlace: Place | null
 }>()
 
 const emit = defineEmits<{
-  (e: 'select-result', result: Record<string, any>): void
+  (e: 'select-result', result: AddressResult): void
   (e: 'select-place', place: Place): void
   (e: 'search', searchString: string): void
   (e: 'search-blur'): void
