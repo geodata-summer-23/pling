@@ -1,10 +1,7 @@
 <template>
   <div id="mapViewDiv"></div>
   <div class="places-card overlay col clickthrough">
-    <div
-      class="row clickthrough"
-      style="padding: 1em; gap: 1em; overflow: auto"
-    >
+    <div class="row" style="padding: 1em; gap: 1em; overflow: auto">
       <button
         v-for="place in places"
         class="place-button btn-shadow"
