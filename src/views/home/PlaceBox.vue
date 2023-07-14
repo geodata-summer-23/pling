@@ -97,7 +97,6 @@ const getDangers = (place: Place) => {
       )
       alertIcons.value = results.features.map((f) => {
         const color = f.attributes.awarenessLevel.split(';')[1].trim()
-        console.log(color)
         return `./warningIcons/icon-warning-${f.attributes.event.toLowerCase()}-${color}.svg`
       })
     })

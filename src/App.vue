@@ -45,7 +45,7 @@
 
 <script setup lang="ts">
 import NavItem from '@/components/NavItem.vue'
-import { onBeforeMount } from 'vue'
+import { onBeforeMount, onMounted } from 'vue'
 import { RouterView } from 'vue-router'
 import { usePlaceStore } from '@/stores/placeStore'
 import { useUserStore } from '@/stores/userStore'
@@ -53,6 +53,7 @@ import { useGeolocationStore } from '@/stores/geolocationStore'
 import { router } from './router'
 import { useModalStore } from './stores/modalStore'
 import Modal from './components/Modal.vue'
+import { useNotificationStore } from './stores/notificationStore'
 
 const userStore = useUserStore()
 const modalStore = useModalStore()
@@ -65,6 +66,10 @@ onBeforeMount(() => {
   if (!userStore.guid && router.currentRoute.value.name != 'onboarding') {
     router.push({ name: 'onboarding' })
   }
+})
+
+onMounted(() => {
+  useNotificationStore().init()
 })
 </script>
 

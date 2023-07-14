@@ -140,7 +140,6 @@ onMounted(() => {
     // console.log(JSON.parse(JSON.stringify(map.layers)))
     drawGraphics()
     goToAndDrawCenter()
-    console.log('Done!')
   })
 
   mapObjects.mapView.watch('updating', (isLoading) => {

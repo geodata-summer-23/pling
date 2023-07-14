@@ -102,20 +102,35 @@
 import { router } from '@/router'
 import { usePlaceStore } from '@/stores/placeStore'
 import { useUserStore } from '@/stores/userStore'
-import { onDeactivated, ref } from 'vue'
+import { onDeactivated, onMounted, ref, watch } from 'vue'
 import { $t } from '@/translation'
 import PlaceBox from './PlaceBox.vue'
+import { useNotificationStore } from '@/stores/notificationStore'
 
 const userStore = useUserStore()
 const placeStore = usePlaceStore()
+const notificationStore = useNotificationStore()
 
 const edit = ref(false)
 const actionsOpen = ref(false)
+
+onMounted(() => {
+  notificationStore.notify('Hello world!')
+})
 
 onDeactivated(() => {
   actionsOpen.value = false
   edit.value = false
 })
+
+watch(
+  () => notificationStore.permission,
+  () => {
+    console.log(notificationStore.permission)
+    notificationStore.notify('Permission ' + notificationStore.permission)
+  },
+  { immediate: true }
+)
 </script>
 
 <style scoped></style>
