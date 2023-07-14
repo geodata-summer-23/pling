@@ -1,71 +1,54 @@
 <template>
   <label for="nickname">{{ $t().name }}</label>
-  <input type="text" id="nickname" v-model="place.nickname" />
-  <br />
-  <label>{{ $t().city }}</label>
-  <div class="row" style="gap: 1em">
-    <input
-      type="number"
-      id="postal-code"
-      :disabled="edit"
-      :value="place.address.postalCode"
-      @input="(event) => {
-        place.address.postalCode = (
-          event.target as HTMLInputElement
-          ).valueAsNumber
-        search()
-      }"
-      style="flex: 1"
-    />
-    <input
-      type="text"
-      id="city"
-      :disabled="edit"
-      :value="place.address.city"
-      @input="(event) => {
-        place.address.city = (event.target as HTMLInputElement).value; 
-        search()
-      }"
-      style="flex: 2"
-    />
-  </div>
-  <br />
-  <label>{{ $t().street }}</label>
   <input
     type="text"
-    id="street-address"
-    :disabled="edit"
-    :value="place.address.street"
-    @input="(event) => {
-      place.address.street = (event.target as HTMLInputElement).value;
-      search()
-    }"
-    style="flex: 4"
+    id="nickname"
+    placeholder="Min lokasjon"
+    v-model="place.nickname"
   />
-  <div>
-    <div v-if="results.length > 0" class="result-container col">
-      <div
-        v-for="result in results"
-        class="result"
-        @click="selectResultAndClear(result)"
-      >
-        {{ result.address }}
-      </div>
+  <br />
+  <label>{{ $t().address }}</label>
+  <div class="row spaced">
+    <input
+      type="text"
+      disabled="true"
+      placeholder="Schweigaards gate 28, 0191 Oslo"
+      v-model="place.address.street"
+    />
+    <div>
+      <IconButton
+        icon="search"
+        class="btn-shadow"
+        @click="onSearch"
+      ></IconButton>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { Place, selectResult, searchAddress } from '@/stores/placeStore'
-import { ref, watch } from 'vue'
+import { Place } from '@/stores/placeStore'
+import { watch } from 'vue'
 import { $t } from '@/translation'
+import IconButton from '@/components/IconButton.vue'
+import { useModalStore } from '@/stores/modalStore'
+import SearchModalContent from '@/components/SearchModalContent.vue'
 
 const props = defineProps<{ place: Place; edit: boolean }>()
 const emit = defineEmits<{
   (e: 'toggleSubmit', enabled: boolean): void
 }>()
 
-const results = ref<Record<string, any>[]>([])
+const onSearch = () => {
+  useModalStore().push(
+    SearchModalContent,
+    { place: props.place },
+    {
+      select: () => {
+        useModalStore().pop()
+      },
+    }
+  )
+}
 
 const tryToggleSubmit = (enabled: boolean = false) => {
   if (!props.place.nickname) {
@@ -86,20 +69,6 @@ watch(
   },
   { immediate: true }
 )
-
-const search = () => {
-  emit('toggleSubmit', false)
-  searchAddress(props.place.address, (r) => (results.value = r))
-}
-
-const selectResultAndClear = (result: Record<string, any>) => {
-  props.place.address = Object.assign(
-    props.place.address ?? {},
-    selectResult(result).address
-  )
-  results.value = []
-  tryToggleSubmit(true)
-}
 </script>
 
 <style scoped>

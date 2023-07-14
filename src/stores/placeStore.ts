@@ -32,9 +32,16 @@ export type AddressPoint = {
   longitude?: number
 }
 
-const defaultMyLocation = () => ({
+export const defaultMyLocation = (): Place => ({
   nickname: $t().myLocation,
   icon: 'location-crosshairs',
+  address: {},
+  excludeDangers: [],
+})
+
+export const defaultPlace = (): Place => ({
+  nickname: '',
+  icon: 'house',
   address: {},
   excludeDangers: [],
 })
