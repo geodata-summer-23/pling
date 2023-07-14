@@ -26,8 +26,8 @@
         <div
           class="col center clickable"
           style="min-height: 3em; max-width: 12em"
-          @mousedown="clickRight"
-          @touchstart="clickRight"
+          @mousedown.stop="clickRight"
+          @touchstart.stop="clickRight"
         >
           <!-- <div class="handle"></div> -->
           <h3 v-if="title" style="margin: 0.5em 1em">{{ title }}</h3>
@@ -44,7 +44,9 @@
         class="content"
         style="height: calc(0svh - 12em)"
       >
-        <slot></slot>
+        <div style="height: 80svh">
+          <slot></slot>
+        </div>
       </div>
     </div>
   </div>
@@ -53,7 +55,6 @@
 <script lang="ts" setup>
 import IconButton from './IconButton.vue'
 import { onMounted, ref, watch } from 'vue'
-import throttle from 'lodash.throttle'
 
 const props = withDefaults(
   defineProps<{
@@ -82,23 +83,19 @@ enum State {
 
 const state = ref(State.Down)
 
-const clickRight = throttle(
-  () => {
-    switch (state.value) {
-      case State.Down:
-        emit('show')
-        break
-      case State.Middle:
-        state.value = State.Up
-        break
-      case State.Up:
-        state.value = State.Middle
-        break
-    }
-  },
-  310,
-  { trailing: false }
-)
+const clickRight = () => {
+  switch (state.value) {
+    case State.Down:
+      emit('show')
+      break
+    case State.Middle:
+      state.value = State.Up
+      break
+    case State.Up:
+      state.value = State.Middle
+      break
+  }
+}
 
 const clickLeft = () => {
   emit('hide')
