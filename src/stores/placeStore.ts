@@ -32,6 +32,11 @@ export type AddressPoint = {
   longitude?: number
 }
 
+export type AddressResult = {
+  address: string
+  location: AddressPoint
+}
+
 export const defaultMyLocation = (): Place => ({
   nickname: $t().myLocation,
   icon: 'location-crosshairs',
@@ -50,6 +55,7 @@ export const usePlaceStore = defineStore('place', {
   state: () => ({
     places: [] as Place[],
     currentPlace: null as null | Place,
+    history: [] as AddressResult[],
   }),
 
   actions: {
@@ -103,7 +109,13 @@ export const usePlaceStore = defineStore('place', {
   },
 })
 
-export const selectResult = (result: Record<string, any>) => {
+export const selectResult = (result: AddressResult) => {
+  const placeStore = usePlaceStore()
+  placeStore.history = placeStore.history.filter(
+    (r) => r.address != result.address
+  )
+  placeStore.history.push(result)
+
   const place: Place = {
     nickname: 'Search result',
     icon: 'location-dot',
@@ -137,9 +149,11 @@ const geoData =
 
 export const searchAddress = async (
   address: Address,
-  withResults: (results: Record<string, any>[]) => void
+  withResults: (results: AddressResult[]) => void
 ) => {
-  let results: Record<string, any>[] = []
+  let results = usePlaceStore()
+    .history.reverse()
+    .filter((r) => r.address.includes(address.street ?? ''))
   locator
     .addressToLocations(geoData, {
       address: {

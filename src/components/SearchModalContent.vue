@@ -5,6 +5,7 @@
       type="text"
       id="street-address"
       :placeholder="place.address.street"
+      @click="search"
       @input="(event) => {
         place.address.street = (event.target as HTMLInputElement).value;
         search()
@@ -28,6 +29,7 @@ import {
   searchAddress,
   selectResult,
   defaultPlace,
+  AddressResult,
 } from '@/stores/placeStore'
 import { $t } from '@/translation'
 import { ref } from 'vue'
@@ -39,13 +41,13 @@ const emit = defineEmits<{
   (e: 'select', place: Place): void
 }>()
 
-const results = ref<Record<string, any>[]>([])
+const results = ref<AddressResult[]>([])
 
 const search = () => {
   searchAddress(place.value.address, (r) => (results.value = r))
 }
 
-const selectResultAndClear = (result: Record<string, any>) => {
+const selectResultAndClear = (result: AddressResult) => {
   const placeResult = selectResult(result)
   place.value.address = Object.assign(
     place.value.address ?? {},
