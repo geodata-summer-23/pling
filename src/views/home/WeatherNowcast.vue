@@ -14,7 +14,7 @@
 
 <script lang="ts" setup>
 import LoadingSpinner from '@/components/LoadingSpinner.vue'
-import { serverUrl } from '@/main'
+import { serverUrl } from '@/constants'
 import { $t } from '@/translation'
 import { onMounted, ref } from 'vue'
 

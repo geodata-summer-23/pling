@@ -2,7 +2,7 @@ import { $t } from '@/translation'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import proj4 from 'proj4'
 import * as locator from '@arcgis/core/rest/locator'
-import { serverUrl } from '@/main'
+import { serverUrl } from '@/constants'
 
 export enum Danger {
   Flood,
@@ -217,6 +217,7 @@ export const updateEvents = async (place: Place) => {
     { headers: { 'Content-Type': 'application/json' } }
   )
   place.events = JSON.parse(await response.json())
+  console.log(place.events)
 }
 
 if (import.meta.hot) {

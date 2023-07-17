@@ -51,7 +51,7 @@ import { reactive, ref } from 'vue'
 import { router } from '@/router'
 import { $t } from '@/translation'
 import { AlertData } from '@/stores/placeStore'
-import { serverUrl } from '@/main'
+import { serverUrl } from '@/constants'
 
 enum Page {
   Location,

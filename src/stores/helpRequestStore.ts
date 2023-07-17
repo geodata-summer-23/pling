@@ -1,6 +1,6 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { AddressPoint } from './placeStore'
-import { serverUrl } from '@/main'
+import { serverUrl } from '@/constants'
 
 export type HelpRequest = {}
 
