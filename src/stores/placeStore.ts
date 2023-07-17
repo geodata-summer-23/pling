@@ -2,6 +2,7 @@ import { $t } from '@/translation'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import proj4 from 'proj4'
 import * as locator from '@arcgis/core/rest/locator'
+import { serverUrl } from '@/main'
 
 export enum Danger {
   Flood,
@@ -212,7 +213,7 @@ export const searchAddress = async (
 export const updateEvents = async (place: Place) => {
   if (!place.address.point?.latitude || !place.address.point?.longitude) return
   const response = await fetch(
-    `https://varselserver-1-i2815530.deta.app/alerts?lat=${place.address.point?.latitude}&lon=${place.address.point?.longitude}`,
+    `${serverUrl}/alerts?lat=${place.address.point?.latitude}&lon=${place.address.point?.longitude}`,
     { headers: { 'Content-Type': 'application/json' } }
   )
   place.events = JSON.parse(await response.json())

@@ -88,6 +88,7 @@ const norwegian = {
   notify: 'Varsle',
   category: 'Kategori',
   icon: 'Ikon',
+  network: 'Nettverk',
 } as const
 
 const english: Record<string, string> = {
@@ -163,4 +164,5 @@ const english: Record<string, string> = {
   notify: 'Notify',
   category: 'Category',
   icon: 'Icon',
+  network: 'Network',
 } as const
