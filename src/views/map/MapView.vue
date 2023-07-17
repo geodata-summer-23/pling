@@ -5,7 +5,6 @@
     :search-results="results"
     :places="placeStore.places"
     :current-place="placeStore.currentPlace"
-    :events="useEventStore().events"
     @select-place="selectPlace"
     @select-result="selectResultAndClear"
     @search="search"
@@ -37,7 +36,7 @@
           @click="onCategoryModal"
         >
           <span style="font-size: medium; padding-right: 0.2em">{{
-            selectedCategory.displayTitle
+            selectedCategory.title
           }}</span>
           <fa-icon icon="layer-group"></fa-icon>
         </button>
@@ -63,11 +62,11 @@
         d asløkdjlask jd
       </p>
       <EventList
-        :point="placeStore.currentPlace.address?.point"
+        :place="placeStore.currentPlace"
         @select-category="
           (category) => {
             const option = getCategoryOptions().find(
-              (option) => option.categoryState == category
+              (option) => option.category == category
             )
             if (option) {
               selectCategoryOption(option)
@@ -94,8 +93,7 @@ import {
 } from '@/stores/placeStore'
 import { computed, onActivated, onMounted, ref } from 'vue'
 import { $t } from '@/translation'
-import { useEventStore } from '@/stores/eventStore'
-import { getCategoryIconSrc } from '@/stores/eventStore'
+import { getCategoryIconSrc } from '@/stores/placeStore'
 import { useModalStore } from '@/stores/modalStore'
 import CategoriesSelect from './CategoriesSelect.vue'
 import MapInfo from './MapInfo.vue'
@@ -105,12 +103,11 @@ import IconButton from '@/components/IconButton.vue'
 const paneOpen = ref(true)
 const userStore = useUserStore()
 const placeStore = usePlaceStore()
-const eventStore = useEventStore()
 const geoLocationStore = useGeolocationStore()
 const results = ref<AddressResult[]>([])
 
 const warningIcons = computed(() =>
-  eventStore.events.map((e) => getCategoryIconSrc(e.category))
+  placeStore.currentPlace?.events.map((e) => getCategoryIconSrc(e.category))
 )
 
 onActivated(() => {
@@ -206,3 +203,4 @@ onMounted(() => {
   border-radius: 1em;
 }
 </style>
+@/stores/events@/stores/events

@@ -7,12 +7,12 @@
       v-for="option in getCategoryOptions()"
       class="layer-item row center clickable"
       :class="{
-        selected: selectedCategory.displayTitle == option.displayTitle,
+        selected: selectedCategory.title == option.title,
         disabled: option.layerId == 'NotImplementedError',
       }"
       @click="() => onLayerOptionSelect(option)"
     >
-      {{ option.displayTitle }}
+      {{ option.title }}
     </div>
   </div>
 </template>
@@ -35,7 +35,7 @@ const onLayerOptionSelect = (categoryOption: CategoryOption) => {
   useModalStore().push(
     PromptModalContent,
     {
-      title: $t().category + ': ' + categoryOption.displayTitle,
+      title: $t().category + ': ' + categoryOption.title,
       text: categoryOption.description,
       buttons: [
         {

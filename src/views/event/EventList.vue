@@ -2,7 +2,7 @@
   <div class="col">
     <div class="row" style="gap: 0.5em">
       <div
-        v-for="event in useEventStore().events"
+        v-for="event in place.events"
         class="row center event-tab"
         :class="{ selected: selectedEvent == event }"
         style="gap: 0.5em"
@@ -19,47 +19,27 @@
 
 <script lang="ts" setup>
 import EventBox from './EventBox.vue'
-import { usePlaceStore } from '@/stores/placeStore'
+import { ref } from 'vue'
+import { translate } from '@/translation'
 import {
-  useEventStore,
   AlertData,
   getCategoryIconSrc,
-} from '@/stores/eventStore'
-import { ref, watch } from 'vue'
-import { translate } from '@/translation'
-import { CategoryState } from '@/stores/eventStore'
+  Category,
+  Place,
+} from '@/stores/placeStore'
+
+defineProps<{ place: Place }>()
 
 const emit = defineEmits<{
-  (e: 'select-category', category: CategoryState): void
+  (e: 'select-category', category: Category): void
 }>()
 
 const selectedEvent = ref<AlertData | null>(null)
-const eventStore = useEventStore()
 
 const selectEvent = (event: AlertData) => {
   selectedEvent.value = event
   emit('select-category', event.category)
 }
-
-watch(
-  () => usePlaceStore().currentPlace,
-  () => {
-    eventStore.updateEvents(
-      usePlaceStore().currentPlace?.address.point?.latitude,
-      usePlaceStore().currentPlace?.address.point?.longitude
-    )
-  },
-  { immediate: true }
-)
-
-watch(
-  () => eventStore.events,
-  () => {
-    if (eventStore.events.length > 0) {
-      selectedEvent.value = eventStore.events[0]
-    }
-  }
-)
 </script>
 
 <style scoped>
@@ -77,3 +57,4 @@ watch(
   color: var(--c-text);
 }
 </style>
+@/stores/events@/stores/events

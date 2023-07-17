@@ -51,7 +51,7 @@ import OverviewForm from './OverviewForm.vue'
 import { reactive, ref } from 'vue'
 import { router } from '@/router'
 import { $t } from '@/translation'
-import { AlertData } from '@/stores/eventStore'
+import { AlertData } from '@/stores/placeStore'
 
 enum Page {
   Category,
@@ -94,11 +94,14 @@ const exitPage = () => {
 const postAlert = async () => {
   alertData.timestamp = Date.now()
   try {
-    const response = await fetch(`https://varselserver-1-i2815530.deta.app/alert`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(alertData),
-    })
+    const response = await fetch(
+      `https://varselserver-1-i2815530.deta.app/alert`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(alertData),
+      }
+    )
     requestState.value = response.ok ? 'success' : 'fail'
   } catch {
     requestState.value = 'fail'
@@ -108,3 +111,4 @@ const postAlert = async () => {
 </script>
 
 <style scoped></style>
+@/stores/events

@@ -1,10 +1,10 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { CategoryState } from './eventStore'
+import { Category } from './placeStore'
 
 export type NotificationData = {
   title: string
   body: string
-  category: CategoryState
+  category: Category
   timeout?: number
   timestamp: number
   click: () => void

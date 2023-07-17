@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts" setup>
-import { AlertData } from '@/stores/eventStore'
+import { AlertData } from '@/stores/placeStore'
 import { translate } from '@/translation'
 
 const props = defineProps<{ event: AlertData }>()
@@ -59,3 +59,4 @@ p {
   margin: 0;
 }
 </style>
+@/stores/events

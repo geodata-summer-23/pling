@@ -1,6 +1,6 @@
 <template>
   <h3 style="text-align: center">
-    {{ selectedCategory.displayTitle }}
+    {{ selectedCategory.title }}
   </h3>
   <p>
     {{ selectedCategory.description }}

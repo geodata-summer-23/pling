@@ -18,7 +18,7 @@
     </div>
     <h3>{{ $t().events }}</h3>
     <p>{{ $t().eventsDescription }}</p>
-    <EventList :point="usePlaceStore().places[0].address.point"></EventList>
+    <EventList :place="usePlaceStore().places[0]"></EventList>
   </div>
 </template>
 
@@ -27,9 +27,4 @@ import { router } from '@/router'
 import EventList from '../event/EventList.vue'
 import { $t } from '@/translation'
 import { usePlaceStore } from '@/stores/placeStore'
-import { onMounted } from 'vue'
-
-onMounted(() => {
-  usePlaceStore().currentPlace = usePlaceStore().places[0]
-})
 </script>
