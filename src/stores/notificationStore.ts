@@ -22,16 +22,17 @@ export const useNotificationStore = defineStore('notification', {
     },
     requestPermission() {
       if (!('Notification' in window)) {
-        alert('This browser does not support desktop notification')
+        console.error('This browser does not support desktop notification')
       } else if (Notification.permission === 'granted') {
         this.permission = Notification.permission
       } else if (Notification.permission !== 'denied') {
-        alert('Trying to request permission')
         Notification.requestPermission().then((p) => {
           this.permission = p
           if (this.permission === 'granted') {
           } else {
-            alert(`Permission was not granted. It was ${this.permission}`)
+            console.error(
+              `Permission was not granted. It was ${this.permission}`
+            )
           }
         })
       }
