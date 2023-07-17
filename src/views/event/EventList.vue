@@ -3,14 +3,16 @@
     <div class="row" style="gap: 0.5em">
       <div
         v-for="event in useEventStore().events"
-        class="event-tab"
+        class="row center event-tab"
         :class="{ selected: selectedEvent == event }"
-        @click="selectedEvent = event"
+        style="gap: 0.5em"
+        @click="() => selectEvent(event)"
       >
         <img :src="getCategoryIconSrc(event.category)" alt="" width="30" />
-        {{ event.message }}
+        {{ translate(event.category) }}
       </div>
     </div>
+
     <EventBox v-if="selectedEvent" :event="selectedEvent" />
   </div>
 </template>
@@ -24,9 +26,20 @@ import {
   getCategoryIconSrc,
 } from '@/stores/eventStore'
 import { ref, watch } from 'vue'
+import { translate } from '@/translation'
+import { CategoryState } from '@/stores/eventStore'
+
+const emit = defineEmits<{
+  (e: 'select-category', category: CategoryState): void
+}>()
 
 const selectedEvent = ref<AlertData | null>(null)
 const eventStore = useEventStore()
+
+const selectEvent = (event: AlertData) => {
+  selectedEvent.value = event
+  emit('select-category', event.category)
+}
 
 watch(
   () => usePlaceStore().currentPlace,
@@ -54,7 +67,7 @@ watch(
   padding: 0.5em 1em;
   background-color: var(--c-white);
   color: var(--c-dark-gray);
-  border-radius: 1em 1em 0em 0em;
+  border-radius: 0.5em;
   border: 1px solid var(--c-medium-gray);
   border-bottom: none;
 }
@@ -62,6 +75,5 @@ watch(
 .event-tab.selected {
   background-color: var(--c-white);
   color: var(--c-text);
-  transform: translateY(1px);
 }
 </style>

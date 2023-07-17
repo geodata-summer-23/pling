@@ -58,11 +58,23 @@
       />
     </template>
     <div class="col" style="gap: 1em">
-      <p>
+      <p style="margin: 0em 2em">
         Oppsummering av varsler... alksjd a slødkjaslkdj als dalks jdlkasjdlkajs
         d asløkdjlask jd
       </p>
-      <EventList :point="placeStore.currentPlace.address?.point"></EventList>
+      <EventList
+        :point="placeStore.currentPlace.address?.point"
+        @select-category="
+          (category) => {
+            const option = getCategoryOptions().find(
+              (option) => option.categoryState == category
+            )
+            if (option) {
+              selectCategoryOption(option)
+            }
+          }
+        "
+      ></EventList>
     </div>
   </SlideUpPane>
 </template>

@@ -5,9 +5,10 @@ import { useGeolocationStore } from './geolocationStore'
 export type CategoryState =
   | 'flood'
   | 'rainflood'
-  | 'forestfire'
-  | 'wind'
-  | 'avalanches'
+  | 'heatwave'
+  | 'falling-wind'
+  | 'quick-clay'
+  | 'stormtide'
   | 'other'
 
 export const getCategoryIconSrc = (category: CategoryState) => {

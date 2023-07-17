@@ -64,7 +64,7 @@ const props = withDefaults(
     zIndex?: number
     middleSvh?: number
   }>(),
-  { middleSvh: 50 }
+  { middleSvh: 55 }
 )
 
 const emit = defineEmits<{
@@ -161,7 +161,7 @@ watch(
 }
 
 .content {
-  padding: 0em 2em 2em 2em;
+  padding-bottom: 2em;
   overflow: auto;
   max-height: 0;
 }

@@ -1,16 +1,14 @@
 <template>
   <div class="row alert-box">
-    <div class="col" style="padding: 1em">
+    <div class="col">
       <div class="row center" style="gap: 0.5em">
-        <h3>{{ translate(props.event.category) }}</h3>
-        <div>
-          <div class="row location-box">
-            <fa-icon icon="location-dot"></fa-icon>
-            <span v-if="props.event.dist <= 100000">
-              {{ props.event.dist }}m unna
-            </span>
-            <span v-if="props.event.dist > 1000">>1000m unna</span>
-          </div>
+        <h3 style="margin: 0">{{ translate(props.event.category) }}</h3>
+        <div class="row location-box">
+          <fa-icon icon="location-dot"></fa-icon>
+          <span v-if="props.event.dist <= 100000">
+            {{ props.event.dist }}m unna
+          </span>
+          <span v-if="props.event.dist > 1000">>1000m unna</span>
         </div>
       </div>
       <p>{{ props.event.message }}</p>
@@ -35,11 +33,8 @@ const props = defineProps<{ event: AlertData }>()
 
 <style scoped>
 .alert-box {
-  border: 1px solid var(--c-medium-gray);
-  border-radius: 0em 0em 1em 1em;
-  box-shadow: 0 0.4em 0.6em var(--c-medium-gray);
   overflow: hidden;
-  padding-bottom: 2em;
+  margin: 2em;
 }
 
 .location-box {
