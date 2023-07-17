@@ -7,70 +7,32 @@
         </KeepAlive>
       </RouterView>
     </div>
-    <nav
-      v-if="['home', 'map', 'message'].includes(router.currentRoute.value.name as string)"
-      class="nav-bottom"
-    >
-      <RouterLink :to="{ name: 'home' }">
-        <NavItem route="home"><fa-icon size="xl" icon="house" /></NavItem>
-      </RouterLink>
-      <RouterLink :to="{ name: 'map' }">
-        <NavItem route="map"
-          ><fa-icon size="xl" icon="earth-americas"
-        /></NavItem>
-      </RouterLink>
-      <RouterLink :to="{ name: 'message' }">
-        <NavItem route="message"><fa-icon size="xl" icon="bell" /></NavItem>
-      </RouterLink>
-    </nav>
-
-    <div
-      class="overlay"
-      :class="{
-        'modal-wrapper-background': modalStore.components.length > 0,
-        clickthrough: modalStore.components.length == 0,
-      }"
-      style="transition: all 200ms; height: 100%"
-      @click="modalStore.pop"
-    ></div>
-    <div
-      v-for="component in modalStore.components"
-      class="overlay clickthrough modal-wrapper col center"
-      style="height: 100%"
-    >
-      <Modal :component="component"></Modal>
-    </div>
+    <BottomNavBar></BottomNavBar>
+    <ModalView></ModalView>
   </div>
 </template>
 
 <script setup lang="ts">
-import NavItem from '@/components/NavItem.vue'
-import { onBeforeMount, onMounted } from 'vue'
+import { onBeforeMount } from 'vue'
 import { RouterView } from 'vue-router'
 import { usePlaceStore } from '@/stores/placeStore'
 import { useUserStore } from '@/stores/userStore'
 import { useGeolocationStore } from '@/stores/geolocationStore'
 import { router } from './router'
-import { useModalStore } from './stores/modalStore'
-import Modal from './components/Modal.vue'
 import { useNotificationStore } from './stores/notificationStore'
+import BottomNavBar from './components/BottomNavBar.vue'
+import ModalView from './components/ModalView.vue'
 
 const userStore = useUserStore()
-const modalStore = useModalStore()
 
 onBeforeMount(() => {
   userStore.loadFromLocalStorage()
   usePlaceStore().loadFromLocalStorage()
   useGeolocationStore().init()
+  useNotificationStore().init()
 
   if (!userStore.guid && router.currentRoute.value.name != 'onboarding') {
     router.push({ name: 'onboarding' })
   }
 })
-
-onMounted(() => {
-  useNotificationStore().init()
-})
 </script>
-
-<style scoped></style>
