@@ -111,8 +111,14 @@ onDeactivated(() => {
 })
 
 const onActionButton = () => {
-  setTimeout(() => useNotificationStore().notify('Hello world!'), 2000)
-  if (edit) {
+  useNotificationStore().push({
+    title: 'Forest fire',
+    body: 'Located at Geodata headquarters',
+    category: 'forestfire',
+    timestamp: Date.now(),
+    click: () => router.push({ name: 'map' }),
+  })
+  if (edit.value) {
     edit.value = false
   } else {
     actionsOpen.value = !actionsOpen.value

@@ -9,6 +9,7 @@
     </div>
     <BottomNavBar></BottomNavBar>
     <ModalView></ModalView>
+    <NotificationView></NotificationView>
   </div>
 </template>
 
@@ -22,6 +23,7 @@ import { router } from './router'
 import { useNotificationStore } from './stores/notificationStore'
 import BottomNavBar from './components/BottomNavBar.vue'
 import ModalView from './components/ModalView.vue'
+import NotificationView from './components/NotificationView.vue'
 
 const userStore = useUserStore()
 

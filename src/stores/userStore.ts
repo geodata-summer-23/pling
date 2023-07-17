@@ -68,7 +68,7 @@ esriId
     useUserStore().signedInToArcGis = true
   })
   .catch(() => {
-    console.log('User is not already signed in.')
+    signIn()
   })
 
 export const signIn = () => {

@@ -1,8 +1,19 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
+import { CategoryState } from './eventStore'
+
+export type NotificationData = {
+  title: string
+  body: string
+  category: CategoryState
+  timeout?: number
+  timestamp: number
+  click: () => void
+}
 
 export const useNotificationStore = defineStore('notification', {
   state: () => ({
     permission: Notification.permission ?? 'default',
+    notifications: [] as NotificationData[],
   }),
   actions: {
     init() {
@@ -26,20 +37,22 @@ export const useNotificationStore = defineStore('notification', {
       }
       this.permission = Notification.permission
     },
-    notify(text: string) {
-      if (this.permission != 'granted') {
-        // TODO:
-        return
-      }
+    push(notification: NotificationData) {
+      this.notifications.push(notification)
 
       navigator.serviceWorker.ready.then((registration) => {
-        console.log(text)
-        registration.showNotification(text, {
-          body: text,
+        registration.showNotification(notification.title, {
+          body: notification.body,
           silent: false,
           vibrate: [300, 100, 400],
         })
       })
+    },
+    delete(notification: NotificationData) {
+      const index = this.notifications.indexOf(notification)
+      if (index > -1) {
+        this.notifications.splice(index, 1)
+      }
     },
   },
 })
