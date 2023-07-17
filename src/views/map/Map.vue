@@ -48,9 +48,7 @@
           </span>
         </button>
         <IconButton
-          :icon="
-            zoomPrev > 10 ? 'magnifying-glass-minus' : 'magnifying-glass-plus'
-          "
+          :icon="zoomPrev > 10 ? 'earth-americas' : 'location-dot'"
           class="btn-shadow"
           @click="
             () => {
