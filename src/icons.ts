@@ -21,6 +21,8 @@ import {
   faLocationDot,
   faLocationCrosshairs,
   faMagnifyingGlass,
+  faMagnifyingGlassPlus,
+  faMagnifyingGlassMinus,
   faCarSide,
   faShop,
   faHouseChimneyWindow,
@@ -56,6 +58,8 @@ export const registerIcons = () => {
   library.add(faLocationDot)
   library.add(faLocationCrosshairs)
   library.add(faMagnifyingGlass)
+  library.add(faMagnifyingGlassPlus)
+  library.add(faMagnifyingGlassMinus)
   library.add(faCarSide)
   library.add(faShop)
   library.add(faHouseChimneyWindow)

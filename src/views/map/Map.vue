@@ -48,9 +48,19 @@
           </span>
         </button>
         <IconButton
-          icon="earth-americas"
+          :icon="
+            zoomPrev > 10 ? 'magnifying-glass-minus' : 'magnifying-glass-plus'
+          "
           class="btn-shadow"
-          @click="zoomTo"
+          @click="
+            () => {
+              if (zoomPrev > 10) {
+                zoomTo()
+              } else {
+                goToAndDrawCenter()
+              }
+            }
+          "
         ></IconButton>
       </div>
       <div class="row clickthrough" style="justify-content: end">
@@ -70,7 +80,7 @@ import MapView from '@arcgis/core/views/MapView'
 import Graphic from '@arcgis/core/Graphic'
 import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer'
 import Point from '@arcgis/core/geometry/Point'
-import { onMounted, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import {
   AddressPoint,
   AddressResult,
@@ -109,6 +119,7 @@ const emit = defineEmits<{
 }>()
 
 const graphicsLayer = new GraphicsLayer()
+const zoomPrev = ref(15)
 let mapCenterPoint: Graphic | null = null
 let goToTimeout: NodeJS.Timeout | undefined = undefined
 
@@ -200,9 +211,10 @@ const selectPlace = (place: Place) => {
 }
 
 const zoomTo = (zoom: number = 2) => {
+  zoomPrev.value = zoom
   mapObjects.mapView?.goTo(
     {
-      zoom,
+      zoom: zoom,
     },
     {
       animate: true,
@@ -214,6 +226,7 @@ const zoomTo = (zoom: number = 2) => {
 
 const goToAndDrawCenter = () => {
   if (!props.center || !mapObjects.mapView) return
+  zoomPrev.value = 15
   mapObjects.mapView.goTo(
     {
       center: new Point(props.center),
