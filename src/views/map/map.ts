@@ -50,16 +50,22 @@ export const getCategoryOptions = (): CategoryOption[] => [
     category: 'flood',
   },
   {
-    title: $t().stormTide,
-    layerId: '1894a08e10a-layer-21',
+    title: $t().stormSurge,
+    layerId: '189639a4259-layer-40',
     description:
       'Bygg som kan få vanninntrenging fra sjøen i 2090 ved stormfulle værforhold.',
-    category: 'stormtide',
+    category: 'storm-surge',
   },
   {
     title: $t().quickClay,
     layerId: '1894e91ecbb-layer-30',
     description: 'Områder utsatt for kvikkleireskred.',
     category: 'quick-clay',
+  },
+  {
+    title: $t().seaRise,
+    layerId: '1894a08e10a-layer-21',
+    description: 'Bygg som vil ligge under havnivå i 2090.',
+    category: 'sea-rise',
   },
 ]

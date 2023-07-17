@@ -10,4 +10,3 @@ import { AlertData } from '@/stores/placeStore'
 
 defineProps<{ event: AlertData }>()
 </script>
-@/stores/events

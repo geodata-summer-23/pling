@@ -132,6 +132,9 @@ onMounted(() => {
     container: 'mapViewDiv',
     center: [11, 60],
     zoom: 15,
+    constraints: {
+      rotationEnabled: false,
+    },
   })
 
   mapObjects.mapView.on('click', (event) => {
@@ -203,7 +206,7 @@ const selectPlace = (place: Place) => {
   }
 }
 
-const zoomTo = (zoom: number = 2) => {
+const zoomTo = (zoom: number = 3) => {
   zoomPrev.value = zoom
   mapObjects.mapView?.goTo(
     {

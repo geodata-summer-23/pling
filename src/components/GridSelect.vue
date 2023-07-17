@@ -1,14 +1,8 @@
 <template>
-  <div
-    class="grid spaced"
-    style="margin: 1em"
-    :style="{ 'grid-template-columns': gridTemplate }"
-  >
+  <div class="grid spaced" :style="{ 'grid-template-columns': gridTemplate }">
     <div
       v-for="option in options"
-      :style="{
-        color: option.value == value ? 'var(--c-blue)' : 'var(--c-dark-gray)',
-      }"
+      :class="{ selected: option.value == value }"
       @click="emit('change', option.value)"
     >
       <span v-if="option.text">{{ option.text }}</span>
@@ -29,10 +23,32 @@ const emit = defineEmits<{
 }>()
 </script>
 
-<style>
+<style scoped>
 .grid {
   display: grid;
   column-gap: 0.5em;
   row-gap: 1em;
+  box-shadow: 0 0.4em 0.6em var(--c-medium-gray);
+  padding: 1em 1em;
+  border-radius: 2em;
+  margin: 0.5em 0em;
+}
+
+span {
+  padding: 0.5em 2em;
+}
+
+.selected > span {
+  background-color: var(--c-blue);
+  border-radius: 3em;
+  color: var(--c-white);
+}
+
+svg {
+  color: var(--c-dark-gray);
+}
+
+.selected > svg {
+  color: var(--c-blue);
 }
 </style>

@@ -44,7 +44,8 @@ export type Category =
   | 'heatwave'
   | 'falling-wind'
   | 'quick-clay'
-  | 'stormtide'
+  | 'storm-surge'
+  | 'sea-rise'
   | 'other'
 
 export const getCategoryIconSrc = (category: Category) => {

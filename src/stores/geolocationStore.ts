@@ -2,6 +2,7 @@ import { acceptHMRUpdate, defineStore } from 'pinia'
 import { AddressPoint, usePlaceStore } from './placeStore'
 import * as locator from '@arcgis/core/rest/locator'
 import Point from '@arcgis/core/geometry/Point'
+import { useHelpRequestStore } from './helpRequestStore'
 
 const geoData =
   'https://services.geodataonline.no/arcgis/rest/services/Geosok/GeosokLokasjon2/GeocodeServer'
@@ -40,6 +41,7 @@ const updatePosition = (position: GeolocationPosition) => {
     longitude: position.coords.longitude,
   }
   useGeolocationStore().position = addressPosition
+  useHelpRequestStore().updateRequests(addressPosition)
   locator
     .locationToAddress(geoData, {
       location: new Point(addressPosition),
