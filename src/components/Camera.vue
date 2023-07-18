@@ -6,7 +6,9 @@
       style="visibility: hidden"
       accept="image/*"
       capture="environment"
-      @change="takePicture(($event.target as HTMLInputElement).files)"
+      @change="
+        takePictureAndCompress(($event.target as HTMLInputElement).files)
+      "
     />
     <div class="row center" style="gap: 1em">
       <label v-if="hasImage" class="btn" @click="clearPicture">
@@ -46,19 +48,32 @@ const clearPicture = () => {
   imgRef.value.src = ''
 }
 
-const takePicture = (fileList: FileList | null) => {
+const takePictureAndCompress = (fileList: FileList | null) => {
   if (!fileList) return
   const imgFile = fileList[0]
-
   const reader = new FileReader()
-  reader.onloadend = () => {
-    if (!imgRef.value || !reader.result) return
-    const src = reader.result.toString()
-    emit('update-picture', src)
-    hasImage.value = true
-    imgRef.value.src = src
-  }
   reader.readAsDataURL(imgFile)
+  reader.onload = () => {
+    if (!imgRef.value || !reader.result) return
+    const img = new Image()
+    img.src = reader.result.toString()
+    ;(img.onload = () => {
+      const width = 300
+      const height = 300
+      if (!imgRef.value) return
+      const elem = document.createElement('canvas')
+      elem.width = width
+      elem.height = height
+      const ctx = elem.getContext('2d')
+      if (!ctx) return
+      ctx.drawImage(img, 0, 0, width, height)
+      const src = ctx.canvas.toDataURL()
+      imgRef.value.src = src
+      hasImage.value = true
+      emit('update-picture', src)
+    }),
+      (reader.onerror = (error) => console.error(error))
+  }
 }
 </script>
 

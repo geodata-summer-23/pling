@@ -19,16 +19,17 @@
 
 <script lang="ts" setup>
 import EventBox from './EventBox.vue'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { translate } from '@/translation'
 import {
   AlertData,
   getCategoryIconSrc,
   Category,
   Place,
+  updateEvents,
 } from '@/stores/placeStore'
 
-defineProps<{ place: Place }>()
+const props = defineProps<{ place: Place }>()
 
 const emit = defineEmits<{
   (e: 'select-category', category: Category): void
@@ -40,6 +41,10 @@ const selectEvent = (event: AlertData) => {
   selectedEvent.value = event
   emit('select-category', event.category)
 }
+
+onMounted(() => {
+  updateEvents(props.place)
+})
 </script>
 
 <style scoped>

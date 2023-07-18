@@ -222,7 +222,6 @@ export const updateEvents = async (place: Place) => {
     { headers: { 'Content-Type': 'application/json' } }
   )
   place.events = JSON.parse(await response.json())
-  console.log(place.events)
 }
 
 if (import.meta.hot) {

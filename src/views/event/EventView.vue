@@ -104,7 +104,6 @@ const postAlert = async () => {
     requestState.value = response.ok ? 'success' : 'fail'
   } catch {
     requestState.value = 'fail'
-    console.log(alertData)
   }
 }
 </script>
