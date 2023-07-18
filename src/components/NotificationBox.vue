@@ -50,4 +50,3 @@ const emit = defineEmits<{
   margin: 1em;
 }
 </style>
-@/stores/events

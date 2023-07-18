@@ -203,4 +203,3 @@ onMounted(() => {
   border-radius: 1em;
 }
 </style>
-@/stores/events@/stores/events

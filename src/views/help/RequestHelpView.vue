@@ -40,12 +40,11 @@ import CategoryForm from '@/views/event/CategoryForm.vue'
 import LocationForm from '@/views/event/LocationForm.vue'
 import DescriptionForm from '@/views/event/DescriptionForm.vue'
 import IconButton from '@/components/IconButton.vue'
+import OverviewForm from './OverviewForm.vue'
 import { reactive, ref } from 'vue'
 import { router } from '@/router'
 import { $t } from '@/translation'
-import { serverUrl } from '@/constants'
-import { HelpRequest } from '@/stores/helpRequestStore'
-import OverviewForm from './OverviewForm.vue'
+import { useHelpRequestStore, HelpRequest } from '@/stores/helpRequestStore'
 
 enum Page {
   Location,
@@ -55,9 +54,7 @@ enum Page {
   End,
 }
 
-type RequestState = 'not-sent' | 'fail' | 'success'
 const page = ref<Page>(0)
-const requestState = ref<RequestState>('not-sent')
 
 const helpRequest = reactive<HelpRequest>({
   message: '',
@@ -66,6 +63,7 @@ const helpRequest = reactive<HelpRequest>({
   category: 'flood',
   dist: -1,
 })
+const helpRequestStore = useHelpRequestStore()
 
 const prevPage = () => {
   page.value = Math.max(0, page.value - 1)
@@ -74,28 +72,13 @@ const prevPage = () => {
 const nextPage = () => {
   page.value = page.value + 1
   if (page.value >= Page.End) {
-    postAlert()
+    helpRequestStore.requestHelp(helpRequest)
     router.push({ name: 'message' })
   }
 }
 
 const exitPage = () => {
   router.back()
-}
-
-const postAlert = async () => {
-  helpRequest.timestamp = Date.now()
-  try {
-    const response = await fetch(`${serverUrl}/alert`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(helpRequest),
-    })
-    requestState.value = response.ok ? 'success' : 'fail'
-  } catch {
-    requestState.value = 'fail'
-    console.log(helpRequest)
-  }
 }
 </script>
 

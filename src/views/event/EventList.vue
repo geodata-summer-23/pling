@@ -57,4 +57,3 @@ const selectEvent = (event: AlertData) => {
   color: var(--c-text);
 }
 </style>
-@/stores/events@/stores/events

@@ -25,6 +25,7 @@ export const useHelpRequestStore = defineStore('helpRequest', {
       this.requests = JSON.parse(await response.json())
     },
     requestHelp(helpRequest: Partial<HelpRequest>) {
+      helpRequest.timestamp = Date.now()
       fetch(`${serverUrl}/help-request`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

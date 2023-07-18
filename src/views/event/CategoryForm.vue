@@ -38,4 +38,3 @@ const emit = defineEmits<{
   flex-shrink: 0;
 }
 </style>
-@/stores/events
