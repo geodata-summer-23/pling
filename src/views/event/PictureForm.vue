@@ -12,7 +12,7 @@ import Camera from '@/components/Camera.vue'
 import { $t } from '@/translation'
 
 defineProps<{
-  imageSrc: string
+  imageSrc?: string
 }>()
 
 const emit = defineEmits<{

@@ -8,8 +8,17 @@
 </template>
 
 <script lang="ts" setup>
-import { useHelpRequestStore } from '@/stores/helpRequestStore'
 import HelpRequestBox from './HelpRequestBox.vue'
+import { useHelpRequestStore } from '@/stores/helpRequestStore'
+import { useGeolocationStore } from '@/stores/geolocationStore'
+import { onMounted } from 'vue'
 
 const helpRequestStore = useHelpRequestStore()
+
+onMounted(() => {
+  const position = useGeolocationStore().position
+  if (position) {
+    helpRequestStore.updateRequests(position)
+  }
+})
 </script>

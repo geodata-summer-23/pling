@@ -23,15 +23,15 @@ import { $t } from '@/translation'
 import { onMounted, ref } from 'vue'
 
 const props = defineProps<{
-  imageSrc: string
+  imageSrc?: string
 }>()
 
 const imgRef = ref<HTMLImageElement | null>(null)
-const hasImage = ref(props.imageSrc.length > 0)
+const hasImage = ref(props.imageSrc && props.imageSrc.length > 0)
 
 onMounted(() => {
   if (imgRef.value) {
-    imgRef.value.src = props.imageSrc
+    imgRef.value.src = props.imageSrc ?? ''
   }
 })
 
