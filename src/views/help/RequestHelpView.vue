@@ -2,7 +2,7 @@
   <div class="view col spaced" style="gap: 2em">
     <div class="row spaced">
       <IconButton v-if="page != 0" @click="prevPage"></IconButton>
-      <h2>{{ $t().reportAnEvent }}</h2>
+      <h2>{{ $t().requestHelp }}</h2>
       <IconButton icon="xmark" @click="exitPage"></IconButton>
     </div>
 
@@ -30,7 +30,6 @@
       ></OverviewForm>
     </div>
   </div>
-  <!-- <p>{{ data }}</p> -->
   <div class="view-bottom col">
     <button v-if="page == 4" class="btn" @click="nextPage">
       {{ $t().publish }}
@@ -42,12 +41,12 @@
 </template>
 
 <script lang="ts" setup>
-import CategoryForm from './CategoryForm.vue'
-import LocationForm from './LocationForm.vue'
-import DescriptionForm from './DescriptionForm.vue'
-import PictureForm from './PictureForm.vue'
+import CategoryForm from '@/views/event/CategoryForm.vue'
+import LocationForm from '@/views/event/LocationForm.vue'
+import DescriptionForm from '@/views/event/DescriptionForm.vue'
+import PictureForm from '@/views/event/PictureForm.vue'
 import IconButton from '@/components/IconButton.vue'
-import OverviewForm from './OverviewForm.vue'
+import OverviewForm from '@/views/event/OverviewForm.vue'
 import { reactive, ref } from 'vue'
 import { router } from '@/router'
 import { $t } from '@/translation'
@@ -55,8 +54,8 @@ import { AlertData } from '@/stores/placeStore'
 import { serverUrl } from '@/constants'
 
 enum Page {
-  Category,
   Location,
+  Category,
   Description,
   Picture,
   Overview,

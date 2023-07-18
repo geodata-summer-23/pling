@@ -6,6 +6,7 @@ const UserView = () => import('@/views/user/UserView.vue')
 const MessageView = () => import('@/views/message/MessageView.vue')
 const OnboardingView = () => import('@/views/onboarding/OnboardingView.vue')
 const EventView = () => import('@/views/event/EventView.vue')
+const RequestHelpView = () => import('./views/help/RequestHelpView.vue')
 
 import { createRouter, createWebHashHistory } from 'vue-router'
 
@@ -27,6 +28,7 @@ const routes = [
   { path: '/message', name: 'message', component: MessageView },
   { path: '/onboarding', name: 'onboarding', component: OnboardingView },
   { path: '/event', name: 'event', component: EventView },
+  { path: '/help', name: 'help', component: RequestHelpView },
   { path: '/:pathMatch(.*)*', name: 'not-found', redirect: '/' },
 ]
 

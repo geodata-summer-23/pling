@@ -40,6 +40,7 @@ const norwegian = {
   address: 'Adresse',
   name: 'Navn',
   requestHelp: 'Be om hjelp',
+  requests: 'Forespørsler',
   serverError: 'Serverfeil',
   layers: 'Lag',
   signIn: 'Logg inn',
@@ -66,7 +67,8 @@ const norwegian = {
   avalanche: 'Skred',
   heatWave: 'Hetebølge',
   quickClay: 'Kvikkleire',
-  stormTide: 'Stormflo',
+  seaRise: 'Havnivåstigning',
+  stormSurge: 'Stormflo',
   other: 'Annet',
   eventDescriptionText: 'Er det noe mer du vil informere om?',
   addPictureDescription:
@@ -77,7 +79,7 @@ const norwegian = {
   selectInMap: 'Velg i kart',
   events: 'Hendelser',
   eventsDescription: 'Dette er hendelser som kan påvirke deg',
-  wishToReport: 'Ønsker du å varsle en hendelse?',
+  wishToReport: 'Hva ønsker du å dele med nettverket?',
   reportInfo:
     'Alle varslinger blir sendt til en server for å bli behandlet og deretter sendt ut til nettverket knyttet lokasjonen hvor hendelsen fant sted. Vær dermed obs på at varslene er offentlige.',
   thisPlace: 'dette stedet',
@@ -86,6 +88,7 @@ const norwegian = {
   notify: 'Varsle',
   category: 'Kategori',
   icon: 'Ikon',
+  network: 'Nettverk',
 } as const
 
 const english: Record<string, string> = {
@@ -112,6 +115,7 @@ const english: Record<string, string> = {
   address: 'Address',
   name: 'Name',
   requestHelp: 'Request help',
+  requests: 'Requests',
   serverError: 'Server Error',
   layers: 'Layers',
   signIn: 'Sign In',
@@ -138,6 +142,7 @@ const english: Record<string, string> = {
   avalanche: 'Avalanche/landslide',
   heatWave: 'Heat wave',
   quickClay: 'Quick clay',
+  seaRise: 'Sea level',
   stormTide: 'Storm tide',
   other: 'Other',
   eventDescriptionText:
@@ -150,7 +155,7 @@ const english: Record<string, string> = {
   selectInMap: 'Select in map',
   events: 'Events',
   eventsDescription: 'These are events that can affect you',
-  wishToReport: 'Do you want to report an event?',
+  wishToReport: 'What would you like to share with the network?',
   reportInfo:
     'All notifications are sent to a server to be processed and then sent out to the network associated with the location where the event took place. Please note that the notifications are public.',
   thisPlace: 'this place',
@@ -159,4 +164,5 @@ const english: Record<string, string> = {
   notify: 'Notify',
   category: 'Category',
   icon: 'Icon',
+  network: 'Network',
 } as const

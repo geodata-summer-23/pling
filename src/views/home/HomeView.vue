@@ -114,7 +114,7 @@ const onActionButton = () => {
   useNotificationStore().push({
     title: 'Forest fire',
     body: 'Located at Geodata headquarters',
-    category: 'forestfire',
+    category: 'heatwave',
     timestamp: Date.now(),
     click: () => router.push({ name: 'map' }),
   })

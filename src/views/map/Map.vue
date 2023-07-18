@@ -86,11 +86,7 @@ import {
   usePlaceStore,
 } from '@/stores/placeStore'
 import { maxChars } from '@/utils'
-import {
-  AlertData,
-  CategoryState,
-  getCategoryIconSrc,
-} from '@/stores/eventStore'
+import { Category, getCategoryIconSrc } from '@/stores/placeStore'
 import { mapObjects, ViewClickEvent } from './map'
 import IconButton from '@/components/IconButton.vue'
 import { useModalStore } from '@/stores/modalStore'
@@ -104,7 +100,6 @@ const props = defineProps<{
   center: AddressPoint | null
   searchResults: AddressResult[]
   places: Place[]
-  events: AlertData[]
   currentPlace: Place | null
 }>()
 
@@ -137,6 +132,9 @@ onMounted(() => {
     container: 'mapViewDiv',
     center: [11, 60],
     zoom: 15,
+    constraints: {
+      rotationEnabled: false,
+    },
   })
 
   mapObjects.mapView.on('click', (event) => {
@@ -185,7 +183,7 @@ watch(
 )
 
 watch(
-  () => [props.places, props.events],
+  () => [props.places, props.currentPlace?.events],
   () => {
     drawGraphics()
   }
@@ -208,7 +206,7 @@ const selectPlace = (place: Place) => {
   }
 }
 
-const zoomTo = (zoom: number = 2) => {
+const zoomTo = (zoom: number = 3) => {
   zoomPrev.value = zoom
   mapObjects.mapView?.goTo(
     {
@@ -255,7 +253,7 @@ const drawGraphics = () => {
     const newPoint = createPointGraphic(place.address.point, '#1fe063')
     graphicsLayer.add(newPoint)
   })
-  props.events.forEach((event) => {
+  props.currentPlace?.events.forEach((event) => {
     const newPoint = createEventGraphic(event.position, event.category)
     graphicsLayer.add(newPoint)
   })
@@ -276,7 +274,7 @@ const createPointGraphic = (point: AddressPoint, color = '#2b95d6') => {
   })
 }
 
-const createEventGraphic = (point: AddressPoint, category: CategoryState) => {
+const createEventGraphic = (point: AddressPoint, category: Category) => {
   return new Graphic({
     geometry: new Point(point),
     symbol: {
@@ -336,4 +334,4 @@ const createEventGraphic = (point: AddressPoint, category: CategoryState) => {
   outline: none !important;
 }
 </style>
-./map
+./map @/stores/events

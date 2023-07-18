@@ -14,6 +14,7 @@
 
 <script lang="ts" setup>
 import LoadingSpinner from '@/components/LoadingSpinner.vue'
+import { serverUrl } from '@/constants'
 import { $t } from '@/translation'
 import { onMounted, ref } from 'vue'
 
@@ -28,7 +29,7 @@ const symbol = ref(null)
 onMounted(async () => {
   try {
     const response = await fetch(
-      `https://varselserver-1-i2815530.deta.app/met/nowcast?lat=${props.lat}&lon=${props.lon}`
+      `${serverUrl}/met/nowcast?lat=${props.lat}&lon=${props.lon}`
     )
     if (response.ok) {
       responseCode.value = true

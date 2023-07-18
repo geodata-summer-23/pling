@@ -6,13 +6,10 @@
       name="Kategori"
       id="category"
       @change="
-        emit(
-          'category',
-          ($event.target as HTMLSelectElement).value as CategoryState
-        )
+        emit('category', ($event.target as HTMLSelectElement).value as Category)
       "
     >
-      <option v-for="option in options" :value="option.value">
+      <option v-for="option in options" :value="option.category">
         {{ option.title }}
       </option>
     </select>
@@ -20,22 +17,17 @@
 </template>
 
 <script lang="ts" setup>
-import { CategoryState } from '@/stores/eventStore'
+import { Category } from '@/stores/placeStore'
 import { $t } from '@/translation'
+import { getCategoryOptions } from '../map/map'
 
-type CategoryOption = { title: string; value: CategoryState }
-
-const options: CategoryOption[] = [
-  { title: $t().flood, value: 'flood' },
-  { title: $t().torrentialRain, value: 'rainflood' },
-  { title: $t().fire, value: 'forestfire' },
-  { title: $t().windDamage, value: 'wind' },
-  { title: $t().avalanche, value: 'avalanches' },
-  { title: $t().other, value: 'other' },
+const options = [
+  ...getCategoryOptions(),
+  { title: $t().other, category: 'other' },
 ]
 
 const emit = defineEmits<{
-  (e: 'category', cat: CategoryState): void
+  (e: 'category', cat: Category): void
 }>()
 </script>
 
@@ -46,3 +38,4 @@ const emit = defineEmits<{
   flex-shrink: 0;
 }
 </style>
+@/stores/events
