@@ -12,12 +12,31 @@ export enum Danger {
   Wind,
 }
 
+export type EventData = {
+  message: string
+  position: AddressPoint
+  timestamp: number
+  category: Category
+  dist: number
+  imageSrc: string[]
+}
+
+export type AlertData = {
+  message: string
+  position: AddressPoint
+  timestamp: number
+  category: Category
+  dist: number
+  imageSrc: string[]
+}
+
 export type Place = {
   nickname: string
   icon: string
   address: Address
   excludeDangers: Danger[]
   events: EventData[]
+  alerts: AlertData[]
 }
 
 export type Address = {
@@ -60,21 +79,13 @@ export const getCategoryIconSrc = (category: Category) => {
   }
 }
 
-export type EventData = {
-  message: string
-  position: AddressPoint
-  timestamp: number
-  category: Category
-  dist: number
-  imageSrc: string[]
-}
-
 export const defaultMyLocation = (): Place => ({
   nickname: $t().myLocation,
   icon: 'location-crosshairs',
   address: {},
   excludeDangers: [],
   events: [],
+  alerts: [],
 })
 
 export const defaultPlace = (): Place => ({
@@ -83,6 +94,7 @@ export const defaultPlace = (): Place => ({
   address: {},
   excludeDangers: [],
   events: [],
+  alerts: [],
 })
 
 export const usePlaceStore = defineStore('place', {
