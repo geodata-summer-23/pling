@@ -30,12 +30,11 @@
       ></OverviewForm>
     </div>
   </div>
-  <!-- <p>{{ data }}</p> -->
   <div class="view-bottom col">
-    <button v-if="page == 4" class="btn" @click="nextPage">
+    <button v-if="page == Page.Overview" class="btn" @click="nextPage">
       {{ $t().publish }}
     </button>
-    <button v-if="page != 4" class="btn" @click="nextPage">
+    <button v-if="page != Page.Overview" class="btn" @click="nextPage">
       {{ $t().continue }}
     </button>
   </div>
@@ -109,4 +108,3 @@ const postAlert = async () => {
 </script>
 
 <style scoped></style>
-@/stores/events

@@ -1,5 +1,5 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { AddressPoint } from './placeStore'
+import { AddressPoint, Category } from './placeStore'
 import { serverUrl } from '@/constants'
 
 export type HelpRequest = {
@@ -7,6 +7,7 @@ export type HelpRequest = {
   position: AddressPoint
   timestamp: number
   dist: number
+  category: Category
 }
 
 export const useHelpRequestStore = defineStore('helpRequest', {
@@ -22,6 +23,13 @@ export const useHelpRequestStore = defineStore('helpRequest', {
         { headers: { 'Content-Type': 'application/json' } }
       )
       this.requests = JSON.parse(await response.json())
+    },
+    requestHelp(helpRequest: Partial<HelpRequest>) {
+      fetch(`${serverUrl}/help-request`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(helpRequest),
+      })
     },
   },
 
