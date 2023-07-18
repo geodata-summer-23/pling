@@ -3,7 +3,7 @@
   <div class="col">
     <div class="row" style="gap: 1em">
       <input
-        type="number"
+        type="tel"
         id="date"
         ref="dateInputRef"
         placeholder="DD"
@@ -19,7 +19,7 @@
         @focus="currentInput = 0"
       />
       <input
-        type="number"
+        type="tel"
         id="month"
         ref="monthInputRef"
         placeholder="MM"
@@ -35,7 +35,7 @@
         @focus="currentInput = 1"
       />
       <input
-        type="number"
+        type="tel"
         id="year"
         ref="yearInputRef"
         placeholder="YYYY"

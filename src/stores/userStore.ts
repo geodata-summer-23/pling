@@ -7,11 +7,13 @@ import { usePlaceStore } from './placeStore'
 
 export const useUserStore = defineStore('user', {
   state: () => ({
-    guid: null as null | string,
+    guid: '',
     signedInToArcGis: false,
-    firstName: null as null | string,
-    middleName: null as null | string,
-    lastName: null as null | string,
+    firstName: '',
+    middleName: '',
+    lastName: '',
+    email: '',
+    phoneNumber: '',
     age: null as null | number,
     birthday: null as null | Date,
     language: 'norwegian' as Language,
@@ -36,15 +38,25 @@ export const useUserStore = defineStore('user', {
       this.birthday = date
       localStorage.setItem('birthday', this.birthday.toISOString())
     },
+    setEmail(email: string) {
+      this.email = email
+      localStorage.setItem('email', this.email)
+    },
+    setPhoneNumber(phoneNumber: string) {
+      this.phoneNumber = phoneNumber
+      localStorage.setItem('phoneNumber', this.phoneNumber)
+    },
     setLanguage(language: Language) {
       this.language = language
       localStorage.setItem('language', this.language)
       usePlaceStore().places[0].nickname = $t().myLocation
     },
     loadFromLocalStorage() {
-      this.guid = localStorage.getItem('guid') ?? null
-      this.firstName = localStorage.getItem('firstName') ?? null
-      this.lastName = localStorage.getItem('lastName') ?? null
+      this.guid = localStorage.getItem('guid') ?? ''
+      this.firstName = localStorage.getItem('firstName') ?? ''
+      this.lastName = localStorage.getItem('lastName') ?? ''
+      this.email = localStorage.getItem('email') ?? ''
+      this.phoneNumber = localStorage.getItem('phoneNumber') ?? ''
       this.language =
         (localStorage.getItem('language') as Language) ?? 'norwegian'
       const date = localStorage.getItem('birthday')
