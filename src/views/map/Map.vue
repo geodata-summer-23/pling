@@ -80,9 +80,8 @@ import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer'
 import Point from '@arcgis/core/geometry/Point'
 import { onMounted, ref, watch } from 'vue'
 import { usePlaceStore } from '@/stores/placeStore'
-import { Position, Place, Category, getCategoryIconSrc } from '@/scripts/place'
+import { Position, Place } from '@/scripts/place'
 import { maxChars } from '@/scripts/string'
-import { mapObjects, ViewClickEvent } from './map'
 import IconButton from '@/components/IconButton.vue'
 import { useModalStore } from '@/stores/modalStore'
 import SearchModalContent from '@/components/SearchModalContent.vue'
@@ -91,6 +90,8 @@ import { router } from '@/router'
 import { useLoadingStore } from '@/stores/loadingStore'
 import LoadingSpinner from '@/components/LoadingSpinner.vue'
 import { AddressResult } from '@/scripts/search'
+import { Category, getCategoryIconSrc } from '@/scripts/category'
+import { ViewClickEvent, mapObjects } from '@/scripts/map'
 
 const props = defineProps<{
   center: Position | null
@@ -331,5 +332,3 @@ const createEventGraphic = (point: Position, category: Category) => {
   outline: none !important;
 }
 </style>
-./map @/stores/events @/scripts/place @/scripts/utils @/translation @/router
-@/translation @/scripts/string

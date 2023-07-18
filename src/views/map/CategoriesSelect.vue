@@ -19,9 +19,9 @@
 
 <script lang="ts" setup>
 import PromptModalContent from '@/components/PromptModalContent.vue'
+import { CategoryOption, getCategoryOptions } from '@/scripts/category'
 import { useModalStore } from '@/stores/modalStore'
 import { $t } from '@/translation'
-import { CategoryOption, getCategoryOptions } from './map'
 
 defineProps<{
   selectedCategory: CategoryOption

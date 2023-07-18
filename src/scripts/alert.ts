@@ -1,5 +1,6 @@
 import { UserData } from '@/stores/userStore'
-import { Category, Place, Position } from './place'
+import { Place, Position } from './place'
+import { Category } from './category'
 
 export type NowcastData = {
   temp: number

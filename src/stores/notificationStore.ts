@@ -1,5 +1,5 @@
+import { Category } from '@/scripts/category'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { Category } from '../scripts/place'
 
 export type NotificationData = {
   title: string

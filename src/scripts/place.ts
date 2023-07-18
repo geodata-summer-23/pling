@@ -23,27 +23,6 @@ export type Position = {
   longitude?: number
 }
 
-export type Category =
-  | 'flood'
-  | 'rainflood'
-  | 'heatwave'
-  | 'falling-wind'
-  | 'quick-clay'
-  | 'storm-surge'
-  | 'sea-rise'
-  | 'other'
-
-export const getCategoryIconSrc = (category: Category) => {
-  switch (category) {
-    case 'falling-wind':
-      return `./warningIcons/icon-warning-wind-red.svg`
-    case 'other':
-      return './warningIcons/icon-warning-extreme.svg'
-    default:
-      return `./warningIcons/icon-warning-${category}-red.svg`
-  }
-}
-
 export const defaultMyLocation = (): Place => ({
   nickname: $t().myLocation,
   icon: 'location-crosshairs',

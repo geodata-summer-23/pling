@@ -17,9 +17,8 @@
 </template>
 
 <script lang="ts" setup>
+import { Category, getCategoryOptions } from '@/scripts/category'
 import { $t } from '@/translation'
-import { getCategoryOptions } from '../map/map'
-import { Category } from '@/scripts/place'
 
 const options = [
   ...getCategoryOptions(),

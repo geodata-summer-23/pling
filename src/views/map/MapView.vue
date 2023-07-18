@@ -84,16 +84,21 @@ import SlideUpPane from '@/components/SlideUpPane.vue'
 import EventList from '../event/EventList.vue'
 import { signIn, useUserStore } from '@/stores/userStore'
 import { useGeolocationStore } from '@/stores/geolocationStore'
-import { Place, getCategoryIconSrc } from '@/scripts/place'
+import { Place } from '@/scripts/place'
 import { AddressResult, searchAddress, selectResult } from '@/scripts/search'
 import { computed, onActivated, onMounted, ref } from 'vue'
 import { $t } from '@/translation'
 import { useModalStore } from '@/stores/modalStore'
 import CategoriesSelect from './CategoriesSelect.vue'
 import MapInfo from './MapInfo.vue'
-import { CategoryOption, getCategoryOptions, mapObjects } from './map'
 import IconButton from '@/components/IconButton.vue'
 import { usePlaceStore } from '@/stores/placeStore'
+import {
+  CategoryOption,
+  getCategoryIconSrc,
+  getCategoryOptions,
+} from '@/scripts/category'
+import { mapObjects } from '@/scripts/map'
 
 const paneOpen = ref(true)
 const userStore = useUserStore()

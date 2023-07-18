@@ -1,18 +1,24 @@
-import { Category } from '@/scripts/place'
 import { $t } from '@/translation'
-import Point from '@arcgis/core/geometry/Point'
-import MapView from '@arcgis/core/views/MapView'
 
-export const mapObjects = {
-  mapView: null as MapView | null,
-}
+export type Category =
+  | 'flood'
+  | 'rainflood'
+  | 'heatwave'
+  | 'falling-wind'
+  | 'quick-clay'
+  | 'storm-surge'
+  | 'sea-rise'
+  | 'other'
 
-export type ViewClickEvent = {
-  mapPoint: Point
-  x: number
-  y: number
-  button: number
-  buttons: number
+export const getCategoryIconSrc = (category: Category) => {
+  switch (category) {
+    case 'falling-wind':
+      return `./warningIcons/icon-warning-wind-red.svg`
+    case 'other':
+      return './warningIcons/icon-warning-extreme.svg'
+    default:
+      return `./warningIcons/icon-warning-${category}-red.svg`
+  }
 }
 
 export type CategoryOption = {
