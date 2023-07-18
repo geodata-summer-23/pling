@@ -2,7 +2,12 @@ import { acceptHMRUpdate, defineStore } from 'pinia'
 import { AddressPoint } from './placeStore'
 import { serverUrl } from '@/constants'
 
-export type HelpRequest = {}
+export type HelpRequest = {
+  message: string
+  position: AddressPoint
+  timestamp: number
+  dist: number
+}
 
 export const useHelpRequestStore = defineStore('helpRequest', {
   state: () => ({
