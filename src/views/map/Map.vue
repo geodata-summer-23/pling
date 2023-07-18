@@ -136,12 +136,13 @@ onMounted(() => {
 
   mapObjects.mapView.on('click', (event) => {
     event.stopPropagation() // Disable default click handler
+    useLoadingStore().mapIsLoading = false
     emit('click', event)
   })
 
   mapObjects.mapView.when(() => {
     if (!mapObjects.mapView) return
-    console.log(JSON.parse(JSON.stringify(map.layers)))
+    // console.log(JSON.parse(JSON.stringify(map.layers)))
     drawGraphics()
     goToAndDrawCenter()
   })
