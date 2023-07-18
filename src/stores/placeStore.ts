@@ -50,9 +50,14 @@ export type Category =
   | 'other'
 
 export const getCategoryIconSrc = (category: Category) => {
-  return category == 'other'
-    ? './warningIcons/icon-warning-extreme-red.svg'
-    : `./warningIcons/icon-warning-${category}-red.svg`
+  switch (category) {
+    case 'falling-wind':
+      return `./warningIcons/icon-warning-wind-red.svg`
+    case 'other':
+      return './warningIcons/icon-warning-extreme.svg'
+    default:
+      return `./warningIcons/icon-warning-${category}-red.svg`
+  }
 }
 
 export type AlertData = {
