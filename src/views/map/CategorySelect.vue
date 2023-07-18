@@ -5,14 +5,17 @@
   <div class="layer-grid">
     <div
       v-for="option in getCategoryOptions()"
-      class="layer-item row center clickable"
+      class="layer-item col center clickable"
       :class="{
         selected: selectedCategory.title == option.title,
         disabled: option.layerId == 'NotImplementedError',
       }"
       @click="() => onLayerOptionSelect(option)"
     >
-      {{ option.title }}
+      <span>
+        {{ option.title }}
+      </span>
+      <fa-icon size="xl" :icon="option.faIcon"></fa-icon>
     </div>
   </div>
 </template>
@@ -69,9 +72,10 @@ const onLayerOptionSelect = (categoryOption: CategoryOption) => {
 
 .layer-item {
   background-color: var(--c-light-gray);
-  padding: 1em;
+  padding: 1em 0.5em;
   border-radius: 0.5em;
   white-space: nowrap;
+  color: var(--c-blue);
 }
 .layer-item.selected {
   background-color: var(--c-dark-gray);

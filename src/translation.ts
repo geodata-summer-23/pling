@@ -59,7 +59,8 @@ const norwegian = {
   describeEvent: 'Forklar situasjonen',
   pictureEvent: 'Legg til et bilde',
   flood: 'Flom',
-  torrentialRain: 'Styrtregn',
+  rainflood: 'Styrtregn',
+  temperatureMap: 'Temperaturkart',
   fire: 'Brann',
   windDamage: 'Skade fra vind',
   fallingWind: 'Fallvind',
@@ -94,7 +95,7 @@ const norwegian = {
     'Denne informasjonen vil bli delt med personer i nærheten i tilfelle du spør om hjelp.',
 } as const
 
-const english: Record<string, string> = {
+const english = {
   continue: 'Continue',
   skip: 'Skip',
   add: 'Add',
@@ -137,7 +138,8 @@ const english: Record<string, string> = {
   describeEvent: 'Describe the situation',
   pictureEvent: 'Add a picture',
   flood: 'Flood',
-  torrentialRain: 'Torrential rain',
+  rainflood: 'Torrential rain',
+  temperatureMap: 'Temperaturkart',
   fire: 'Fire',
   windDamage: 'Wind damage',
   windSouth: 'Wind from south',
@@ -146,7 +148,7 @@ const english: Record<string, string> = {
   heatWave: 'Heat wave',
   quickClay: 'Quick clay',
   seaRise: 'Sea level',
-  stormTide: 'Storm tide',
+  stormSurge: 'Storm tide',
   other: 'Other',
   eventDescriptionText:
     'Is there anything else you would like to inform about?',

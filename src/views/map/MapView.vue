@@ -89,7 +89,7 @@ import { AddressResult, searchAddress, selectResult } from '@/scripts/search'
 import { computed, onActivated, onMounted, ref } from 'vue'
 import { $t } from '@/translation'
 import { useModalStore } from '@/stores/modalStore'
-import CategoriesSelect from './CategoriesSelect.vue'
+import CategorySelect from './CategorySelect.vue'
 import MapInfo from './MapInfo.vue'
 import IconButton from '@/components/IconButton.vue'
 import { usePlaceStore } from '@/stores/placeStore'
@@ -143,7 +143,7 @@ const searchBlur = () => {
 
 const onCategoryModal = () => {
   useModalStore().push(
-    CategoriesSelect,
+    CategorySelect,
     { selectedCategory: selectedCategory.value },
     {
       'select-category': (categoryOption: CategoryOption) => {

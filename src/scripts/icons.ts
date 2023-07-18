@@ -34,6 +34,13 @@ import {
   faSchool,
   faCampground,
   faCity,
+  faCloudShowersHeavy,
+  faWater,
+  faTemperatureHigh,
+  faWind,
+  faHillRockslide,
+  faHouseFloodWater,
+  faArrowUpFromGroundWater,
 } from '@fortawesome/free-solid-svg-icons'
 
 export const registerIcons = () => {
@@ -71,4 +78,11 @@ export const registerIcons = () => {
   library.add(faSchool)
   library.add(faCampground)
   library.add(faCity)
+  library.add(faCloudShowersHeavy)
+  library.add(faWater)
+  library.add(faTemperatureHigh)
+  library.add(faWind)
+  library.add(faHillRockslide)
+  library.add(faHouseFloodWater)
+  library.add(faArrowUpFromGroundWater)
 }

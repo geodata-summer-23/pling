@@ -5,10 +5,10 @@
         <h3 style="margin: 0">{{ translate(helpRequest.category) }}</h3>
         <div class="row location-box">
           <fa-icon icon="location-dot"></fa-icon>
-          <span v-if="helpRequest.dist <= 100000">
-            {{ helpRequest.dist }}m unna
+          <span v-if="helpRequest.distance <= 100000">
+            {{ helpRequest.distance }}m unna
           </span>
-          <span v-if="helpRequest.dist > 1000">>1000m unna</span>
+          <span v-if="helpRequest.distance > 1000">>1000m unna</span>
         </div>
       </div>
       <p>{{ helpRequest.message }}</p>
