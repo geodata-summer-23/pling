@@ -29,7 +29,7 @@
 
 <script lang="ts" setup>
 import { NotificationData } from '@/stores/notificationStore'
-import { getCategoryIconSrc } from '@/stores/place'
+import { getCategoryIconSrc } from '@/scripts/place'
 
 defineProps<{ notification: NotificationData }>()
 

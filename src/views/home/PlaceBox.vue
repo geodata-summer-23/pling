@@ -29,7 +29,7 @@
       </span>
       <CoordinatesText v-else :place="place"></CoordinatesText>
     </div>
-    <WeatherNowcast :coordinates="place.address.coordinates"></WeatherNowcast>
+    <WeatherNowcast :coordinates="place.address.position"></WeatherNowcast>
   </div>
 </template>
 
@@ -41,9 +41,9 @@ import FeatureLayer from '@arcgis/core/layers/FeatureLayer'
 import Point from '@arcgis/core/geometry/Point.js'
 import { onMounted, ref } from 'vue'
 import { router } from '@/router'
-import { maxChars } from '@/utils'
+import { maxChars } from '@/scripts/utils'
 import { useLoadingStore } from '@/stores/loadingStore'
-import { Place } from '@/stores/place'
+import { Place } from '@/scripts/place'
 
 const placeStore = usePlaceStore()
 const props = defineProps<{
@@ -56,7 +56,7 @@ const warningIcons = ref<string[]>([])
 const metAlertMessages = ref<string[]>([])
 
 const clickPlace = (place: Place) => {
-  if (place.address.coordinates && placeStore.currentPlace != place) {
+  if (place.address.position && placeStore.currentPlace != place) {
     useLoadingStore().mapIsLoading = true
     placeStore.currentPlace = place
   }
@@ -72,8 +72,8 @@ const getDangers = (place: Place) => {
   const metAlertsLayer = new FeatureLayer({
     url: 'https://utility.arcgis.com/usrsvcs/servers/f7978b8123424646bb5960e25d83c606/rest/services/MetAlerts/FeatureServer/0',
   })
-  const latitude = place.address.coordinates?.latitude
-  const longitude = place.address.coordinates?.longitude
+  const latitude = place.address.position?.latitude
+  const longitude = place.address.position?.longitude
   if (!latitude || !longitude) {
     console.error('invalid point for place' + place.nickname)
     return

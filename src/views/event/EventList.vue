@@ -8,7 +8,7 @@
 import EventBox from './EventBox.vue'
 import { onMounted } from 'vue'
 import { updateEvents } from '@/stores/placeStore'
-import { Place } from '@/stores/place'
+import { Place } from '@/scripts/place'
 
 const props = defineProps<{ place: Place }>()
 

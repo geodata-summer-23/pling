@@ -25,8 +25,8 @@
 </template>
 
 <script lang="ts" setup>
-import { Place, defaultPlace, AddressResult } from '@/stores/place'
-import { searchAddress, selectResult } from '@/stores/search'
+import { Place, defaultPlace, AddressResult } from '@/scripts/place'
+import { searchAddress, selectResult } from '@/scripts/search'
 import { $t } from '@/translation'
 import { onMounted, ref } from 'vue'
 

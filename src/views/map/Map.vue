@@ -81,13 +81,13 @@ import Point from '@arcgis/core/geometry/Point'
 import { onMounted, ref, watch } from 'vue'
 import { usePlaceStore } from '@/stores/placeStore'
 import {
-  Coordinates,
+  Position,
   AddressResult,
   Place,
   Category,
   getCategoryIconSrc,
-} from '@/stores/place'
-import { maxChars } from '@/utils'
+} from '@/scripts/place'
+import { maxChars } from '@/scripts/utils'
 import { mapObjects, ViewClickEvent } from './map'
 import IconButton from '@/components/IconButton.vue'
 import { useModalStore } from '@/stores/modalStore'
@@ -98,7 +98,7 @@ import { useLoadingStore } from '@/stores/loadingStore'
 import LoadingSpinner from '@/components/LoadingSpinner.vue'
 
 const props = defineProps<{
-  center: Coordinates | null
+  center: Position | null
   searchResults: AddressResult[]
   places: Place[]
   currentPlace: Place | null
@@ -250,9 +250,9 @@ const drawGraphics = () => {
     graphicsLayer.add(mapCenterPoint)
   }
   props.places.forEach((place) => {
-    if (!place.address.coordinates || place.address.coordinates == props.center)
+    if (!place.address.position || place.address.position == props.center)
       return
-    const newPoint = createPointGraphic(place.address.coordinates, '#1fe063')
+    const newPoint = createPointGraphic(place.address.position, '#1fe063')
     graphicsLayer.add(newPoint)
   })
   props.currentPlace?.events.forEach((event) => {
@@ -261,7 +261,7 @@ const drawGraphics = () => {
   })
 }
 
-const createPointGraphic = (point: Coordinates, color = '#2b95d6') => {
+const createPointGraphic = (point: Position, color = '#2b95d6') => {
   return new Graphic({
     geometry: new Point(point),
     symbol: {
@@ -276,7 +276,7 @@ const createPointGraphic = (point: Coordinates, color = '#2b95d6') => {
   })
 }
 
-const createEventGraphic = (point: Coordinates, category: Category) => {
+const createEventGraphic = (point: Position, category: Category) => {
   return new Graphic({
     geometry: new Point(point),
     symbol: {
@@ -336,4 +336,5 @@ const createEventGraphic = (point: Coordinates, category: Category) => {
   outline: none !important;
 }
 </style>
-./map @/stores/events
+./map @/stores/events @/scripts/place @/scripts/utils @/translation @/router
+@/translation

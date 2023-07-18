@@ -1,6 +1,6 @@
 import * as locator from '@arcgis/core/rest/locator'
 import { Address, AddressResult, defaultPlace } from './place'
-import { usePlaceStore } from './placeStore'
+import { usePlaceStore } from '../stores/placeStore'
 
 export const selectResult = (result: AddressResult) => {
   const placeStore = usePlaceStore()

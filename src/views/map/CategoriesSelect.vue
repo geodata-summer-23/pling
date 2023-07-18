@@ -81,4 +81,4 @@ div.disabled {
   color: var(--c-dark-gray);
 }
 </style>
-./map
+./map @/translation @/translation

@@ -14,12 +14,12 @@
 
 <script lang="ts" setup>
 import LoadingSpinner from '@/components/LoadingSpinner.vue'
-import { serverUrl } from '@/constants'
-import { Coordinates } from '@/stores/place'
+import { serverUrl } from '@/scripts/constants'
+import { Position, NowcastData } from '@/scripts/place'
 import { $t } from '@/translation'
 import { onMounted, ref } from 'vue'
 
-const props = defineProps<{ coordinates?: Coordinates }>()
+const props = defineProps<{ position?: Position }>()
 
 const temp = ref(0)
 const precipitation = ref(0)
@@ -27,16 +27,9 @@ const units = ref(null as any)
 const responseCode = ref<boolean | null>(null)
 const symbol = ref(null)
 
-export type NowCastData = {
-  temp: number
-  precipitation: number
-  units: string
-  symbol: string
-}
-
-const getNowCastData = async (coordinates: Coordinates) => {
+const getNowCastData = async (position: Position) => {
   const response = await fetch(
-    `${serverUrl}/met/nowcast?lat=${coordinates.latitude}&lon=${coordinates.longitude}`
+    `${serverUrl}/met/nowcast?lat=${position.latitude}&lon=${position.longitude}`
   )
   const resJson = await response.json()
   return {
@@ -47,13 +40,13 @@ const getNowCastData = async (coordinates: Coordinates) => {
     units: resJson.properties.meta.units,
     symbol:
       resJson.properties.timeseries[0].data.next_1_hours.summary.symbol_code,
-  }
+  } satisfies NowcastData
 }
 
 onMounted(async () => {
   try {
-    if (!props.coordinates) return
-    const nowCastData = await getNowCastData(props.coordinates)
+    if (!props.position) return
+    const nowCastData = await getNowCastData(props.position)
     temp.value = nowCastData.temp
     precipitation.value = nowCastData.precipitation
     units.value = nowCastData.units

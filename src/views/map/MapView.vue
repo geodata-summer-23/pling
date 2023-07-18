@@ -84,8 +84,8 @@ import SlideUpPane from '@/components/SlideUpPane.vue'
 import EventList from '../event/EventList.vue'
 import { signIn, useUserStore } from '@/stores/userStore'
 import { useGeolocationStore } from '@/stores/geolocationStore'
-import { AddressResult, Place, getCategoryIconSrc } from '@/stores/place'
-import { searchAddress, selectResult } from '@/stores/search'
+import { AddressResult, Place, getCategoryIconSrc } from '@/scripts/place'
+import { searchAddress, selectResult } from '@/scripts/search'
 import { computed, onActivated, onMounted, ref } from 'vue'
 import { $t } from '@/translation'
 import { useModalStore } from '@/stores/modalStore'
@@ -112,8 +112,8 @@ onActivated(() => {
 const selectPlace = (place: Place) => {
   placeStore.currentPlace = place
   // Trigger watch
-  placeStore.currentPlace.address.coordinates = {
-    ...placeStore.currentPlace.address.coordinates,
+  placeStore.currentPlace.address.position = {
+    ...placeStore.currentPlace.address.position,
   }
 }
 
@@ -125,7 +125,7 @@ const selectResultAndClear = (result: AddressResult) => {
 }
 
 const search = (searchString: string) => {
-  searchAddress({ street: searchString }, (r) => {
+  searchAddress({ street: searchString, position: {} }, (r) => {
     if (r.length > 0) {
       results.value = r
     }

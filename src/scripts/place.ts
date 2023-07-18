@@ -1,17 +1,16 @@
 import { $t } from '@/translation'
-import { UserData } from './userStore'
+import { UserData } from '../stores/userStore'
 
-export enum Danger {
-  Flood,
-  Fire,
-  ForestFire,
-  Stormwater,
-  Wind,
+export type NowcastData = {
+  temp: number
+  precipitation: number
+  units: string
+  symbol: string
 }
 
 export type EventData = {
   message: string
-  position: Coordinates
+  position: Position
   timestamp: number
   category: Category
   dist: number
@@ -20,16 +19,22 @@ export type EventData = {
 
 export type AlertData = {
   message: string
-  position: Coordinates
+  position: Position
   timestamp: number
   category: Category
   dist: number
   imageSrc: string[]
 }
 
+type Intersection = {
+  category: Category
+}
+
 export type AlertRequest = {
   place: Place
   user: UserData
+  nowcast: NowcastData
+  intersections: Intersection[]
 }
 
 export type AlertResponse = {}
@@ -46,10 +51,10 @@ export type Address = {
   city?: string
   postalCode?: number
   street?: string
-  coordinates?: Coordinates
+  position: Position
 }
 
-export type Coordinates = {
+export type Position = {
   x?: number
   y?: number
   latitude?: number
@@ -58,7 +63,7 @@ export type Coordinates = {
 
 export type AddressResult = {
   address: string
-  location: Coordinates
+  location: Position
 }
 
 export type Category =
@@ -85,7 +90,7 @@ export const getCategoryIconSrc = (category: Category) => {
 export const defaultMyLocation = (): Place => ({
   nickname: $t().myLocation,
   icon: 'location-crosshairs',
-  address: {},
+  address: { position: {} },
   events: [],
   alerts: [],
 })
@@ -93,7 +98,7 @@ export const defaultMyLocation = (): Place => ({
 export const defaultPlace = (): Place => ({
   nickname: '',
   icon: 'location-dot',
-  address: {},
+  address: { position: {} },
   events: [],
   alerts: [],
 })

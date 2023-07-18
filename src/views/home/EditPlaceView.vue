@@ -24,7 +24,7 @@ import { ref } from 'vue'
 import { router } from '@/router'
 import { $t } from '@/translation'
 import PlaceForm from './PlaceForm.vue'
-import { Place } from '@/stores/place'
+import { Place } from '@/scripts/place'
 
 const placeStore = usePlaceStore()
 const place = ref<Place>(JSON.parse(JSON.stringify(placeStore.currentPlace)))

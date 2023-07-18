@@ -3,14 +3,14 @@ import { usePlaceStore } from './placeStore'
 import * as locator from '@arcgis/core/rest/locator'
 import Point from '@arcgis/core/geometry/Point'
 import { useHelpRequestStore } from './helpRequestStore'
-import { Coordinates } from './place'
+import { Position } from '../scripts/place'
 
 const geoData =
   'https://services.geodataonline.no/arcgis/rest/services/Geosok/GeosokLokasjon2/GeocodeServer'
 
 export const useGeolocationStore = defineStore('geolocation', {
   state: () => ({
-    position: null as null | Coordinates,
+    position: null as null | Position,
   }),
 
   actions: {
@@ -31,7 +31,7 @@ export const useGeolocationStore = defineStore('geolocation', {
 
   getters: {
     getMapCenter: (state) => {
-      return usePlaceStore().currentPlace?.address.coordinates ?? state.position
+      return usePlaceStore().currentPlace?.address.position ?? state.position
     },
   },
 })

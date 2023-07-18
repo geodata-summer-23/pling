@@ -19,7 +19,7 @@
 <script lang="ts" setup>
 import { $t } from '@/translation'
 import { getCategoryOptions } from '../map/map'
-import { Category } from '@/stores/place'
+import { Category } from '@/scripts/place'
 
 const options = [
   ...getCategoryOptions(),
