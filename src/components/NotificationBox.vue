@@ -28,8 +28,8 @@
 </template>
 
 <script lang="ts" setup>
-import { getCategoryIconSrc } from '@/stores/placeStore'
 import { NotificationData } from '@/stores/notificationStore'
+import { getCategoryIconSrc } from '@/stores/place'
 
 defineProps<{ notification: NotificationData }>()
 

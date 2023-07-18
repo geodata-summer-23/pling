@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts" setup>
-import { EventData } from '@/stores/placeStore'
+import { EventData } from '@/stores/place'
 import { translate } from '@/translation'
 
 const props = defineProps<{ event: EventData }>()

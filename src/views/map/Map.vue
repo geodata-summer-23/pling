@@ -79,14 +79,15 @@ import Graphic from '@arcgis/core/Graphic'
 import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer'
 import Point from '@arcgis/core/geometry/Point'
 import { onMounted, ref, watch } from 'vue'
+import { usePlaceStore } from '@/stores/placeStore'
 import {
-  AddressPoint,
+  Coordinates,
   AddressResult,
   Place,
-  usePlaceStore,
-} from '@/stores/placeStore'
+  Category,
+  getCategoryIconSrc,
+} from '@/stores/place'
 import { maxChars } from '@/utils'
-import { Category, getCategoryIconSrc } from '@/stores/placeStore'
 import { mapObjects, ViewClickEvent } from './map'
 import IconButton from '@/components/IconButton.vue'
 import { useModalStore } from '@/stores/modalStore'
@@ -97,7 +98,7 @@ import { useLoadingStore } from '@/stores/loadingStore'
 import LoadingSpinner from '@/components/LoadingSpinner.vue'
 
 const props = defineProps<{
-  center: AddressPoint | null
+  center: Coordinates | null
   searchResults: AddressResult[]
   places: Place[]
   currentPlace: Place | null
@@ -249,8 +250,9 @@ const drawGraphics = () => {
     graphicsLayer.add(mapCenterPoint)
   }
   props.places.forEach((place) => {
-    if (!place.address.point || place.address.point == props.center) return
-    const newPoint = createPointGraphic(place.address.point, '#1fe063')
+    if (!place.address.coordinates || place.address.coordinates == props.center)
+      return
+    const newPoint = createPointGraphic(place.address.coordinates, '#1fe063')
     graphicsLayer.add(newPoint)
   })
   props.currentPlace?.events.forEach((event) => {
@@ -259,7 +261,7 @@ const drawGraphics = () => {
   })
 }
 
-const createPointGraphic = (point: AddressPoint, color = '#2b95d6') => {
+const createPointGraphic = (point: Coordinates, color = '#2b95d6') => {
   return new Graphic({
     geometry: new Point(point),
     symbol: {
@@ -274,7 +276,7 @@ const createPointGraphic = (point: AddressPoint, color = '#2b95d6') => {
   })
 }
 
-const createEventGraphic = (point: AddressPoint, category: Category) => {
+const createEventGraphic = (point: Coordinates, category: Category) => {
   return new Graphic({
     geometry: new Point(point),
     symbol: {

@@ -84,21 +84,16 @@ import SlideUpPane from '@/components/SlideUpPane.vue'
 import EventList from '../event/EventList.vue'
 import { signIn, useUserStore } from '@/stores/userStore'
 import { useGeolocationStore } from '@/stores/geolocationStore'
-import {
-  AddressResult,
-  Place,
-  searchAddress,
-  selectResult,
-  usePlaceStore,
-} from '@/stores/placeStore'
+import { AddressResult, Place, getCategoryIconSrc } from '@/stores/place'
+import { searchAddress, selectResult } from '@/stores/search'
 import { computed, onActivated, onMounted, ref } from 'vue'
 import { $t } from '@/translation'
-import { getCategoryIconSrc } from '@/stores/placeStore'
 import { useModalStore } from '@/stores/modalStore'
 import CategoriesSelect from './CategoriesSelect.vue'
 import MapInfo from './MapInfo.vue'
 import { CategoryOption, getCategoryOptions, mapObjects } from './map'
 import IconButton from '@/components/IconButton.vue'
+import { usePlaceStore } from '@/stores/placeStore'
 
 const paneOpen = ref(true)
 const userStore = useUserStore()
@@ -117,8 +112,8 @@ onActivated(() => {
 const selectPlace = (place: Place) => {
   placeStore.currentPlace = place
   // Trigger watch
-  placeStore.currentPlace.address.point = {
-    ...placeStore.currentPlace.address.point,
+  placeStore.currentPlace.address.coordinates = {
+    ...placeStore.currentPlace.address.coordinates,
   }
 }
 

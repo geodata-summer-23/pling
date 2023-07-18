@@ -50,13 +50,13 @@
 </template>
 
 <script lang="ts" setup>
-import { Place } from '@/stores/placeStore'
 import { watch } from 'vue'
 import { $t } from '@/translation'
 import IconButton from '@/components/IconButton.vue'
 import { useModalStore } from '@/stores/modalStore'
 import SearchModalContent from '@/components/SearchModalContent.vue'
 import GridSelect from '@/components/GridSelect.vue'
+import { Place } from '@/stores/place'
 
 const props = defineProps<{ place: Place; edit: boolean }>()
 const emit = defineEmits<{

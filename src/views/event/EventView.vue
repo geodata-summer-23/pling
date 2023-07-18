@@ -52,8 +52,8 @@ import OverviewForm from './OverviewForm.vue'
 import { reactive, ref } from 'vue'
 import { router } from '@/router'
 import { $t } from '@/translation'
-import { EventData } from '@/stores/placeStore'
 import { serverUrl } from '@/constants'
+import { EventData } from '@/stores/place'
 
 enum Page {
   Category,

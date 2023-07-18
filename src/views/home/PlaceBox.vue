@@ -27,25 +27,23 @@
           {{ place.address.street ?? '' }}, {{ place.address.city }}
         </span>
       </span>
-      <Coordinates v-else :place="place"></Coordinates>
+      <CoordinatesText v-else :place="place"></CoordinatesText>
     </div>
-    <WeatherNowcast
-      :lat="place.address.point?.latitude"
-      :lon="place.address.point?.longitude"
-    ></WeatherNowcast>
+    <WeatherNowcast :coordinates="place.address.coordinates"></WeatherNowcast>
   </div>
 </template>
 
 <script lang="ts" setup>
 import WeatherNowcast from './WeatherNowcast.vue'
-import Coordinates from '@/components/Coordinates.vue'
-import { usePlaceStore, Place } from '@/stores/placeStore'
+import CoordinatesText from '@/components/CoordinatesText.vue'
+import { usePlaceStore } from '@/stores/placeStore'
 import FeatureLayer from '@arcgis/core/layers/FeatureLayer'
 import Point from '@arcgis/core/geometry/Point.js'
 import { onMounted, ref } from 'vue'
 import { router } from '@/router'
 import { maxChars } from '@/utils'
 import { useLoadingStore } from '@/stores/loadingStore'
+import { Place } from '@/stores/place'
 
 const placeStore = usePlaceStore()
 const props = defineProps<{
@@ -58,7 +56,7 @@ const warningIcons = ref<string[]>([])
 const metAlertMessages = ref<string[]>([])
 
 const clickPlace = (place: Place) => {
-  if (place.address.point && placeStore.currentPlace != place) {
+  if (place.address.coordinates && placeStore.currentPlace != place) {
     useLoadingStore().mapIsLoading = true
     placeStore.currentPlace = place
   }
@@ -74,8 +72,8 @@ const getDangers = (place: Place) => {
   const metAlertsLayer = new FeatureLayer({
     url: 'https://utility.arcgis.com/usrsvcs/servers/f7978b8123424646bb5960e25d83c606/rest/services/MetAlerts/FeatureServer/0',
   })
-  const latitude = place.address.point?.latitude
-  const longitude = place.address.point?.longitude
+  const latitude = place.address.coordinates?.latitude
+  const longitude = place.address.coordinates?.longitude
   if (!latitude || !longitude) {
     console.error('invalid point for place' + place.nickname)
     return

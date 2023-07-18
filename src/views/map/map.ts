@@ -1,4 +1,4 @@
-import { Category } from '@/stores/placeStore'
+import { Category } from '@/stores/place'
 import { $t } from '@/translation'
 import Point from '@arcgis/core/geometry/Point'
 import MapView from '@arcgis/core/views/MapView'

@@ -21,12 +21,7 @@
 import AlertBox from './AlertBox.vue'
 import { ref, onMounted } from 'vue'
 import { translate } from '@/translation'
-import {
-  AlertData,
-  getCategoryIconSrc,
-  Category,
-  Place,
-} from '@/stores/placeStore'
+import { AlertData, getCategoryIconSrc, Category, Place } from '@/stores/place'
 
 defineProps<{ place: Place }>()
 

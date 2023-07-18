@@ -6,7 +6,7 @@
 <script lang="ts" setup>
 import { $t } from '@/translation'
 import EventBox from './EventBox.vue'
-import { EventData } from '@/stores/placeStore'
+import { EventData } from '@/stores/place'
 
 defineProps<{ event: EventData }>()
 </script>
