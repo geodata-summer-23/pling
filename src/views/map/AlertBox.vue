@@ -5,16 +5,18 @@
         <h3 style="margin: 0">{{ translate(alert.category) }}</h3>
         <div class="row location-box">
           <fa-icon icon="location-dot"></fa-icon>
-          <span v-if="alert.dist <= 100000"> {{ alert.dist }}m unna </span>
-          <span v-if="alert.dist > 1000">>1000m unna</span>
+          <span v-if="alert.distance <= 1000">
+            {{ alert.distance }}m unna
+          </span>
+          <span v-else>>1000m unna</span>
         </div>
       </div>
       <p>{{ alert.message }}</p>
     </div>
     <div>
       <img
-        v-if="alert.imageSrc.length > 0"
-        :src="alert.imageSrc[0]"
+        v-if="alert.images.length > 0"
+        :src="alert.images[0]"
         alt=""
         style="height: auto"
       />

@@ -3,9 +3,9 @@ import { Place, Position } from './place'
 import { Category } from './category'
 
 export type NowcastData = {
-  temp: number
+  temperature: number
   precipitation: number
-  units: string
+  unit: string
   symbol: string
 }
 
@@ -14,8 +14,8 @@ export type EventData = {
   position: Position
   timestamp: number
   category: Category
-  dist: number
-  imageSrc: string[]
+  distance: number
+  images: string[]
 }
 
 export type AlertData = {
@@ -23,8 +23,8 @@ export type AlertData = {
   position: Position
   timestamp: number
   category: Category
-  dist: number
-  imageSrc: string[]
+  distance: number
+  images: string[]
 }
 
 type Intersection = {

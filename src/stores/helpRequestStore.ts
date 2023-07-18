@@ -7,7 +7,7 @@ export type HelpRequest = {
   message: string
   position: Position
   timestamp: number
-  dist: number
+  distance: number
   category: Category
 }
 

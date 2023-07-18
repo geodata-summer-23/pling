@@ -61,7 +61,7 @@ const helpRequest = reactive<HelpRequest>({
   position: { latitude: 0.0, longitude: 0.0 },
   timestamp: -1,
   category: 'flood',
-  dist: -1,
+  distance: -1,
 })
 const helpRequestStore = useHelpRequestStore()
 

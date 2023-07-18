@@ -5,18 +5,18 @@
         <h3 style="margin: 0">{{ translate(props.event.category) }}</h3>
         <div class="row location-box">
           <fa-icon icon="location-dot"></fa-icon>
-          <span v-if="props.event.dist <= 100000">
-            {{ props.event.dist }}m unna
+          <span v-if="props.event.distance <= 1000">
+            {{ props.event.distance }}m unna
           </span>
-          <span v-if="props.event.dist > 1000">>1000m unna</span>
+          <span v-else>>1000m unna</span>
         </div>
       </div>
       <p>{{ props.event.message }}</p>
     </div>
     <div>
       <img
-        v-if="props.event.imageSrc.length > 0"
-        :src="props.event.imageSrc[0]"
+        v-if="props.event.images.length > 0"
+        :src="props.event.images[0]"
         alt=""
         style="height: auto"
       />

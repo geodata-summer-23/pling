@@ -12,7 +12,6 @@ export type UserData = {
   lastName: string
   email: string
   phoneNumber: string
-  age: number | null
   birthday: Date | null
   language: Language
 }
@@ -26,7 +25,6 @@ export const useUserStore = defineStore('user', {
       lastName: '',
       email: '',
       phoneNumber: '',
-      age: null as null | number,
       birthday: null as null | Date,
       language: 'norwegian' as Language,
     } satisfies UserData),

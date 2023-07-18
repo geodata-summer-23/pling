@@ -22,9 +22,9 @@
       <PictureForm
         v-if="page == Page.Picture"
         :image-src="
-          EventData.imageSrc.length > 0 ? EventData.imageSrc[0] : undefined
+          EventData.images.length > 0 ? EventData.images[0] : undefined
         "
-        @update-picture="EventData.imageSrc = [$event]"
+        @update-picture="EventData.images = [$event]"
       ></PictureForm>
       <OverviewForm
         v-if="page == Page.Overview"
@@ -73,8 +73,8 @@ const EventData = reactive<EventData>({
   position: { latitude: 0.0, longitude: 0.0 },
   timestamp: -1,
   category: 'flood',
-  dist: -1,
-  imageSrc: [] as string[],
+  distance: -1,
+  images: [] as string[],
 })
 
 const prevPage = () => {

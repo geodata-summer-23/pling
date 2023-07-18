@@ -34,11 +34,12 @@ const getNowCastData = async (position: Position) => {
   )
   const resJson = await response.json()
   return {
-    temp: resJson.properties.timeseries[0].data.instant.details.air_temperature,
+    temperature:
+      resJson.properties.timeseries[0].data.instant.details.air_temperature,
     precipitation:
       resJson.properties.timeseries[0].data.next_1_hours.details
         .precipitation_amount,
-    units: resJson.properties.meta.units,
+    unit: resJson.properties.meta.units,
     symbol:
       resJson.properties.timeseries[0].data.next_1_hours.summary.symbol_code,
   } satisfies NowcastData
@@ -48,9 +49,9 @@ onMounted(async () => {
   try {
     if (!props.position) return
     const nowCastData = await getNowCastData(props.position)
-    temp.value = nowCastData.temp
+    temp.value = nowCastData.temperature
     precipitation.value = nowCastData.precipitation
-    units.value = nowCastData.units
+    units.value = nowCastData.unit
     symbol.value = nowCastData.symbol
     responseCode.value = true
   } catch (error) {
