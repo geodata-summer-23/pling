@@ -1,13 +1,13 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import proj4 from 'proj4'
-import { serverUrl } from '@/scripts/constants'
+import { serverUrl } from '@/scripts/url'
 import {
-  AddressResult,
   Place,
   Position,
   defaultMyLocation,
   defaultPlace,
 } from '../scripts/place'
+import { AddressResult } from '@/scripts/search'
 
 export const usePlaceStore = defineStore('place', {
   state: () => ({

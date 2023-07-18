@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts" setup>
-import { AlertData } from '@/scripts/place'
+import { AlertData } from '@/scripts/alert'
 import { translate } from '@/translation'
 
 defineProps<{ alert: AlertData }>()

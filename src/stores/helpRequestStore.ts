@@ -1,5 +1,5 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { serverUrl } from '@/scripts/constants'
+import { serverUrl } from '@/scripts/url'
 import { Category, Position } from '../scripts/place'
 
 export type HelpRequest = {

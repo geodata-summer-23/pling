@@ -14,10 +14,11 @@
 
 <script lang="ts" setup>
 import LoadingSpinner from '@/components/LoadingSpinner.vue'
-import { serverUrl } from '@/scripts/constants'
-import { Position, NowcastData } from '@/scripts/place'
+import { serverUrl } from '@/scripts/url'
+import { Position } from '@/scripts/place'
 import { $t } from '@/translation'
 import { onMounted, ref } from 'vue'
+import { NowcastData } from '@/scripts/alert'
 
 const props = defineProps<{ position?: Position }>()
 

@@ -41,7 +41,7 @@ import FeatureLayer from '@arcgis/core/layers/FeatureLayer'
 import Point from '@arcgis/core/geometry/Point.js'
 import { onMounted, ref } from 'vue'
 import { router } from '@/router'
-import { maxChars } from '@/scripts/utils'
+import { maxChars } from '@/scripts/string'
 import { useLoadingStore } from '@/stores/loadingStore'
 import { Place } from '@/scripts/place'
 
