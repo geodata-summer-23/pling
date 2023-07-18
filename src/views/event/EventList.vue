@@ -22,7 +22,7 @@ import EventBox from './EventBox.vue'
 import { ref, onMounted } from 'vue'
 import { translate } from '@/translation'
 import {
-  AlertData,
+  EventData,
   getCategoryIconSrc,
   Category,
   Place,
@@ -35,9 +35,9 @@ const emit = defineEmits<{
   (e: 'select-category', category: Category): void
 }>()
 
-const selectedEvent = ref<AlertData | null>(null)
+const selectedEvent = ref<EventData | null>(null)
 
-const selectEvent = (event: AlertData) => {
+const selectEvent = (event: EventData) => {
   selectedEvent.value = event
   emit('select-category', event.category)
 }

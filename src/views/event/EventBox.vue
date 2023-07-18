@@ -1,5 +1,5 @@
 <template>
-  <div class="row alert-box">
+  <div class="row event-box">
     <div class="col">
       <div class="row center" style="gap: 0.5em">
         <h3 style="margin: 0">{{ translate(props.event.category) }}</h3>
@@ -25,14 +25,14 @@
 </template>
 
 <script lang="ts" setup>
-import { AlertData } from '@/stores/placeStore'
+import { EventData } from '@/stores/placeStore'
 import { translate } from '@/translation'
 
-const props = defineProps<{ event: AlertData }>()
+const props = defineProps<{ event: EventData }>()
 </script>
 
 <style scoped>
-.alert-box {
+.event-box {
   overflow: hidden;
   margin: 2em;
 }

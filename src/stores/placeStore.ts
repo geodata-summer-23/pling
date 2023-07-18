@@ -17,7 +17,7 @@ export type Place = {
   icon: string
   address: Address
   excludeDangers: Danger[]
-  events: AlertData[]
+  events: EventData[]
 }
 
 export type Address = {
@@ -60,7 +60,7 @@ export const getCategoryIconSrc = (category: Category) => {
   }
 }
 
-export type AlertData = {
+export type EventData = {
   message: string
   position: AddressPoint
   timestamp: number
@@ -218,7 +218,7 @@ export const searchAddress = async (
 export const updateEvents = async (place: Place) => {
   if (!place.address.point?.latitude || !place.address.point?.longitude) return
   const response = await fetch(
-    `${serverUrl}/alerts?lat=${place.address.point?.latitude}&lon=${place.address.point?.longitude}`,
+    `${serverUrl}/events?lat=${place.address.point?.latitude}&lon=${place.address.point?.longitude}`,
     { headers: { 'Content-Type': 'application/json' } }
   )
   place.events = JSON.parse(await response.json())

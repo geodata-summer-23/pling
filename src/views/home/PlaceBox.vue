@@ -5,7 +5,7 @@
   >
     <div class="alert-icon-container">
       <img
-        v-for="icon in alertIcons"
+        v-for="icon in warningIcons"
         :class="{ 'vertical-shake': !edit }"
         :src="icon"
         width="40"
@@ -54,8 +54,8 @@ const props = defineProps<{
   isMyLocation: boolean
 }>()
 
-const alertIcons = ref<string[]>([])
-const alertMessages = ref<string[]>([])
+const warningIcons = ref<string[]>([])
+const metAlertMessages = ref<string[]>([])
 
 const clickPlace = (place: Place) => {
   if (place.address.point && placeStore.currentPlace != place) {
@@ -92,10 +92,10 @@ const getDangers = (place: Place) => {
     // @ts-ignore
     .queryFeatures(query)
     .then((results) => {
-      alertMessages.value = results.features.map(
+      metAlertMessages.value = results.features.map(
         (f) => f.attributes.eventAwarenessName
       )
-      alertIcons.value = results.features.map((f) => {
+      warningIcons.value = results.features.map((f) => {
         const color = f.attributes.awarenessLevel.split(';')[1].trim()
         return `./warningIcons/icon-warning-${f.attributes.event.toLowerCase()}-${color}.svg`
       })
