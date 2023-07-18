@@ -141,7 +141,7 @@ onMounted(() => {
 
   mapObjects.mapView.when(() => {
     if (!mapObjects.mapView) return
-    // console.log(JSON.parse(JSON.stringify(map.layers)))
+    console.log(JSON.parse(JSON.stringify(map.layers)))
     drawGraphics()
     goToAndDrawCenter()
   })

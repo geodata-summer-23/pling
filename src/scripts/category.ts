@@ -47,7 +47,7 @@ export const getCategoryOptions = (): CategoryOption[] => [
   },
   {
     title: $t().temperatureMap,
-    layerId: '1894e6d0fc3-layer-26',
+    layerId: '18963742ade-layer-39',
     description: 'Variasjonen i temperatur på en sommerdag med sol.',
     category: 'heatwave',
     faIcon: 'temperature-high',
@@ -77,7 +77,7 @@ export const getCategoryOptions = (): CategoryOption[] => [
   },
   {
     title: $t().seaRise,
-    layerId: '1894a08e10a-layer-21',
+    layerId: '18963f12bf3-layer-42',
     description: 'Bygg som vil ligge under havnivå i 2090.',
     category: 'sea-rise',
     faIcon: 'arrow-up-from-ground-water',
