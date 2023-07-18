@@ -6,6 +6,10 @@
         v-if="page == Page.Welcome"
         @update-valid="valid = $event"
       ></WelcomeForm>
+      <LanguageForm
+        v-if="page == Page.Language"
+        @update-valid="valid = $event"
+      ></LanguageForm>
       <NameForm
         v-if="page == Page.Name"
         @update-valid="valid = $event"
@@ -14,10 +18,10 @@
         v-if="page == Page.Birthday"
         @update-valid="valid = $event"
       ></BirthdayForm>
-      <LanguageForm
-        v-if="page == Page.Language"
+      <ContactInfoForm
+        v-if="page == Page.ContactInfo"
         @update-valid="valid = $event"
-      ></LanguageForm>
+      ></ContactInfoForm>
     </div>
   </div>
   <div class="view-bottom col">
@@ -41,6 +45,7 @@ import BirthdayForm from './BirthdayForm.vue'
 import LanguageForm from './LanguageForm.vue'
 import WelcomeForm from './WelcomeForm.vue'
 import IconButton from '@/components/IconButton.vue'
+import ContactInfoForm from './ContactInfoForm.vue'
 import { ref } from 'vue'
 import { router } from '@/router'
 import { useUserStore } from '@/stores/userStore'
@@ -48,9 +53,10 @@ import { $t } from '@/translation'
 
 enum Page {
   Welcome,
+  Language,
   Name,
   Birthday,
-  Language,
+  ContactInfo,
   End,
 }
 

@@ -89,6 +89,9 @@ const norwegian = {
   category: 'Kategori',
   icon: 'Ikon',
   network: 'Nettverk',
+  contactInfo: 'Kontaktinformasjon',
+  contactInfoParagraph:
+    'Denne informasjonen vil bli delt med personer i nærheten i tilfelle du spør om hjelp.',
 } as const
 
 const english: Record<string, string> = {
@@ -165,4 +168,7 @@ const english: Record<string, string> = {
   category: 'Category',
   icon: 'Icon',
   network: 'Network',
+  contactInfo: 'Contact information',
+  contactInfoParagraph:
+    'This information will be shared to people close by in case you request help.',
 } as const

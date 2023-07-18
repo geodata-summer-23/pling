@@ -108,4 +108,3 @@ const postAlert = async () => {
 </script>
 
 <style scoped></style>
-@/stores/events
