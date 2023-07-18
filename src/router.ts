@@ -3,7 +3,7 @@ const HomeView = () => import('@/views/home/HomeView.vue')
 const AddPlaceView = () => import('@/views/home/AddPlaceView.vue')
 const EditPlaceView = () => import('@/views/home/EditPlaceView.vue')
 const UserView = () => import('@/views/user/UserView.vue')
-const MessageView = () => import('@/views/message/MessageView.vue')
+const NetworkView = () => import('@/views/network/NetworkView.vue')
 const OnboardingView = () => import('@/views/onboarding/OnboardingView.vue')
 const EventView = () => import('@/views/event/EventView.vue')
 const RequestHelpView = () => import('@/views/help/RequestHelpView.vue')
@@ -25,7 +25,7 @@ const routes = [
   { path: '/edit-place', name: 'edit-place', component: EditPlaceView },
   { path: '/map', name: 'map', component: MapView },
   { path: '/user', name: 'user', component: UserView },
-  { path: '/message', name: 'message', component: MessageView },
+  { path: '/network', name: 'network', component: NetworkView },
   { path: '/onboarding', name: 'onboarding', component: OnboardingView },
   { path: '/event', name: 'event', component: EventView },
   { path: '/help', name: 'help', component: RequestHelpView },

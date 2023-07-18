@@ -1,6 +1,6 @@
 <template>
   <nav
-    v-if="['home', 'map', 'message'].includes(router.currentRoute.value.name as string)"
+    v-if="['home', 'map', 'network'].includes(router.currentRoute.value.name as string)"
     class="nav-bottom"
   >
     <RouterLink :to="{ name: 'home' }">
@@ -9,7 +9,7 @@
     <RouterLink :to="{ name: 'map' }">
       <NavItem route="map"><fa-icon size="xl" icon="earth-americas" /></NavItem>
     </RouterLink>
-    <RouterLink :to="{ name: 'message' }">
+    <RouterLink :to="{ name: 'network' }">
       <NavItem route="message"><fa-icon size="xl" icon="bell" /></NavItem>
     </RouterLink>
   </nav>

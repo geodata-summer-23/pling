@@ -73,7 +73,7 @@ const nextPage = () => {
   page.value = page.value + 1
   if (page.value >= Page.End) {
     helpRequestStore.requestHelp(helpRequest)
-    router.push({ name: 'message' })
+    router.push({ name: 'network' })
   }
 }
 

@@ -85,7 +85,7 @@ const nextPage = () => {
   page.value = page.value + 1
   if (page.value >= Page.End) {
     postEvent()
-    router.push({ name: 'message' })
+    router.push({ name: 'network' })
   }
 }
 
