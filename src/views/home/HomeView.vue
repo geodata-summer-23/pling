@@ -97,7 +97,6 @@ import { useUserStore } from '@/stores/userStore'
 import { onDeactivated, ref } from 'vue'
 import { $t } from '@/translation'
 import PlaceBox from './PlaceBox.vue'
-import { useNotificationStore } from '@/stores/notificationStore'
 
 const userStore = useUserStore()
 const placeStore = usePlaceStore()
@@ -111,13 +110,6 @@ onDeactivated(() => {
 })
 
 const onActionButton = () => {
-  useNotificationStore().push({
-    title: 'Forest fire',
-    body: 'Located at Geodata headquarters',
-    category: 'heatwave',
-    timestamp: Date.now(),
-    click: () => router.push({ name: 'map' }),
-  })
   if (edit.value) {
     edit.value = false
   } else {
