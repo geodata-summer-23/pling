@@ -41,8 +41,6 @@ export type Queries = Partial<Record<Category, FeatureQuery>>
 export type AlertRequest = {
   place: Place
   user: UserData
-  nowcast: NowcastData
-  queries: Queries
 }
 
 export type AlertResponse = {}
