@@ -78,6 +78,7 @@ export const generateAlerts = async (place: Place) => {
     user: useUserStore().$state satisfies UserData,
     place,
   }
+  console.log(JSON.stringify(alertRequest))
   const response = await fetch(`${serverUrl}/alerts`, {
     method: 'POST',
     body: JSON.stringify(alertRequest),

@@ -3,13 +3,7 @@
     <div class="col">
       <div class="row center" style="gap: 0.5em">
         <h3 style="margin: 0">{{ translate(props.event.category) }}</h3>
-        <div class="row location-box">
-          <fa-icon icon="location-dot"></fa-icon>
-          <span v-if="props.event.distance <= 1000">
-            {{ props.event.distance }}m unna
-          </span>
-          <span v-else>>1000m unna</span>
-        </div>
+        <DistanceIndicator :distance="event.distance"></DistanceIndicator>
       </div>
       <p>{{ props.event.summary }}</p>
     </div>
@@ -25,6 +19,7 @@
 </template>
 
 <script lang="ts" setup>
+import DistanceIndicator from '@/components/DistanceIndicator.vue'
 import { ObservedEvent } from '@/scripts/alert'
 import { translate } from '@/translation'
 
@@ -35,18 +30,6 @@ const props = defineProps<{ event: ObservedEvent }>()
 .event-box {
   overflow: hidden;
   margin: 2em;
-}
-
-.location-box {
-  background: #f6f6f6;
-  border-radius: 5px;
-  align-items: center;
-  gap: 1em;
-  width: min-content;
-  white-space: nowrap;
-  padding: 0.5em 1em;
-  flex-shrink: 0;
-  font-size: x-small;
 }
 
 img {
