@@ -1,9 +1,10 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { usePlaceStore } from './placeStore'
+import { updateEvents, usePlaceStore } from './placeStore'
 import * as locator from '@arcgis/core/rest/locator'
 import Point from '@arcgis/core/geometry/Point'
 import { useHelpRequestStore } from './helpRequestStore'
 import { Position } from '../scripts/place'
+import { queryAllLayers } from '@/scripts/query'
 
 export const geoData =
   'https://services.geodataonline.no/arcgis/rest/services/Geosok/GeosokLokasjon2/GeocodeServer'
@@ -40,6 +41,11 @@ const updatePosition = (position: GeolocationPosition) => {
   const addressPosition = {
     latitude: position.coords.latitude,
     longitude: position.coords.longitude,
+  }
+  const currentPlace = usePlaceStore().currentPlace
+  if (currentPlace) {
+    updateEvents(currentPlace)
+    queryAllLayers(currentPlace)
   }
   useGeolocationStore().position = addressPosition
   useHelpRequestStore().updateRequests(addressPosition)

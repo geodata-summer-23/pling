@@ -1,8 +1,10 @@
 import FeatureLayer from '@arcgis/core/layers/FeatureLayer'
-import { Place } from './place'
+import { Place, Position } from './place'
 import Point from '@arcgis/core/geometry/Point'
 import { Category, getCategoryOptions } from './category'
 import { useNotificationStore } from '@/stores/notificationStore'
+import { serverUrl } from './url'
+import { NowcastData } from './alert'
 
 export const metAlertsUrl =
   'https://utility.arcgis.com/usrsvcs/servers/f7978b8123424646bb5960e25d83c606/rest/services/MetAlerts/FeatureServer/0'
@@ -17,7 +19,6 @@ export const queryFeatureLayer = async (
   const latitude = place.address.position?.latitude
   const longitude = place.address.position?.longitude
   if (!latitude || !longitude) {
-    console.error(`Invalid position for place ${place.nickname}`)
     return
   }
 
@@ -43,6 +44,9 @@ export const queryFeatureLayer = async (
 }
 
 export const queryAllLayers = async (place: Place) => {
+  getNowCastData(place.address.position).then((nowcast) => {
+    place.nowcast = nowcast
+  })
   queryFeatureLayer(place, 'met-alerts', metAlertsUrl, (features) => {
     place.queries['met-alerts'] = features
   })
@@ -58,4 +62,24 @@ export const queryAllLayers = async (place: Place) => {
       })
     })
   })
+}
+
+export const getNowCastData = async (position: Position) => {
+  if (!position.latitude || !position.longitude) {
+    return {} as NowcastData
+  }
+  const response = await fetch(
+    `${serverUrl}/met/nowcast?lat=${position.latitude}&lon=${position.longitude}`
+  )
+  const resJson = await response.json()
+  return {
+    temperature:
+      resJson.properties.timeseries[0].data.instant.details.air_temperature,
+    precipitation:
+      resJson.properties.timeseries[0].data.next_1_hours.details
+        .precipitation_amount,
+    unit: resJson.properties.meta.units,
+    symbol:
+      resJson.properties.timeseries[0].data.next_1_hours.summary.symbol_code,
+  } satisfies NowcastData
 }
