@@ -51,10 +51,7 @@ const search = () => {
 
 const selectResultAndClear = (result: AddressResult) => {
   const placeResult = selectResult(result)
-  place.value.address = Object.assign(
-    place.value.address ?? {},
-    placeResult.address
-  )
+  place.value.address = Object.assign(place.value.address, placeResult.address)
   if (!place.value.nickname) {
     place.value.nickname = placeResult.nickname
   }

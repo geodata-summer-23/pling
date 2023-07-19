@@ -1,6 +1,7 @@
 import * as locator from '@arcgis/core/rest/locator'
 import { Address, Position, defaultPlace } from './place'
 import { usePlaceStore } from '../stores/placeStore'
+import { geoData } from '@/stores/geolocationStore'
 
 export type AddressResult = {
   address: string
@@ -15,6 +16,7 @@ export const selectResult = (result: AddressResult) => {
   placeStore.history.push(result)
 
   const place = defaultPlace()
+  place.address.position = result.location
   if (!result.address.includes(',')) {
     const [postalCode, city] = result.address.trim().split(' ')
     place.address.postalCode = parseInt(postalCode)
@@ -34,9 +36,6 @@ export const selectResult = (result: AddressResult) => {
   }
   return place
 }
-
-const geoData =
-  'https://services.geodataonline.no/arcgis/rest/services/Geosok/GeosokLokasjon2/GeocodeServer'
 
 export const searchAddress = async (
   address: Address,
