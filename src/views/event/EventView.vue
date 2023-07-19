@@ -9,26 +9,24 @@
     <div>
       <CategoryForm
         v-if="page == Page.Category"
-        @category="EventData.category = $event"
+        @category="observation.category = $event"
       ></CategoryForm>
       <LocationForm
         v-if="page == Page.Location"
-        @location="EventData.position = $event"
+        @location="observation.position = $event"
       ></LocationForm>
       <DescriptionForm
         v-if="page == Page.Description"
-        @description="EventData.message = $event"
+        @description="observation.message = $event"
       ></DescriptionForm>
       <PictureForm
         v-if="page == Page.Picture"
-        :image-src="
-          EventData.images.length > 0 ? EventData.images[0] : undefined
-        "
-        @update-picture="EventData.images = [$event]"
+        :image-src="observation.image"
+        @update-picture="observation.image = $event"
       ></PictureForm>
       <OverviewForm
         v-if="page == Page.Overview"
-        :event="EventData"
+        :event="observation"
       ></OverviewForm>
     </div>
   </div>
@@ -53,7 +51,7 @@ import { reactive, ref } from 'vue'
 import { router } from '@/router'
 import { $t } from '@/translation'
 import { serverUrl } from '@/scripts/url'
-import { EventData } from '@/scripts/alert'
+import { Observation } from '@/scripts/alert'
 
 enum Page {
   Category,
@@ -68,13 +66,11 @@ type RequestState = 'not-sent' | 'fail' | 'success'
 const page = ref<Page>(0)
 const requestState = ref<RequestState>('not-sent')
 
-const EventData = reactive<EventData>({
+const observation = reactive<Observation>({
   message: '',
   position: { latitude: 0.0, longitude: 0.0 },
-  timestamp: -1,
   category: 'flood',
-  distance: -1,
-  images: [] as string[],
+  image: "",
 })
 
 const prevPage = () => {
@@ -94,12 +90,11 @@ const exitPage = () => {
 }
 
 const postEvent = async () => {
-  EventData.timestamp = Date.now()
   try {
     const response = await fetch(`${serverUrl}/event`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(EventData),
+      body: JSON.stringify(observation),
     })
     requestState.value = response.ok ? 'success' : 'fail'
   } catch {

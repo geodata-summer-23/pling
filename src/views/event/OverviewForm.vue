@@ -1,12 +1,21 @@
 <template>
   <h3>{{ $t().overview }}</h3>
-  <EventBox :event="event"></EventBox>
+  <EventBox :event="observationEvent"></EventBox>
 </template>
 
 <script lang="ts" setup>
 import { $t } from '@/translation'
 import EventBox from './EventBox.vue'
-import { EventData } from '@/scripts/alert'
+import { Observation, ObservedEvent} from '@/scripts/alert'
+import { computed } from 'vue';
 
-defineProps<{ event: EventData }>()
+const props = defineProps<{ event: Observation }>()
+
+const observationEvent = computed(() => ({
+  ...props.event,
+  timeCreated: Date.now(),
+  summary: props.event.message,
+  images: [props.event.image],
+  distance: 0
+} satisfies ObservedEvent))
 </script>

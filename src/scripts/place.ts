@@ -1,11 +1,11 @@
 import { $t } from '@/translation'
-import { AlertData, EventData } from './alert'
+import { AlertData, ObservedEvent } from './alert'
 
 export type Place = {
   nickname: string
   icon: string
   address: Address
-  events: EventData[]
+  events: ObservedEvent[]
   alerts: AlertData[]
 }
 
