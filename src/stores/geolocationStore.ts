@@ -45,7 +45,7 @@ const updatePosition = (position: GeolocationPosition) => {
   const currentPlace = usePlaceStore().currentPlace
   if (currentPlace) {
     updateEvents(currentPlace)
-    queryAllLayers(currentPlace)
+    // queryAllLayers(currentPlace) // TODO
   }
   useGeolocationStore().position = addressPosition
   useHelpRequestStore().updateRequests(addressPosition)
