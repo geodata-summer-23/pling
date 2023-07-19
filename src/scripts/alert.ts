@@ -34,9 +34,9 @@ export type AlertData = {
   images: string[]
 }
 
-export type FeatureQuery = Record<string, any>[]
+export type FeatureQuery = { category: Category; data: Record<string, any>[] }
 
-export type Queries = Partial<Record<Category, FeatureQuery>>
+export type Queries = FeatureQuery[]
 
 export type AlertRequest = {
   place: Place

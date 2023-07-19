@@ -4,7 +4,8 @@ import Point from '@arcgis/core/geometry/Point'
 import { Category, getCategoryOptions } from './category'
 import { useNotificationStore } from '@/stores/notificationStore'
 import { serverUrl } from './url'
-import { NowcastData } from './alert'
+import { AlertRequest, NowcastData } from './alert'
+import { UserData, useUserStore } from '@/stores/userStore'
 
 export const metAlertsUrl =
   'https://utility.arcgis.com/usrsvcs/servers/f7978b8123424646bb5960e25d83c606/rest/services/MetAlerts/FeatureServer/0'
@@ -48,20 +49,42 @@ export const queryAllLayers = async (place: Place) => {
     place.nowcast = nowcast
   })
   queryFeatureLayer(place, 'met-alerts', metAlertsUrl, (features) => {
-    place.queries['met-alerts'] = features
+    place.queries = place.queries.filter((q) => q.category != 'met-alerts')
+    place.queries.push({
+      category: 'met-alerts',
+      data: features,
+    })
   })
   getCategoryOptions().forEach((option) => {
-    place.queries[option.category] = []
+    place.queries = place.queries.filter((q) => q.category != option.category)
     option.featureLayers.forEach((url) => {
       queryFeatureLayer(place, option.category, url, (features) => {
-        const prev =
-          option.category in place.queries
-            ? place.queries[option.category] ?? []
-            : []
-        place.queries[option.category] = [...prev, ...features]
+        let queries = place.queries.find((q) => q.category == option.category)
+        if (!queries) {
+          queries = {
+            category: option.category,
+            data: [],
+          }
+          place.queries.push(queries)
+        }
+        queries.data = [...queries.data, ...features]
       })
     })
   })
+}
+
+export const generateAlerts = async (place: Place) => {
+  const alertRequest: AlertRequest = {
+    user: useUserStore().$state satisfies UserData,
+    place,
+  }
+  const response = await fetch(`${serverUrl}/alerts`, {
+    method: 'POST',
+    body: JSON.stringify(alertRequest),
+  })
+  const alerts = await response.json()
+  console.log(alerts)
+  place.alerts = alerts
 }
 
 export const getNowCastData = async (position: Position) => {

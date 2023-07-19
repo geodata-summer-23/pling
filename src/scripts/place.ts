@@ -31,7 +31,7 @@ export const getDefaultMyLocation = (): Place => ({
   address: { position: {} },
   events: [],
   alerts: [],
-  queries: {},
+  queries: [],
 })
 
 export const getDefaultPlace = (): Place => ({
@@ -40,5 +40,5 @@ export const getDefaultPlace = (): Place => ({
   address: { position: {} },
   events: [],
   alerts: [],
-  queries: {},
+  queries: [],
 })

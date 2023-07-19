@@ -61,6 +61,7 @@
         Oppsummering av varsler... alksjd a slødkjaslkdj als dalks jdlkasjdlkajs
         d asløkdjlask jd
       </p>
+      {{ placeStore.currentPlace.alerts }}
       {{ placeStore.currentPlace.queries }}
       <EventList
         :place="placeStore.currentPlace"
@@ -100,7 +101,7 @@ import {
   getCategoryOptions,
 } from '@/scripts/category'
 import { mapObjects } from '@/scripts/map'
-import { queryAllLayers } from '@/scripts/query'
+import { queryAllLayers, generateAlerts } from '@/scripts/query'
 
 const paneOpen = ref(true)
 const userStore = useUserStore()
@@ -123,6 +124,7 @@ const selectPlace = (place: Place) => {
   placeStore.currentPlace.address.position = {
     ...placeStore.currentPlace.address.position,
   }
+  generateAlerts(place)
 }
 
 const selectResultAndClear = (result: AddressResult) => {
