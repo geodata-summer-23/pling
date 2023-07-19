@@ -41,13 +41,15 @@ export const useNotificationStore = defineStore('notification', {
     push(notification: NotificationData) {
       this.notifications.push(notification)
 
-      navigator.serviceWorker.ready.then((registration) => {
-        registration.showNotification(notification.title, {
-          body: notification.body,
-          silent: false,
-          vibrate: [300, 100, 400],
+      if (this.permission === 'granted') {
+        navigator.serviceWorker.ready.then((registration) => {
+          registration.showNotification(notification.title, {
+            body: notification.body,
+            silent: false,
+            vibrate: [300, 100, 400],
+          })
         })
-      })
+      }
     },
     delete(notification: NotificationData) {
       const index = this.notifications.indexOf(notification)
