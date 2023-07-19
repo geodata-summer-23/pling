@@ -255,13 +255,13 @@ button span {
     transform: translateY(0);
   }
   25% {
-    transform: translateY(1pt);
+    transform: translateY(0.2em);
   }
   50% {
-    transform: translateY(-3pt);
+    transform: translateY(-0.8em);
   }
   75% {
-    transform: translateY(3pt);
+    transform: translateY(0.4em);
   }
   100% {
     transform: translateY(0);

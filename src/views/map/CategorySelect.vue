@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts" setup>
-import PromptModalContent from '@/components/PromptModalContent.vue'
+// import PromptModalContent from '@/components/PromptModalContent.vue'
 import { CategoryOption, getCategoryOptions } from '@/scripts/category'
 import { useModalStore } from '@/stores/modalStore'
 import { $t } from '@/translation'
@@ -35,30 +35,32 @@ const emit = defineEmits<{
 }>()
 
 const onLayerOptionSelect = (categoryOption: CategoryOption) => {
-  useModalStore().push(
-    PromptModalContent,
-    {
-      title: $t().category + ': ' + categoryOption.title,
-      text: categoryOption.description,
-      buttons: [
-        {
-          text: $t().cancel,
-          click: () => {
-            useModalStore().pop()
-          },
-        },
-        {
-          text: $t().show,
-          click: () => {
-            emit('select-category', categoryOption)
-            useModalStore().pop()
-            useModalStore().pop()
-          },
-        },
-      ],
-    },
-    {}
-  )
+  emit('select-category', categoryOption)
+  useModalStore().pop()
+  // useModalStore().push(
+  //   PromptModalContent,
+  //   {
+  //     title: $t().category + ': ' + categoryOption.title,
+  //     text: categoryOption.description,
+  //     buttons: [
+  //       {
+  //         text: $t().cancel,
+  //         click: () => {
+  //           useModalStore().pop()
+  //         },
+  //       },
+  //       {
+  //         text: $t().show,
+  //         click: () => {
+  //           emit('select-category', categoryOption)
+  //           useModalStore().pop()
+  //           useModalStore().pop()
+  //         },
+  //       },
+  //     ],
+  //   },
+  //   {}
+  // )
 }
 </script>
 

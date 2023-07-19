@@ -15,7 +15,7 @@ withDefaults(
     icon?: string
     size?: string
     hidden?: boolean
-    class?: string
+    class?: string | object
     color?: string
   }>(),
   {

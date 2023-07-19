@@ -15,7 +15,7 @@
         <div style="font-weight: bold">
           {{ notification.title }}
         </div>
-        <div>{{ notification.body }}</div>
+        <div>{{ maxChars(notification.body, 100) }}</div>
       </div>
       <img
         :src="getCategoryIconSrc(notification.category)"
@@ -29,6 +29,7 @@
 
 <script lang="ts" setup>
 import { getCategoryIconSrc } from '@/scripts/category'
+import { maxChars } from '@/scripts/string'
 import { NotificationData } from '@/stores/notificationStore'
 
 defineProps<{ notification: NotificationData }>()

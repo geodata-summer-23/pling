@@ -42,7 +42,7 @@
         </button>
         <IconButton
           icon="info"
-          class="btn-shadow"
+          :class="{ 'vertical-shake': isShakingInfoButton, 'btn-shadow': true }"
           @click="onInfoModal"
         ></IconButton>
       </div>
@@ -72,6 +72,7 @@
             )
             if (option) {
               selectCategoryOption(option)
+              shakeInfoButton()
             }
           }
         "
@@ -108,6 +109,19 @@ const userStore = useUserStore()
 const placeStore = usePlaceStore()
 const geoLocationStore = useGeolocationStore()
 const results = ref<AddressResult[]>([])
+const isShakingInfoButton = ref(false)
+let infoButtonTimeout: NodeJS.Timeout | undefined = undefined
+
+const shakeInfoButton = () => {
+  isShakingInfoButton.value = true
+  if (infoButtonTimeout) {
+    clearInterval(infoButtonTimeout)
+    infoButtonTimeout = undefined
+  }
+  infoButtonTimeout = setTimeout(() => {
+    isShakingInfoButton.value = false
+  }, 3000)
+}
 
 const warningIcons = computed(() =>
   placeStore.currentPlace?.events.map((e) => getCategoryIconSrc(e.category))
@@ -153,6 +167,7 @@ const onCategoryModal = () => {
     {
       'select-category': (categoryOption: CategoryOption) => {
         selectCategoryOption(categoryOption)
+        shakeInfoButton()
         paneOpen.value = false
       },
     }
