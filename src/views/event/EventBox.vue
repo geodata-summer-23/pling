@@ -11,7 +11,7 @@
           <span v-else>>1000m unna</span>
         </div>
       </div>
-      <p>{{ props.event.message }}</p>
+      <p>{{ props.event.summary }}</p>
     </div>
     <div>
       <img
@@ -25,10 +25,10 @@
 </template>
 
 <script lang="ts" setup>
-import { EventData } from '@/scripts/alert'
+import { ObservedEvent } from '@/scripts/alert'
 import { translate } from '@/translation'
 
-const props = defineProps<{ event: EventData }>()
+const props = defineProps<{ event: ObservedEvent }>()
 </script>
 
 <style scoped>

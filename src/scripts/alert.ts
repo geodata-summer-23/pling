@@ -9,10 +9,17 @@ export type NowcastData = {
   symbol: string
 }
 
-export type EventData = {
+export type Observation = {
   message: string
   position: Position
-  timestamp: number
+  category: Category
+  image: string
+}
+
+export type ObservedEvent = {
+  summary: string
+  position: Position
+  timeCreated: number
   category: Category
   distance: number
   images: string[]
