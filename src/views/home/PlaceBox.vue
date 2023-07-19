@@ -29,7 +29,7 @@
       </span>
       <CoordinatesText v-else :place="place"></CoordinatesText>
     </div>
-    <WeatherNowcast :coordinates="place.address.position"></WeatherNowcast>
+    <WeatherNowcast :position="place.address.position"></WeatherNowcast>
   </div>
 </template>
 
