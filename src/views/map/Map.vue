@@ -152,6 +152,9 @@ onMounted(() => {
       useLoadingStore().mapIsLoading = false
     }
   })
+  setTimeout(() => {
+    useLoadingStore().mapIsLoading = false
+  }, 5000) // max loading (because sometimes it doesn't stop?)
 })
 
 const addCurrentPlace = () => {
