@@ -40,6 +40,8 @@ export const usePlaceStore = defineStore('place', {
       }
       const defaultPlace = getDefaultPlace()
       this.places.forEach((place) => {
+        place.queries = []
+        place.events = []
         if (!place.icon) {
           place.icon = defaultPlace.icon
         }
