@@ -25,13 +25,8 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  Place,
-  searchAddress,
-  selectResult,
-  defaultPlace,
-  AddressResult,
-} from '@/stores/placeStore'
+import { Place, defaultPlace } from '@/scripts/place'
+import { AddressResult, searchAddress, selectResult } from '@/scripts/search'
 import { $t } from '@/translation'
 import { onMounted, ref } from 'vue'
 
@@ -56,10 +51,7 @@ const search = () => {
 
 const selectResultAndClear = (result: AddressResult) => {
   const placeResult = selectResult(result)
-  place.value.address = Object.assign(
-    place.value.address ?? {},
-    placeResult.address
-  )
+  place.value.address = Object.assign(place.value.address, placeResult.address)
   if (!place.value.nickname) {
     place.value.nickname = placeResult.nickname
   }

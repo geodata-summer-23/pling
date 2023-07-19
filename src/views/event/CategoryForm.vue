@@ -17,9 +17,8 @@
 </template>
 
 <script lang="ts" setup>
-import { Category } from '@/stores/placeStore'
+import { Category, getCategoryOptions } from '@/scripts/category'
 import { $t } from '@/translation'
-import { getCategoryOptions } from '../map/map'
 
 const options = [
   ...getCategoryOptions(),
@@ -38,4 +37,3 @@ const emit = defineEmits<{
   flex-shrink: 0;
 }
 </style>
-@/stores/events

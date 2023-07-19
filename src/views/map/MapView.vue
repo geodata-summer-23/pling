@@ -84,21 +84,21 @@ import SlideUpPane from '@/components/SlideUpPane.vue'
 import EventList from '../event/EventList.vue'
 import { signIn, useUserStore } from '@/stores/userStore'
 import { useGeolocationStore } from '@/stores/geolocationStore'
-import {
-  AddressResult,
-  Place,
-  searchAddress,
-  selectResult,
-  usePlaceStore,
-} from '@/stores/placeStore'
+import { Place } from '@/scripts/place'
+import { AddressResult, searchAddress, selectResult } from '@/scripts/search'
 import { computed, onActivated, onMounted, ref } from 'vue'
 import { $t } from '@/translation'
-import { getCategoryIconSrc } from '@/stores/placeStore'
 import { useModalStore } from '@/stores/modalStore'
-import CategoriesSelect from './CategoriesSelect.vue'
+import CategorySelect from './CategorySelect.vue'
 import MapInfo from './MapInfo.vue'
-import { CategoryOption, getCategoryOptions, mapObjects } from './map'
 import IconButton from '@/components/IconButton.vue'
+import { usePlaceStore } from '@/stores/placeStore'
+import {
+  CategoryOption,
+  getCategoryIconSrc,
+  getCategoryOptions,
+} from '@/scripts/category'
+import { mapObjects } from '@/scripts/map'
 
 const paneOpen = ref(true)
 const userStore = useUserStore()
@@ -117,8 +117,8 @@ onActivated(() => {
 const selectPlace = (place: Place) => {
   placeStore.currentPlace = place
   // Trigger watch
-  placeStore.currentPlace.address.point = {
-    ...placeStore.currentPlace.address.point,
+  placeStore.currentPlace.address.position = {
+    ...placeStore.currentPlace.address.position,
   }
 }
 
@@ -130,7 +130,7 @@ const selectResultAndClear = (result: AddressResult) => {
 }
 
 const search = (searchString: string) => {
-  searchAddress({ street: searchString }, (r) => {
+  searchAddress({ street: searchString, position: {} }, (r) => {
     if (r.length > 0) {
       results.value = r
     }
@@ -143,7 +143,7 @@ const searchBlur = () => {
 
 const onCategoryModal = () => {
   useModalStore().push(
-    CategoriesSelect,
+    CategorySelect,
     { selectedCategory: selectedCategory.value },
     {
       'select-category': (categoryOption: CategoryOption) => {
@@ -203,4 +203,3 @@ onMounted(() => {
   border-radius: 1em;
 }
 </style>
-@/stores/events@/stores/events

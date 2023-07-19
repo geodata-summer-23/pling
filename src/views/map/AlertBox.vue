@@ -1,22 +1,22 @@
 <template>
-  <div class="row event-box">
+  <div class="row alert-box">
     <div class="col">
       <div class="row center" style="gap: 0.5em">
-        <h3 style="margin: 0">{{ translate(props.event.category) }}</h3>
+        <h3 style="margin: 0">{{ translate(alert.category) }}</h3>
         <div class="row location-box">
           <fa-icon icon="location-dot"></fa-icon>
-          <span v-if="props.event.distance <= 1000">
-            {{ props.event.distance }}m unna
+          <span v-if="alert.distance <= 1000">
+            {{ alert.distance }}m unna
           </span>
           <span v-else>>1000m unna</span>
         </div>
       </div>
-      <p>{{ props.event.message }}</p>
+      <p>{{ alert.message }}</p>
     </div>
     <div>
       <img
-        v-if="props.event.images.length > 0"
-        :src="props.event.images[0]"
+        v-if="alert.images.length > 0"
+        :src="alert.images[0]"
         alt=""
         style="height: auto"
       />
@@ -25,14 +25,14 @@
 </template>
 
 <script lang="ts" setup>
-import { EventData } from '@/scripts/alert'
+import { AlertData } from '@/scripts/alert'
 import { translate } from '@/translation'
 
-const props = defineProps<{ event: EventData }>()
+defineProps<{ alert: AlertData }>()
 </script>
 
 <style scoped>
-.event-box {
+.alert-box {
   overflow: hidden;
   margin: 2em;
 }

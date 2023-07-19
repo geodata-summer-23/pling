@@ -19,10 +19,11 @@
 </template>
 
 <script lang="ts" setup>
-import { CategoryOption, mapObjects } from './map'
 import { onMounted } from 'vue'
 import Legend from '@arcgis/core/widgets/Legend'
 import compassSvgSrc from '@/assets/compass.svg'
+import { CategoryOption } from '@/scripts/category'
+import { mapObjects } from '@/scripts/map'
 
 const props = defineProps<{
   selectedCategory: CategoryOption

@@ -36,6 +36,7 @@ const emit = defineEmits<{
 
 span {
   padding: 0.5em 2em;
+  cursor: pointer;
 }
 
 .selected > span {
@@ -46,6 +47,7 @@ span {
 
 svg {
   color: var(--c-dark-gray);
+  cursor: pointer;
 }
 
 .selected > svg {

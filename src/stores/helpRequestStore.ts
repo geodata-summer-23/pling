@@ -1,12 +1,14 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { AddressPoint } from './placeStore'
-import { serverUrl } from '@/constants'
+import { serverUrl } from '@/scripts/url'
+import { Position } from '../scripts/place'
+import { Category } from '@/scripts/category'
 
 export type HelpRequest = {
   message: string
-  position: AddressPoint
+  position: Position
   timestamp: number
-  dist: number
+  distance: number
+  category: Category
 }
 
 export const useHelpRequestStore = defineStore('helpRequest', {
@@ -15,13 +17,21 @@ export const useHelpRequestStore = defineStore('helpRequest', {
   }),
 
   actions: {
-    async updateRequests(position: AddressPoint) {
+    async updateRequests(position: Position) {
       if (!position?.latitude || !position?.longitude) return
       const response = await fetch(
         `${serverUrl}/help-requests?lat=${position.latitude}&lon=${position.longitude}`,
         { headers: { 'Content-Type': 'application/json' } }
       )
       this.requests = JSON.parse(await response.json())
+    },
+    requestHelp(helpRequest: Partial<HelpRequest>) {
+      helpRequest.timestamp = Date.now()
+      fetch(`${serverUrl}/help-request`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(helpRequest),
+      })
     },
   },
 

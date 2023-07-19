@@ -17,11 +17,12 @@
 
 <script lang="ts" setup>
 import IconButton from '@/components/IconButton.vue'
-import { Place, usePlaceStore } from '@/stores/placeStore'
+import { usePlaceStore } from '@/stores/placeStore'
 import { ref } from 'vue'
 import { router } from '@/router'
 import { $t } from '@/translation'
 import PlaceForm from './PlaceForm.vue'
+import { Place } from '@/scripts/place'
 
 const placeStore = usePlaceStore()
 const getMyLocation = () => {

@@ -4,7 +4,7 @@
   <div class="col" style="gap: 1em">
     <div v-for="(question, i) in questions" class="row spaced">
       <label :for="`checkbox-${i}`">{{ question.q }}</label>
-      <input type="checkbox" :id="`checkbox-${i}`" v-model="question.a"/>
+      <input type="checkbox" :id="`checkbox-${i}`" v-model="question.a" />
     </div>
   </div>
 
@@ -39,26 +39,25 @@ const wordCount = ref(0)
 let eventDescription = ''
 
 const questions = [
-  {q: 'Det er fare for liv og helse.', a: false},
-  {q: 'Det er fare for private eiendeler.', a: false},
-  {q: 'Det er fare for eiendom eller infrastruktur.', a: false},
-  {q: 'Jeg ønsker hjelp fra noen i nærheten.', a: false},
+  { q: 'Det er fare for liv og helse.', a: false },
+  { q: 'Det er fare for private eiendeler.', a: false },
+  { q: 'Det er fare for eiendom eller infrastruktur.', a: false },
+  { q: 'Jeg ønsker hjelp fra noen i nærheten.', a: false },
 ]
 
-onUnmounted(() => { 
-  let description = ""
-  
-  questions.forEach(question => {
+onUnmounted(() => {
+  let description = ''
+
+  questions.forEach((question) => {
     if (question.a) {
       description = description.concat(' ', question.q)
     }
-  });
-  
+  })
+
   description = description.concat(' ', eventDescription)
-  
+
   emit('description', description)
 })
-
 </script>
 
 <style scoped>
@@ -70,7 +69,7 @@ textarea {
   height: 6em;
 }
 
-input[type='checkbox'] {
+/* input[type='checkbox'] {
   transform: scale(2);
-}
+} */
 </style>

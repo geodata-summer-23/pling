@@ -14,11 +14,13 @@
 
 <script lang="ts" setup>
 import LoadingSpinner from '@/components/LoadingSpinner.vue'
-import { serverUrl } from '@/constants'
+import { serverUrl } from '@/scripts/url'
+import { Position } from '@/scripts/place'
 import { $t } from '@/translation'
 import { onMounted, ref } from 'vue'
+import { NowcastData } from '@/scripts/alert'
 
-const props = defineProps<{ lat?: number; lon?: number }>()
+const props = defineProps<{ position?: Position }>()
 
 const temp = ref(0)
 const precipitation = ref(0)
@@ -26,22 +28,32 @@ const units = ref(null as any)
 const responseCode = ref<boolean | null>(null)
 const symbol = ref(null)
 
+const getNowCastData = async (position: Position) => {
+  const response = await fetch(
+    `${serverUrl}/met/nowcast?lat=${position.latitude}&lon=${position.longitude}`
+  )
+  const resJson = await response.json()
+  return {
+    temperature:
+      resJson.properties.timeseries[0].data.instant.details.air_temperature,
+    precipitation:
+      resJson.properties.timeseries[0].data.next_1_hours.details
+        .precipitation_amount,
+    unit: resJson.properties.meta.units,
+    symbol:
+      resJson.properties.timeseries[0].data.next_1_hours.summary.symbol_code,
+  } satisfies NowcastData
+}
+
 onMounted(async () => {
   try {
-    const response = await fetch(
-      `${serverUrl}/met/nowcast?lat=${props.lat}&lon=${props.lon}`
-    )
-    if (response.ok) {
-      responseCode.value = true
-      const resJson = await response.json()
-      temp.value =
-        resJson.properties.timeseries[0].data.instant.details.air_temperature
-      precipitation.value =
-        resJson.properties.timeseries[0].data.next_1_hours.details.precipitation_amount
-      units.value = resJson.properties.meta.units
-      symbol.value =
-        resJson.properties.timeseries[0].data.next_1_hours.summary.symbol_code
-    }
+    if (!props.position) return
+    const nowCastData = await getNowCastData(props.position)
+    temp.value = nowCastData.temperature
+    precipitation.value = nowCastData.precipitation
+    units.value = nowCastData.unit
+    symbol.value = nowCastData.symbol
+    responseCode.value = true
   } catch (error) {
     console.error(error)
     responseCode.value = false

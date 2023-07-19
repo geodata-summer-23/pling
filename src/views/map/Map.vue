@@ -79,15 +79,9 @@ import Graphic from '@arcgis/core/Graphic'
 import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer'
 import Point from '@arcgis/core/geometry/Point'
 import { onMounted, ref, watch } from 'vue'
-import {
-  AddressPoint,
-  AddressResult,
-  Place,
-  usePlaceStore,
-} from '@/stores/placeStore'
-import { maxChars } from '@/utils'
-import { Category, getCategoryIconSrc } from '@/stores/placeStore'
-import { mapObjects, ViewClickEvent } from './map'
+import { usePlaceStore } from '@/stores/placeStore'
+import { Position, Place } from '@/scripts/place'
+import { maxChars } from '@/scripts/string'
 import IconButton from '@/components/IconButton.vue'
 import { useModalStore } from '@/stores/modalStore'
 import SearchModalContent from '@/components/SearchModalContent.vue'
@@ -95,9 +89,12 @@ import { $t } from '@/translation'
 import { router } from '@/router'
 import { useLoadingStore } from '@/stores/loadingStore'
 import LoadingSpinner from '@/components/LoadingSpinner.vue'
+import { AddressResult } from '@/scripts/search'
+import { Category, getCategoryIconSrc } from '@/scripts/category'
+import { ViewClickEvent, mapObjects } from '@/scripts/map'
 
 const props = defineProps<{
-  center: AddressPoint | null
+  center: Position | null
   searchResults: AddressResult[]
   places: Place[]
   currentPlace: Place | null
@@ -139,6 +136,7 @@ onMounted(() => {
 
   mapObjects.mapView.on('click', (event) => {
     event.stopPropagation() // Disable default click handler
+    useLoadingStore().mapIsLoading = false
     emit('click', event)
   })
 
@@ -249,8 +247,9 @@ const drawGraphics = () => {
     graphicsLayer.add(mapCenterPoint)
   }
   props.places.forEach((place) => {
-    if (!place.address.point || place.address.point == props.center) return
-    const newPoint = createPointGraphic(place.address.point, '#1fe063')
+    if (!place.address.position || place.address.position == props.center)
+      return
+    const newPoint = createPointGraphic(place.address.position, '#1fe063')
     graphicsLayer.add(newPoint)
   })
   props.currentPlace?.events.forEach((event) => {
@@ -259,7 +258,7 @@ const drawGraphics = () => {
   })
 }
 
-const createPointGraphic = (point: AddressPoint, color = '#2b95d6') => {
+const createPointGraphic = (point: Position, color = '#2b95d6') => {
   return new Graphic({
     geometry: new Point(point),
     symbol: {
@@ -274,7 +273,7 @@ const createPointGraphic = (point: AddressPoint, color = '#2b95d6') => {
   })
 }
 
-const createEventGraphic = (point: AddressPoint, category: Category) => {
+const createEventGraphic = (point: Position, category: Category) => {
   return new Graphic({
     geometry: new Point(point),
     symbol: {
@@ -334,4 +333,3 @@ const createEventGraphic = (point: AddressPoint, category: Category) => {
   outline: none !important;
 }
 </style>
-./map @/stores/events

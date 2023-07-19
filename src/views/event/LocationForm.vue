@@ -18,14 +18,14 @@
 
 <script lang="ts" setup>
 import { useGeolocationStore } from '@/stores/geolocationStore'
-import { AddressPoint } from '@/stores/placeStore'
+import { Position } from '@/scripts/place'
 import { $t } from '@/translation'
 import { onUnmounted, ref } from 'vue'
 
 const locationOption = ref('myLocation')
 
 const emit = defineEmits<{
-  (e: 'location', lac: AddressPoint): void
+  (e: 'location', lac: Position): void
 }>()
 
 onUnmounted(() => {

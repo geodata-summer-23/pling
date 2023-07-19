@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts" setup>
-withDefaults(defineProps<{ scale: number }>(), { scale: 1 })
+withDefaults(defineProps<{ scale?: number }>(), { scale: 1 })
 </script>
 
 <style scoped>

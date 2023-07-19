@@ -1,38 +1,38 @@
 <template>
-  <div class="row event-box">
+  <div class="row help-request-box">
     <div class="col">
       <div class="row center" style="gap: 0.5em">
-        <h3 style="margin: 0">{{ translate(props.event.category) }}</h3>
+        <h3 style="margin: 0">{{ translate(helpRequest.category) }}</h3>
         <div class="row location-box">
           <fa-icon icon="location-dot"></fa-icon>
-          <span v-if="props.event.distance <= 1000">
-            {{ props.event.distance }}m unna
+          <span v-if="helpRequest.distance <= 100000">
+            {{ helpRequest.distance }}m unna
           </span>
-          <span v-else>>1000m unna</span>
+          <span v-if="helpRequest.distance > 1000">>1000m unna</span>
         </div>
       </div>
-      <p>{{ props.event.message }}</p>
+      <p>{{ helpRequest.message }}</p>
     </div>
     <div>
-      <img
-        v-if="props.event.images.length > 0"
-        :src="props.event.images[0]"
+      <!-- <img
+        v-if="event.imageSrc.length > 0"
+        :src="event.imageSrc[0]"
         alt=""
         style="height: auto"
-      />
+      /> -->
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { EventData } from '@/scripts/alert'
+import { HelpRequest } from '@/stores/helpRequestStore'
 import { translate } from '@/translation'
 
-const props = defineProps<{ event: EventData }>()
+defineProps<{ helpRequest: HelpRequest }>()
 </script>
 
 <style scoped>
-.event-box {
+.help-request-box {
   overflow: hidden;
   margin: 2em;
 }

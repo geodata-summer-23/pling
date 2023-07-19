@@ -1,45 +1,20 @@
 <template>
   <div class="col">
-    <div class="row" style="gap: 0.5em">
-      <div
-        v-for="event in place.events"
-        class="row center event-tab"
-        :class="{ selected: selectedEvent == event }"
-        style="gap: 0.5em"
-        @click="() => selectEvent(event)"
-      >
-        <img :src="getCategoryIconSrc(event.category)" alt="" width="30" />
-        {{ translate(event.category) }}
-      </div>
-    </div>
-
-    <EventBox v-if="selectedEvent" :event="selectedEvent" />
+    <EventBox v-for="event in place.events" :event="event" />
   </div>
 </template>
 
 <script lang="ts" setup>
 import EventBox from './EventBox.vue'
-import { ref } from 'vue'
-import { translate } from '@/translation'
-import {
-  AlertData,
-  getCategoryIconSrc,
-  Category,
-  Place,
-} from '@/stores/placeStore'
+import { onMounted } from 'vue'
+import { updateEvents } from '@/stores/placeStore'
+import { Place } from '@/scripts/place'
 
-defineProps<{ place: Place }>()
+const props = defineProps<{ place: Place }>()
 
-const emit = defineEmits<{
-  (e: 'select-category', category: Category): void
-}>()
-
-const selectedEvent = ref<AlertData | null>(null)
-
-const selectEvent = (event: AlertData) => {
-  selectedEvent.value = event
-  emit('select-category', event.category)
-}
+onMounted(() => {
+  updateEvents(props.place)
+})
 </script>
 
 <style scoped>
@@ -57,4 +32,3 @@ const selectEvent = (event: AlertData) => {
   color: var(--c-text);
 }
 </style>
-@/stores/events@/stores/events

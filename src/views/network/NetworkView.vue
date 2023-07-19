@@ -32,27 +32,30 @@
       :value="pane"
       :options="[
         { text: $t().events, value: 'events' },
-        { text: $t().requests, value: 'requests' },
+        { text: $t().requests, value: 'help-requests' },
       ]"
       grid-template="1fr 1fr"
-      @change="pane = $event"
+      @change="pane = $event as Pane"
     ></GridSelect>
     <EventList
       v-if="pane == 'events'"
       :place="usePlaceStore().places[0]"
     ></EventList>
+    <HelpRequestList v-if="pane == 'help-requests'"></HelpRequestList>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { router } from '@/router'
 import EventList from '../event/EventList.vue'
+import GridSelect from '@/components/GridSelect.vue'
+import HelpRequestList from '../help/HelpRequestList.vue'
+import { router } from '@/router'
 import { $t } from '@/translation'
 import { usePlaceStore } from '@/stores/placeStore'
-import GridSelect from '@/components/GridSelect.vue'
 import { ref } from 'vue'
 
-const pane = ref('events')
+type Pane = 'events' | 'help-requests'
+const pane = ref<Pane>('events')
 </script>
 
 <style>

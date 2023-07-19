@@ -1,15 +1,16 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { AddressPoint, usePlaceStore } from './placeStore'
+import { usePlaceStore } from './placeStore'
 import * as locator from '@arcgis/core/rest/locator'
 import Point from '@arcgis/core/geometry/Point'
 import { useHelpRequestStore } from './helpRequestStore'
+import { Position } from '../scripts/place'
 
-const geoData =
+export const geoData =
   'https://services.geodataonline.no/arcgis/rest/services/Geosok/GeosokLokasjon2/GeocodeServer'
 
 export const useGeolocationStore = defineStore('geolocation', {
   state: () => ({
-    position: null as null | AddressPoint,
+    position: null as null | Position,
   }),
 
   actions: {
@@ -30,7 +31,7 @@ export const useGeolocationStore = defineStore('geolocation', {
 
   getters: {
     getMapCenter: (state) => {
-      return usePlaceStore().currentPlace?.address.point ?? state.position
+      return usePlaceStore().currentPlace?.address.position ?? state.position
     },
   },
 })
@@ -57,3 +58,33 @@ const updatePosition = (position: GeolocationPosition) => {
 if (import.meta.hot) {
   import.meta.hot.accept(acceptHMRUpdate(useGeolocationStore, import.meta.hot))
 }
+
+// fetch('https://services.geodataonline.no/arcgis/tokens/', {
+//   method: 'POST',
+//   body: JSON.stringify({
+//     username: 'sommerstudenter23',
+//     password: 'Geodata!23',
+//   }),
+// })
+//   .then((res) => res.text())
+//   .then((res) => {
+//     locator
+//       .locationToAddress(
+//         geoData,
+//         {
+//           location: new Point(addressPosition),
+//         },
+//         {
+//           query: {
+//             username: 'sommerstudenter231212',
+//             password: 'Geodata!23',
+//           },
+//         }
+//       )
+//       .then((candidate) => {
+//         const address = usePlaceStore().places[0].address
+//         address.street = candidate.attributes.Adresse
+//         address.postalCode = candidate.attributes.Postnummer
+//         address.city = candidate.attributes.Poststed
+//       })
+//   })

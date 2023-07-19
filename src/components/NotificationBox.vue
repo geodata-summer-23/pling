@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts" setup>
-import { getCategoryIconSrc } from '@/stores/placeStore'
+import { getCategoryIconSrc } from '@/scripts/category'
 import { NotificationData } from '@/stores/notificationStore'
 
 defineProps<{ notification: NotificationData }>()
@@ -50,4 +50,3 @@ const emit = defineEmits<{
   margin: 1em;
 }
 </style>
-@/stores/events

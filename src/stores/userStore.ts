@@ -5,19 +5,29 @@ import { nanoid } from 'nanoid'
 import { $t, Language } from '@/translation'
 import { usePlaceStore } from './placeStore'
 
+export type UserData = {
+  guid: string
+  signedInToArcGis: boolean
+  firstName: string
+  lastName: string
+  email: string
+  phoneNumber: string
+  birthday: Date | null
+  language: Language
+}
+
 export const useUserStore = defineStore('user', {
-  state: () => ({
-    guid: '',
-    signedInToArcGis: false,
-    firstName: '',
-    middleName: '',
-    lastName: '',
-    email: '',
-    phoneNumber: '',
-    age: null as null | number,
-    birthday: null as null | Date,
-    language: 'norwegian' as Language,
-  }),
+  state: () =>
+    ({
+      guid: '',
+      signedInToArcGis: false as boolean,
+      firstName: '',
+      lastName: '',
+      email: '',
+      phoneNumber: '',
+      birthday: null as null | Date,
+      language: 'norwegian' as Language,
+    } satisfies UserData),
 
   actions: {
     setGuid() {
