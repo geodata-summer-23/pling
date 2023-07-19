@@ -6,6 +6,7 @@
         <DistanceIndicator :distance="helpRequest.distance"></DistanceIndicator>
       </div>
       <p>{{ helpRequest.message }}</p>
+      <button @click="onAccept">{{ $t().acceptRequest }}</button>
     </div>
   </div>
 </template>
@@ -13,9 +14,22 @@
 <script lang="ts" setup>
 import DistanceIndicator from '@/components/DistanceIndicator.vue'
 import { HelpRequest } from '@/stores/helpRequestStore'
-import { translate } from '@/translation'
+import { useModalStore } from '@/stores/modalStore'
+import { $t, translate } from '@/translation'
+import ContactInfo from '@/components/ContactInfo.vue'
 
-defineProps<{ helpRequest: HelpRequest }>()
+const props = defineProps<{ helpRequest: HelpRequest }>()
+
+const onAccept = () => {
+  useModalStore().push(
+    ContactInfo,
+    {
+      email: props.helpRequest.email,
+      phoneNumber: props.helpRequest.phoneNumber,
+    },
+    {}
+  )
+}
 </script>
 
 <style scoped>

@@ -9,6 +9,9 @@ export type HelpRequest = {
   timestamp: number
   distance: number
   category: Category
+  firstName: string
+  email: string
+  phoneNumber: string
 }
 
 export const useHelpRequestStore = defineStore('helpRequest', {

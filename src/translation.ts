@@ -93,6 +93,12 @@ const norwegian = {
   contactInfo: 'Kontaktinformasjon',
   contactInfoParagraph:
     'Denne informasjonen vil bli delt med personer i nærheten i tilfelle du spør om hjelp.',
+  acceptRequest: 'Godta forespørsel',
+  contact: 'Kontakt',
+  whereToContact: 'Hvor ønsker du å starte samtalen?',
+  call: 'Ring',
+  message: 'Melding',
+  email: 'E-post',
 } as const
 
 const english = {
@@ -173,4 +179,10 @@ const english = {
   contactInfo: 'Contact information',
   contactInfoParagraph:
     'This information will be shared to people close by in case you request help.',
+  acceptRequest: 'Accept request',
+  contact: 'Contact',
+  whereToContact: 'How do you want to start the conversation?',
+  call: 'Call',
+  message: 'Message',
+  email: 'Email',
 } as const

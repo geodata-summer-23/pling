@@ -45,6 +45,7 @@ import { reactive, ref } from 'vue'
 import { router } from '@/router'
 import { $t } from '@/translation'
 import { useHelpRequestStore, HelpRequest } from '@/stores/helpRequestStore'
+import { useUserStore } from '@/stores/userStore'
 
 enum Page {
   Location,
@@ -55,13 +56,17 @@ enum Page {
 }
 
 const page = ref<Page>(0)
+const userStore = useUserStore()
 
 const helpRequest = reactive<HelpRequest>({
   message: '',
   position: { latitude: 0.0, longitude: 0.0 },
-  timestamp: -1,
+  timestamp: Date.now(),
   category: 'flood',
-  distance: -1,
+  distance: 0,
+  firstName: userStore.firstName,
+  phoneNumber: userStore.phoneNumber,
+  email: userStore.email,
 })
 const helpRequestStore = useHelpRequestStore()
 

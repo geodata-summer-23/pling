@@ -29,7 +29,10 @@
       </span>
       <CoordinatesText v-else :place="place"></CoordinatesText>
     </div>
-    <WeatherNowcast :nowcast-data="place.nowcast"></WeatherNowcast>
+    <WeatherNowcast
+      v-if="place.nowcast"
+      :nowcast-data="place.nowcast"
+    ></WeatherNowcast>
   </div>
 </template>
 
@@ -99,4 +102,3 @@ const clickPlace = (place: Place) => {
   box-shadow: 0 0.4em 0.6em var(--c-medium-gray);
 }
 </style>
-@/scripts/query

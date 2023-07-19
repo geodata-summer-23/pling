@@ -41,6 +41,9 @@ import {
   faHillRockslide,
   faHouseFloodWater,
   faArrowUpFromGroundWater,
+  faPhone,
+  faMessage,
+  faEnvelope,
 } from '@fortawesome/free-solid-svg-icons'
 
 export const registerIcons = () => {
@@ -85,4 +88,7 @@ export const registerIcons = () => {
   library.add(faHillRockslide)
   library.add(faHouseFloodWater)
   library.add(faArrowUpFromGroundWater)
+  library.add(faPhone)
+  library.add(faMessage)
+  library.add(faEnvelope)
 }
