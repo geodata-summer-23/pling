@@ -10,7 +10,6 @@
           style="width: 100%; font-size: medium"
           @click="router.push({ name: 'event' })"
         >
-          <fa-icon icon="triangle-exclamation"></fa-icon>
           <span> {{ $t().notify }}</span>
           <fa-icon icon="angle-right"></fa-icon>
         </button>
@@ -19,7 +18,6 @@
           style="width: 100%; font-size: medium"
           @click="router.push({ name: 'help' })"
         >
-          <fa-icon icon="triangle-exclamation"></fa-icon>
           <span> {{ $t().requestHelp }}</span>
           <fa-icon icon="angle-right"></fa-icon>
         </button>

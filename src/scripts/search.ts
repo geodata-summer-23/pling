@@ -1,5 +1,5 @@
 import * as locator from '@arcgis/core/rest/locator'
-import { Address, Position, defaultPlace } from './place'
+import { Address, Position, getDefaultPlace } from './place'
 import { usePlaceStore } from '../stores/placeStore'
 import { geoData } from '@/stores/geolocationStore'
 
@@ -15,7 +15,7 @@ export const selectResult = (result: AddressResult) => {
   )
   placeStore.history.push(result)
 
-  const place = defaultPlace()
+  const place = getDefaultPlace()
   place.address.position = result.location
   if (!result.address.includes(',')) {
     const [postalCode, city] = result.address.trim().split(' ')

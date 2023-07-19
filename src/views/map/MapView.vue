@@ -61,6 +61,7 @@
         Oppsummering av varsler... alksjd a slødkjaslkdj als dalks jdlkasjdlkajs
         d asløkdjlask jd
       </p>
+      {{ placeStore.currentPlace.queries }}
       <EventList
         :place="placeStore.currentPlace"
         @select-category="
@@ -99,6 +100,7 @@ import {
   getCategoryOptions,
 } from '@/scripts/category'
 import { mapObjects } from '@/scripts/map'
+import { queryAllLayers } from '@/scripts/query'
 
 const paneOpen = ref(true)
 const userStore = useUserStore()
@@ -116,6 +118,7 @@ onActivated(() => {
 
 const selectPlace = (place: Place) => {
   placeStore.currentPlace = place
+  queryAllLayers(placeStore.currentPlace)
   // Trigger watch
   placeStore.currentPlace.address.position = {
     ...placeStore.currentPlace.address.position,

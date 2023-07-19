@@ -37,13 +37,12 @@
 import WeatherNowcast from './WeatherNowcast.vue'
 import CoordinatesText from '@/components/CoordinatesText.vue'
 import { usePlaceStore } from '@/stores/placeStore'
-import FeatureLayer from '@arcgis/core/layers/FeatureLayer'
-import Point from '@arcgis/core/geometry/Point.js'
-import { onMounted, ref } from 'vue'
+import { computed } from 'vue'
 import { router } from '@/router'
 import { maxChars } from '@/scripts/string'
 import { useLoadingStore } from '@/stores/loadingStore'
 import { Place } from '@/scripts/place'
+import { queryAllLayers } from '@/scripts/query'
 
 const placeStore = usePlaceStore()
 const props = defineProps<{
@@ -52,13 +51,15 @@ const props = defineProps<{
   isMyLocation: boolean
 }>()
 
-const warningIcons = ref<string[]>([])
-const metAlertMessages = ref<string[]>([])
+const warningIcons = computed(
+  () => [] // props.place.queries.map((query) => query.data.message) // TODO
+)
 
 const clickPlace = (place: Place) => {
   if (place.address.position && placeStore.currentPlace != place) {
     useLoadingStore().mapIsLoading = true
     placeStore.currentPlace = place
+    queryAllLayers(placeStore.currentPlace)
   }
   if (props.edit) {
     if (!props.isMyLocation) {
@@ -68,43 +69,6 @@ const clickPlace = (place: Place) => {
     router.push({ name: 'map' })
   }
 }
-const getDangers = (place: Place) => {
-  const metAlertsLayer = new FeatureLayer({
-    url: 'https://utility.arcgis.com/usrsvcs/servers/f7978b8123424646bb5960e25d83c606/rest/services/MetAlerts/FeatureServer/0',
-  })
-  const latitude = place.address.position?.latitude
-  const longitude = place.address.position?.longitude
-  if (!latitude || !longitude) {
-    console.error('invalid point for place' + place.nickname)
-    return
-  }
-
-  const query = {
-    spatialRelationship: 'intersects', // Relationship operation to apply
-    geometry: new Point({ latitude, longitude }),
-    outFields: ['*'], // Attributes to return
-    returnGeometry: false,
-  }
-
-  metAlertsLayer
-    // @ts-ignore
-    .queryFeatures(query)
-    .then((results) => {
-      metAlertMessages.value = results.features.map(
-        (f) => f.attributes.eventAwarenessName
-      )
-      warningIcons.value = results.features.map((f) => {
-        const color = f.attributes.awarenessLevel.split(';')[1].trim()
-        return `./warningIcons/icon-warning-${f.attributes.event.toLowerCase()}-${color}.svg`
-      })
-    })
-    .catch((error) => {
-      console.error(error)
-    })
-}
-onMounted(() => {
-  getDangers(props.place)
-})
 </script>
 
 <style scoped>
@@ -135,3 +99,4 @@ onMounted(() => {
   box-shadow: 0 0.4em 0.6em var(--c-medium-gray);
 }
 </style>
+@/scripts/query

@@ -4,10 +4,11 @@ import { serverUrl } from '@/scripts/url'
 import {
   Place,
   Position,
-  defaultMyLocation,
-  defaultPlace,
+  getDefaultMyLocation,
+  getDefaultPlace,
 } from '../scripts/place'
 import { AddressResult } from '@/scripts/search'
+import { queryAllLayers } from '@/scripts/query'
 
 export const usePlaceStore = defineStore('place', {
   state: () => ({
@@ -32,17 +33,26 @@ export const usePlaceStore = defineStore('place', {
     },
     loadFromLocalStorage() {
       this.places = JSON.parse(localStorage.getItem('places') ?? '[]')
+      if (this.places.length == 0) {
+        this.places.push(getDefaultMyLocation())
+      } else {
+        Object.assign(this.places[0], getDefaultMyLocation())
+      }
+      const defaultPlace = getDefaultPlace()
       this.places.forEach((place) => {
         if (!place.icon) {
-          place.icon = defaultPlace().icon
+          place.icon = defaultPlace.icon
         }
+        Object.keys(defaultPlace).forEach((key) => {
+          if (!(key in place)) {
+            place[key as keyof Place] = JSON.parse(
+              JSON.stringify(defaultPlace[key as keyof Place])
+            )
+          }
+        })
         updateEvents(place)
+        queryAllLayers(place)
       })
-      if (this.places.length == 0) {
-        this.places.push(defaultMyLocation())
-      } else {
-        Object.assign(this.places[0], defaultMyLocation())
-      }
       this.currentPlace = this.places[0]
       navigator.geolocation.getCurrentPosition(async (position) => {
         this.places[0].address.position = {

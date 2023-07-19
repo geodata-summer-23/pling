@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Place, defaultPlace } from '@/scripts/place'
+import { Place, getDefaultPlace } from '@/scripts/place'
 import { AddressResult, searchAddress, selectResult } from '@/scripts/search'
 import { $t } from '@/translation'
 import { onMounted, ref } from 'vue'
@@ -37,7 +37,7 @@ const emit = defineEmits<{
 }>()
 
 const inputRef = ref<HTMLInputElement | undefined>()
-const place = ref<Place>(props.place ?? defaultPlace())
+const place = ref<Place>(props.place ?? getDefaultPlace())
 const results = ref<AddressResult[]>([])
 
 onMounted(() => {

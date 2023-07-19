@@ -27,15 +27,15 @@ export type AlertData = {
   images: string[]
 }
 
-type Intersection = {
-  category: Category
-}
+export type FeatureQuery = Record<string, any>[]
+
+export type Queries = Partial<Record<Category, FeatureQuery>>
 
 export type AlertRequest = {
   place: Place
   user: UserData
   nowcast: NowcastData
-  intersections: Intersection[]
+  queries: Queries
 }
 
 export type AlertResponse = {}
