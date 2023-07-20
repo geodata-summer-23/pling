@@ -2,7 +2,7 @@
   <div class="row event-box">
     <div class="col">
       <div class="row center" style="gap: 0.5em">
-        <h3 style="margin: 0">{{ translate(props.event.category) }}</h3>
+        <h3 style="margin: 0">{{ $text(props.event.category) }}</h3>
         <DistanceIndicator :distance="event.distance"></DistanceIndicator>
       </div>
       <p>{{ props.event.summary }}</p>
@@ -21,7 +21,7 @@
 <script lang="ts" setup>
 import DistanceIndicator from '@/components/DistanceIndicator.vue'
 import { ObservedEvent } from '@/scripts/alert'
-import { translate } from '@/translation'
+import { $text } from '@/translation'
 
 const props = defineProps<{ event: ObservedEvent }>()
 </script>

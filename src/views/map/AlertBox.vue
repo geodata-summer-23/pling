@@ -2,7 +2,7 @@
   <div class="row alert-box">
     <div class="col">
       <div class="row center" style="gap: 0.5em">
-        <h3 style="margin: 0">{{ translate(alert.category) }}</h3>
+        <h3 style="margin: 0">{{ $text(alert.category) }}</h3>
         <DistanceIndicator :distance="alert.distance"></DistanceIndicator>
       </div>
       <p>{{ alert.message }}</p>
@@ -21,7 +21,7 @@
 <script lang="ts" setup>
 import DistanceIndicator from '@/components/DistanceIndicator.vue'
 import { Alert } from '@/scripts/alert'
-import { translate } from '@/translation'
+import { $text } from '@/translation'
 
 defineProps<{ alert: Alert }>()
 </script>

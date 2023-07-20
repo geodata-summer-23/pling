@@ -2,7 +2,7 @@
   <div class="row help-request-box">
     <div class="col">
       <div class="row center" style="gap: 0.5em">
-        <h3 style="margin: 0">{{ translate(helpRequest.category) }}</h3>
+        <h3 style="margin: 0">{{ $text(helpRequest.category) }}</h3>
         <DistanceIndicator :distance="helpRequest.distance"></DistanceIndicator>
       </div>
       <p>{{ helpRequest.message }}</p>
@@ -15,7 +15,7 @@
 import DistanceIndicator from '@/components/DistanceIndicator.vue'
 import { HelpRequest } from '@/stores/helpRequestStore'
 import { useModalStore } from '@/stores/modalStore'
-import { $t, translate } from '@/translation'
+import { $t, $text } from '@/translation'
 import ContactInfo from '@/components/ContactInfo.vue'
 
 const props = defineProps<{ helpRequest: HelpRequest }>()

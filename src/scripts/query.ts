@@ -63,7 +63,7 @@ export const queryFeatureLayers = async (
 
 export const fetchQueries = async (place: Place, positionChanged = false) => {
   const promises: Promise<boolean>[] = []
-  const metAlertsChanged = queryFeatureLayers(place, 'met-alerts', [
+  const metAlertsChanged = queryFeatureLayers(place, 'metAlerts', [
     metAlertsUrl,
   ])
   promises.push(metAlertsChanged)

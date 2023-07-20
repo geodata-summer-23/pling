@@ -9,7 +9,7 @@
         @click="() => selectAlert(alert)"
       >
         <img :src="getCategoryIconSrc(alert.category)" alt="" width="30" />
-        {{ translate(alert.category) }}
+        {{ $text(alert.category) }}
       </div>
     </div>
 
@@ -20,7 +20,7 @@
 <script lang="ts" setup>
 import AlertBox from './AlertBox.vue'
 import { ref } from 'vue'
-import { translate } from '@/translation'
+import { $text } from '@/translation'
 import { Place } from '@/scripts/place'
 import { Alert } from '@/scripts/alert'
 import { Category, getCategoryIconSrc } from '@/scripts/category'

@@ -2,18 +2,18 @@ import { $t } from '@/translation'
 
 export type Category =
   | 'flood'
-  | 'rain-flood'
+  | 'rainFlood'
   | 'temperature'
-  | 'falling-wind'
-  | 'quick-clay'
-  | 'storm-surge'
-  | 'sea-rise'
-  | 'met-alerts'
+  | 'fallingWind'
+  | 'quickClay'
+  | 'stormSurge'
+  | 'seaRise'
+  | 'metAlerts'
   | 'other'
 
 export const getCategoryIconSrc = (category: Category) => {
   switch (category) {
-    case 'falling-wind':
+    case 'fallingWind':
       return `./warningIcons/icon-warning-wind-red.svg`
     case 'other':
       return './warningIcons/icon-warning-extreme.svg'
@@ -37,7 +37,7 @@ export const getCategoryOptions = (): CategoryOption[] => [
     layerId: '1894a0de007-layer-22',
     description:
       'Veien vannet tar når det er styrtregn. Styrtregn er intense regnbyger som kan skape lokal oversvømmelse i lavtliggende steder.',
-    category: 'rain-flood',
+    category: 'rainFlood',
     faIcon: 'cloud-showers-heavy',
     featureLayers: [],
   },
@@ -66,7 +66,7 @@ export const getCategoryOptions = (): CategoryOption[] => [
     layerId: '1894ed8aeb4-layer-32',
     description:
       'Fallvind er en kraftig vindstrøm som beveger seg nedover fra høyere luftlag mot bakken.',
-    category: 'falling-wind',
+    category: 'fallingWind',
     faIcon: 'wind',
     featureLayers: [],
   },
@@ -74,7 +74,7 @@ export const getCategoryOptions = (): CategoryOption[] => [
     title: $t().quickClay,
     layerId: '1894e91ecbb-layer-30',
     description: 'Områder utsatt for kvikkleireskred.',
-    category: 'quick-clay',
+    category: 'quickClay',
     faIcon: 'hill-rockslide',
     featureLayers: [
       'https://utility.arcgis.com/usrsvcs/servers/ec96f664795c4ff4843ee086069bb7ab/rest/services/Geomap_UTM33_EUREF89/GeomapSkred/MapServer/21',
@@ -85,7 +85,7 @@ export const getCategoryOptions = (): CategoryOption[] => [
     layerId: '189639a4259-layer-40',
     description:
       'Bygg som kan få vanninntrenging fra sjøen i 2090 ved stormfulle værforhold.',
-    category: 'storm-surge',
+    category: 'stormSurge',
     faIcon: 'house-flood-water',
     featureLayers: [
       'https://services.arcgis.com/2JyTvMWQSnM2Vi8q/arcgis/rest/services/Stormflo_ny/FeatureServer',
@@ -95,7 +95,7 @@ export const getCategoryOptions = (): CategoryOption[] => [
     title: $t().seaRise,
     layerId: '18963f12bf3-layer-42',
     description: 'Bygg som vil ligge under havnivå i 2090.',
-    category: 'sea-rise',
+    category: 'seaRise',
     faIcon: 'arrow-up-from-ground-water',
     featureLayers: [],
   },
