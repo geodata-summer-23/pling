@@ -79,6 +79,7 @@ export const updatePlace = throttle(
     promises.push(fetchNowcast(place))
     promises.push(fetchQueries(place, positionChanged))
     const anyChanged = (await Promise.all(promises)).some((change) => !!change)
+
     if (anyChanged) {
       await fetchAlerts(place)
     }

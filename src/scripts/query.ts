@@ -15,7 +15,7 @@ const queryFeatureLayer = async (place: Place, url: string) => {
   const latitude = place.address.position?.latitude
   const longitude = place.address.position?.longitude
   if (!latitude || !longitude) {
-    return []
+    throw Error('Invalid position')
   }
 
   const results = await featureLayer.queryFeatures({
@@ -37,6 +37,10 @@ export const queryFeatureLayers = async (
   if (!Array.isArray(place.queries)) {
     place.queries = []
   }
+  if (!place.address.position.latitude || !place.address.position.longitude) {
+    return false
+  }
+
   let query = place.queries.find((q) => q.category == category)
   place.queries = place.queries.filter((q) => q.category != category)
   if (!query) {
@@ -74,8 +78,8 @@ export const fetchQueries = async (place: Place, positionChanged = false) => {
       promises.push(queryChanged)
     })
   }
-
-  return (await Promise.all(promises)).some((changed) => !!changed)
+  const changed = (await Promise.all(promises)).some((changed) => !!changed)
+  return changed
 }
 
 export const fetchEvents = async (place: Place) => {
