@@ -17,7 +17,7 @@ export const $text = (text: string) => {
       if (word in t) {
         return t[word as WordKey]
       } else {
-        console.error(`Could not translate ${word}`)
+        console.warn(`Could not translate ${word}`)
         return word
       }
     })
@@ -107,6 +107,7 @@ const norwegian = {
   call: 'Ring',
   message: 'Melding',
   email: 'E-post',
+  advices: 'Tiltak',
 } as const
 
 const english = {
@@ -193,4 +194,5 @@ const english = {
   call: 'Call',
   message: 'Message',
   email: 'Email',
+  advices: 'Advices',
 } as const

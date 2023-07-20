@@ -34,6 +34,7 @@ export type Alert = {
   category: Category
   distance: number
   images: string[]
+  advices: string[]
 }
 
 export type AlertResponse = {

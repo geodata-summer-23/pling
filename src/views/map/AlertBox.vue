@@ -6,6 +6,10 @@
         <DistanceIndicator :distance="alert.distance"></DistanceIndicator>
       </div>
       <p>{{ alert.message }}</p>
+      <h4>{{ $t().advices }}</h4>
+      <ul>
+        <li v-for="advice in alert.advices">{{ advice }}</li>
+      </ul>
     </div>
     <div>
       <img
@@ -21,7 +25,7 @@
 <script lang="ts" setup>
 import DistanceIndicator from '@/components/DistanceIndicator.vue'
 import { Alert } from '@/scripts/alert'
-import { $text } from '@/translation'
+import { $t, $text } from '@/translation'
 
 defineProps<{ alert: Alert }>()
 </script>
