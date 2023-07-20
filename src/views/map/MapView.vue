@@ -58,12 +58,9 @@
     </template>
     <div class="col" style="gap: 1em">
       <p style="margin: 0em 2em">
-        Oppsummering av varsler... alksjd a slødkjaslkdj als dalks jdlkasjdlkajs
-        d asløkdjlask jd
+        {{ placeStore.currentPlace.alertSummary }}
       </p>
-      {{ placeStore.currentPlace.alerts }}
-      {{ placeStore.currentPlace.queries }}
-      <EventList
+      <AlertList
         :place="placeStore.currentPlace"
         @select-category="
           (category) => {
@@ -76,7 +73,7 @@
             }
           }
         "
-      ></EventList>
+      ></AlertList>
     </div>
   </SlideUpPane>
 </template>
@@ -84,7 +81,6 @@
 <script lang="ts" setup>
 import Map from './Map.vue'
 import SlideUpPane from '@/components/SlideUpPane.vue'
-import EventList from '../event/EventList.vue'
 import { signIn, useUserStore } from '@/stores/userStore'
 import { useGeolocationStore } from '@/stores/geolocationStore'
 import { Place } from '@/scripts/place'
@@ -103,6 +99,7 @@ import {
 } from '@/scripts/category'
 import { mapObjects } from '@/scripts/map'
 import { queryAllLayers, generateAlerts } from '@/scripts/query'
+import AlertList from './AlertList.vue'
 
 const paneOpen = ref(true)
 const userStore = useUserStore()

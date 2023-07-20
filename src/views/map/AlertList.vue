@@ -19,10 +19,10 @@
 
 <script lang="ts" setup>
 import AlertBox from './AlertBox.vue'
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import { translate } from '@/translation'
 import { Place } from '@/scripts/place'
-import { AlertData } from '@/scripts/alert'
+import { Alert } from '@/scripts/alert'
 import { Category, getCategoryIconSrc } from '@/scripts/category'
 
 defineProps<{ place: Place }>()
@@ -31,16 +31,12 @@ const emit = defineEmits<{
   (e: 'select-category', category: Category): void
 }>()
 
-const selectedAlert = ref<AlertData | null>(null)
+const selectedAlert = ref<Alert | null>(null)
 
-const selectAlert = (event: AlertData) => {
+const selectAlert = (event: Alert) => {
   selectedAlert.value = event
   emit('select-category', event.category)
 }
-
-onMounted(() => {
-  // updateEvents(props.place) // TODO
-})
 </script>
 
 <style scoped>

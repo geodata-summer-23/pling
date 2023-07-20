@@ -1,14 +1,15 @@
 import { $t } from '@/translation'
-import { AlertData, NowcastData, ObservedEvent, Queries } from './alert'
+import { Alert, NowcastData, ObservedEvent, Queries } from './alert'
 
 export type Place = {
   nickname: string
   icon: string
   address: Address
   events: ObservedEvent[]
-  alerts: AlertData[]
   queries: Queries
   nowcast?: NowcastData
+  alertSummary: string
+  alerts: Alert[]
 }
 
 export type Address = {
@@ -30,8 +31,9 @@ export const getDefaultMyLocation = (): Place => ({
   icon: 'location-crosshairs',
   address: { position: {} },
   events: [],
-  alerts: [],
   queries: [],
+  alertSummary: '',
+  alerts: [],
 })
 
 export const getDefaultPlace = (): Place => ({
@@ -39,6 +41,7 @@ export const getDefaultPlace = (): Place => ({
   icon: 'location-dot',
   address: { position: {} },
   events: [],
-  alerts: [],
   queries: [],
+  alertSummary: '',
+  alerts: [],
 })

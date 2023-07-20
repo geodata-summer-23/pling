@@ -25,7 +25,7 @@ export type ObservedEvent = {
   images: string[]
 }
 
-export type AlertData = {
+export type Alert = {
   message: string
   position: Position
   timestamp: number
@@ -42,5 +42,3 @@ export type AlertRequest = {
   place: Place
   user: UserData
 }
-
-export type AlertResponse = {}
