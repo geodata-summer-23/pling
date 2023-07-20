@@ -49,14 +49,17 @@ export const queryFeatureLayers = async (
       data: [],
     }
   }
-  place.queries.push(query)
 
   const features = await Promise.all(
     urls.map((url) => queryFeatureLayer(place, url))
   )
 
   const changed = features.length != query.data.length
-  query.data = features
+  const flatFeatures = features.flat(2)
+  if (flatFeatures.length > 0) {
+    query.data = flatFeatures
+    place.queries.push(query)
+  }
   usePlaceStore().saveToLocalStorage()
   return changed
 }
@@ -106,14 +109,15 @@ export const fetchAlerts = async (place: Place) => {
   alertRequest.place.alertResponse = { alertSummary: '', alerts: [] }
   alertRequest.place.events.forEach((e) => (e.images = []))
 
+  console.log(JSON.stringify(alertRequest))
   const response = await fetch(`${serverUrl}/alerts`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(alertRequest),
   })
   const alertResponse = JSON.parse(await response.json())
+  console.log(alertResponse)
   if (!('detail' in alertResponse)) {
-    console.log(alertResponse)
     place.alertResponse = alertResponse
   }
   usePlaceStore().saveToLocalStorage()
@@ -138,7 +142,6 @@ export const fetchNowcast = async (place: Place) => {
     symbol:
       resJson.properties.timeseries[0].data.next_1_hours.summary.symbol_code,
   } satisfies NowcastData
-  console.log(nowcast)
   const changed = JSON.stringify(nowcast) != JSON.stringify(place.nowcast)
   place.nowcast = nowcast
   return changed

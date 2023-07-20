@@ -33,7 +33,7 @@ export type CategoryOption = {
 
 export const getCategoryOptions = (): CategoryOption[] => [
   {
-    title: $t().rainflood,
+    title: $t().rainFlood,
     layerId: '1894a0de007-layer-22',
     description:
       'Veien vannet tar når det er styrtregn. Styrtregn er intense regnbyger som kan skape lokal oversvømmelse i lavtliggende steder.',
