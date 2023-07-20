@@ -74,13 +74,17 @@ export const usePlaceStore = defineStore('place', {
 
 export const updatePlace = throttle(
   async (place: Place, positionChanged = false) => {
+    if (!place.address.position.latitude || !place.address.position.latitude) {
+      return
+    }
     const promises: Promise<boolean>[] = []
     promises.push(fetchEvents(place))
     promises.push(fetchNowcast(place))
     promises.push(fetchQueries(place, positionChanged))
     const anyChanged = (await Promise.all(promises)).some((change) => !!change)
 
-    if (anyChanged) {
+    if (anyChanged || true) {
+      // TODO!
       await fetchAlerts(place)
     }
   },

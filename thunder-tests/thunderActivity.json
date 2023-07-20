@@ -1,0 +1,40 @@
+[
+    {
+        "_id": "5152b95a-e702-428c-89bb-f5ec3be085ad",
+        "colId": "history",
+        "containerId": "",
+        "name": "https://varslingstjenesten-server.varslingstjenesten.geodataonline.no/alerts",
+        "url": "https://varslingstjenesten-server.varslingstjenesten.geodataonline.no/alerts",
+        "method": "GET",
+        "sortNum": 0,
+        "created": "2023-07-20T12:46:10.513Z",
+        "modified": "2023-07-20T12:46:10.513Z",
+        "headers": [],
+        "params": [],
+        "body": {
+            "type": "json",
+            "raw": "{\r\n  \"user\": {\r\n    \"guid\": \"DREqpbsxxrRXwmsmbwMB4\",\r\n    \"signedInToArcGis\": true,\r\n    \"firstName\": \"Magne\",\r\n    \"lastName\": \"Tenstad\",\r\n    \"email\": \"magneet@stud.ntnu.no\",\r\n    \"phoneNumber\": \"+4745080501\",\r\n    \"birthday\": \"2001-06-07T22:00:00.000Z\",\r\n    \"language\": \"norwegian\"\r\n  },\r\n  \"place\": {\r\n    \"nickname\": \"Min Lokasjon\",\r\n    \"icon\": \"location-crosshairs\",\r\n    \"address\": {\r\n      \"position\": {\r\n        \"latitude\": 59.91038088560636,\r\n        \"longitude\": 10.762952091435297\r\n      },\r\n      \"street\": \"Schweigaards gate 26\",\r\n      \"postalCode\": \"0191\",\r\n      \"city\": \"Oslo\"\r\n    },\r\n    \"events\": [\r\n      {\r\n        \"timeCreated\": 1689771666.4898274,\r\n        \"timeUpdated\": 1689771666.489829,\r\n        \"position\": {\r\n          \"latitude\": 59.96449814730059,\r\n          \"longitude\": 10.730008850365882\r\n        },\r\n        \"category\": \"temperature\",\r\n        \"summary\": \"No summary\",\r\n        \"messages\": [],\r\n        \"images\": [],\r\n        \"distance\": 6293\r\n      }\r\n    ],\r\n    \"queries\": [\r\n      {\r\n        \"category\": \"met-alerts\",\r\n        \"data\": [\r\n          [\r\n            {\r\n              \"OBJECTID\": 3513,\r\n              \"event\": \"rainFlood\",\r\n              \"eventAwarenessName\": \"Styrtregn\",\r\n              \"id\": \"2.49.0.1.578.0.20230711063635.007\",\r\n              \"severity\": \"Moderate\",\r\n              \"awarenessType\": \"13; rain-flood\",\r\n              \"awarenessLevel\": \"2; yellow; Moderate\",\r\n              \"startTime\": 1689163200000,\r\n              \"endTime\": 1689192000000,\r\n              \"timeFetched\": 1689851096000,\r\n              \"consequences\": \"Fare for overvann i tettbygde områder, lokale oversvømmelser, bekke- og elveløpsendringer, jord- og flomskred der regnbygene treffer. Lokalt vanskelige kjøreforhold grunnet overvann og fare for vannplaning. \",\r\n              \"GlobalID\": \"27457598-4e3a-4afb-bdac-c9f7727bd8db\",\r\n              \"CreationDate\": 1689851096898,\r\n              \"Creator\": \"sommer_iver\",\r\n              \"Editor\": \"sommer_iver\",\r\n              \"title\": \"Styrtregn, gult nivå, Deler av Østlandet, 2023-07-12T12:00:00+00:00, 2023-07-12T20:00:00+00:00\",\r\n              \"instruction\": \"Hold deg oppdatert om utviklingen av været og værvarselet. Følg med på værradar. Rensing av dreneringsveier og stikkrenner anbefales slik at vannet kan renne unna. Sjekk veimeldinger (175.no). Tilpass farten og kjør etter forholdene. \",\r\n              \"description\": \"Alert: Kraftige regnbyger ventes i ditt område. Det er lokale variasjoner i intensitet og mengde, og været kan endres raskt. Nedbørens plassering er usikker. Lokalt er nedbøren ventet å passere 20 mm/1t.\",\r\n              \"area\": \"Deler av Østlandet\"\r\n            }\r\n          ]\r\n        ]\r\n      }\r\n    ],\r\n    \"alertResponse\": { \"alertSummary\": \"\", \"alerts\": [] },\r\n    \"nowcast\": {\r\n      \"airTemperature\": 21.7,\r\n      \"precipitationRate\": 0,\r\n      \"windSpeed\": 2.2,\r\n      \"windDirection\": 230.4,\r\n      \"gustSpeed\": 6,\r\n      \"symbol\": \"partlycloudy_day\"\r\n    }\r\n  }\r\n}\r\n",
+            "form": []
+        },
+        "tests": []
+    },
+    {
+        "_id": "6686b0a1-02d3-4c7e-b2dc-aad0b6107ab6",
+        "colId": "history",
+        "containerId": "",
+        "name": "https://varslingstjenesten-server.varslingstjenesten.geodataonline.no/alerts",
+        "url": "https://varslingstjenesten-server.varslingstjenesten.geodataonline.no/alerts",
+        "method": "POST",
+        "sortNum": 0,
+        "created": "2023-07-20T12:46:17.708Z",
+        "modified": "2023-07-20T12:47:24.473Z",
+        "headers": [],
+        "params": [],
+        "body": {
+            "type": "json",
+            "raw": "{\"user\":{\"guid\":\"DREqpbsxxrRXwmsmbwMB4\",\"signedInToArcGis\":true,\"firstName\":\"Magne\",\"lastName\":\"Tenstad\",\"email\":\"magneet@stud.ntnu.no\",\"phoneNumber\":\"+4745080501\",\"birthday\":\"2001-06-07T22:00:00.000Z\",\"language\":\"norwegian\"},\"place\":{\"nickname\":\"Geodata\",\"icon\":\"building\",\"address\":{\"position\":{\"latitude\":59.9103588648664,\"longitude\":10.762880738229182},\"street\":\"Schweigaards gate 26\",\"postalCode\":\"0191\",\"city\":\"Oslo\"},\"events\":[{\"timeCreated\":1689771666.4898274,\"timeUpdated\":1689771666.489829,\"position\":{\"latitude\":59.96449814730059,\"longitude\":10.730008850365882},\"category\":\"temperature\",\"summary\":\"No summary\",\"messages\":[],\"images\":[],\"distance\":6294}],\"queries\":[{\"category\":\"rain-flood\",\"data\":[]},{\"category\":\"flood\",\"data\":[]},{\"category\":\"temperature\",\"data\":[[{\"FID\":715,\"Id\":715,\"gridcode\":4,\"Shape__Area\":88369292.47949219,\"Shape__Length\":345002.35490815167}]]},{\"category\":\"falling-wind\",\"data\":[]},{\"category\":\"quick-clay\",\"data\":[]},{\"category\":\"storm-surge\",\"data\":[[]]},{\"category\":\"sea-rise\",\"data\":[]},{\"category\":\"met-alerts\",\"data\":[[{\"OBJECTID\":3513,\"event\":\"rainFlood\",\"eventAwarenessName\":\"Styrtregn\",\"id\":\"2.49.0.1.578.0.20230711063635.007\",\"severity\":\"Moderate\",\"awarenessType\":\"13; rain-flood\",\"awarenessLevel\":\"2; yellow; Moderate\",\"startTime\":1689163200000,\"endTime\":1689192000000,\"timeFetched\":1689851096000,\"consequences\":\"Fare for overvann i tettbygde områder, lokale oversvømmelser, bekke- og elveløpsendringer, jord- og flomskred der regnbygene treffer. Lokalt vanskelige kjøreforhold grunnet overvann og fare for vannplaning. \",\"GlobalID\":\"27457598-4e3a-4afb-bdac-c9f7727bd8db\",\"CreationDate\":1689851096898,\"Creator\":\"sommer_iver\",\"Editor\":\"sommer_iver\",\"title\":\"Styrtregn, gult nivå, Deler av Østlandet, 2023-07-12T12:00:00+00:00, 2023-07-12T20:00:00+00:00\",\"instruction\":\"Hold deg oppdatert om utviklingen av været og værvarselet. Følg med på værradar. Rensing av dreneringsveier og stikkrenner anbefales slik at vannet kan renne unna. Sjekk veimeldinger (175.no). Tilpass farten og kjør etter forholdene. \",\"description\":\"Alert: Kraftige regnbyger ventes i ditt område. Det er lokale variasjoner i intensitet og mengde, og været kan endres raskt. Nedbørens plassering er usikker. Lokalt er nedbøren ventet å passere 20 mm/1t.\",\"area\":\"Deler av Østlandet\"}]]}],\"alertResponse\":{\"alertSummary\":\"\",\"alerts\":[]},\"nowcast\":{\"airTemperature\":21.9,\"precipitationRate\":0,\"windSpeed\":2.3,\"windDirection\":275.4,\"gustSpeed\":5.9,\"symbol\":\"partlycloudy_day\"}}}",
+            "form": []
+        },
+        "tests": []
+    }
+]
