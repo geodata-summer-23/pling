@@ -7,13 +7,13 @@
 <script lang="ts" setup>
 import EventBox from './EventBox.vue'
 import { onMounted } from 'vue'
-import { updateEvents } from '@/stores/placeStore'
+import { updatePlace } from '@/stores/placeStore'
 import { Place } from '@/scripts/place'
 
 const props = defineProps<{ place: Place }>()
 
 onMounted(() => {
-  updateEvents(props.place)
+  updatePlace(props.place)
 })
 </script>
 

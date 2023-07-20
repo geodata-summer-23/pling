@@ -1,6 +1,5 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import proj4 from 'proj4'
-import { serverUrl } from '@/scripts/url'
 import {
   Place,
   Position,
@@ -8,7 +7,13 @@ import {
   getDefaultPlace,
 } from '../scripts/place'
 import { AddressResult } from '@/scripts/search'
-import { queryAllLayers } from '@/scripts/query'
+import {
+  fetchAlerts,
+  fetchEvents,
+  fetchNowcast,
+  fetchQueries,
+} from '@/scripts/query'
+import throttle from 'lodash.throttle'
 
 export const usePlaceStore = defineStore('place', {
   state: () => ({
@@ -21,6 +26,7 @@ export const usePlaceStore = defineStore('place', {
     addPlace(place: Place) {
       Object.assign(place.address.position, getLatLng(place.address.position))
       this.places.push(place)
+      updatePlace(place, true)
       this.saveToLocalStorage()
     },
     removePlace(place: Place) {
@@ -40,8 +46,6 @@ export const usePlaceStore = defineStore('place', {
       }
       const defaultPlace = getDefaultPlace()
       this.places.forEach((place) => {
-        place.queries = []
-        place.events = []
         if (!place.icon) {
           place.icon = defaultPlace.icon
         }
@@ -52,8 +56,7 @@ export const usePlaceStore = defineStore('place', {
             )
           }
         })
-        updateEvents(place)
-        queryAllLayers(place)
+        updatePlace(place)
       })
       this.currentPlace = this.places[0]
       navigator.geolocation.getCurrentPosition(async (position) => {
@@ -69,15 +72,20 @@ export const usePlaceStore = defineStore('place', {
   },
 })
 
-export const updateEvents = async (place: Place) => {
-  if (!place.address.position?.latitude || !place.address.position?.longitude)
-    return
-  const response = await fetch(
-    `${serverUrl}/events?lat=${place.address.position?.latitude}&lon=${place.address.position?.longitude}`,
-    { headers: { 'Content-Type': 'application/json' } }
-  )
-  place.events = JSON.parse(await response.json())
-}
+export const updatePlace = throttle(
+  async (place: Place, positionChanged = false) => {
+    const promises: Promise<boolean>[] = []
+    promises.push(fetchEvents(place))
+    promises.push(fetchNowcast(place))
+    promises.push(fetchQueries(place, positionChanged))
+    const anyChanged = (await Promise.all(promises)).some((change) => !!change)
+    if (anyChanged) {
+      await fetchAlerts(place)
+    }
+  },
+  10000
+  // { trailing: false }
+)
 
 const getLatLng = (position: Position) => {
   if (!position.x || !position.y) return

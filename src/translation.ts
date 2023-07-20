@@ -10,6 +10,7 @@ type WordKey = keyof ReturnType<typeof $t>
 
 export const translate = (text: string) => {
   const t = $t()
+  if (!text) return ''
   return text
     .split(' ')
     .map((word) => (word in t ? t[word as WordKey] : '?'))

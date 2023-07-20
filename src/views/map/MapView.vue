@@ -91,14 +91,13 @@ import { useModalStore } from '@/stores/modalStore'
 import CategorySelect from './CategorySelect.vue'
 import MapInfo from './MapInfo.vue'
 import IconButton from '@/components/IconButton.vue'
-import { usePlaceStore } from '@/stores/placeStore'
+import { usePlaceStore, updatePlace } from '@/stores/placeStore'
 import {
   CategoryOption,
   getCategoryIconSrc,
   getCategoryOptions,
 } from '@/scripts/category'
 import { mapObjects } from '@/scripts/map'
-import { queryAllLayers, generateAlerts } from '@/scripts/query'
 import AlertList from './AlertList.vue'
 
 const paneOpen = ref(true)
@@ -130,12 +129,11 @@ onActivated(() => {
 
 const selectPlace = (place: Place) => {
   placeStore.currentPlace = place
-  queryAllLayers(placeStore.currentPlace)
   // Trigger watch
   placeStore.currentPlace.address.position = {
     ...placeStore.currentPlace.address.position,
   }
-  generateAlerts(place)
+  updatePlace(place)
 }
 
 const selectResultAndClear = (result: AddressResult) => {

@@ -39,13 +39,12 @@
 <script lang="ts" setup>
 import WeatherNowcast from './WeatherNowcast.vue'
 import CoordinatesText from '@/components/CoordinatesText.vue'
-import { usePlaceStore } from '@/stores/placeStore'
+import { updatePlace, usePlaceStore } from '@/stores/placeStore'
 import { computed } from 'vue'
 import { router } from '@/router'
 import { maxChars } from '@/scripts/string'
 import { useLoadingStore } from '@/stores/loadingStore'
 import { Place } from '@/scripts/place'
-import { queryAllLayers } from '@/scripts/query'
 
 const placeStore = usePlaceStore()
 const props = defineProps<{
@@ -62,7 +61,7 @@ const clickPlace = (place: Place) => {
   if (place.address.position && placeStore.currentPlace != place) {
     useLoadingStore().mapIsLoading = true
     placeStore.currentPlace = place
-    queryAllLayers(placeStore.currentPlace)
+    updatePlace(placeStore.currentPlace)
   }
   if (props.edit) {
     if (!props.isMyLocation) {
