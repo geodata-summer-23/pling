@@ -3,9 +3,11 @@ import { Place, Position } from './place'
 import { Category } from './category'
 
 export type NowcastData = {
-  temperature: number
-  precipitation: number
-  unit: string
+  airTemperature: number
+  precipitationRate: number
+  windDirection: number
+  windSpeed: number
+  gustSpeed: number
   symbol: string
 }
 

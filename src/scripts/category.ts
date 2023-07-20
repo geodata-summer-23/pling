@@ -2,7 +2,7 @@ import { $t } from '@/translation'
 
 export type Category =
   | 'flood'
-  | 'rainflood'
+  | 'rain-flood'
   | 'temperature'
   | 'falling-wind'
   | 'quick-clay'
@@ -37,7 +37,7 @@ export const getCategoryOptions = (): CategoryOption[] => [
     layerId: '1894a0de007-layer-22',
     description:
       'Veien vannet tar når det er styrtregn. Styrtregn er intense regnbyger som kan skape lokal oversvømmelse i lavtliggende steder.',
-    category: 'rainflood',
+    category: 'rain-flood',
     faIcon: 'cloud-showers-heavy',
     featureLayers: [],
   },

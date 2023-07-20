@@ -126,13 +126,13 @@ export const fetchNowcast = async (place: Place) => {
     `${serverUrl}/met/nowcast?lat=${position.latitude}&lon=${position.longitude}`
   )
   const resJson = await response.json()
+  const details = resJson.properties.timeseries[0].data.instant.details
   const nowcast = {
-    temperature:
-      resJson.properties.timeseries[0].data.instant.details.air_temperature,
-    precipitation:
-      resJson.properties.timeseries[0].data.next_1_hours.details
-        .precipitation_amount,
-    unit: resJson.properties.meta.units,
+    airTemperature: details.air_temperature,
+    precipitationRate: details.precipitation_amount,
+    windSpeed: details.wind_speed,
+    windDirection: details.wind_from_direction,
+    gustSpeed: details.wind_speed_of_gust,
     symbol:
       resJson.properties.timeseries[0].data.next_1_hours.summary.symbol_code,
   } satisfies NowcastData
