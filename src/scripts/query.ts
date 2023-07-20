@@ -109,11 +109,15 @@ export const fetchAlerts = async (place: Place) => {
 
   const response = await fetch(`${serverUrl}/alerts`, {
     method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(alertRequest),
   })
+  console.log(response)
   const alertResponse = await response.json()
   console.log(alertResponse)
-  place.alertResponse = alertResponse
+  if (!('detail' in alertResponse)) {
+    place.alertResponse = alertResponse
+  }
   usePlaceStore().saveToLocalStorage()
 }
 
@@ -136,6 +140,7 @@ export const fetchNowcast = async (place: Place) => {
     symbol:
       resJson.properties.timeseries[0].data.next_1_hours.summary.symbol_code,
   } satisfies NowcastData
+  console.log(nowcast)
   const changed = JSON.stringify(nowcast) != JSON.stringify(place.nowcast)
   place.nowcast = nowcast
   return changed
