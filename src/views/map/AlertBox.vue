@@ -20,10 +20,10 @@
 
 <script lang="ts" setup>
 import DistanceIndicator from '@/components/DistanceIndicator.vue'
-import { AlertData } from '@/scripts/alert'
+import { Alert } from '@/scripts/alert'
 import { translate } from '@/translation'
 
-defineProps<{ alert: AlertData }>()
+defineProps<{ alert: Alert }>()
 </script>
 
 <style scoped>

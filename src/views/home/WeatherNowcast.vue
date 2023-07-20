@@ -6,7 +6,7 @@
     <LoadingSpinner :scale="0.5"></LoadingSpinner>
   </div> -->
   <div v-if="nowcastData" class="row center" style="width: 6em; gap: 0.5em">
-    <span>{{ nowcastData.temperature }}°</span>
+    <span>{{ nowcastData.airTemperature }}°</span>
     <img
       v-if="nowcastData.symbol"
       :src="`./weatherIcons/${nowcastData.symbol}.svg`"

@@ -2,7 +2,7 @@
   <div class="col">
     <div class="row" style="gap: 0.5em">
       <div
-        v-for="alert in place.alerts"
+        v-for="alert in place.alertResponse.alerts"
         class="row center alert-tab"
         :class="{ selected: selectedAlert == alert }"
         style="gap: 0.5em"

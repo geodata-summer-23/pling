@@ -58,7 +58,7 @@
     </template>
     <div class="col" style="gap: 1em">
       <p style="margin: 0em 2em">
-        {{ placeStore.currentPlace.alertSummary }}
+        {{ placeStore.currentPlace.alertResponse.alertSummary }}
       </p>
       <AlertList
         :place="placeStore.currentPlace"
