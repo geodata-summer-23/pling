@@ -105,17 +105,15 @@ export const fetchAlerts = async (place: Place) => {
   )
   alertRequest.place.alertResponse = { alertSummary: '', alerts: [] }
   alertRequest.place.events.forEach((e) => (e.images = []))
-  console.log(JSON.stringify(alertRequest))
 
   const response = await fetch(`${serverUrl}/alerts`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(alertRequest),
   })
-  console.log(response)
-  const alertResponse = await response.json()
-  console.log(alertResponse)
+  const alertResponse = JSON.parse(await response.json())
   if (!('detail' in alertResponse)) {
+    console.log(alertResponse)
     place.alertResponse = alertResponse
   }
   usePlaceStore().saveToLocalStorage()

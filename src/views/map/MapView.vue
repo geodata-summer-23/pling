@@ -57,23 +57,28 @@
       />
     </template>
     <div class="col" style="gap: 1em">
-      <p style="margin: 0em 2em">
-        {{ placeStore.currentPlace.alertResponse.alertSummary }}
-      </p>
-      <AlertList
-        :place="placeStore.currentPlace"
-        @select-category="
-          (category) => {
-            const option = getCategoryOptions().find(
-              (option) => option.category == category
-            )
-            if (option) {
-              selectCategoryOption(option)
-              shakeInfoButton()
+      <div v-if="placeStore.currentPlace.alertResponse.alertSummary.length > 0">
+        <p style="margin: 0em 2em">
+          {{ placeStore.currentPlace.alertResponse.alertSummary }}
+        </p>
+        <AlertList
+          :place="placeStore.currentPlace"
+          @select-category="
+            (category) => {
+              const option = getCategoryOptions().find(
+                (option) => option.category == category
+              )
+              if (option) {
+                selectCategoryOption(option)
+                shakeInfoButton()
+              }
             }
-          }
-        "
-      ></AlertList>
+          "
+        ></AlertList>
+      </div>
+      <div v-else class="col center">
+        <LoadingSpinner></LoadingSpinner>
+      </div>
     </div>
   </SlideUpPane>
 </template>
@@ -99,6 +104,7 @@ import {
 } from '@/scripts/category'
 import { mapObjects } from '@/scripts/map'
 import AlertList from './AlertList.vue'
+import LoadingSpinner from '@/components/LoadingSpinner.vue'
 
 const paneOpen = ref(true)
 const userStore = useUserStore()
