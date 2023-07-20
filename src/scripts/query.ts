@@ -129,14 +129,13 @@ export const fetchNowcast = async (place: Place) => {
   const details = resJson.properties.timeseries[0].data.instant.details
   const nowcast = {
     airTemperature: details.air_temperature,
-    precipitationRate: details.precipitation_amount,
+    precipitationRate: details.precipitation_rate,
     windSpeed: details.wind_speed,
     windDirection: details.wind_from_direction,
     gustSpeed: details.wind_speed_of_gust,
     symbol:
       resJson.properties.timeseries[0].data.next_1_hours.summary.symbol_code,
   } satisfies NowcastData
-
   const changed = JSON.stringify(nowcast) != JSON.stringify(place.nowcast)
   place.nowcast = nowcast
   return changed
