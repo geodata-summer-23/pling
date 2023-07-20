@@ -34,6 +34,11 @@ export type Alert = {
   images: string[]
 }
 
+export type AlertResponse = {
+  alertSummary: string
+  alerts: Alert[]
+}
+
 export type FeatureQuery = { category: Category; data: Record<string, any>[] }
 
 export type Queries = FeatureQuery[]

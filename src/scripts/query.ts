@@ -99,7 +99,7 @@ export const fetchAlerts = async (place: Place) => {
       place,
     })
   )
-  alertRequest.place.alerts = []
+  alertRequest.place.alertResponse = { alertSummary: '', alerts: [] }
   alertRequest.place.events.forEach((e) => (e.images = []))
   console.log(JSON.stringify(alertRequest))
 
@@ -107,9 +107,9 @@ export const fetchAlerts = async (place: Place) => {
     method: 'POST',
     body: JSON.stringify(alertRequest),
   })
-  const alerts = await response.json()
-  console.log(alerts)
-  place.alerts = alerts
+  const alertResponse = await response.json()
+  console.log(alertResponse)
+  place.alertResponse = alertResponse
   usePlaceStore().saveToLocalStorage()
 }
 
