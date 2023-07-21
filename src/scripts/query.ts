@@ -23,7 +23,7 @@ const queryFeatureLayer = async (place: Place, url: string) => {
     geometry: new Point({ latitude, longitude }),
     outFields: ['*'], // Attributes to return
     returnGeometry: false,
-    distance: 50,
+    distance: 500,
   })
 
   return results.features.map((f) => f.toJSON().attributes)

@@ -19,7 +19,7 @@
   </div>
   <SlideUpPane
     v-if="placeStore.currentPlace"
-    title="Varsler"
+    :title="$t().alerts"
     hide-mode="show-top"
     :show="paneOpen"
     @show="paneOpen = true"
@@ -58,7 +58,7 @@
     </template>
     <div class="col" style="gap: 1em">
       <div v-if="placeStore.currentPlace.alertResponse.alertSummary.length > 0">
-        <p style="margin: 0em 2em">
+        <p style="margin: 1em 2em">
           {{ placeStore.currentPlace.alertResponse.alertSummary }}
         </p>
         <AlertList

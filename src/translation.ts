@@ -69,6 +69,7 @@ const norwegian = {
   flood: 'Flom',
   rainFlood: 'Styrtregn',
   temperatureMap: 'Temperaturkart',
+  temperature: 'Temperatur',
   fire: 'Brann',
   windDamage: 'Skade fra vind',
   fallingWind: 'Fallvind',
@@ -108,6 +109,7 @@ const norwegian = {
   message: 'Melding',
   email: 'E-post',
   advices: 'Tiltak',
+  alerts: 'Varsler',
 } as const
 
 const english = {
@@ -155,6 +157,7 @@ const english = {
   flood: 'Flood',
   rainFlood: 'Torrential rain',
   temperatureMap: 'Temperaturkart',
+  temperature: 'Temperatur',
   fire: 'Fire',
   windDamage: 'Wind damage',
   windSouth: 'Wind from south',
@@ -195,4 +198,5 @@ const english = {
   message: 'Message',
   email: 'Email',
   advices: 'Advices',
+  alerts: 'Varsler',
 } as const

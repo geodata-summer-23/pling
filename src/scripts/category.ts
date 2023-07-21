@@ -18,7 +18,7 @@ export const getCategoryIconSrc = (category: Category) => {
     case 'other':
       return './warningIcons/icon-warning-extreme.svg'
     default:
-      return `./warningIcons/icon-warning-${category}-red.svg`
+      return `./warningIcons/icon-warning-${category.toLowerCase()}-red.svg`
   }
 }
 

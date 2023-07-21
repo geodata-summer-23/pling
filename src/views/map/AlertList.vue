@@ -1,6 +1,7 @@
 <template>
   <div class="col">
-    <div class="row" style="gap: 0.5em">
+    <h3 style="margin: 0em 2em">{{ $t().category }}</h3>
+    <div class="row" style="gap: 0.5em; overflow: auto; padding-inline: 2em">
       <div
         v-for="alert in place.alertResponse.alerts"
         class="row center alert-tab"
@@ -20,7 +21,7 @@
 <script lang="ts" setup>
 import AlertBox from './AlertBox.vue'
 import { ref } from 'vue'
-import { $text } from '@/translation'
+import { $t, $text } from '@/translation'
 import { Place } from '@/scripts/place'
 import { Alert } from '@/scripts/alert'
 import { Category, getCategoryIconSrc } from '@/scripts/category'
@@ -46,7 +47,7 @@ const selectAlert = (event: Alert) => {
   color: var(--c-dark-gray);
   border-radius: 0.5em;
   border: 1px solid var(--c-medium-gray);
-  border-bottom: none;
+  height: 3em;
 }
 
 .alert-tab.selected {
