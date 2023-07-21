@@ -38,7 +38,6 @@ export const usePlaceStore = defineStore('place', {
     },
     loadFromLocalStorage() {
       this.places = JSON.parse(localStorage.getItem('places') ?? '[]')
-      console.log(this.places)
       if (this.places.length == 0) {
         this.places.push(getDefaultMyLocation())
       } else {
@@ -74,11 +73,9 @@ export const usePlaceStore = defineStore('place', {
 })
 
 export const updatePlace = async (place: Place, force = false) => {
-  console.log(place.nickname)
   if (!place.address.position.latitude || !place.address.position.latitude) {
     return
   }
-  console.log(place.nickname)
   const promises: Promise<boolean>[] = []
   promises.push(fetchEvents(place))
   promises.push(fetchNowcast(place))

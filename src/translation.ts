@@ -110,6 +110,10 @@ const norwegian = {
   email: 'E-post',
   advices: 'Tiltak',
   alerts: 'Varsler',
+  lightning: 'Lyn',
+  forestFire: 'Skogbrann',
+  gale: 'Kuling',
+  dangerOf: 'Fare for ',
 } as const
 
 const english = {
@@ -199,4 +203,8 @@ const english = {
   email: 'Email',
   advices: 'Advices',
   alerts: 'Varsler',
+  lightning: 'Lightning',
+  forestFire: 'Skogbrann',
+  gale: 'Gale',
+  dangerOf: 'Danger: ',
 } as const

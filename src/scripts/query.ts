@@ -63,8 +63,8 @@ export const queryFeatureLayers = async (
 
   const changed = features.length != query.data.length
   const flatFeatures = features.flat(2)
-  console.log(`place: ${place.nickname} category: ${category}, result:`)
-  console.log(features)
+  // console.log(`place: ${place.nickname} category: ${category}, result:`)
+  // console.log(features)
   if (flatFeatures.length > 0) {
     query.data = flatFeatures
     place.queries.push(query)
@@ -154,7 +154,6 @@ export const fetchNowcast = async (place: Place) => {
       resJson.properties.timeseries[0].data.next_1_hours.summary.symbol_code ??
       '',
   } satisfies NowcastData
-  console.log(nowcast)
   const changed = JSON.stringify(nowcast) != JSON.stringify(place.nowcast)
   place.nowcast = nowcast
   return changed

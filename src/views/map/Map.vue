@@ -92,6 +92,7 @@ import LoadingSpinner from '@/components/LoadingSpinner.vue'
 import { AddressResult } from '@/scripts/search'
 import { Category, getCategoryIconSrc } from '@/scripts/category'
 import { ViewClickEvent, mapObjects } from '@/scripts/map'
+import MapClickInfo from '@/components/MapClickInfo.vue'
 
 const props = defineProps<{
   center: Position | null
@@ -137,6 +138,23 @@ onMounted(() => {
   mapObjects.mapView.on('click', (event) => {
     event.stopPropagation() // Disable default click handler
     useLoadingStore().mapIsLoading = false
+    // console.log(JSON.stringify(event))
+    mapObjects.mapView?.hitTest({ x: event.x, y: event.y }).then((response) => {
+      if (response.results.length) {
+        var result = response.results.find((result) =>
+          result.layer.title.includes('MetAlerts')
+        )
+        // @ts-ignore
+        const event = result?.graphic?.attributes?.event
+        if (event) {
+          useModalStore().push(
+            MapClickInfo,
+            { title: event, description: '' },
+            {}
+          )
+        }
+      }
+    })
     emit('click', event)
   })
 
