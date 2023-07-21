@@ -1,6 +1,6 @@
 <template>
   <div class="col">
-    <h3 style="margin: 0em 2em">{{ $t().category }}</h3>
+    <h3 v-if="selectedAlert" style="margin: 0em 2em">{{ $t().category }}</h3>
     <div class="row" style="gap: 0.5em; overflow: auto; padding-inline: 2em">
       <div
         v-for="alert in place.alertResponse.alerts"
@@ -20,13 +20,13 @@
 
 <script lang="ts" setup>
 import AlertBox from './AlertBox.vue'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { $t, $text } from '@/translation'
 import { Place } from '@/scripts/place'
 import { Alert } from '@/scripts/alert'
 import { Category, getCategoryIconSrc } from '@/scripts/category'
 
-defineProps<{ place: Place }>()
+const props = defineProps<{ place: Place }>()
 
 const emit = defineEmits<{
   (e: 'select-category', category: Category): void
@@ -38,6 +38,17 @@ const selectAlert = (event: Alert) => {
   selectedAlert.value = event
   emit('select-category', event.category)
 }
+
+watch(
+  () => props.place,
+  (place) => {
+    selectedAlert.value =
+      place.alertResponse.alerts.length > 0
+        ? place.alertResponse.alerts[0]
+        : null
+  },
+  { immediate: true }
+)
 </script>
 
 <style scoped>

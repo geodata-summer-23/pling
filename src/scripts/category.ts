@@ -21,14 +21,14 @@ export const getCategoryIconSrc = (category: Category) => {
       return `./warningIcons/icon-warning-${category.toLowerCase()}-red.svg`
   }
 }
-
+export type FeatureLayerUrls = Record<string, { url: string; radius: number }>
 export type CategoryOption = {
   title: string
   layerId: string
   description: string
   category: Category
   faIcon: string
-  featureLayers: string[]
+  featureLayers: FeatureLayerUrls
 }
 
 export const getCategoryOptions = (): CategoryOption[] => [
@@ -39,7 +39,12 @@ export const getCategoryOptions = (): CategoryOption[] => [
       'Veien vannet tar når det er styrtregn. Styrtregn er intense regnbyger som kan skape lokal oversvømmelse i lavtliggende steder.',
     category: 'rainFlood',
     faIcon: 'cloud-showers-heavy',
-    featureLayers: [],
+    featureLayers: {
+      buildings: {
+        url: 'https://utility.arcgis.com/usrsvcs/servers/5ba98478f7bd4abf9ffb28797f391d26/rest/services/Geomap_UTM33_EUREF89/GeomapGRIP/MapServer/1',
+        radius: 0,
+      },
+    },
   },
   {
     title: $t().flood,
@@ -47,9 +52,9 @@ export const getCategoryOptions = (): CategoryOption[] => [
     description: 'Områder som kan bli under vann hvis vannivået i elver øker.',
     category: 'flood',
     faIcon: 'water',
-    featureLayers: [
-      'https://utility.arcgis.com/usrsvcs/servers/811c02c15905411d89f2a6e3bcda6399/rest/services/Geomap_UTM33_EUREF89/GeomapFlom/MapServer/1',
-    ],
+    featureLayers: {
+      // 'https://utility.arcgis.com/usrsvcs/servers/811c02c15905411d89f2a6e3bcda6399/rest/services/Geomap_UTM33_EUREF89/GeomapFlom/MapServer/1',
+    },
   },
   {
     title: $t().temperatureMap,
@@ -57,9 +62,12 @@ export const getCategoryOptions = (): CategoryOption[] => [
     description: 'Variasjonen i temperatur på en sommerdag med sol.',
     category: 'temperature',
     faIcon: 'temperature-high',
-    featureLayers: [
-      'https://services.arcgis.com/2JyTvMWQSnM2Vi8q/arcgis/rest/services/Temperatur_Hele/FeatureServer',
-    ],
+    featureLayers: {
+      temperature: {
+        url: 'https://services.arcgis.com/2JyTvMWQSnM2Vi8q/arcgis/rest/services/Temperatur_Hele/FeatureServer',
+        radius: 50,
+      },
+    },
   },
   {
     title: $t().fallingWind,
@@ -68,7 +76,28 @@ export const getCategoryOptions = (): CategoryOption[] => [
       'Fallvind er en kraftig vindstrøm som beveger seg nedover fra høyere luftlag mot bakken.',
     category: 'fallingWind',
     faIcon: 'wind',
-    featureLayers: [],
+    featureLayers: {
+      buildings: {
+        url: 'https://services.arcgis.com/2JyTvMWQSnM2Vi8q/arcgis/rest/services/Usatte%20Bygg%20Alle/FeatureServer',
+        radius: 0,
+      },
+      south: {
+        url: 'https://services.arcgis.com/2JyTvMWQSnM2Vi8q/arcgis/rest/services/Sordavind_Polygon/FeatureServer',
+        radius: 50,
+      },
+      north: {
+        url: 'https://services.arcgis.com/2JyTvMWQSnM2Vi8q/arcgis/rest/services/Nordavind_Polygon/FeatureServer',
+        radius: 50,
+      },
+      east: {
+        url: 'https://services.arcgis.com/2JyTvMWQSnM2Vi8q/arcgis/rest/services/Vest_minus_ost/FeatureServer',
+        radius: 50,
+      },
+      west: {
+        url: 'https://services.arcgis.com/2JyTvMWQSnM2Vi8q/arcgis/rest/services/Ost_minus_vest/FeatureServer',
+        radius: 50,
+      },
+    },
   },
   {
     title: $t().quickClay,
@@ -76,9 +105,9 @@ export const getCategoryOptions = (): CategoryOption[] => [
     description: 'Områder utsatt for kvikkleireskred.',
     category: 'quickClay',
     faIcon: 'hill-rockslide',
-    featureLayers: [
-      'https://utility.arcgis.com/usrsvcs/servers/ec96f664795c4ff4843ee086069bb7ab/rest/services/Geomap_UTM33_EUREF89/GeomapSkred/MapServer/21',
-    ],
+    featureLayers: {
+      // 'https://utility.arcgis.com/usrsvcs/servers/ec96f664795c4ff4843ee086069bb7ab/rest/services/Geomap_UTM33_EUREF89/GeomapSkred/MapServer/21',
+    },
   },
   {
     title: $t().stormSurge,
@@ -87,9 +116,12 @@ export const getCategoryOptions = (): CategoryOption[] => [
       'Bygg som kan få vanninntrenging fra sjøen i 2090 ved stormfulle værforhold.',
     category: 'stormSurge',
     faIcon: 'house-flood-water',
-    featureLayers: [
-      'https://services.arcgis.com/2JyTvMWQSnM2Vi8q/arcgis/rest/services/Stormflo_ny/FeatureServer',
-    ],
+    featureLayers: {
+      stormSurge: {
+        url: 'https://services.arcgis.com/2JyTvMWQSnM2Vi8q/arcgis/rest/services/Stormflo_ny/FeatureServer',
+        radius: 50,
+      },
+    },
   },
   {
     title: $t().seaRise,
@@ -97,6 +129,6 @@ export const getCategoryOptions = (): CategoryOption[] => [
     description: 'Bygg som vil ligge under havnivå i 2090.',
     category: 'seaRise',
     faIcon: 'arrow-up-from-ground-water',
-    featureLayers: [],
+    featureLayers: {},
   },
 ]

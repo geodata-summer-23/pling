@@ -35,6 +35,7 @@ const onSubmit = () => {
     placeStore.currentPlace ?? {},
     place.value
   )
+  usePlaceStore().saveToLocalStorage()
   router.back()
 }
 

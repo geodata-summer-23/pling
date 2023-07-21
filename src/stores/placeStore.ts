@@ -13,7 +13,6 @@ import {
   fetchNowcast,
   fetchQueries,
 } from '@/scripts/query'
-import throttle from 'lodash.throttle'
 
 export const usePlaceStore = defineStore('place', {
   state: () => ({
@@ -23,10 +22,10 @@ export const usePlaceStore = defineStore('place', {
   }),
 
   actions: {
-    addPlace(place: Place) {
+    async addPlace(place: Place) {
       Object.assign(place.address.position, getLatLng(place.address.position))
       this.places.push(place)
-      updatePlace(place, true)
+      await updatePlace(place, true)
       this.saveToLocalStorage()
     },
     removePlace(place: Place) {
@@ -39,6 +38,7 @@ export const usePlaceStore = defineStore('place', {
     },
     loadFromLocalStorage() {
       this.places = JSON.parse(localStorage.getItem('places') ?? '[]')
+      console.log(this.places)
       if (this.places.length == 0) {
         this.places.push(getDefaultMyLocation())
       } else {
@@ -49,6 +49,7 @@ export const usePlaceStore = defineStore('place', {
         if (!place.icon) {
           place.icon = defaultPlace.icon
         }
+        Object.assign(place.address.position, getLatLng(place.address.position))
         Object.keys(defaultPlace).forEach((key) => {
           if (!(key in place)) {
             place[key as keyof Place] = JSON.parse(
@@ -56,7 +57,7 @@ export const usePlaceStore = defineStore('place', {
             )
           }
         })
-        updatePlace(place)
+        updatePlace(place, true)
       })
       this.currentPlace = this.places[0]
       navigator.geolocation.getCurrentPosition(async (position) => {
@@ -72,25 +73,23 @@ export const usePlaceStore = defineStore('place', {
   },
 })
 
-export const updatePlace = throttle(
-  async (place: Place, positionChanged = false) => {
-    if (!place.address.position.latitude || !place.address.position.latitude) {
-      return
-    }
-    const promises: Promise<boolean>[] = []
-    promises.push(fetchEvents(place))
-    promises.push(fetchNowcast(place))
-    promises.push(fetchQueries(place, positionChanged))
-    const anyChanged = (await Promise.all(promises)).some((change) => !!change)
+export const updatePlace = async (place: Place, force = false) => {
+  console.log(place.nickname)
+  if (!place.address.position.latitude || !place.address.position.latitude) {
+    return
+  }
+  console.log(place.nickname)
+  const promises: Promise<boolean>[] = []
+  promises.push(fetchEvents(place))
+  promises.push(fetchNowcast(place))
+  promises.push(fetchQueries(place, force))
+  const anyChanged = (await Promise.all(promises)).some((change) => !!change)
 
-    if (anyChanged || true) {
-      // TODO
-      await fetchAlerts(place)
-    }
-  },
-  10000
-  // { trailing: false }
-)
+  if (anyChanged || force) {
+    // TODO
+    await fetchAlerts(place)
+  }
+}
 
 const getLatLng = (position: Position) => {
   if (!position.x || !position.y) return

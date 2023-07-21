@@ -1,7 +1,7 @@
 import FeatureLayer from '@arcgis/core/layers/FeatureLayer'
 import { Place } from './place'
 import Point from '@arcgis/core/geometry/Point'
-import { Category, getCategoryOptions } from './category'
+import { Category, FeatureLayerUrls, getCategoryOptions } from './category'
 import { serverUrl } from './url'
 import { AlertRequest, NowcastData } from './alert'
 import { UserData, useUserStore } from '@/stores/userStore'
@@ -10,7 +10,12 @@ import { usePlaceStore } from '@/stores/placeStore'
 export const metAlertsUrl =
   'https://utility.arcgis.com/usrsvcs/servers/f7978b8123424646bb5960e25d83c606/rest/services/MetAlerts/FeatureServer/0'
 
-const queryFeatureLayer = async (place: Place, url: string) => {
+const queryFeatureLayer = async (
+  place: Place,
+  key: string,
+  url: string,
+  radius: number
+) => {
   const featureLayer = new FeatureLayer({ url })
   const latitude = place.address.position?.latitude
   const longitude = place.address.position?.longitude
@@ -23,16 +28,16 @@ const queryFeatureLayer = async (place: Place, url: string) => {
     geometry: new Point({ latitude, longitude }),
     outFields: ['*'], // Attributes to return
     returnGeometry: false,
-    distance: 500,
+    distance: radius,
   })
 
-  return results.features.map((f) => f.toJSON().attributes)
+  return results.features.map((f) => ({ ...f.toJSON().attributes, key }))
 }
 
 export const queryFeatureLayers = async (
   place: Place,
   category: Category,
-  urls: string[]
+  urls: FeatureLayerUrls
 ) => {
   if (!Array.isArray(place.queries)) {
     place.queries = []
@@ -51,11 +56,15 @@ export const queryFeatureLayers = async (
   }
 
   const features = await Promise.all(
-    urls.map((url) => queryFeatureLayer(place, url))
+    Object.entries(urls).map(([key, url]) =>
+      queryFeatureLayer(place, key, url.url, url.radius)
+    )
   )
 
   const changed = features.length != query.data.length
   const flatFeatures = features.flat(2)
+  console.log(`place: ${place.nickname} category: ${category}, result:`)
+  console.log(features)
   if (flatFeatures.length > 0) {
     query.data = flatFeatures
     place.queries.push(query)
@@ -66,12 +75,13 @@ export const queryFeatureLayers = async (
 
 export const fetchQueries = async (place: Place, positionChanged = false) => {
   const promises: Promise<boolean>[] = []
-  const metAlertsChanged = queryFeatureLayers(place, 'metAlerts', [
-    metAlertsUrl,
-  ])
+  const metAlertsChanged = queryFeatureLayers(place, 'metAlerts', {
+    metAlerts: { url: metAlertsUrl, radius: 50 },
+  })
   promises.push(metAlertsChanged)
 
   if (positionChanged) {
+    // TODO
     getCategoryOptions().forEach((option) => {
       const queryChanged = queryFeatureLayers(
         place,
@@ -115,11 +125,12 @@ export const fetchAlerts = async (place: Place) => {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(alertRequest),
   })
-  const alertResponse = JSON.parse(await response.json())
-  console.log(alertResponse)
-  if (!('detail' in alertResponse)) {
-    place.alertResponse = alertResponse
+  if (!response.ok) {
+    console.log(response)
+    console.log(await response.json())
+    return
   }
+  place.alertResponse = JSON.parse(await response.json())
   usePlaceStore().saveToLocalStorage()
 }
 
@@ -134,14 +145,16 @@ export const fetchNowcast = async (place: Place) => {
   const resJson = await response.json()
   const details = resJson.properties.timeseries[0].data.instant.details
   const nowcast = {
-    airTemperature: details.air_temperature,
-    precipitationRate: details.precipitation_rate,
-    windSpeed: details.wind_speed,
-    windDirection: details.wind_from_direction,
-    gustSpeed: details.wind_speed_of_gust,
+    airTemperature: details.air_temperature ?? 0,
+    precipitationRate: details.precipitation_rate ?? 0,
+    windSpeed: details.wind_speed ?? 0,
+    windDirection: details.wind_from_direction ?? 0,
+    gustSpeed: details.wind_speed_of_gust ?? 0,
     symbol:
-      resJson.properties.timeseries[0].data.next_1_hours.summary.symbol_code,
+      resJson.properties.timeseries[0].data.next_1_hours.summary.symbol_code ??
+      '',
   } satisfies NowcastData
+  console.log(nowcast)
   const changed = JSON.stringify(nowcast) != JSON.stringify(place.nowcast)
   place.nowcast = nowcast
   return changed
