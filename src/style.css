@@ -1,4 +1,5 @@
 :root {
+  --c-darker-gray: #7575b7;
   --c-dark-gray: #babae0;
   --c-medium-gray: #e9e9f9;
   --c-light-gray: #f5f5ff;
@@ -45,7 +46,7 @@ input {
 
 input:disabled {
   background-color: var(--c-light-gray);
-  color: var(--c-dark-gray);
+  color: var(--c-darker-gray);
 }
 
 ::placeholder {

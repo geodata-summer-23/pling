@@ -10,7 +10,7 @@
   <input
     type="text"
     id="nickname"
-    placeholder="Min lokasjon"
+    placeholder="Min posisjon"
     v-model="place.nickname"
   />
   <br />

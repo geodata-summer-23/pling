@@ -33,7 +33,7 @@ const norwegian = {
   select: 'Velg',
   show: 'Vis',
   mapInfo: 'Kartinformasjon',
-  myLocation: 'Min Lokasjon',
+  myLocation: 'Min Posisjon',
   myPlaces: 'Mine steder',
   userInformation: 'Brukerinformasjon',
   signedInArcGis: 'Du er innlogget med ArcGIS.',
@@ -91,7 +91,7 @@ const norwegian = {
   eventsDescription: 'Dette er hendelser som kan påvirke deg',
   wishToReport: 'Hva ønsker du å dele med nettverket?',
   reportInfo:
-    'Alle varslinger blir sendt til en server for å bli behandlet og deretter sendt ut til nettverket knyttet lokasjonen hvor hendelsen fant sted. Vær dermed obs på at varslene er offentlige.',
+    'Alle varslinger blir sendt til en server for å bli behandlet og deretter sendt ut til nettverket knyttet posisjonen hvor hendelsen fant sted. Vær dermed obs på at varslene er offentlige.',
   thisPlace: 'dette stedet',
   notImplemented: 'Denne funksjonen er foreløpig ikke implementert.',
   takePicture: 'Ta et bilde',
