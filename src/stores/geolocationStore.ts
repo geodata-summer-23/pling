@@ -4,6 +4,7 @@ import * as locator from '@arcgis/core/rest/locator'
 import Point from '@arcgis/core/geometry/Point'
 import { useHelpRequestStore } from './helpRequestStore'
 import { Position } from '../scripts/place'
+import throttle from 'lodash.throttle'
 
 export const geoData =
   'https://services.geodataonline.no/arcgis/rest/services/Geosok/GeosokLokasjon2/GeocodeServer'
@@ -39,6 +40,8 @@ export const useGeolocationStore = defineStore('geolocation', {
   },
 })
 
+const throttledUpdatePlace = throttle(updatePlace, 60_000)
+
 const updatePosition = (position: GeolocationPosition) => {
   const addressPosition = {
     latitude: position.coords.latitude,
@@ -46,7 +49,7 @@ const updatePosition = (position: GeolocationPosition) => {
   }
   const currentPlace = usePlaceStore().currentPlace
   if (currentPlace) {
-    updatePlace(currentPlace, true)
+    throttledUpdatePlace(currentPlace)
   }
   useGeolocationStore().position = addressPosition
   useHelpRequestStore().updateRequests(addressPosition)
