@@ -10,7 +10,7 @@
       <NavItem route="map"><fa-icon size="xl" icon="earth-americas" /></NavItem>
     </RouterLink>
     <RouterLink :to="{ name: 'network' }">
-      <NavItem route="message"><fa-icon size="xl" icon="bell" /></NavItem>
+      <NavItem route="network"><fa-icon size="xl" icon="bell" /></NavItem>
     </RouterLink>
   </nav>
 </template>
