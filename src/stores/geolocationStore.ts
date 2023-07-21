@@ -10,7 +10,10 @@ export const geoData =
 
 export const useGeolocationStore = defineStore('geolocation', {
   state: () => ({
-    position: null as null | Position,
+    position: {
+      latitude: 59.91037848488237,
+      longitude: 10.762804804817256,
+    } as Position,
   }),
 
   actions: {
