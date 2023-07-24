@@ -9,9 +9,10 @@
         placeholder="DD"
         minlength="2"
         maxlength="2"
-        v-model="day"
         @input="(e) => {
-          if ((e.target as HTMLInputElement).value.length == 2) {
+          const value = (e.target as HTMLInputElement).value
+          day = value
+          if (value.length == 2) {
             nextInput()
           }
         }"
@@ -25,9 +26,10 @@
         placeholder="MM"
         minlength="2"
         maxlength="2"
-        v-model="month"
         @input="(e) => {
-          if ((e.target as HTMLInputElement).value.length == 2) {
+          const value = (e.target as HTMLInputElement).value
+          month = value
+          if (value.length == 2) {
             nextInput()
           }
         }"
@@ -41,7 +43,14 @@
         placeholder="YYYY"
         minlength="4"
         maxlength="4"
-        v-model="year"
+        @input="(e) => {
+          const value = (e.target as HTMLInputElement).value
+          year = value
+          if (value.length == 4) {
+            nextInput()
+          }
+        }"
+        @keyup.enter="nextInput"
         @focus="currentInput = 2"
       />
     </div>
@@ -51,12 +60,12 @@
 <script lang="ts" setup>
 import { useUserStore } from '@/stores/userStore'
 import { $t } from '@/translation'
-import { ref, watch } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 
 const formatDate = (date: Date | null) => {
   if (!date) return { dd: '', mm: '', yyyy: '' }
   const yyyy = date.getFullYear().toString()
-  let mm = date.getMonth()
+  let mm = date.getMonth() + 1 // 0-indexed
   let dd = date.getDate()
 
   return {
@@ -75,26 +84,31 @@ const yearInputRef = ref<HTMLInputElement>()
 const currentInput = ref(0)
 const inputs = [dateInputRef, monthInputRef, yearInputRef]
 
-const nextInput = () => {
-  currentInput.value = (currentInput.value + 1) % 3
-}
-
-watch(
-  () => currentInput.value,
-  () => {
-    const el = inputs[currentInput.value].value
-    if (!el) return
-    el.value = ''
-    el.focus()
-  }
-)
-
 const day = ref(formattedDate.dd)
 const month = ref(formattedDate.mm)
 const year = ref(formattedDate.yyyy)
 const emit = defineEmits<{
   (e: 'update-valid', valid: boolean): void
 }>()
+
+const nextInput = () => {
+  const elPrev = inputs[currentInput.value].value
+  elPrev?.blur()
+  currentInput.value += 1
+  if (currentInput.value < inputs.length) {
+    const el = inputs[currentInput.value].value
+    if (!el) return
+    el.value = ''
+    el.focus()
+  }
+}
+
+onMounted(() => {
+  if (!dateInputRef.value || !monthInputRef.value || !yearInputRef.value) return
+  dateInputRef.value.value = day.value
+  monthInputRef.value.value = month.value
+  yearInputRef.value.value = year.value
+})
 
 watch(
   () => [day.value, month.value, year.value],
@@ -106,7 +120,7 @@ watch(
     try {
       const date = new Date(
         parseInt(year.value),
-        parseInt(month.value),
+        parseInt(month.value) - 1, // 0-indexed
         parseInt(day.value)
       )
       userStore.setBirthday(date)
