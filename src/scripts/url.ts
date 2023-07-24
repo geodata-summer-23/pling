@@ -1,2 +1,4 @@
 export const serverUrl =
-  'https://varslingstjenesten-server.varslingstjenesten.geodataonline.no'
+  import.meta.env.MODE === 'development'
+    ? 'http://localhost:8000'
+    : 'https://varslingstjenesten-server.varslingstjenesten.geodataonline.no'
