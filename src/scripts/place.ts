@@ -7,7 +7,7 @@ export type Place = {
   address: Address
   events: ObservedEvent[]
   queries: FeatureQuery[]
-  nowcast?: NowcastData
+  nowcast: NowcastData
   alerts: Alert[]
   alertSummary: string
 }
@@ -27,21 +27,30 @@ export type Position = {
 }
 
 export const getDefaultMyLocation = (): Place => ({
+  ...getDefaultPlace(),
   nickname: $t().myLocation,
   icon: 'location-crosshairs',
-  address: { position: {} },
-  events: [],
-  queries: [],
-  alertSummary: '',
-  alerts: [],
 })
 
 export const getDefaultPlace = (): Place => ({
   nickname: '',
   icon: 'location-dot',
-  address: { position: {} },
+  address: {
+    position: {
+      latitude: 0,
+      longitude: 0,
+    },
+  },
   events: [],
   queries: [],
   alertSummary: '',
   alerts: [],
+  nowcast: {
+    airTemperature: 0,
+    gustSpeed: 0,
+    precipitationRate: 0,
+    symbol: '',
+    windDirection: 0,
+    windSpeed: 0,
+  },
 })

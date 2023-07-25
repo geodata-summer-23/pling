@@ -22,12 +22,10 @@
         ></fa-icon>
         {{ maxChars(place.nickname, 20) }}</span
       >
-      <span v-if="place.address.street || place.address.city">
-        <span style="font-size: small">
-          {{ place.address.street ?? '' }}, {{ place.address.city }}
-        </span>
-      </span>
-      <CoordinatesText v-else :place="place"></CoordinatesText>
+      <AddressPosition
+        :address="place.address"
+        font-size="small"
+      ></AddressPosition>
     </div>
     <WeatherNowcast
       v-if="place.nowcast"
@@ -38,7 +36,7 @@
 
 <script lang="ts" setup>
 import WeatherNowcast from './WeatherNowcast.vue'
-import CoordinatesText from '@/components/CoordinatesText.vue'
+import AddressPosition from '@/components/AddressPosition.vue'
 import { updatePlace, usePlaceStore } from '@/stores/placeStore'
 import { computed } from 'vue'
 import { router } from '@/router'

@@ -46,13 +46,16 @@
       </div>
     </template>
     <template v-slot:top-left>
-      <img
-        v-for="icon in warningIcons"
-        :src="icon"
-        alt=""
-        width="40"
-        style="margin-left: -1em"
-      />
+      <div v-if="placeStore.currentPlace.alertSummary.length > 0">
+        <img
+          v-for="icon in warningIcons"
+          :src="icon"
+          alt=""
+          width="40"
+          style="margin-left: -1em"
+        />
+      </div>
+      <LoadingSpinner v-else :scale="0.5"></LoadingSpinner>
     </template>
     <div class="col" style="gap: 1em">
       <div>
@@ -64,9 +67,6 @@
           <p>
             {{ placeStore.currentPlace.alertSummary }}
           </p>
-        </div>
-        <div v-else class="col center">
-          <LoadingSpinner :scale="0.5"></LoadingSpinner>
         </div>
         <AlertList
           :place="placeStore.currentPlace"
@@ -152,6 +152,12 @@ onActivated(() => {
   paneOpen.value = true
 })
 
+onMounted(() => {
+  mapObjects.mapView?.when(() => {
+    selectCategoryOption(getCategoryOptions()[0])
+  })
+})
+
 const selectPlace = (place: Place) => {
   placeStore.currentPlace = place
   // Trigger watch
@@ -221,12 +227,6 @@ const selectCategoryOption = (categoryOption: CategoryOption) => {
     layer.visible = true
   }
 }
-
-onMounted(() => {
-  mapObjects.mapView?.when(() => {
-    selectCategoryOption(getCategoryOptions()[0])
-  })
-})
 </script>
 
 <style scoped>

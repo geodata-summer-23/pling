@@ -15,7 +15,7 @@ withDefaults(defineProps<{ scale?: number }>(), { scale: 1 })
   display: inline-block;
   position: relative;
   width: 80px;
-  height: 80px;
+  height: 50px;
 }
 .lds-facebook div {
   display: inline-block;
@@ -40,12 +40,12 @@ withDefaults(defineProps<{ scale?: number }>(), { scale: 1 })
 }
 @keyframes lds-facebook {
   0% {
-    top: 8px;
+    top: 0px;
     height: 64px;
   }
   50%,
   100% {
-    top: 24px;
+    top: 16px;
     height: 32px;
   }
 }

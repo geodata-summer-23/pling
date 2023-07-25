@@ -114,6 +114,7 @@ const norwegian = {
   forestFire: 'Skogbrann',
   gale: 'Kuling',
   dangerOf: 'Fare for ',
+  analyze: 'Analyser',
 } as const
 
 const english = {
@@ -207,4 +208,5 @@ const english = {
   forestFire: 'Skogbrann',
   gale: 'Gale',
   dangerOf: 'Danger: ',
+  analyze: 'Analyze',
 } as const

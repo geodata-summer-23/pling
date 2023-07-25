@@ -78,21 +78,22 @@ import MapView from '@arcgis/core/views/MapView'
 import Graphic from '@arcgis/core/Graphic'
 import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer'
 import Point from '@arcgis/core/geometry/Point'
+import SearchModalContent from '@/components/SearchModalContent.vue'
+import IconButton from '@/components/IconButton.vue'
+import LoadingSpinner from '@/components/LoadingSpinner.vue'
+import MapClickInfo from '@/components/MapClickInfo.vue'
 import { onMounted, ref, watch } from 'vue'
 import { usePlaceStore } from '@/stores/placeStore'
 import { Position, Place } from '@/scripts/place'
 import { maxChars } from '@/scripts/string'
-import IconButton from '@/components/IconButton.vue'
 import { useModalStore } from '@/stores/modalStore'
-import SearchModalContent from '@/components/SearchModalContent.vue'
 import { $t } from '@/translation'
 import { router } from '@/router'
 import { useLoadingStore } from '@/stores/loadingStore'
-import LoadingSpinner from '@/components/LoadingSpinner.vue'
 import { AddressResult } from '@/scripts/search'
 import { Category, getCategoryIconSrc } from '@/scripts/category'
 import { ViewClickEvent, mapObjects } from '@/scripts/map'
-import MapClickInfo from '@/components/MapClickInfo.vue'
+import * as projection from '@arcgis/core/geometry/projection.js'
 
 const props = defineProps<{
   center: Position | null
@@ -138,8 +139,21 @@ onMounted(() => {
   mapObjects.mapView.on('click', (event) => {
     event.stopPropagation() // Disable default click handler
     useLoadingStore().mapIsLoading = false
-    // console.log(JSON.stringify(event))
     mapObjects.mapView?.hitTest({ x: event.x, y: event.y }).then((response) => {
+      if (!props.center) return
+      const projectedMapPoint = projection.project(
+        event.mapPoint,
+        new Point(props.center).spatialReference
+      ) as Point
+      const modalProps = {
+        metAlertsEvent: '',
+        description: '',
+        position: {
+          latitude: projectedMapPoint.y,
+          longitude: projectedMapPoint.x,
+        },
+      }
+      useModalStore().push(MapClickInfo, modalProps, {})
       if (response.results.length) {
         var result = response.results.find((result) =>
           result.layer.title.includes('MetAlerts')
@@ -147,11 +161,7 @@ onMounted(() => {
         // @ts-ignore
         const event = result?.graphic?.attributes?.event
         if (event) {
-          useModalStore().push(
-            MapClickInfo,
-            { title: event, description: '' },
-            {}
-          )
+          modalProps.metAlertsEvent = event
         }
       }
     })

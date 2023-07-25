@@ -1,12 +1,6 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import proj4 from 'proj4'
-import {
-  Place,
-  Position,
-  getDefaultMyLocation,
-  getDefaultPlace,
-} from '../scripts/place'
-import { AddressResult } from '@/scripts/search'
+import { Place, getDefaultMyLocation, getDefaultPlace } from '../scripts/place'
+import { AddressResult, getLatLng } from '@/scripts/search'
 import {
   fetchAlertSummary,
   fetchAlerts,
@@ -82,6 +76,7 @@ export const updatePlace = async (
   { positionChanged = false, force = false }
 ) => {
   if (!place.address.position.latitude || !place.address.position.latitude) {
+    console.error(`Invalid position of ${place.nickname}`)
     return
   }
   const promises: Promise<Category[]>[] = []
@@ -89,23 +84,11 @@ export const updatePlace = async (
   promises.push(fetchNowcast(place))
   promises.push(fetchQueries(place, positionChanged || force))
   const categories = [...new Set((await Promise.all(promises)).flat())]
+  console.log('updatePlace', place.nickname, categories)
   if (categories.length > 0 || force) {
     await fetchAlerts(place, force ? allCategories : categories)
     await fetchAlertSummary(place)
   }
-}
-
-const getLatLng = (position: Position) => {
-  if (!position.x || !position.y) return
-  const fromProj =
-    '+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs +type=crs'
-  const toProj = '+proj=longlat +datum=WGS84 +no_defs +type=crs'
-
-  const { y: latitude, x: longitude } = proj4(fromProj, toProj).forward({
-    x: position.x,
-    y: position.y,
-  })
-  return { latitude, longitude }
 }
 
 if (import.meta.hot) {

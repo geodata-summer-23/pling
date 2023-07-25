@@ -1,10 +1,9 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { updatePlace, usePlaceStore } from './placeStore'
-import * as locator from '@arcgis/core/rest/locator'
-import Point from '@arcgis/core/geometry/Point'
 import { useHelpRequestStore } from './helpRequestStore'
-import { Position } from '../scripts/place'
+import { Place, Position } from '../scripts/place'
 import throttle from 'lodash.throttle'
+import { positionToAddress } from '@/scripts/search'
 
 export const geoData =
   'https://services.geodataonline.no/arcgis/rest/services/Geosok/GeosokLokasjon2/GeocodeServer'
@@ -40,61 +39,25 @@ export const useGeolocationStore = defineStore('geolocation', {
   },
 })
 
-const throttledUpdatePlace = throttle(updatePlace, 5 * 60_000)
+const throttledUpdatePlace = throttle(
+  (place: Place) => updatePlace(place, { positionChanged: true }),
+  3 * 60_000
+)
 
-const updatePosition = (position: GeolocationPosition) => {
-  const addressPosition = {
-    latitude: position.coords.latitude,
-    longitude: position.coords.longitude,
+const updatePosition = (geoPosition: GeolocationPosition) => {
+  const position = {
+    latitude: geoPosition.coords.latitude,
+    longitude: geoPosition.coords.longitude,
   }
   const myLocation = usePlaceStore().places[0]
   if (myLocation) {
-    throttledUpdatePlace(myLocation, { positionChanged: true })
+    throttledUpdatePlace(myLocation)
   }
-  useGeolocationStore().position = addressPosition
-  useHelpRequestStore().updateRequests(addressPosition)
-  locator
-    .locationToAddress(geoData, {
-      location: new Point(addressPosition),
-    })
-    .then((candidate) => {
-      const address = usePlaceStore().places[0].address
-      address.street = candidate.attributes.Adresse
-      address.postalCode = candidate.attributes.Postnummer
-      address.city = candidate.attributes.Poststed
-    })
+  useGeolocationStore().position = position
+  useHelpRequestStore().updateRequests(position)
+  positionToAddress(position, usePlaceStore().places[0].address)
 }
 
 if (import.meta.hot) {
   import.meta.hot.accept(acceptHMRUpdate(useGeolocationStore, import.meta.hot))
 }
-
-// fetch('https://services.geodataonline.no/arcgis/tokens/', {
-//   method: 'POST',
-//   body: JSON.stringify({
-//     username: 'sommerstudenter23',
-//     password: 'Geodata!23',
-//   }),
-// })
-//   .then((res) => res.text())
-//   .then((res) => {
-//     locator
-//       .locationToAddress(
-//         geoData,
-//         {
-//           location: new Point(addressPosition),
-//         },
-//         {
-//           query: {
-//             username: 'sommerstudenter231212',
-//             password: 'Geodata!23',
-//           },
-//         }
-//       )
-//       .then((candidate) => {
-//         const address = usePlaceStore().places[0].address
-//         address.street = candidate.attributes.Adresse
-//         address.postalCode = candidate.attributes.Postnummer
-//         address.city = candidate.attributes.Poststed
-//       })
-//   })

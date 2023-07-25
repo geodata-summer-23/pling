@@ -2,6 +2,8 @@ import * as locator from '@arcgis/core/rest/locator'
 import { Address, Position, getDefaultPlace } from './place'
 import { usePlaceStore } from '../stores/placeStore'
 import { geoData } from '@/stores/geolocationStore'
+import Point from '@arcgis/core/geometry/Point'
+import proj4 from 'proj4'
 
 export type AddressResult = {
   address: string
@@ -75,4 +77,32 @@ export const searchAddress = async (
           withResults(results)
         })
     })
+}
+
+export const positionToAddress = async (
+  position: Position,
+  address: Address
+) => {
+  address.position = position
+  const candidate = await locator.locationToAddress(geoData, {
+    location: new Point(position),
+  })
+  address.street = candidate.attributes.Adresse
+  address.postalCode = candidate.attributes.Postnummer
+  address.city = candidate.attributes.Poststed
+}
+
+export const getLatLng = (position: Position) => {
+  if (!position.x || !position.y) {
+    return position
+  }
+  const fromProj =
+    '+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs +type=crs'
+  const toProj = '+proj=longlat +datum=WGS84 +no_defs +type=crs'
+
+  const { y: latitude, x: longitude } = proj4(fromProj, toProj).forward({
+    x: position.x,
+    y: position.y,
+  })
+  return { ...position, latitude, longitude }
 }
