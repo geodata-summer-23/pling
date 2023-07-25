@@ -47,9 +47,9 @@ const updatePosition = (position: GeolocationPosition) => {
     latitude: position.coords.latitude,
     longitude: position.coords.longitude,
   }
-  const currentPlace = usePlaceStore().currentPlace
-  if (currentPlace) {
-    throttledUpdatePlace(currentPlace, {})
+  const myLocation = usePlaceStore().places[0]
+  if (myLocation) {
+    throttledUpdatePlace(myLocation, { positionChanged: true })
   }
   useGeolocationStore().position = addressPosition
   useHelpRequestStore().updateRequests(addressPosition)

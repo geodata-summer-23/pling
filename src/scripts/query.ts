@@ -86,14 +86,6 @@ export const queryFeatureLayers = async (
       queriesPrev.some((b) => JSON.stringify(a) == JSON.stringify(b))
     )
   )
-  if (changed) {
-    console.log(
-      place.nickname,
-      category,
-      JSON.parse(JSON.stringify(queriesPrev)),
-      JSON.parse(JSON.stringify(queries))
-    )
-  }
   return changed ? category : false
 }
 
@@ -162,7 +154,6 @@ export const fetchAlerts = async (place: Place, categories: Category[]) => {
       const alert = JSON.parse(await response.json()) as Alert
       if (!alert) return
       place.alerts = [...place.alerts, alert]
-      console.log('Alert', place.nickname, category)
     })
   )
   usePlaceStore().saveToLocalStorage()
@@ -185,7 +176,6 @@ export const fetchAlertSummary = async (place: Place) => {
     return
   }
   place.alertSummary = await response.text()
-  console.log('Summary', place.nickname)
   usePlaceStore().saveToLocalStorage()
 }
 
