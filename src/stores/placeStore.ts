@@ -43,7 +43,7 @@ export const usePlaceStore = defineStore('place', {
       if (this.places.length == 0) {
         this.places.push(getDefaultMyLocation())
       } else {
-        Object.assign(this.places[0], getDefaultMyLocation())
+        // Object.assign(this.places[0], getDefaultMyLocation())
       }
       const defaultPlace = getDefaultPlace()
       this.places.forEach((place) => {
