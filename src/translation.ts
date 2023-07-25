@@ -115,6 +115,7 @@ const norwegian = {
   gale: 'Kuling',
   dangerOf: 'Fare for ',
   analyze: 'Analyser',
+  couldNotFindAddress: 'Fant ingen adresse',
 } as const
 
 const english = {
@@ -209,4 +210,5 @@ const english = {
   gale: 'Gale',
   dangerOf: 'Danger: ',
   analyze: 'Analyze',
+  couldNotFindAddress: 'Could not find an address.',
 } as const

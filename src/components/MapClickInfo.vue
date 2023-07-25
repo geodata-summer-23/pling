@@ -28,6 +28,9 @@
       {{ $t().add }}
     </button>
   </div>
+  <p v-else style="text-align: center">
+    {{ $t().couldNotFindAddress }}
+  </p>
 </template>
 
 <script lang="ts" setup>
