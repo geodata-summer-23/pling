@@ -84,12 +84,16 @@ export const positionToAddress = async (
   address: Address
 ) => {
   address.position = position
-  const candidate = await locator.locationToAddress(geoData, {
-    location: new Point(position),
-  })
-  address.street = candidate.attributes.Adresse
-  address.postalCode = candidate.attributes.Postnummer
-  address.city = candidate.attributes.Poststed
+  try {
+    const candidate = await locator.locationToAddress(geoData, {
+      location: new Point(position),
+    })
+    address.street = candidate.attributes.Adresse
+    address.postalCode = candidate.attributes.Postnummer
+    address.city = candidate.attributes.Poststed
+  } catch {
+    console.warn('Could not find address', position)
+  }
 }
 
 export const getLatLng = (position: Position) => {
