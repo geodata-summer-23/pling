@@ -139,7 +139,7 @@ export const fetchAlerts = async (place: Place, categories: Category[]) => {
       place,
     })
   )
-  await Promise.all(
+  const changes = await Promise.all(
     categories.map(async (category) => {
       const response = await fetch(`${serverUrl}/alert`, {
         method: 'POST',
@@ -149,14 +149,21 @@ export const fetchAlerts = async (place: Place, categories: Category[]) => {
           category,
         }),
       })
-      place.alerts = place.alerts.filter((alert) => alert.category != category)
-      if (!response.ok) return
+      const alertPrev = place.alerts.findIndex(
+        (alert) => alert.category == category
+      )
+      if (alertPrev != -1) {
+        place.alerts.splice(alertPrev, 1)
+      }
+      if (!response.ok) return false
       const alert = JSON.parse(await response.json()) as Alert
-      if (!alert) return
+      if (!alert) return alertPrev != -1
       place.alerts = [...place.alerts, alert]
+      return true
     })
   )
   usePlaceStore().saveToLocalStorage()
+  return changes.some((change) => change)
 }
 
 export const fetchAlertSummary = async (place: Place) => {

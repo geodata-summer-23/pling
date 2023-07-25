@@ -86,8 +86,11 @@ export const updatePlace = async (
   const categories = [...new Set((await Promise.all(promises)).flat())]
   console.log('updatePlace', place.nickname, categories)
   if (categories.length > 0 || force) {
-    await fetchAlerts(place, force ? allCategories : categories)
-    await fetchAlertSummary(place)
+    const changed = await fetchAlerts(place, force ? allCategories : categories)
+    if (changed) {
+      await fetchAlertSummary(place)
+      console.log('updateSummary', place.nickname)
+    }
   }
 }
 
