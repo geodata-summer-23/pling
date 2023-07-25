@@ -1,13 +1,6 @@
 <template>
   <div class="row alert-box">
     <div class="col">
-      <div class="row center" style="gap: 0.5em">
-        <h3 style="margin: 0">{{ $text(alert.category) }}</h3>
-        <DistanceIndicator
-          v-if="alert.distance"
-          :distance="alert.distance"
-        ></DistanceIndicator>
-      </div>
       <p>{{ alert.message }}</p>
       <h4>{{ $t().advices }}</h4>
       <ul>
@@ -26,9 +19,8 @@
 </template>
 
 <script lang="ts" setup>
-import DistanceIndicator from '@/components/DistanceIndicator.vue'
 import { Alert } from '@/scripts/alert'
-import { $t, $text } from '@/translation'
+import { $t } from '@/translation'
 
 defineProps<{ alert: Alert }>()
 </script>
@@ -36,7 +28,7 @@ defineProps<{ alert: Alert }>()
 <style scoped>
 .alert-box {
   overflow: hidden;
-  margin: 2em;
+  margin: 0 2em;
 }
 
 img {

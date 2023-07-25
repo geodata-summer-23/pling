@@ -175,7 +175,7 @@ export const fetchAlertSummary = async (place: Place) => {
   if (!response.ok) {
     return
   }
-  place.alertSummary = await response.text()
+  place.alertSummary = await response.json()
   usePlaceStore().saveToLocalStorage()
 }
 

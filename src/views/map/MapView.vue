@@ -56,12 +56,15 @@
     </template>
     <div class="col" style="gap: 1em">
       <div>
-        <p
+        <div
           v-if="placeStore.currentPlace.alertSummary.length > 0"
-          style="margin: 1em 2em"
+          style="margin: 1em 2em; border-bottom: 1px solid var(--c-dark-gray)"
         >
-          {{ placeStore.currentPlace.alertSummary }}
-        </p>
+          <h4 style="margin: 0">Oppsummering</h4>
+          <p>
+            {{ placeStore.currentPlace.alertSummary }}
+          </p>
+        </div>
         <div v-else class="col center">
           <LoadingSpinner :scale="0.5"></LoadingSpinner>
         </div>

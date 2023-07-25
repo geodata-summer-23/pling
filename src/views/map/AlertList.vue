@@ -1,9 +1,9 @@
 <template>
   <div class="col">
-    <h3 v-if="place.alerts.length > 0" style="margin: 0em 2em">
-      {{ $t().category }}
-    </h3>
-    <div class="row" style="gap: 0.5em; overflow: auto; padding-inline: 2em">
+    <div
+      class="row"
+      style="gap: 0.5em; overflow: auto; padding: 0em 2em 1em 2em"
+    >
       <div
         v-for="alert in place.alerts"
         class="row center alert-tab"
@@ -23,7 +23,7 @@
 <script lang="ts" setup>
 import AlertBox from './AlertBox.vue'
 import { ref, watch } from 'vue'
-import { $t, $text } from '@/translation'
+import { $text } from '@/translation'
 import { Place } from '@/scripts/place'
 import { Alert } from '@/scripts/alert'
 import { Category, getCategoryIconSrc } from '@/scripts/category'
@@ -63,5 +63,7 @@ watch(
 .alert-tab.selected {
   background-color: var(--c-white);
   color: var(--c-text);
+  border-color: var(--c-dark-gray);
+  box-shadow: 0 0.2em 0.2em var(--c-dark-gray);
 }
 </style>
