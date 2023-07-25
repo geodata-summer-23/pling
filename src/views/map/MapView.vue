@@ -82,7 +82,7 @@
             }
           "
         ></AlertList>
-        <div class="row center">
+        <!-- <div class="row center">
           <button
             class="btn"
             @click="
@@ -96,7 +96,7 @@
           >
             Update
           </button>
-        </div>
+        </div> -->
       </div>
     </div>
   </SlideUpPane>

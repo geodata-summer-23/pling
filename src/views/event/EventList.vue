@@ -7,8 +7,14 @@
 <script lang="ts" setup>
 import EventBox from './EventBox.vue'
 import { Place } from '@/scripts/place'
+import { updatePlace } from '@/stores/placeStore'
+import { onMounted } from 'vue'
 
-defineProps<{ place: Place }>()
+const props = defineProps<{ place: Place }>()
+
+onMounted(() => {
+  updatePlace(props.place, {})
+})
 </script>
 
 <style scoped>

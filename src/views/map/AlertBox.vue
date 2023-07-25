@@ -2,8 +2,8 @@
   <div class="row alert-box">
     <div class="col">
       <p>{{ alert.message }}</p>
-      <h4>{{ $t().advices }}</h4>
-      <ul>
+      <h4 style="margin-bottom: 0">{{ $t().advices }}</h4>
+      <ul style="margin-top: 0">
         <li v-for="advice in alert.advices">{{ advice }}</li>
       </ul>
     </div>
