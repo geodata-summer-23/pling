@@ -4,7 +4,7 @@ export type Category =
   | 'flood'
   | 'rainFlood'
   | 'temperature'
-  | 'fallingWind'
+  | 'katabaticWind'
   | 'quickClay'
   | 'stormSurge'
   | 'seaRise'
@@ -15,7 +15,7 @@ export const categories: Category[] = [
   'flood',
   'rainFlood',
   'temperature',
-  'fallingWind',
+  'katabaticWind',
   'quickClay',
   'stormSurge',
   'seaRise',
@@ -23,9 +23,13 @@ export const categories: Category[] = [
 
 export const getCategoryIconSrc = (category: Category) => {
   switch (category) {
-    case 'fallingWind':
+    case 'katabaticWind':
       return `./warningIcons/icon-warning-wind-red.svg`
     case 'other':
+      return './warningIcons/icon-warning-extreme.svg'
+    case 'temperature':
+      return './warningIcons/icon-warning-extreme.svg'
+    case 'quickClay':
       return './warningIcons/icon-warning-extreme.svg'
     default:
       return `./warningIcons/icon-warning-${category.toLowerCase()}-red.svg`
@@ -80,11 +84,11 @@ export const getCategoryOptions = (): CategoryOption[] => [
     },
   },
   {
-    title: $t().fallingWind,
+    title: $t().katabaticWind,
     layerId: '1894ed8aeb4-layer-32',
     description:
       'Fallvind er en kraftig vindstrøm som beveger seg nedover fra høyere luftlag mot bakken.',
-    category: 'fallingWind',
+    category: 'katabaticWind',
     faIcon: 'wind',
     featureLayers: {
       buildings: {

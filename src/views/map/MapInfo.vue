@@ -5,12 +5,12 @@
   <p>
     {{ selectedCategory.description }}
   </p>
-  <div v-show="selectedCategory.category != 'fallingWind'">
+  <div v-show="selectedCategory.category != 'katabaticWind'">
     <div id="legendDiv"></div>
   </div>
   <div class="row center">
     <img
-      v-if="selectedCategory.category == 'fallingWind'"
+      v-if="selectedCategory.category == 'katabaticWind'"
       :src="compassSvgSrc"
       alt="compass"
       width="140"

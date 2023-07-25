@@ -6,9 +6,9 @@
     <div class="alert-icon-container">
       <img
         v-for="icon in warningIcons"
-        :class="{ 'vertical-shake': !edit }"
         :src="icon"
         width="40"
+        style="margin-left: -1.5em"
       />
     </div>
     <div v-if="edit && !isMyLocation" class="edit-icon-container">
@@ -45,6 +45,7 @@ import { router } from '@/router'
 import { maxChars } from '@/scripts/string'
 import { useLoadingStore } from '@/stores/loadingStore'
 import { Place } from '@/scripts/place'
+import { getCategoryIconSrc } from '@/scripts/category'
 
 const placeStore = usePlaceStore()
 const props = defineProps<{
@@ -53,8 +54,8 @@ const props = defineProps<{
   isMyLocation: boolean
 }>()
 
-const warningIcons = computed(
-  () => [] // props.place.queries.map((query) => query.data.message) // TODO
+const warningIcons = computed(() =>
+  props.place.alerts.map((alert) => getCategoryIconSrc(alert.category))
 )
 
 const clickPlace = (place: Place) => {

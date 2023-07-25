@@ -22,8 +22,6 @@
     :title="$t().alerts"
     hide-mode="show-top"
     :show="paneOpen"
-    @show="paneOpen = true"
-    @hide="paneOpen = false"
   >
     <template v-slot:above>
       <div
@@ -53,7 +51,7 @@
         :src="icon"
         alt=""
         width="40"
-        style="margin-left: -1.5em"
+        style="margin-left: -1em"
       />
     </template>
     <div class="col" style="gap: 1em">
@@ -144,7 +142,7 @@ const shakeInfoButton = () => {
 }
 
 const warningIcons = computed(() =>
-  placeStore.currentPlace?.events.map((e) => getCategoryIconSrc(e.category))
+  placeStore.currentPlace?.alerts.map((e) => getCategoryIconSrc(e.category))
 )
 
 onActivated(() => {

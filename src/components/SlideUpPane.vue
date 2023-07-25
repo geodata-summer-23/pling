@@ -16,9 +16,7 @@
         style="justify-content: space-evenly; align-items: center"
       >
         <div style="width: 3em; display: flex; justify-content: center">
-          <div>
-            <slot name="top-left"></slot>
-          </div>
+          <slot name="top-left"></slot>
         </div>
         <div
           class="col center clickable"
@@ -81,13 +79,13 @@ const state = ref(State.Down)
 const clickRight = () => {
   switch (state.value) {
     case State.Down:
-      emit('show')
+      state.value = State.Up
       break
     case State.Middle:
-      emit('hide')
+      state.value = State.Down
       break
     case State.Up:
-      emit('hide')
+      state.value = State.Down
       break
   }
 }
@@ -95,7 +93,7 @@ const clickRight = () => {
 const clickMiddle = () => {
   switch (state.value) {
     case State.Down:
-      emit('show')
+      state.value = State.Middle
       break
     case State.Middle:
       state.value = State.Up
