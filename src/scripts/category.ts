@@ -11,7 +11,7 @@ export type Category =
   | 'metAlerts'
   | 'other'
 
-export const categories: Category[] = [
+export const allCategories: Category[] = [
   'flood',
   'rainFlood',
   'temperature',

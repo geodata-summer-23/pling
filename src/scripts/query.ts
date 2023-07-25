@@ -4,11 +4,17 @@ import Point from '@arcgis/core/geometry/Point'
 import {
   Category,
   FeatureLayerUrls,
-  categories,
+  allCategories,
   getCategoryOptions,
 } from './category'
 import { serverUrl } from './url'
-import { Alert, AlertRequest, FeatureQuery, NowcastData } from './alert'
+import {
+  Alert,
+  AlertRequest,
+  FeatureQuery,
+  NowcastData,
+  ObservedEvent,
+} from './alert'
 import { UserData, useUserStore } from '@/stores/userStore'
 import { usePlaceStore } from '@/stores/placeStore'
 
@@ -72,14 +78,27 @@ export const queryFeatureLayers = async (
 
   place.queries = [...place.queries, ...queries]
   usePlaceStore().saveToLocalStorage()
-  const changed =
-    queriesPrev.every((a) => queries.some((b) => a.key == b.key)) &&
-    queries.every((a) => queriesPrev.some((b) => a.key == b.key))
-  return changed
+  const changed = !(
+    queriesPrev.every((a) =>
+      queries.some((b) => JSON.stringify(a) == JSON.stringify(b))
+    ) &&
+    queries.every((a) =>
+      queriesPrev.some((b) => JSON.stringify(a) == JSON.stringify(b))
+    )
+  )
+  if (changed) {
+    console.log(
+      place.nickname,
+      category,
+      JSON.parse(JSON.stringify(queriesPrev)),
+      JSON.parse(JSON.stringify(queries))
+    )
+  }
+  return changed ? category : false
 }
 
 export const fetchQueries = async (place: Place, positionChanged = false) => {
-  const promises: Promise<boolean>[] = []
+  const promises: Promise<Category | false>[] = []
   const metAlertsChanged = queryFeatureLayers(place, 'metAlerts', {
     metAlerts: { url: metAlertsUrl, radius: 50 },
   })
@@ -95,32 +114,39 @@ export const fetchQueries = async (place: Place, positionChanged = false) => {
       promises.push(queryChanged)
     })
   }
-  const changed = (await Promise.all(promises)).some((changed) => !!changed)
-  return changed
+  return (await Promise.all(promises)).filter(
+    (category) => !!category
+  ) as Category[]
 }
 
 export const fetchEvents = async (place: Place) => {
   if (!place.address.position?.latitude || !place.address.position?.longitude)
-    return false
+    return []
   const response = await fetch(
     `${serverUrl}/events?lat=${place.address.position?.latitude}&lon=${place.address.position?.longitude}`,
     { headers: { 'Content-Type': 'application/json' } }
   )
-  const events = JSON.parse(await response.json())
-  const changed = JSON.stringify(events) != JSON.stringify(place.events)
+  const events = JSON.parse(await response.json()) as ObservedEvent[]
+  const changedCategories = [
+    ...events.filter(
+      (a) => !place.events.some((b) => a.timeCreated == b.timeCreated)
+    ),
+    ...place.events.filter(
+      (a) => !events.some((b) => a.timeCreated == b.timeCreated)
+    ),
+  ].map((e) => e.category)
   place.events = events
   usePlaceStore().saveToLocalStorage()
-  return changed
+  return [...new Set(changedCategories)]
 }
 
-export const fetchAlerts = async (place: Place) => {
+export const fetchAlerts = async (place: Place, categories: Category[]) => {
   const alertRequest: AlertRequest = JSON.parse(
     JSON.stringify({
       user: useUserStore().$state satisfies UserData,
       place,
     })
   )
-  place.alerts = []
   await Promise.all(
     categories.map(async (category) => {
       const response = await fetch(`${serverUrl}/alert`, {
@@ -131,10 +157,12 @@ export const fetchAlerts = async (place: Place) => {
           category,
         }),
       })
+      place.alerts = place.alerts.filter((alert) => alert.category != category)
       if (!response.ok) return
       const alert = JSON.parse(await response.json()) as Alert
       if (!alert) return
       place.alerts = [...place.alerts, alert]
+      console.log('Alert', place.nickname, category)
     })
   )
   usePlaceStore().saveToLocalStorage()
@@ -157,13 +185,14 @@ export const fetchAlertSummary = async (place: Place) => {
     return
   }
   place.alertSummary = await response.text()
+  console.log('Summary', place.nickname)
   usePlaceStore().saveToLocalStorage()
 }
 
 export const fetchNowcast = async (place: Place) => {
   const position = place.address.position
   if (!position.latitude || !position.longitude) {
-    return false
+    return []
   }
   const response = await fetch(
     `${serverUrl}/met/nowcast?lat=${position.latitude}&lon=${position.longitude}`
@@ -180,7 +209,31 @@ export const fetchNowcast = async (place: Place) => {
       resJson.properties.timeseries[0].data.next_1_hours.summary.symbol_code ??
       '',
   } satisfies NowcastData
-  const changed = JSON.stringify(nowcast) != JSON.stringify(place.nowcast)
+  const changedCategories: Category[] = []
+  if (!place.nowcast) {
+    return allCategories
+  }
+  if (
+    Math.round(place.nowcast.airTemperature) !=
+    Math.round(nowcast.airTemperature)
+  ) {
+    changedCategories.push('temperature')
+  }
+  if (
+    Math.round(place.nowcast.gustSpeed) != Math.round(nowcast.gustSpeed) ||
+    Math.round(place.nowcast.windSpeed) != Math.round(nowcast.windSpeed) ||
+    Math.round(place.nowcast.windDirection) != Math.round(nowcast.windDirection)
+  ) {
+    changedCategories.push('katabaticWind')
+  }
+  if (
+    Math.round(place.nowcast.precipitationRate) !=
+    Math.round(nowcast.precipitationRate)
+  ) {
+    changedCategories.push('flood')
+    changedCategories.push('rainFlood')
+    changedCategories.push('quickClay')
+  }
   place.nowcast = nowcast
-  return changed
+  return [...new Set(changedCategories)]
 }

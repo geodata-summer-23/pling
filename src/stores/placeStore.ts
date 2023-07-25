@@ -14,6 +14,7 @@ import {
   fetchNowcast,
   fetchQueries,
 } from '@/scripts/query'
+import { Category, allCategories } from '@/scripts/category'
 
 export const usePlaceStore = defineStore('place', {
   state: () => ({
@@ -57,7 +58,10 @@ export const usePlaceStore = defineStore('place', {
             )
           }
         })
-        updatePlace(place, { positionChanged: true })
+        updatePlace(place, {
+          positionChanged: true,
+          force: place == this.places[0],
+        })
       })
       this.currentPlace = this.places[0]
       navigator.geolocation.getCurrentPosition(async (position) => {
@@ -80,14 +84,14 @@ export const updatePlace = async (
   if (!place.address.position.latitude || !place.address.position.latitude) {
     return
   }
-  const promises: Promise<boolean>[] = []
+  const promises: Promise<Category[]>[] = []
   promises.push(fetchEvents(place))
   promises.push(fetchNowcast(place))
   promises.push(fetchQueries(place, positionChanged || force))
-  const anyChanged = (await Promise.all(promises)).some((change) => !!change)
-
-  if (anyChanged || force) {
-    await fetchAlerts(place)
+  const categories = [...new Set((await Promise.all(promises)).flat())]
+  console.log(place.nickname, categories)
+  if (categories.length > 0 || force) {
+    await fetchAlerts(place, force ? allCategories : categories)
     await fetchAlertSummary(place)
   }
 }
