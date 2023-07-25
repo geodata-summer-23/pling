@@ -60,11 +60,6 @@ const props = withDefaults(
   { middleSvh: 55 }
 )
 
-const emit = defineEmits<{
-  (e: 'show'): void
-  (e: 'hide'): void
-}>()
-
 const paneDivRef = ref<HTMLDivElement>()
 const contentDivRef = ref<HTMLDivElement>()
 
