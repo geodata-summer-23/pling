@@ -3,7 +3,10 @@
     <div class="col">
       <div class="row center" style="gap: 0.5em">
         <h3 style="margin: 0">{{ $text(alert.category) }}</h3>
-        <DistanceIndicator :distance="alert.distance"></DistanceIndicator>
+        <DistanceIndicator
+          v-if="alert.distance"
+          :distance="alert.distance"
+        ></DistanceIndicator>
       </div>
       <p>{{ alert.message }}</p>
       <h4>{{ $t().advices }}</h4>

@@ -1,6 +1,8 @@
 <template>
   <div class="col">
-    <h3 v-if="selectedAlert" style="margin: 0em 2em">{{ $t().category }}</h3>
+    <h3 v-if="place.alerts.length > 0" style="margin: 0em 2em">
+      {{ $t().category }}
+    </h3>
     <div class="row" style="gap: 0.5em; overflow: auto; padding-inline: 2em">
       <div
         v-for="alert in place.alerts"

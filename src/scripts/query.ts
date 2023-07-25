@@ -131,10 +131,10 @@ export const fetchAlerts = async (place: Place) => {
           category,
         }),
       })
-      if (!response.ok) {
-        return
-      }
-      place.alerts.push(JSON.parse(await response.json()) as Alert)
+      if (!response.ok) return
+      const alert = JSON.parse(await response.json()) as Alert
+      if (!alert) return
+      place.alerts = [...place.alerts, alert]
     })
   )
   usePlaceStore().saveToLocalStorage()

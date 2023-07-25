@@ -16,27 +16,22 @@
         style="justify-content: space-evenly; align-items: center"
       >
         <div style="width: 3em; display: flex; justify-content: center">
-          <IconButton
-            v-if="state != State.Down"
-            icon="xmark"
-            @click="clickLeft"
-          ></IconButton>
-          <div v-else>
+          <div>
             <slot name="top-left"></slot>
           </div>
         </div>
         <div
           class="col center clickable"
           style="min-height: 3em; max-width: 12em"
-          @mousedown.stop="clickRight"
-          @touchstart.stop="clickRight"
+          @mousedown.stop="clickMiddle"
+          @touchstart.stop="clickMiddle"
         >
           <!-- <div class="handle"></div> -->
           <h3 v-if="title" style="margin: 0.5em 1em">{{ title }}</h3>
         </div>
         <div style="width: 3em; display: flex; justify-content: center">
           <IconButton
-            :icon="state == State.Up ? 'angle-down' : 'angle-up'"
+            :icon="state != State.Down ? 'angle-down' : 'angle-up'"
             @click="clickRight"
           ></IconButton>
         </div>
@@ -89,16 +84,26 @@ const clickRight = () => {
       emit('show')
       break
     case State.Middle:
+      emit('hide')
+      break
+    case State.Up:
+      emit('hide')
+      break
+  }
+}
+
+const clickMiddle = () => {
+  switch (state.value) {
+    case State.Down:
+      emit('show')
+      break
+    case State.Middle:
       state.value = State.Up
       break
     case State.Up:
       state.value = State.Middle
       break
   }
-}
-
-const clickLeft = () => {
-  emit('hide')
 }
 
 const hidePane = () => {
@@ -128,7 +133,7 @@ watch(
   () => props.show,
   () => {
     if (props.show) {
-      state.value = State.Middle
+      state.value = State.Up
     } else {
       state.value = State.Down
     }
