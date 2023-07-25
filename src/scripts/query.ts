@@ -1,9 +1,14 @@
 import FeatureLayer from '@arcgis/core/layers/FeatureLayer'
 import { Place } from './place'
 import Point from '@arcgis/core/geometry/Point'
-import { Category, FeatureLayerUrls, getCategoryOptions } from './category'
+import {
+  Category,
+  FeatureLayerUrls,
+  categories,
+  getCategoryOptions,
+} from './category'
 import { serverUrl } from './url'
-import { AlertRequest, NowcastData } from './alert'
+import { Alert, AlertRequest, FeatureQuery, NowcastData } from './alert'
 import { UserData, useUserStore } from '@/stores/userStore'
 import { usePlaceStore } from '@/stores/placeStore'
 
@@ -12,6 +17,7 @@ export const metAlertsUrl =
 
 const queryFeatureLayer = async (
   place: Place,
+  category: Category,
   key: string,
   url: string,
   radius: number
@@ -31,7 +37,14 @@ const queryFeatureLayer = async (
     distance: radius,
   })
 
-  return results.features.map((f) => ({ ...f.toJSON().attributes, key }))
+  return results.features.map(
+    (f) =>
+      ({
+        attributes: f.toJSON().attributes,
+        category,
+        key,
+      } as FeatureQuery)
+  )
 }
 
 export const queryFeatureLayers = async (
@@ -46,30 +59,22 @@ export const queryFeatureLayers = async (
     return false
   }
 
-  let query = place.queries.find((q) => q.category == category)
+  const queriesPrev = place.queries.filter((q) => q.category == category)
   place.queries = place.queries.filter((q) => q.category != category)
-  if (!query) {
-    query = {
-      category: category,
-      data: [],
-    }
-  }
 
-  const features = await Promise.all(
-    Object.entries(urls).map(([key, url]) =>
-      queryFeatureLayer(place, key, url.url, url.radius)
+  const queries = (
+    await Promise.all(
+      Object.entries(urls).map(([key, url]) =>
+        queryFeatureLayer(place, category, key, url.url, url.radius)
+      )
     )
-  )
+  ).flat()
 
-  const changed = features.length != query.data.length
-  const flatFeatures = features.flat(2)
-  // console.log(`place: ${place.nickname} category: ${category}, result:`)
-  // console.log(features)
-  if (flatFeatures.length > 0) {
-    query.data = flatFeatures
-    place.queries.push(query)
-  }
+  place.queries = [...place.queries, ...queries]
   usePlaceStore().saveToLocalStorage()
+  const changed =
+    queriesPrev.every((a) => queries.some((b) => a.key == b.key)) &&
+    queries.every((a) => queriesPrev.some((b) => a.key == b.key))
   return changed
 }
 
@@ -81,7 +86,6 @@ export const fetchQueries = async (place: Place, positionChanged = false) => {
   promises.push(metAlertsChanged)
 
   if (positionChanged) {
-    // TODO
     getCategoryOptions().forEach((option) => {
       const queryChanged = queryFeatureLayers(
         place,
@@ -116,21 +120,43 @@ export const fetchAlerts = async (place: Place) => {
       place,
     })
   )
-  alertRequest.place.alertResponse = { alertSummary: '', alerts: [] }
-  alertRequest.place.events.forEach((e) => (e.images = []))
+  place.alerts = []
+  await Promise.all(
+    categories.map(async (category) => {
+      const response = await fetch(`${serverUrl}/alert`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...alertRequest,
+          category,
+        }),
+      })
+      if (!response.ok) {
+        return
+      }
+      place.alerts.push(JSON.parse(await response.json()) as Alert)
+    })
+  )
+  usePlaceStore().saveToLocalStorage()
+}
 
-  console.log(JSON.stringify(alertRequest))
-  const response = await fetch(`${serverUrl}/alerts`, {
+export const fetchAlertSummary = async (place: Place) => {
+  const alertRequest: AlertRequest = JSON.parse(
+    JSON.stringify({
+      user: useUserStore().$state satisfies UserData,
+      place,
+    })
+  )
+
+  const response = await fetch(`${serverUrl}/alert-summary`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(alertRequest),
   })
   if (!response.ok) {
-    console.log(response)
-    console.log(await response.json())
     return
   }
-  place.alertResponse = JSON.parse(await response.json())
+  place.alertSummary = await response.text()
   usePlaceStore().saveToLocalStorage()
 }
 

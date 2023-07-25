@@ -37,16 +37,14 @@ export type Alert = {
   advices: string[]
 }
 
-export type AlertResponse = {
-  alertSummary: string
-  alerts: Alert[]
+export type FeatureQuery = {
+  category: Category
+  key: string
+  attributes: object
 }
-
-export type FeatureQuery = { category: Category; data: Record<string, any>[] }
-
-export type Queries = FeatureQuery[]
 
 export type AlertRequest = {
   place: Place
   user: UserData
+  category: Category
 }

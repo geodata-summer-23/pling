@@ -40,7 +40,7 @@ export const useGeolocationStore = defineStore('geolocation', {
   },
 })
 
-const throttledUpdatePlace = throttle(updatePlace, 60_000)
+const throttledUpdatePlace = throttle(updatePlace, 5 * 60_000)
 
 const updatePosition = (position: GeolocationPosition) => {
   const addressPosition = {
@@ -49,7 +49,7 @@ const updatePosition = (position: GeolocationPosition) => {
   }
   const currentPlace = usePlaceStore().currentPlace
   if (currentPlace) {
-    throttledUpdatePlace(currentPlace)
+    throttledUpdatePlace(currentPlace, {})
   }
   useGeolocationStore().position = addressPosition
   useHelpRequestStore().updateRequests(addressPosition)

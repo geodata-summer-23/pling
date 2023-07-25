@@ -8,6 +8,7 @@ import {
 } from '../scripts/place'
 import { AddressResult } from '@/scripts/search'
 import {
+  fetchAlertSummary,
   fetchAlerts,
   fetchEvents,
   fetchNowcast,
@@ -25,7 +26,7 @@ export const usePlaceStore = defineStore('place', {
     async addPlace(place: Place) {
       Object.assign(place.address.position, getLatLng(place.address.position))
       this.places.push(place)
-      await updatePlace(place, true)
+      await updatePlace(place, { force: true })
       this.saveToLocalStorage()
     },
     removePlace(place: Place) {
@@ -56,7 +57,7 @@ export const usePlaceStore = defineStore('place', {
             )
           }
         })
-        updatePlace(place, true)
+        updatePlace(place, { positionChanged: true })
       })
       this.currentPlace = this.places[0]
       navigator.geolocation.getCurrentPosition(async (position) => {
@@ -72,19 +73,22 @@ export const usePlaceStore = defineStore('place', {
   },
 })
 
-export const updatePlace = async (place: Place, force = false) => {
+export const updatePlace = async (
+  place: Place,
+  { positionChanged = false, force = false }
+) => {
   if (!place.address.position.latitude || !place.address.position.latitude) {
     return
   }
   const promises: Promise<boolean>[] = []
   promises.push(fetchEvents(place))
   promises.push(fetchNowcast(place))
-  promises.push(fetchQueries(place, force))
+  promises.push(fetchQueries(place, positionChanged || force))
   const anyChanged = (await Promise.all(promises)).some((change) => !!change)
 
   if (anyChanged || force) {
-    // TODO
     await fetchAlerts(place)
+    await fetchAlertSummary(place)
   }
 }
 

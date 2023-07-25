@@ -61,7 +61,7 @@ const clickPlace = (place: Place) => {
   if (place.address.position && placeStore.currentPlace != place) {
     useLoadingStore().mapIsLoading = true
     placeStore.currentPlace = place
-    updatePlace(placeStore.currentPlace)
+    updatePlace(placeStore.currentPlace, {})
   }
   if (props.edit) {
     if (!props.isMyLocation) {

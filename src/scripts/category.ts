@@ -11,6 +11,16 @@ export type Category =
   | 'metAlerts'
   | 'other'
 
+export const categories: Category[] = [
+  'flood',
+  'rainFlood',
+  'temperature',
+  'fallingWind',
+  'quickClay',
+  'stormSurge',
+  'seaRise',
+]
+
 export const getCategoryIconSrc = (category: Category) => {
   switch (category) {
     case 'fallingWind':

@@ -57,10 +57,16 @@
       />
     </template>
     <div class="col" style="gap: 1em">
-      <div v-if="placeStore.currentPlace.alertResponse.alertSummary.length > 0">
-        <p style="margin: 1em 2em">
-          {{ placeStore.currentPlace.alertResponse.alertSummary }}
+      <div>
+        <p
+          v-if="placeStore.currentPlace.alertSummary.length > 0"
+          style="margin: 1em 2em"
+        >
+          {{ placeStore.currentPlace.alertSummary }}
         </p>
+        <div v-else class="col center">
+          <LoadingSpinner :scale="0.5"></LoadingSpinner>
+        </div>
         <AlertList
           :place="placeStore.currentPlace"
           @select-category="
@@ -75,9 +81,21 @@
             }
           "
         ></AlertList>
-      </div>
-      <div v-else class="col center">
-        <LoadingSpinner></LoadingSpinner>
+        <div class="row center">
+          <button
+            class="btn"
+            @click="
+              () => {
+                if (!placeStore.currentPlace) return
+                placeStore.currentPlace.alertSummary = ''
+                placeStore.currentPlace.alerts = []
+                updatePlace(placeStore.currentPlace, { force: true })
+              }
+            "
+          >
+            Update
+          </button>
+        </div>
       </div>
     </div>
   </SlideUpPane>
@@ -139,7 +157,7 @@ const selectPlace = (place: Place) => {
   placeStore.currentPlace.address.position = {
     ...placeStore.currentPlace.address.position,
   }
-  updatePlace(place)
+  updatePlace(place, {})
 }
 
 const selectResultAndClear = (result: AddressResult) => {

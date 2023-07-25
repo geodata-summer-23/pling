@@ -3,7 +3,7 @@
     <h3 v-if="selectedAlert" style="margin: 0em 2em">{{ $t().category }}</h3>
     <div class="row" style="gap: 0.5em; overflow: auto; padding-inline: 2em">
       <div
-        v-for="alert in place.alertResponse.alerts"
+        v-for="alert in place.alerts"
         class="row center alert-tab"
         :class="{ selected: selectedAlert == alert }"
         style="gap: 0.5em"
@@ -40,12 +40,9 @@ const selectAlert = (event: Alert) => {
 }
 
 watch(
-  () => props.place,
-  (place) => {
-    selectedAlert.value =
-      place.alertResponse.alerts.length > 0
-        ? place.alertResponse.alerts[0]
-        : null
+  [() => props.place, () => props.place.alerts],
+  ([place, alerts]) => {
+    selectedAlert.value = alerts.length > 0 ? place.alerts[0] : null
   },
   { immediate: true }
 )
