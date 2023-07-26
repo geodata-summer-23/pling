@@ -67,7 +67,11 @@ export const getCategoryOptions = (): CategoryOption[] => [
     category: 'flood',
     faIcon: 'water',
     featureLayers: {
-      // 'https://utility.arcgis.com/usrsvcs/servers/811c02c15905411d89f2a6e3bcda6399/rest/services/Geomap_UTM33_EUREF89/GeomapFlom/MapServer/1',
+      // TODO
+      // flood: {
+      //   url: 'https://utility.arcgis.com/usrsvcs/servers/811c02c15905411d89f2a6e3bcda6399/rest/services/Geomap_UTM33_EUREF89/GeomapFlom/MapServer/1',
+      //   radius: 50,
+      // },
     },
   },
   {
@@ -120,7 +124,11 @@ export const getCategoryOptions = (): CategoryOption[] => [
     category: 'quickClay',
     faIcon: 'hill-rockslide',
     featureLayers: {
-      // 'https://utility.arcgis.com/usrsvcs/servers/ec96f664795c4ff4843ee086069bb7ab/rest/services/Geomap_UTM33_EUREF89/GeomapSkred/MapServer/21',
+      // TODO
+      // quickClay: {
+      //   url: 'https://utility.arcgis.com/usrsvcs/servers/ec96f664795c4ff4843ee086069bb7ab/rest/services/Geomap_UTM33_EUREF89/GeomapSkred/MapServer/21',
+      //   radius: 50,
+      // },
     },
   },
   {
@@ -143,6 +151,15 @@ export const getCategoryOptions = (): CategoryOption[] => [
     description: 'Bygg som vil ligge under havnivå i 2090.',
     category: 'seaRise',
     faIcon: 'arrow-up-from-ground-water',
-    featureLayers: {},
+    featureLayers: {
+      buildings: {
+        url: 'https://services.arcgis.com/2JyTvMWQSnM2Vi8q/arcgis/rest/services/bygghavniv/FeatureServer/0',
+        radius: 50,
+      },
+      seaRise: {
+        url: 'https://services.arcgis.com/2JyTvMWQSnM2Vi8q/arcgis/rest/services/Havniv%C3%A5/FeatureServer/0',
+        radius: 50,
+      },
+    },
   },
 ]
