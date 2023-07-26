@@ -1,6 +1,10 @@
 <template>
   <div class="col" @click="useModalStore().pop()">
-    <h3>{{ category.title }}</h3>
+    <div class="row center" style="gap: 0.5em; margin-bottom: 1em">
+      <fa-icon icon="info" class="icon"></fa-icon>
+      <h3>{{ category.title }}</h3>
+      <div style="width: 3em"></div>
+    </div>
     <p v-html="category.info.description"></p>
     <h4 style="margin-top: 1em">Tegnforklaring</h4>
     <div v-for="legend in category.info.legends">
@@ -66,5 +70,12 @@ h4 {
 
 svg {
   margin-inline: 0.5em;
+}
+
+.icon {
+  color: var(--c-dark-gray);
+  border: 2px solid var(--c-dark-gray);
+  padding: 0.35em 0.4em 0.45em 0.4em;
+  border-radius: 2em;
 }
 </style>

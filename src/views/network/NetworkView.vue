@@ -3,6 +3,16 @@
     <div class="report-box">
       <h3 style="margin-top: 0.5em; text-align: center">
         {{ $t().wishToReport }}
+        <InfoButton
+          title="Å dele med nettverket"
+          text="<em>Varsle en hendelse</em> og <em>be om hjelp</em> er offentlige innlegg for nettverket. Nettverket er knyttet til din posisjon og du vil bare få opp innlegg innenfor 1 km radius. 
+        <br><br>
+        <b>Varsle en hendelse</b><br>
+        Du kan varsle om en hendelse som er relevante for nettverket å vite om som utdyper om en gitt risiko eller er en risiko som ikke er observert av våre datasett. 
+        <br><br>
+        <b>Be om hjelp</b><br>
+        Forespørsler som blir sendt ut kan godtas av nettverket. Forespørselen beskriver hva du trenger hjelp med i forbindelse med en hendelse ved en av dine lagrede steder."
+        ></InfoButton>
       </h3>
       <div class="row" style="gap: 1em">
         <button
@@ -51,6 +61,7 @@ import { router } from '@/router'
 import { $t } from '@/translation'
 import { usePlaceStore } from '@/stores/placeStore'
 import { ref } from 'vue'
+import InfoButton from '@/components/InfoButton.vue'
 
 type Pane = 'events' | 'help-requests'
 const pane = ref<Pane>('events')

@@ -1,9 +1,7 @@
 <template>
   <div class="col center spaced" style="height: 100%">
-    <div style="text-align: center">
-      <h3>{{ title }}</h3>
-      <p>{{ text }}</p>
-    </div>
+    <h3 style="text-align: center; margin: 0">{{ title }}</h3>
+    <p v-html="text"></p>
     <div class="row" style="gap: 1em">
       <button
         v-for="button in buttons"
@@ -30,8 +28,7 @@ defineProps<{
   width: 6em;
 }
 
-.blue {
-  background-color: var(--c-light-blue);
-  color: var(--c-white);
+p {
+  font-size: 10pt;
 }
 </style>
