@@ -1,5 +1,5 @@
 <template>
-  <div class="col">
+  <div class="col" @click="useModalStore().pop()">
     <h3>{{ category.title }}</h3>
     <p v-html="category.info.description"></p>
     <h4 style="margin-top: 1em">Tegnforklaring</h4>
@@ -39,6 +39,7 @@
 
 <script lang="ts" setup>
 import { CategoryOption } from '@/scripts/category'
+import { useModalStore } from '@/stores/modalStore'
 
 defineProps<{
   category: CategoryOption

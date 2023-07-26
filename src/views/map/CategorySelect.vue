@@ -21,10 +21,10 @@
 </template>
 
 <script lang="ts" setup>
-// import PromptModalContent from '@/components/PromptModalContent.vue'
 import { CategoryOption, getCategoryOptions } from '@/scripts/category'
 import { useModalStore } from '@/stores/modalStore'
 import { $t } from '@/translation'
+import MapInfo from './MapInfo.vue'
 
 defineProps<{
   selectedCategory: CategoryOption
@@ -37,30 +37,13 @@ const emit = defineEmits<{
 const onLayerOptionSelect = (categoryOption: CategoryOption) => {
   emit('select-category', categoryOption)
   useModalStore().pop()
-  // useModalStore().push(
-  //   PromptModalContent,
-  //   {
-  //     title: $t().category + ': ' + categoryOption.title,
-  //     text: categoryOption.description,
-  //     buttons: [
-  //       {
-  //         text: $t().cancel,
-  //         click: () => {
-  //           useModalStore().pop()
-  //         },
-  //       },
-  //       {
-  //         text: $t().show,
-  //         click: () => {
-  //           emit('select-category', categoryOption)
-  //           useModalStore().pop()
-  //           useModalStore().pop()
-  //         },
-  //       },
-  //     ],
-  //   },
-  //   {}
-  // )
+  useModalStore().push(
+    MapInfo,
+    {
+      category: categoryOption,
+    },
+    {}
+  )
 }
 </script>
 
