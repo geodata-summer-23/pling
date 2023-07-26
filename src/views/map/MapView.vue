@@ -202,11 +202,7 @@ const onCategoryModal = () => {
 }
 
 const onInfoModal = () => {
-  useModalStore().push(
-    MapInfo,
-    { selectedCategory: selectedCategory.value },
-    {}
-  )
+  useModalStore().push(MapInfo, { category: selectedCategory.value }, {})
 }
 
 const selectedCategory = ref(getCategoryOptions()[0])

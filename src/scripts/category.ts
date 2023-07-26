@@ -1,4 +1,5 @@
 import { $t } from '@/translation'
+// import compassSvgSrc from '@/assets/compass.svg'
 
 export type Category =
   | 'flood'
@@ -39,18 +40,27 @@ export type FeatureLayerUrls = Record<string, { url: string; radius: number }>
 export type CategoryOption = {
   title: string
   layerId: string
-  description: string
   category: Category
   faIcon: string
   featureLayers: FeatureLayerUrls
+  info: {
+    description: string
+    img?: string
+    legends: {
+      title: string
+      items: {
+        text: string
+        color: string
+        shape?: 'circle' | 'arrow' | 'line' | 'square'
+      }[]
+    }[]
+  }
 }
 
 export const getCategoryOptions = (): CategoryOption[] => [
   {
     title: $t().rainFlood,
     layerId: '1894a0de007-layer-22',
-    description:
-      'Veien vannet tar når det er styrtregn. Styrtregn er intense regnbyger som kan skape lokal oversvømmelse i lavtliggende steder.',
     category: 'rainFlood',
     faIcon: 'cloud-showers-heavy',
     featureLayers: {
@@ -59,11 +69,51 @@ export const getCategoryOptions = (): CategoryOption[] => [
         radius: 0,
       },
     },
+    info: {
+      description: `Styrtregn er intense regnbyger over en kort tidsperiode, gjerne helt lokalt.<br/><br/>Her; kun fargelagt på bygninger med kjeller ettersom de er spesielt utsatt.`,
+      legends: [
+        {
+          title: 'Vannveier',
+          items: [
+            {
+              text: 'Vannveier',
+              color: '#295FBF',
+              shape: 'line',
+            },
+            {
+              text: 'Piler indikerer vannets retning',
+              color: '#295FBF',
+              shape: 'arrow',
+            },
+          ],
+        },
+        {
+          title: 'Utsatte bygninger for overvann',
+          items: [
+            {
+              text: 'Svært stor vannvei nær bygning',
+              color: '#DB645D',
+            },
+            {
+              text: 'Stor vannvei nær bygning',
+              color: '#F2AC77',
+            },
+            {
+              text: 'Medium vannvei nær bygning',
+              color: '#F8D990',
+            },
+            {
+              text: 'Liten vannvei nær bygning',
+              color: '#E0E5B8',
+            },
+          ],
+        },
+      ],
+    },
   },
   {
     title: $t().flood,
     layerId: '1894e6f75c8-layer-27',
-    description: 'Områder som kan bli under vann hvis vannivået i elver øker.',
     category: 'flood',
     faIcon: 'water',
     featureLayers: {
@@ -73,11 +123,24 @@ export const getCategoryOptions = (): CategoryOption[] => [
       //   radius: 50,
       // },
     },
+    info: {
+      description: `Flom er oversvømmelse ved økt vannstand i elver, som følge av mye regn og/eller snøsmelting.<br/><br/>Her; Områder som kan bli under vann hvis en stor flom oppstår. Det er stor sannsynlighet for at en flom av denne størrelsen kommer til å skje i løpet av de neste 20 årene. `,
+      legends: [
+        {
+          title: 'Flomsone',
+          items: [
+            {
+              text: 'Områder som kan bli oversvømt',
+              color: '#99B8E7',
+            },
+          ],
+        },
+      ],
+    },
   },
   {
     title: $t().temperatureMap,
     layerId: '18963742ade-layer-39',
-    description: 'Variasjonen i temperatur på en sommerdag med sol.',
     category: 'temperature',
     faIcon: 'temperature-high',
     featureLayers: {
@@ -86,12 +149,40 @@ export const getCategoryOptions = (): CategoryOption[] => [
         radius: 50,
       },
     },
+    info: {
+      description: `Temperaturkartet viser variasjoner i temperatur på en solfylt dag. Områder med tett bebyggelse vil vanligvis skape høyere temperaturer enn områder med mye grøntareal.`,
+      legends: [
+        {
+          title: 'Temperaturforskjeller',
+          items: [
+            {
+              text: 'Varmeste områder',
+              color: '#EA8B80',
+            },
+            {
+              text: 'Varme områder',
+              color: '#F3C99B',
+            },
+            {
+              text: 'Gjennomsnittlig temperatur',
+              color: '#FCFEDE',
+            },
+            {
+              text: 'Kjølige områder',
+              color: '#D1E1CE',
+            },
+            {
+              text: 'Kjøligste områder',
+              color: '#9CC4E1',
+            },
+          ],
+        },
+      ],
+    },
   },
   {
     title: $t().katabaticWind,
     layerId: '1894ed8aeb4-layer-32',
-    description:
-      'Fallvind er en kraftig vindstrøm som beveger seg nedover fra høyere luftlag mot bakken.',
     category: 'katabaticWind',
     faIcon: 'wind',
     featureLayers: {
@@ -116,11 +207,46 @@ export const getCategoryOptions = (): CategoryOption[] => [
         radius: 50,
       },
     },
+    info: {
+      description: `Fallvind betegnes som sterk og turbulent vind som kan oppstå når luft beveger seg nedover en br/att skråning.<br/><br/>Her; Områder som er utsatt for kraftige vindkast fra fallvind basert på vindretning.`,
+      // img: compassSvgSrc,
+      legends: [
+        {
+          title: 'Områder utsatt for fallvind, med retning',
+          items: [
+            {
+              text: 'Nordavind',
+              color: '#4C81CD',
+            },
+            {
+              text: 'Østavind',
+              color: '#F0F0A6',
+            },
+            {
+              text: 'Søravind',
+              color: '#E9A292',
+            },
+            {
+              text: 'Vestavind',
+              color: '#B4D49D',
+            },
+          ],
+        },
+        {
+          title: 'Bygg utsatt for fallvind',
+          items: [
+            {
+              text: 'Utsatte bygg',
+              color: '#E5685E',
+            },
+          ],
+        },
+      ],
+    },
   },
   {
     title: $t().quickClay,
     layerId: '1894e91ecbb-layer-30',
-    description: 'Områder utsatt for kvikkleireskred.',
     category: 'quickClay',
     faIcon: 'hill-rockslide',
     featureLayers: {
@@ -130,12 +256,35 @@ export const getCategoryOptions = (): CategoryOption[] => [
       //   radius: 50,
       // },
     },
+    info: {
+      description: `Kvikkleire er betegnelsen på marinleire som ved overbelastning kan bli tyntflytende og skape kollaps. Overbelasting kan eksempelvis oppstå ved bygningsarbeid og kraftig regn.<br/><br/>Her; Områder utsatt for kvikkleireskred`,
+      legends: [
+        {
+          title: 'Kvikkleirerisiko',
+          items: [
+            {
+              text: 'Høy risiko',
+              color: '#FE1115',
+              shape: 'square',
+            },
+            {
+              text: 'Middels risiko',
+              color: '#FEA804',
+              shape: 'square',
+            },
+            {
+              text: 'Lav risiko',
+              color: '#FFFE75',
+              shape: 'square',
+            },
+          ],
+        },
+      ],
+    },
   },
   {
     title: $t().stormSurge,
     layerId: '189639a4259-layer-40',
-    description:
-      'Bygg som kan få vanninntrenging fra sjøen i 2090 ved stormfulle værforhold.',
     category: 'stormSurge',
     faIcon: 'house-flood-water',
     featureLayers: {
@@ -144,11 +293,33 @@ export const getCategoryOptions = (): CategoryOption[] => [
         radius: 50,
       },
     },
+    info: {
+      description: `Stormflo oppstår i områder som er utsatt for vanninntrenging fra havet ved storm mot land.<br/><br/>Her; Det vises områder som er utsatt for vanninntrenging fra havet ved storm mot land, det er svært stor sannsynlighet for at en slik hendelse vil skje i løpet av de neste 20 årene.`,
+      legends: [
+        {
+          title: 'Stormflosoner',
+          items: [
+            {
+              text: 'Områder hvor vanninntrenging kan oppstå',
+              color: '#99B8E7',
+            },
+          ],
+        },
+        {
+          title: 'Bygg utsatt for stormfo',
+          items: [
+            {
+              text: 'Utsatte bygg',
+              color: '#99B8E7',
+            },
+          ],
+        },
+      ],
+    },
   },
   {
     title: $t().seaRise,
     layerId: '18963f12bf3-layer-42',
-    description: 'Bygg som vil ligge under havnivå i 2090.',
     category: 'seaRise',
     faIcon: 'arrow-up-from-ground-water',
     featureLayers: {
@@ -160,6 +331,29 @@ export const getCategoryOptions = (): CategoryOption[] => [
         url: 'https://services.arcgis.com/2JyTvMWQSnM2Vi8q/arcgis/rest/services/Havniv%C3%A5/FeatureServer/0',
         radius: 0,
       },
+    },
+    info: {
+      description: `Havnivåstigning er en konsekvens av klimaendringer som kan føre til at dagens landområder vil havne under vann.<br/><br/>Her; bygg som vil ligge under havnivå i 2090.`,
+      legends: [
+        {
+          title: 'Soner for havnivåstigning',
+          items: [
+            {
+              text: 'Områder som vil ligge under havnivå i 2019',
+              color: '#99B8E7',
+            },
+          ],
+        },
+        {
+          title: 'Bygg utsatt for havnivåstigning',
+          items: [
+            {
+              text: 'Bygninger som vil ligge under havnivå i 2019',
+              color: '#99B8E7',
+            },
+          ],
+        },
+      ],
     },
   },
 ]
