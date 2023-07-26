@@ -154,11 +154,11 @@ export const getCategoryOptions = (): CategoryOption[] => [
     featureLayers: {
       buildings: {
         url: 'https://services.arcgis.com/2JyTvMWQSnM2Vi8q/arcgis/rest/services/bygghavniv/FeatureServer/0',
-        radius: 50,
+        radius: 0,
       },
       seaRise: {
         url: 'https://services.arcgis.com/2JyTvMWQSnM2Vi8q/arcgis/rest/services/Havniv%C3%A5/FeatureServer/0',
-        radius: 50,
+        radius: 0,
       },
     },
   },

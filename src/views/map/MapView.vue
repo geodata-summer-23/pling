@@ -46,16 +46,17 @@
       </div>
     </template>
     <template v-slot:top-left>
-      <div v-if="placeStore.currentPlace.alertSummary.length > 0">
-        <img
-          v-for="icon in warningIcons"
-          :src="icon"
-          alt=""
-          width="40"
-          style="margin-left: -1em"
-        />
-      </div>
-      <LoadingSpinner v-else :scale="0.5"></LoadingSpinner>
+      <img
+        v-for="icon in warningIcons"
+        :src="icon"
+        alt=""
+        width="40"
+        style="margin-left: -1em"
+      />
+      <LoadingSpinner
+        v-if="!placeStore.currentPlace.alertSummary"
+        :scale="0.5"
+      ></LoadingSpinner>
     </template>
     <div class="col" style="gap: 1em">
       <div>
