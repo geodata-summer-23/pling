@@ -1,5 +1,5 @@
 <template>
-  <div class="col">
+  <div class="col" style="margin-top: 1em; gap: 1em">
     <EventBox v-for="event in place.events" :event="event" />
   </div>
 </template>

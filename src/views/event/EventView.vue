@@ -52,6 +52,7 @@ import { router } from '@/router'
 import { $t } from '@/translation'
 import { serverUrl } from '@/scripts/url'
 import { Observation } from '@/scripts/alert'
+import { getCategoryOptions } from '@/scripts/category'
 
 enum Page {
   Category,
@@ -69,8 +70,8 @@ const requestState = ref<RequestState>('not-sent')
 const observation = reactive<Observation>({
   message: '',
   position: { latitude: 0.0, longitude: 0.0 },
-  category: 'flood',
-  image: "",
+  category: getCategoryOptions()[0].category,
+  image: '',
 })
 
 const prevPage = () => {

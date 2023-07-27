@@ -25,7 +25,7 @@ const click = () => {
 .icon {
   color: var(--c-dark-gray);
   border: 2px solid var(--c-dark-gray);
-  padding: 0.1em 0.2em;
+  padding: 0.1em 0.2em 0.1em 0.3em;
   border-radius: 2em;
   display: inline;
   aspect-ratio: 1;

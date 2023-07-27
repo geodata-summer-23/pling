@@ -1,16 +1,19 @@
 <template>
-  <div class="row alert-box">
+  <div style="margin: 0 2em">
     <div class="col">
-      <p>{{ alert.message }}</p>
+      <p style="margin: 0">{{ alert.message }}</p>
       <h4 style="margin-bottom: 0">{{ $t().advices }}</h4>
       <ul style="margin-top: 0">
         <li v-for="advice in alert.advices">{{ advice }}</li>
       </ul>
     </div>
-    <div>
+  </div>
+  <div v-if="alert.images.length > 0" style="margin-bottom: 2em">
+    <h4 style="margin-inline: 2em">Observasjoner</h4>
+    <div class="row" style="width: 100%; overflow: auto">
       <img
-        v-if="alert.images.length > 0"
-        :src="alert.images[0]"
+        v-for="image in alert.images"
+        :src="image"
         alt=""
         style="height: auto"
       />
@@ -26,18 +29,9 @@ defineProps<{ alert: Alert }>()
 </script>
 
 <style scoped>
-.alert-box {
-  overflow: hidden;
-  margin: 0 2em;
-}
-
 img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-p {
-  margin: 0;
 }
 </style>

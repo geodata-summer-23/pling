@@ -1,18 +1,21 @@
 <template>
   <div class="row event-box">
-    <div class="col">
-      <div class="row center" style="gap: 0.5em">
-        <h3 style="margin: 0">{{ $text(props.event.category) }}</h3>
+    <div class="col" style="flex: 3; padding: 0.5em 1em">
+      <div class="row" style="gap: 0.5em">
+        <h4 style="margin: 0">{{ $text(props.event.category) }}</h4>
         <DistanceIndicator :distance="event.distance"></DistanceIndicator>
       </div>
       <p>{{ props.event.summary }}</p>
     </div>
-    <div>
+    <div style="flex: 2">
+      <img
+        :src="getCategoryIconSrc(event.category)"
+        style="position: absolute; right: 0.5em; top: 0.5em"
+      />
       <img
         v-if="props.event.images.length > 0"
         :src="props.event.images[0]"
-        alt=""
-        style="height: auto"
+        class="cover-img"
       />
     </div>
   </div>
@@ -21,6 +24,7 @@
 <script lang="ts" setup>
 import DistanceIndicator from '@/components/DistanceIndicator.vue'
 import { ObservedEvent } from '@/scripts/alert'
+import { getCategoryIconSrc } from '@/scripts/category'
 import { $text } from '@/translation'
 
 const props = defineProps<{ event: ObservedEvent }>()
@@ -28,11 +32,14 @@ const props = defineProps<{ event: ObservedEvent }>()
 
 <style scoped>
 .event-box {
+  position: relative;
   overflow: hidden;
-  margin: 2em;
+  border-radius: 1em;
+  box-shadow: 0 0.4em 0.6em var(--c-medium-gray);
+  border: 1px solid var(--c-medium-gray);
 }
 
-img {
+.cover-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -40,5 +47,6 @@ img {
 
 p {
   margin: 0;
+  font-size: 10pt;
 }
 </style>
