@@ -26,11 +26,13 @@ export const getCategoryIconSrc = (category: Category) => {
   switch (category) {
     case 'katabaticWind':
       return `./warningIcons/icon-warning-wind-red.svg`
-    case 'other':
-      return './warningIcons/icon-warning-extreme.svg'
     case 'temperature':
       return './warningIcons/icon-warning-extreme.svg'
     case 'quickClay':
+      return './warningIcons/icon-warning-extreme.svg'
+    case 'seaRise':
+      return './warningIcons/icon-warning-extreme.svg'
+    case 'other':
       return './warningIcons/icon-warning-extreme.svg'
     default:
       return `./warningIcons/icon-warning-${category.toLowerCase()}-red.svg`
