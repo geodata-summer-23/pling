@@ -62,13 +62,13 @@
       <div>
         <div
           v-if="placeStore.currentPlace.alertSummary.length > 0"
-          style="margin: 1em 2em; border-bottom: 1px solid var(--c-dark-gray)"
+          style="margin: 1em 2em"
         >
-          <h4 style="margin: 0">Oppsummering</h4>
-          <p>
+          <p style="font-size: 11pt">
             {{ placeStore.currentPlace.alertSummary }}
           </p>
         </div>
+        <hr style="border: 1px solid var(--c-medium-gray); margin: 1em 0" />
         <AlertList
           :place="placeStore.currentPlace"
           @select-category="

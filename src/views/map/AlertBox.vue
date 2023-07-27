@@ -1,13 +1,13 @@
 <template>
   <div style="margin: 0 2em">
     <div class="col">
-      <span v-if="alert.observationCount" style="margin: 0"
-        >Dette varselet er basert på {{ alert.observationCount }}
-        {{ alert.observationCount > 1 ? 'observasjoner' : 'observasjon' }} fra
-        personer i nærheten.</span
+      <span v-if="alert.observationCount" style="font-size: small"
+        >Observert av {{ alert.observationCount }}
+        {{ alert.observationCount > 1 ? 'personer' : 'person' }} i
+        nærheten.</span
       >
-      <p style="margin: 0">{{ alert.message }}</p>
-      <h4 style="margin-bottom: 0">{{ $t().advices }}</h4>
+      <p>{{ alert.message }}</p>
+      <h4 style="margin: 0">{{ $t().advices }}</h4>
       <ul style="margin-top: 0">
         <li v-for="advice in alert.advices">{{ advice }}</li>
       </ul>
@@ -38,5 +38,10 @@ img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+p,
+li {
+  font-size: 11pt;
 }
 </style>

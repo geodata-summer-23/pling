@@ -48,7 +48,14 @@ const selectAlert = (event: Alert) => {
 watch(
   [() => props.place, () => props.place.alerts],
   ([place, alerts]) => {
-    selectedAlert.value = alerts.length > 0 ? place.alerts[0] : null
+    if (alerts.length == 0) {
+      selectedAlert.value = null
+      return
+    }
+    if (selectedAlert.value == null || !alerts.includes(selectedAlert.value)) {
+      selectAlert(place.alerts[0])
+      return
+    }
   },
   { immediate: true }
 )
@@ -56,7 +63,7 @@ watch(
 
 <style scoped>
 .alert-tab {
-  padding: 0.5em 1em;
+  padding: 0.2em 1em;
   background-color: var(--c-white);
   color: var(--c-dark-gray);
   border-radius: 0.5em;
