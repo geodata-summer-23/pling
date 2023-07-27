@@ -9,7 +9,7 @@
     </div>
     <div style="flex: 2">
       <img
-        :src="getCategoryIconSrc(event.category)"
+        :src="getCategoryIconSrc(event.category, Severity.Critical)"
         style="position: absolute; right: 0.5em; top: 0.5em"
       />
       <img
@@ -24,7 +24,7 @@
 <script lang="ts" setup>
 import DistanceIndicator from '@/components/DistanceIndicator.vue'
 import { ObservedEvent } from '@/scripts/alert'
-import { getCategoryIconSrc } from '@/scripts/category'
+import { Severity, getCategoryIconSrc } from '@/scripts/category'
 import { $text } from '@/translation'
 
 const props = defineProps<{ event: ObservedEvent }>()

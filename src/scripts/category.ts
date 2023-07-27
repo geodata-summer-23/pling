@@ -22,20 +22,35 @@ export const allCategories: Category[] = [
   'seaRise',
 ]
 
-export const getCategoryIconSrc = (category: Category) => {
+export enum Severity {
+  Unknown,
+  NoDanger,
+  Moderate,
+  Critical,
+}
+
+const severityColors = {
+  [Severity.Unknown]: 'yellow',
+  [Severity.NoDanger]: 'yellow',
+  [Severity.Moderate]: 'orange',
+  [Severity.Critical]: 'red',
+}
+export const getCategoryIconSrc = (
+  category: Category,
+  severity: Severity = Severity.Unknown
+) => {
+  const color = severityColors[severity] ?? severityColors[Severity.Unknown]
+
   switch (category) {
     case 'katabaticWind':
-      return `./warningIcons/icon-warning-wind-red.svg`
+      return `./warningIcons/icon-warning-wind-${color}.svg`
     case 'temperature':
-      return './warningIcons/icon-warning-extreme.svg'
     case 'quickClay':
-      return './warningIcons/icon-warning-extreme.svg'
     case 'seaRise':
-      return './warningIcons/icon-warning-extreme.svg'
     case 'other':
-      return './warningIcons/icon-warning-extreme.svg'
+      return `./warningIcons/icon-warning-generic-${color}.svg`
     default:
-      return `./warningIcons/icon-warning-${category.toLowerCase()}-red.svg`
+      return `./warningIcons/icon-warning-${category.toLowerCase()}-${color}.svg`
   }
 }
 export type FeatureLayerUrls = Record<string, { url: string; radius: number }>

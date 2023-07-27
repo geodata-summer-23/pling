@@ -53,7 +53,9 @@ const props = defineProps<{
 }>()
 
 const warningIcons = computed(() =>
-  props.place.alerts.map((alert) => getCategoryIconSrc(alert.category))
+  props.place.alerts.map((alert) =>
+    getCategoryIconSrc(alert.category, alert.severity)
+  )
 )
 
 const clickPlace = (place: Place) => {

@@ -18,7 +18,7 @@
         <div>{{ maxChars(notification.body, 100) }}</div>
       </div>
       <img
-        :src="getCategoryIconSrc(notification.category)"
+        :src="getCategoryIconSrc(notification.category, Severity.Critical)"
         alt="notification.category"
         style="margin: 0.5"
         width="50"
@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts" setup>
-import { getCategoryIconSrc } from '@/scripts/category'
+import { Severity, getCategoryIconSrc } from '@/scripts/category'
 import { maxChars } from '@/scripts/string'
 import { NotificationData } from '@/stores/notificationStore'
 

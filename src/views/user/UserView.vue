@@ -14,6 +14,9 @@
     </div>
   </div>
   <div class="view-bottom col">
+    <button v-if="isDev()" class="btn" @click="router.push({ name: 'admin' })">
+      admin
+    </button>
     <button class="btn" @click="router.push({ name: 'onboarding' })">
       {{ $t().editInformation }}
     </button>
@@ -26,7 +29,7 @@ import IconButton from '@/components/IconButton.vue'
 import { router } from '@/router'
 import { useGeolocationStore } from '@/stores/geolocationStore'
 import { usePlaceStore } from '@/stores/placeStore'
-import { useUserStore, signIn } from '@/stores/userStore'
+import { isDev, useUserStore, signIn } from '@/stores/userStore'
 import { $t } from '@/translation'
 
 const userStore = useUserStore()

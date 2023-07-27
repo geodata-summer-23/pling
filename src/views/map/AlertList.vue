@@ -11,7 +11,11 @@
         style="gap: 0.5em"
         @click="() => selectAlert(alert)"
       >
-        <img :src="getCategoryIconSrc(alert.category)" alt="" width="30" />
+        <img
+          :src="getCategoryIconSrc(alert.category, alert.severity)"
+          alt=""
+          width="30"
+        />
         {{ $text(alert.category) }}
       </div>
     </div>

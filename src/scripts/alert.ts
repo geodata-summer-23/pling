@@ -1,6 +1,6 @@
 import { UserData } from '@/stores/userStore'
 import { Place, Position } from './place'
-import { Category } from './category'
+import { Category, Severity } from './category'
 
 export type NowcastData = {
   airTemperature: number
@@ -35,6 +35,8 @@ export type Alert = {
   distance: number
   images: string[]
   advices: string[]
+  severity: Severity
+  observationCount: number
 }
 
 export type FeatureQuery = {

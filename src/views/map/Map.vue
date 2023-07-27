@@ -91,7 +91,7 @@ import { $t } from '@/translation'
 import { router } from '@/router'
 import { useLoadingStore } from '@/stores/loadingStore'
 import { AddressResult } from '@/scripts/search'
-import { Category, getCategoryIconSrc } from '@/scripts/category'
+import { Category, Severity, getCategoryIconSrc } from '@/scripts/category'
 import { ViewClickEvent, mapObjects } from '@/scripts/map'
 import * as projection from '@arcgis/core/geometry/projection.js'
 
@@ -310,7 +310,7 @@ const createEventGraphic = (point: Position, category: Category) => {
     symbol: {
       // @ts-ignore
       type: 'picture-marker',
-      url: getCategoryIconSrc(category),
+      url: getCategoryIconSrc(category, Severity.Critical),
       width: '35px',
       height: '35px',
     },

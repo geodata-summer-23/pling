@@ -1,6 +1,11 @@
 <template>
   <div style="margin: 0 2em">
     <div class="col">
+      <span v-if="alert.observationCount" style="margin: 0"
+        >Dette varselet er basert på {{ alert.observationCount }}
+        {{ alert.observationCount > 1 ? 'observasjoner' : 'observasjon' }} fra
+        personer i nærheten.</span
+      >
       <p style="margin: 0">{{ alert.message }}</p>
       <h4 style="margin-bottom: 0">{{ $t().advices }}</h4>
       <ul style="margin-top: 0">

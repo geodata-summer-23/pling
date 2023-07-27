@@ -146,7 +146,9 @@ const shakeInfoButton = () => {
 }
 
 const warningIcons = computed(() =>
-  placeStore.currentPlace?.alerts.map((e) => getCategoryIconSrc(e.category))
+  placeStore.currentPlace?.alerts.map((alert) =>
+    getCategoryIconSrc(alert.category, alert.severity)
+  )
 )
 
 onActivated(() => {

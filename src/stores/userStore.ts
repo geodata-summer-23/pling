@@ -77,6 +77,8 @@ export const useUserStore = defineStore('user', {
   },
 })
 
+export const isDev = () => import.meta.env.DEV
+
 // ArcGIS Auth
 
 export const oAuthInfo = new OAuthInfo({
