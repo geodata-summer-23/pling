@@ -15,13 +15,12 @@
   />
   <br />
   <label>{{ $t().address }}</label>
-  <div class="row spaced">
+  <div class="row spaced" @click="onSearch">
     <input
       type="text"
       disabled="true"
       placeholder="Schweigaards gate 28"
       v-model="place.address.street"
-      @click="onSearch"
     />
     <div>
       <IconButton
