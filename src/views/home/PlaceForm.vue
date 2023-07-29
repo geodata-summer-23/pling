@@ -21,6 +21,7 @@
       disabled="true"
       placeholder="Schweigaards gate 28"
       v-model="place.address.street"
+      @click="onSearch"
     />
     <div>
       <IconButton
