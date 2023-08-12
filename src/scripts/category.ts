@@ -31,7 +31,7 @@ export enum Severity {
 
 const severityColors = {
   [Severity.Unknown]: 'yellow',
-  [Severity.NoDanger]: 'yellow',
+  [Severity.NoDanger]: 'white',
   [Severity.Moderate]: 'orange',
   [Severity.Critical]: 'red',
 }
