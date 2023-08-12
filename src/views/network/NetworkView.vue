@@ -39,8 +39,11 @@
     <GridSelect
       :value="pane"
       :options="[
-        { text: $t().events, value: 'events' },
-        { text: $t().requests, value: 'help-requests' },
+        { text: numberOfEvents + ' ' + $t().events, value: 'events' },
+        {
+          text: numberOfRequests + ' ' + $t().requests,
+          value: 'help-requests',
+        },
       ]"
       grid-template="1fr 1fr"
       @change="pane = $event as Pane"
@@ -59,12 +62,23 @@ import GridSelect from '@/components/GridSelect.vue'
 import HelpRequestList from '../help/HelpRequestList.vue'
 import { router } from '@/router'
 import { $t } from '@/translation'
-import { usePlaceStore } from '@/stores/placeStore'
-import { ref } from 'vue'
+import { updatePlace, usePlaceStore } from '@/stores/placeStore'
+import { ref, computed, onMounted } from 'vue'
 import InfoButton from '@/components/InfoButton.vue'
+import { useHelpRequestStore } from '@/stores/helpRequestStore'
 
 type Pane = 'events' | 'help-requests'
 const pane = ref<Pane>('events')
+const helpRequestStore = useHelpRequestStore()
+
+const numberOfEvents = computed(() => usePlaceStore().places[0].events.length)
+const numberOfRequests = computed(() => helpRequestStore.requests.length)
+
+onMounted(() => {
+  const place = usePlaceStore().places[0]
+  updatePlace(place, {})
+  helpRequestStore.updateRequests(place.address.position)
+})
 </script>
 
 <style>

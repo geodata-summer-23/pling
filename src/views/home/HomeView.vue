@@ -30,16 +30,6 @@
       :class="{ 'hidden-right': !actionsOpen }"
       style="justify-content: end"
     >
-      <button class="btn btn-shadow" @click="router.push({ name: 'network' })">
-        <fa-icon icon="triangle-exclamation" />
-        <span style="margin: 0 0.5em">{{ $t().reportAnEvent }}</span>
-      </button>
-    </div>
-    <div
-      class="row animated"
-      :class="{ 'hidden-right': !actionsOpen }"
-      style="justify-content: end"
-    >
       <button
         v-if="placeStore.places.length > 1"
         class="btn btn-shadow"
