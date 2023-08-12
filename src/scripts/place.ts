@@ -10,6 +10,7 @@ export type Place = {
   nowcast: NowcastData
   alerts: Alert[]
   alertSummary: string
+  status: 'loading' | 'failed' | 'success' | 'unknown'
 }
 
 export type Address = {
@@ -53,4 +54,5 @@ export const getDefaultPlace = (): Place => ({
     windDirection: 0,
     windSpeed: 0,
   },
+  status: 'unknown',
 })

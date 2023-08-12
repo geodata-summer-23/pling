@@ -54,11 +54,11 @@
         style="margin-left: -1em"
       />
       <LoadingSpinner
-        v-if="!placeStore.currentPlace.alertSummary"
+        v-if="placeStore.currentPlace.status == 'loading'"
         :scale="0.5"
       ></LoadingSpinner>
     </template>
-    <div class="col" style="gap: 1em">
+    <div class="col" style="gap: 1em; align-items: center">
       <div>
         <div
           v-if="placeStore.currentPlace.alertSummary.length > 0"
@@ -83,7 +83,10 @@
             }
           "
         ></AlertList>
-        <!-- <div class="row center">
+        <div
+          v-if="placeStore.currentPlace.status == 'failed'"
+          class="row center"
+        >
           <button
             class="btn"
             @click="
@@ -95,9 +98,9 @@
               }
             "
           >
-            Update
+            {{ $t().tryAgain }}
           </button>
-        </div> -->
+        </div>
       </div>
     </div>
   </SlideUpPane>
@@ -110,7 +113,7 @@ import { signIn, useUserStore } from '@/stores/userStore'
 import { useGeolocationStore } from '@/stores/geolocationStore'
 import { Place } from '@/scripts/place'
 import { AddressResult, searchAddress, selectResult } from '@/scripts/search'
-import { computed, onActivated, onMounted, ref } from 'vue'
+import { computed, onActivated, onMounted, ref, watch } from 'vue'
 import { $t } from '@/translation'
 import { useModalStore } from '@/stores/modalStore'
 import CategorySelect from './CategorySelect.vue'
@@ -226,6 +229,15 @@ const selectCategoryOption = (categoryOption: CategoryOption) => {
     layer.visible = true
   }
 }
+
+watch(
+  () => placeStore.currentPlace?.status,
+  (status) => {
+    if (status && status != 'unknown') {
+      paneOpen.value = true
+    }
+  }
+)
 </script>
 
 <style scoped>

@@ -126,7 +126,7 @@ watch(
   () => props.show,
   () => {
     if (props.show) {
-      state.value = State.Up
+      state.value = State.Middle
     } else {
       state.value = State.Down
     }

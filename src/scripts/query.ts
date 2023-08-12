@@ -179,9 +179,6 @@ export const fetchAlertSummary = async (place: Place) => {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(alertRequest),
   })
-  if (!response.ok) {
-    return
-  }
   place.alertSummary = await response.json()
   usePlaceStore().saveToLocalStorage()
 }

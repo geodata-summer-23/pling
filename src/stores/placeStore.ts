@@ -9,6 +9,7 @@ import {
   fetchQueries,
 } from '@/scripts/query'
 import { Category, allCategories } from '@/scripts/category'
+import { $t } from '@/translation'
 
 export const usePlaceStore = defineStore('place', {
   state: () => ({
@@ -36,8 +37,6 @@ export const usePlaceStore = defineStore('place', {
       this.places = JSON.parse(localStorage.getItem('places') ?? '[]')
       if (this.places.length == 0) {
         this.places.push(getDefaultMyLocation())
-      } else {
-        // Object.assign(this.places[0], getDefaultMyLocation())
       }
       const defaultPlace = getDefaultPlace()
       this.places.forEach((place) => {
@@ -47,6 +46,7 @@ export const usePlaceStore = defineStore('place', {
         Object.assign(place.address.position, getLatLng(place.address.position))
         Object.keys(defaultPlace).forEach((key) => {
           if (!(key in place)) {
+            // @ts-ignore
             place[key as keyof Place] = JSON.parse(
               JSON.stringify(defaultPlace[key as keyof Place])
             )
@@ -75,23 +75,40 @@ export const updatePlace = async (
   place: Place,
   { positionChanged = false, force = false }
 ) => {
+  place.status = 'loading'
+  if (!place.alertSummary) {
+    place.alertSummary = $t().generatingSummary
+  }
   if (!place.address.position.latitude || !place.address.position.latitude) {
     console.error(`Invalid position of ${place.nickname}`)
+    place.status = 'failed'
+    place.alertSummary = $t().summaryFailed
     return
   }
-  const promises: Promise<Category[]>[] = []
-  promises.push(fetchEvents(place))
-  promises.push(fetchNowcast(place))
-  promises.push(fetchQueries(place, positionChanged || force))
-  const changedCategories = [...new Set((await Promise.all(promises)).flat())]
-  const categories = force ? allCategories : changedCategories
-  console.log('updatePlace', place.nickname, categories)
-  if (categories.length > 0) {
-    const changed = await fetchAlerts(place, categories)
-    if (changed) {
-      await fetchAlertSummary(place)
-      console.log('updateSummary', place.nickname)
+  try {
+    const promises: Promise<Category[]>[] = []
+    promises.push(fetchEvents(place))
+    promises.push(fetchNowcast(place))
+    promises.push(fetchQueries(place, positionChanged || force))
+    const changedCategories = [...new Set((await Promise.all(promises)).flat())]
+    const categories = force ? allCategories : changedCategories
+    console.log('updatePlace', place.nickname, categories)
+    if (categories.length > 0) {
+      const changed = await fetchAlerts(place, categories)
+      if (changed) {
+        place.alertSummary = $t().generatingSummary
+        await fetchAlertSummary(place)
+        console.log('updateSummary', place.nickname)
+      }
     }
+    if (place.alertSummary == $t().generatingSummary) {
+      place.alertSummary = $t().noDangers
+    }
+    if (place.status == 'loading') place.status = 'success'
+  } catch {
+    place.status = 'failed'
+    place.alertSummary = $t().summaryFailed
+    place.alerts = []
   }
 }
 

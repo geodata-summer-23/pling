@@ -116,6 +116,11 @@ const norwegian = {
   dangerOf: 'Fare for ',
   analyze: 'Analyser',
   couldNotFindAddress: 'Fant ingen adresse',
+  generatingSummary: 'Et sammendrag er klart om en kort stund!',
+  summaryFailed:
+    'Vi kunne dessverre ikke lage et sammendrag for dette stedet akkurat nå.',
+  tryAgain: 'Prøv igjen',
+  noDangers: 'Her fant vi ingen farer! Ha en fin dag videre.',
 } as const
 
 const english = {
@@ -211,4 +216,9 @@ const english = {
   dangerOf: 'Danger: ',
   analyze: 'Analyze',
   couldNotFindAddress: 'Could not find an address.',
+  generatingSummary: 'A summary will be available in a short while!',
+  summaryFailed:
+    'We were unfortunately not able to provide a summary of this place at the moment.',
+  tryAgain: 'Try again',
+  noDangers: 'We did not find any dangers in this area! Have a nice day.',
 } as const
