@@ -1,8 +1,15 @@
 <template>
-  <div class="grid spaced" :style="{ 'grid-template-columns': gridTemplate }">
+  <div
+    class="grid"
+    :style="{
+      'grid-template-columns': gridTemplate,
+      padding: options.some((o) => !!o.icon) ? '1em' : '0.5em',
+    }"
+  >
     <div
       v-for="option in options"
-      :class="{ selected: option.value == value }"
+      :class="{ selected: option.value == value, 'has-text': !!option.text }"
+      class="row center"
       @click="emit('change', option.value)"
     >
       <span v-if="option.text">{{ option.text }}</span>
@@ -29,17 +36,19 @@ const emit = defineEmits<{
   column-gap: 0.5em;
   row-gap: 1em;
   box-shadow: 0 0.4em 0.6em var(--c-medium-gray);
-  padding: 1em 1em;
   border-radius: 2em;
   margin: 0.5em 0em;
+  white-space: nowrap;
+  align-items: center;
+  justify-content: space-between;
 }
 
 span {
-  padding: 0.5em 2em;
+  padding: 0.5em 1em;
   cursor: pointer;
 }
 
-.selected > span {
+.selected.has-text {
   background-color: var(--c-blue);
   border-radius: 3em;
   color: var(--c-white);
