@@ -9,6 +9,7 @@
     <div>
       <CategoryForm
         v-if="page == Page.Category"
+        :category="observation.category"
         @category="observation.category = $event"
       ></CategoryForm>
       <LocationForm

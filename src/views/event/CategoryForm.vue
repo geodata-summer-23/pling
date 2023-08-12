@@ -1,39 +1,41 @@
 <template>
   <h3>{{ $t().whatKindEvent }}</h3>
-  <div class="col select">
-    <select
-      class="category-select"
-      name="Kategori"
-      id="category"
-      @change="
-        emit('category', ($event.target as HTMLSelectElement).value as Category)
-      "
-    >
-      <option v-for="option in options" :value="option.category">
-        {{ option.title }}
-      </option>
-    </select>
+  <div class="col">
+    <div v-for="option in options" class="row spaced center">
+      <label :for="option.category">{{ $text(option.category) }}</label>
+      <input
+        type="radio"
+        :id="option.category"
+        :name="option.category"
+        :value="option.category"
+        :checked="category == option.category"
+        @click="emit('category', option.category)"
+      />
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { Category, getCategoryOptions } from '@/scripts/category'
-import { $t } from '@/translation'
+import { $t, $text } from '@/translation'
 
 const options = [
   ...getCategoryOptions(),
-  { title: $t().other, category: 'other' },
+  { title: $t().other, category: 'other' as Category },
 ]
+
+defineProps<{
+  category: Category
+}>()
 
 const emit = defineEmits<{
   (e: 'category', cat: Category): void
 }>()
 </script>
 
-<style>
-.category-select {
-  padding: 1em;
-  appearance: initial;
-  flex-shrink: 0;
+<style scoped>
+label {
+  padding: 0.6em 1em 0.6em 0em;
+  width: 100%;
 }
 </style>
