@@ -1,4 +1,5 @@
 import { Category } from '@/scripts/category'
+import { $text } from '@/translation'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 
 export type NotificationData = {
@@ -39,6 +40,8 @@ export const useNotificationStore = defineStore('notification', {
       this.permission = Notification.permission
     },
     push(notification: NotificationData) {
+      if (this.notifications.some((n) => n.body == notification.body)) return
+      notification.title = $text(notification.title)
       this.notifications.push(notification)
 
       if (this.permission === 'granted') {

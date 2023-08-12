@@ -4,6 +4,7 @@ import Point from '@arcgis/core/geometry/Point'
 import {
   Category,
   FeatureLayerUrls,
+  Severity,
   allCategories,
   getCategoryOptions,
 } from './category'
@@ -17,6 +18,8 @@ import {
 } from './alert'
 import { UserData, useUserStore } from '@/stores/userStore'
 import { usePlaceStore } from '@/stores/placeStore'
+import { useNotificationStore } from '@/stores/notificationStore'
+import { router } from '@/router'
 
 export const metAlertsUrl =
   'https://utility.arcgis.com/usrsvcs/servers/f7978b8123424646bb5960e25d83c606/rest/services/MetAlerts/FeatureServer/0'
@@ -159,6 +162,18 @@ export const fetchAlerts = async (place: Place, categories: Category[]) => {
       const alert = JSON.parse(await response.json()) as Alert
       if (!alert) return alertPrev != -1
       place.alerts = [...place.alerts, alert]
+      if (alert.severity == Severity.Critical) {
+        useNotificationStore().push({
+          title: alert.category,
+          body: alert.message,
+          category: alert.category,
+          timestamp: alert.timestamp,
+          click: () => {
+            usePlaceStore().currentPlace = place
+            router.push({ name: 'map' })
+          },
+        })
+      }
       return true
     })
   )

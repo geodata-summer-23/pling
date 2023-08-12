@@ -52,6 +52,7 @@ export const usePlaceStore = defineStore('place', {
             )
           }
         })
+        place.status = 'unknown'
         updatePlace(place, {
           positionChanged: true,
           force: place == this.places[0],
