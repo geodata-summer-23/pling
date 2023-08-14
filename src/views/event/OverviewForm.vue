@@ -1,6 +1,6 @@
 <template>
   <h3>{{ $t().overview }}</h3>
-  <EventBox :event="observationEvent"></EventBox>
+  <EventBox :event="observationEvent" :active="false"></EventBox>
 </template>
 
 <script lang="ts" setup>

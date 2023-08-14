@@ -90,5 +90,3 @@ const exitPage = () => {
   router.back()
 }
 </script>
-
-<style scoped></style>

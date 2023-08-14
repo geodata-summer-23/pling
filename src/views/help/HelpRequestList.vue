@@ -1,8 +1,9 @@
 <template>
-  <div class="col">
+  <div class="col" style="margin-top: 1em; gap: 1em">
     <HelpRequestBox
       v-for="helpRequest in helpRequestStore.requests"
       :help-request="helpRequest"
+      :active="true"
     />
   </div>
 </template>

@@ -125,6 +125,7 @@ const norwegian = {
   eventDescriptionExample: 'For eksempel: Det er 15 cm vann i kjelleren min.',
   helpRequestDescriptionExample:
     'For eksempel: Jeg trenger hjelp med å sikre trampolinen min før stormen.',
+  addInformation: 'Legg til informasjon',
 } as const
 
 const english = {
@@ -230,4 +231,5 @@ const english = {
     'For example: There is 15 cm of water in my basement.',
   helpRequestDescriptionExample:
     'For example: I need someone to help secure my trampoline before the storm arrives.',
+  addInformation: 'Add information',
 } as const

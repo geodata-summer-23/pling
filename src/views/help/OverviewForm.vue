@@ -1,6 +1,6 @@
 <template>
   <h3>{{ $t().overview }}</h3>
-  <HelpRequestBox :helpRequest="helpRequest"></HelpRequestBox>
+  <HelpRequestBox :helpRequest="helpRequest" :active="false"></HelpRequestBox>
 </template>
 
 <script lang="ts" setup>
