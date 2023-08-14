@@ -1,5 +1,5 @@
 <template>
-  <h3>{{ $t().whereEvent }}</h3>
+  <h3>{{ $t().whereHelpRequest }}</h3>
   <div class="col" style="margin: 0 1em">
     <div v-for="place in places" class="row spaced center">
       <label :for="place.title">{{ place.title }}</label>

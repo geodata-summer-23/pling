@@ -14,6 +14,7 @@
       ></CategoryForm>
       <DescriptionForm
         v-if="page == Page.Description"
+        type="event"
         @description="observation.message = $event"
       ></DescriptionForm>
       <PictureForm

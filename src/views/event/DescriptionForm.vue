@@ -1,7 +1,7 @@
 <template>
   <h3>{{ $t().describeEvent }}</h3>
 
-  <div class="col" style="gap: 1em">
+  <div v-if="type == 'event'" class="col" style="gap: 1em">
     <div v-for="(question, i) in questions" class="row spaced">
       <label :for="`checkbox-${i}`">{{ question.q }}</label>
       <input type="checkbox" :id="`checkbox-${i}`" v-model="question.a" />
@@ -9,12 +9,22 @@
   </div>
 
   <br />
-  <p>{{ $t().eventDescriptionText }}</p>
+  <p>
+    {{
+      type == 'event'
+        ? $t().eventDescriptionText
+        : $t().helpRequestDescriptionText
+    }}
+  </p>
   <div class="col">
     <textarea
       id="eventDescription"
       type="text"
-      placeholder="For eksemple: Det er 15 cm vann i kjelleren min..."
+      :placeholder="
+        type == 'event'
+          ? $t().eventDescriptionExample
+          : $t().helpRequestDescriptionExample
+      "
       @input="
         wordCount = ($event.target as HTMLInputElement).value.split(' ').length
       "
@@ -30,6 +40,10 @@
 import { $t } from '@/translation'
 import { onUnmounted, ref } from 'vue'
 
+defineProps<{
+  type: 'event' | 'helpRequest'
+}>()
+
 const emit = defineEmits<{
   (e: 'description', des: string): void
 }>()
@@ -40,9 +54,7 @@ let eventDescription = ''
 
 const questions = [
   { q: 'Det er fare for liv og helse.', a: false },
-  { q: 'Det er fare for private eiendeler.', a: false },
   { q: 'Det er fare for eiendom eller infrastruktur.', a: false },
-  { q: 'Jeg ønsker hjelp fra noen i nærheten.', a: false },
 ]
 
 onUnmounted(() => {

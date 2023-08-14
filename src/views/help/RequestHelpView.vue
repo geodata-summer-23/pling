@@ -19,6 +19,7 @@
       ></LocationForm>
       <DescriptionForm
         v-if="page == Page.Description"
+        type="helpRequest"
         @description="helpRequest.message = $event"
       ></DescriptionForm>
       <OverviewForm

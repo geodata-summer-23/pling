@@ -63,7 +63,7 @@ const norwegian = {
   report: 'Varsle',
   reportAnEvent: 'Varsle en hendelse',
   whatKindEvent: 'Hvilken type hendelse gjelder det?',
-  whereEvent: 'Hvor skjer dette?',
+  whereHelpRequest: 'Hvor trenger du hjelp?',
   describeEvent: 'Forklar situasjonen',
   pictureEvent: 'Legg til et bilde',
   flood: 'Flom',
@@ -121,6 +121,10 @@ const norwegian = {
     'Vi kunne dessverre ikke lage et sammendrag for dette stedet akkurat nå.',
   tryAgain: 'Prøv igjen',
   noDangers: 'Her fant vi ingen farer! Ha en fin dag videre.',
+  helpRequestDescriptionText: 'Hva trenger du hjelp med?',
+  eventDescriptionExample: 'For eksempel: Det er 15 cm vann i kjelleren min.',
+  helpRequestDescriptionExample:
+    'For eksempel: Jeg trenger hjelp med å sikre trampolinen min før stormen.',
 } as const
 
 const english = {
@@ -162,7 +166,7 @@ const english = {
   report: 'Report',
   reportAnEvent: 'Report an event',
   whatKindEvent: 'What type of event is it?',
-  whereEvent: 'Where is it?',
+  whereHelpRequest: 'At what location do you need help?',
   describeEvent: 'Describe the situation',
   pictureEvent: 'Add a picture',
   flood: 'Flood',
@@ -221,4 +225,9 @@ const english = {
     'We were unfortunately not able to provide a summary of this place at the moment.',
   tryAgain: 'Try again',
   noDangers: 'We did not find any dangers in this area! Have a nice day.',
+  helpRequestDescriptionText: 'What do you need help with?',
+  eventDescriptionExample:
+    'For example: There is 15 cm of water in my basement.',
+  helpRequestDescriptionExample:
+    'For example: I need someone to help secure my trampoline before the storm arrives.',
 } as const
