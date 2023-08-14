@@ -1,6 +1,7 @@
 <template>
-  <div class="view col spaced" style="gap: 2em">
+  <div class="view col spaced" style="gap: 1em">
     <IconButton v-if="page != 0" @click="prevPage"></IconButton>
+    <ProgressBar :number="Page.End" :index="page"></ProgressBar>
     <div>
       <WelcomeForm
         v-if="page == Page.Welcome"
@@ -50,6 +51,7 @@ import { ref } from 'vue'
 import { router } from '@/router'
 import { useUserStore } from '@/stores/userStore'
 import { $t } from '@/translation'
+import ProgressBar from '@/components/ProgressBar.vue'
 
 enum Page {
   Welcome,

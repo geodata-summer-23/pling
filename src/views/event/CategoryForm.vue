@@ -1,6 +1,6 @@
 <template>
   <h3>{{ $t().whatKindEvent }}</h3>
-  <div class="col">
+  <div class="col" style="margin: 0 1em">
     <div v-for="option in options" class="row spaced center">
       <label :for="option.category">{{ $text(option.category) }}</label>
       <input

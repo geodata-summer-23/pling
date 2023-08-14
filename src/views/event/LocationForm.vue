@@ -1,45 +1,45 @@
 <template>
   <h3>{{ $t().whereEvent }}</h3>
-  <div class="col select">
-    <select
-      class="location-select"
-      name="LocationSelect"
-      id="locationSelect"
-      :value="locationOption"
-      @change="locationOption = ($event.target as HTMLSelectElement).value"
-    >
-      <option value="myLocation">{{ $t().myLocation }}</option>
-      <option value="locationInMap">{{ $t().selectInMap }}</option>
-    </select>
+  <div class="col" style="margin: 0 1em">
+    <div v-for="place in places" class="row spaced center">
+      <label :for="place.title">{{ place.title }}</label>
+      <input
+        type="radio"
+        :id="place.title"
+        :name="place.title"
+        :value="place.title"
+        :checked="location == place.location"
+        @click="emit('location', place.location)"
+      />
+    </div>
   </div>
-
-  <p v-if="locationOption == 'locationInMap'">{{ $t().notImplemented }}</p>
 </template>
 
 <script lang="ts" setup>
-import { useGeolocationStore } from '@/stores/geolocationStore'
 import { Position } from '@/scripts/place'
 import { $t } from '@/translation'
-import { onUnmounted, ref } from 'vue'
+import { computed } from 'vue'
+import { usePlaceStore } from '@/stores/placeStore'
 
-const locationOption = ref('myLocation')
+defineProps<{ location: Position }>()
 
 const emit = defineEmits<{
   (e: 'location', lac: Position): void
 }>()
 
-onUnmounted(() => {
-  emit('location', {
-    latitude: useGeolocationStore().position?.latitude,
-    longitude: useGeolocationStore().position?.longitude,
-  })
-})
+const placeStore = usePlaceStore()
+
+const places = computed(() =>
+  placeStore.places.map((p) => ({
+    title: p.nickname,
+    location: p.address.position,
+  }))
+)
 </script>
 
-<style>
-.location-select {
-  padding: 1em;
-  appearance: initial;
-  flex-shrink: 0;
+<style scoped>
+label {
+  padding: 0.6em 1em 0.6em 0em;
+  width: 100%;
 }
 </style>

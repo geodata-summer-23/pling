@@ -1,18 +1,20 @@
 <template>
-  <div class="view col spaced" style="gap: 2em">
+  <div class="view col spaced" style="gap: 1em">
     <div class="row spaced">
       <IconButton v-if="page != 0" @click="prevPage"></IconButton>
       <h2>{{ $t().requestHelp }}</h2>
       <IconButton icon="xmark" @click="exitPage"></IconButton>
     </div>
-
+    <ProgressBar :number="Page.End" :index="page"></ProgressBar>
     <div>
       <CategoryForm
         v-if="page == Page.Category"
+        :category="helpRequest.category"
         @category="helpRequest.category = $event"
       ></CategoryForm>
       <LocationForm
         v-if="page == Page.Location"
+        :location="helpRequest.position"
         @location="helpRequest.position = $event"
       ></LocationForm>
       <DescriptionForm
@@ -46,6 +48,7 @@ import { router } from '@/router'
 import { $t } from '@/translation'
 import { useHelpRequestStore, HelpRequest } from '@/stores/helpRequestStore'
 import { useUserStore } from '@/stores/userStore'
+import ProgressBar from '@/components/ProgressBar.vue'
 
 enum Page {
   Location,

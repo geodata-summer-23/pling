@@ -1,21 +1,17 @@
 <template>
-  <div class="view col spaced" style="gap: 2em">
+  <div class="view col spaced" style="gap: 1em">
     <div class="row spaced">
       <IconButton v-if="page != 0" @click="prevPage"></IconButton>
       <h2>{{ $t().reportAnEvent }}</h2>
       <IconButton icon="xmark" @click="exitPage"></IconButton>
     </div>
-
+    <ProgressBar :number="Page.End" :index="page"></ProgressBar>
     <div>
       <CategoryForm
         v-if="page == Page.Category"
         :category="observation.category"
         @category="observation.category = $event"
       ></CategoryForm>
-      <LocationForm
-        v-if="page == Page.Location"
-        @location="observation.position = $event"
-      ></LocationForm>
       <DescriptionForm
         v-if="page == Page.Description"
         @description="observation.message = $event"
@@ -43,7 +39,6 @@
 
 <script lang="ts" setup>
 import CategoryForm from './CategoryForm.vue'
-import LocationForm from './LocationForm.vue'
 import DescriptionForm from './DescriptionForm.vue'
 import PictureForm from './PictureForm.vue'
 import IconButton from '@/components/IconButton.vue'
@@ -54,10 +49,11 @@ import { $t } from '@/translation'
 import { serverUrl } from '@/scripts/url'
 import { Observation } from '@/scripts/alert'
 import { getCategoryOptions } from '@/scripts/category'
+import { useGeolocationStore } from '@/stores/geolocationStore'
+import ProgressBar from '@/components/ProgressBar.vue'
 
 enum Page {
   Category,
-  Location,
   Description,
   Picture,
   Overview,
@@ -70,7 +66,7 @@ const requestState = ref<RequestState>('not-sent')
 
 const observation = reactive<Observation>({
   message: '',
-  position: { latitude: 0.0, longitude: 0.0 },
+  position: useGeolocationStore().position,
   category: getCategoryOptions()[0].category,
   image: '',
 })
