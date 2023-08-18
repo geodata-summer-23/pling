@@ -208,6 +208,12 @@ const selectedCategory = ref(getCategoryOptions()[0])
 const selectCategoryOption = (categoryOption: CategoryOption) => {
   selectedCategory.value = categoryOption
   if (!mapObjects.mapView) return
+
+  const metAlertsId = '18925333e9d-layer-14'
+  const metAlertsLayer = mapObjects.mapView.map.findLayerById(metAlertsId)
+  if (metAlertsLayer) {
+    metAlertsLayer.visible = true
+  }
   getCategoryOptions().forEach((option) => {
     if (!mapObjects.mapView) return
     const layer = mapObjects.mapView.map.findLayerById(option.layerId)
