@@ -69,6 +69,7 @@ watch(
   border-radius: 0.5em;
   border: 1px solid var(--c-medium-gray);
   height: 3em;
+  cursor: pointer;
 }
 
 .alert-tab.selected {

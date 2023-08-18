@@ -58,50 +58,43 @@
         :scale="0.5"
       ></LoadingSpinner>
     </template>
-    <div class="col" style="gap: 1em; align-items: center">
-      <div>
-        <div
-          v-if="placeStore.currentPlace.alertSummary.length > 0"
-          style="margin: 1em 2em"
-        >
-          <p style="font-size: 11pt">
-            {{ placeStore.currentPlace.alertSummary }}
-          </p>
-        </div>
-        <hr style="border: 1px solid var(--c-medium-gray); margin: 1em 0" />
-        <AlertList
-          :place="placeStore.currentPlace"
-          @select-category="
-            (category) => {
-              const option = getCategoryOptions().find(
-                (option) => option.category == category
-              )
-              if (option) {
-                selectCategoryOption(option)
-                shakeInfoButton()
-              }
-            }
-          "
-        ></AlertList>
-        <div
-          v-if="placeStore.currentPlace.status == 'failed'"
-          class="row center"
-        >
-          <button
-            class="btn"
-            @click="
-              () => {
-                if (!placeStore.currentPlace) return
-                placeStore.currentPlace.alertSummary = ''
-                placeStore.currentPlace.alerts = []
-                updatePlace(placeStore.currentPlace, { force: true })
-              }
-            "
-          >
-            {{ $t().tryAgain }}
-          </button>
-        </div>
-      </div>
+    <div
+      v-if="placeStore.currentPlace.alertSummary.length > 0"
+      style="margin: 1em 2em"
+    >
+      <p style="font-size: 11pt">
+        {{ placeStore.currentPlace.alertSummary }}
+      </p>
+    </div>
+    <hr style="border: 1px solid var(--c-medium-gray); margin: 1em 0" />
+    <AlertList
+      :place="placeStore.currentPlace"
+      @select-category="
+        (category) => {
+          const option = getCategoryOptions().find(
+            (option) => option.category == category
+          )
+          if (option) {
+            selectCategoryOption(option)
+            shakeInfoButton()
+          }
+        }
+      "
+    ></AlertList>
+    <div v-if="placeStore.currentPlace.status == 'failed'" class="row center">
+      <button
+        class="btn"
+        @click="
+          () => {
+            if (!placeStore.currentPlace) return
+            placeStore.currentPlace.alertSummary = ''
+            placeStore.currentPlace.alerts = []
+            updatePlace(placeStore.currentPlace, { force: true })
+          }
+        "
+      >
+        {{ $t().tryAgain }}
+      </button>
     </div>
   </SlideUpPane>
 </template>
