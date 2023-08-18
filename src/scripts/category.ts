@@ -130,18 +130,17 @@ export const getCategoryOptions = (): CategoryOption[] => [
   },
   {
     title: $t().flood,
-    layerId: '1894e6f75c8-layer-27',
+    layerId: '18a0303c004-layer-37',
     category: 'flood',
     faIcon: 'water',
     featureLayers: {
-      // TODO
       // flood: {
-      //   url: 'https://utility.arcgis.com/usrsvcs/servers/811c02c15905411d89f2a6e3bcda6399/rest/services/Geomap_UTM33_EUREF89/GeomapFlom/MapServer/1',
+      //   url: 'https://services.geodataonline.no/arcgis/rest/services/Geomap_UTM33_EUREF89/GeomapFlom/FeatureServer/2',
       //   radius: 50,
       // },
     },
     info: {
-      description: `Flom er oversvømmelse ved økt vannstand i elver, som følge av mye regn og/eller snøsmelting.<br/><br/>Her; Områder som kan bli under vann hvis en stor flom oppstår. Det er stor sannsynlighet for at en flom av denne størrelsen kommer til å skje i løpet av de neste 20 årene. `,
+      description: `Flom er oversvømmelse ved økt vannstand i elver, som følge av mye regn og/eller snøsmelting.<br/><br/>Her; Områder som kan bli under vann hvis en stor flom oppstår. Det er stor sannsynlighet for at en flom av denne størrelsen kommer til å skje i løpet av de neste 50 årene. `,
       legends: [
         {
           title: 'Flomsone',

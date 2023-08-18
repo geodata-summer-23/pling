@@ -38,22 +38,27 @@ const queryFeatureLayer = async (
     throw Error('Invalid position')
   }
 
-  const results = await featureLayer.queryFeatures({
-    spatialRelationship: 'intersects', // Relationship operation to apply
-    geometry: new Point({ latitude, longitude }),
-    outFields: ['*'], // Attributes to return
-    returnGeometry: false,
-    distance: radius,
-  })
+  try {
+    const results = await featureLayer.queryFeatures({
+      spatialRelationship: 'intersects', // Relationship operation to apply
+      geometry: new Point({ latitude, longitude }),
+      outFields: ['*'], // Attributes to return
+      returnGeometry: false,
+      distance: radius,
+    })
 
-  return results.features.map(
-    (f) =>
-      ({
-        attributes: f.toJSON().attributes,
-        category,
-        key,
-      } as FeatureQuery)
-  )
+    return results.features.map(
+      (f) =>
+        ({
+          attributes: f.toJSON().attributes,
+          category,
+          key,
+        } as FeatureQuery)
+    )
+  } catch (e) {
+    console.error(e)
+    return []
+  }
 }
 
 export const queryFeatureLayers = async (
