@@ -138,7 +138,7 @@ const shakeInfoButton = () => {
   }
   infoButtonTimeout = setTimeout(() => {
     isShakingInfoButton.value = false
-  }, 3000)
+  }, 2000)
 }
 
 const warningIcons = computed(() =>
