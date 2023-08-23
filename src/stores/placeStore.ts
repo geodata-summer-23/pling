@@ -52,10 +52,10 @@ export const usePlaceStore = defineStore('place', {
             )
           }
         })
-        place.status = 'unknown'
+        if (place.status == 'loading') place.status = 'unknown'
         updatePlace(place, {
           positionChanged: true,
-          force: place == this.places[0],
+          force: place == this.places[0] || place.status != 'success',
         })
       })
       this.currentPlace = this.places[0]
