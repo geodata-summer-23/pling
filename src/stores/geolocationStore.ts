@@ -58,13 +58,18 @@ const throttledUpdatePlace = throttle(
   3 * 60_000
 )
 
-const updatePosition = (position: Position) => {
+const updatePosition = (geolocation: Position) => {
+  if (!geolocation.latitude || !geolocation.longitude) return
+  const position = {
+    latitude: geolocation.latitude,
+    longitude: geolocation.longitude,
+  }
+  useGeolocationStore().position = position
   const myLocation = usePlaceStore().places[0]
   myLocation.address.position = position
-  throttledUpdatePlace(myLocation)
-  useGeolocationStore().position = position
-  useHelpRequestStore().updateRequests(position)
   positionToAddress(position, myLocation.address)
+  useHelpRequestStore().updateRequests(position)
+  throttledUpdatePlace(myLocation)
 }
 
 if (import.meta.hot) {
