@@ -14,19 +14,33 @@ export const useGeolocationStore = defineStore('geolocation', {
       latitude: 59.91037848488237,
       longitude: 10.762804804817256,
     } as Position,
+    watchId: null as null | number,
   }),
 
   actions: {
     init() {
-      navigator.geolocation.getCurrentPosition((position) => {
-        updatePosition(position)
+      navigator.permissions.query({ name: 'geolocation' }).then((result) => {
+        this.watchPosition(result)
+        result.addEventListener('change', () => {
+          this.watchPosition(result)
+        })
       })
-      navigator.geolocation.watchPosition((position) => {
+    },
+    watchPosition(result: PermissionStatus) {
+      if (result.state !== 'granted') {
+        updatePosition(this.position)
+        return
+      }
+      if (this.watchId != null) navigator.geolocation.clearWatch(this.watchId)
+      navigator.geolocation.getCurrentPosition((position) => {
+        updatePosition(position.coords)
+      })
+      this.watchId = navigator.geolocation.watchPosition((position) => {
         if (
           position.coords.latitude != this.position?.latitude ||
           position.coords.longitude != this.position?.longitude
         ) {
-          updatePosition(position)
+          updatePosition(position.coords)
         }
       })
     },
@@ -44,18 +58,13 @@ const throttledUpdatePlace = throttle(
   3 * 60_000
 )
 
-const updatePosition = (geoPosition: GeolocationPosition) => {
-  const position = {
-    latitude: geoPosition.coords.latitude,
-    longitude: geoPosition.coords.longitude,
-  }
+const updatePosition = (position: Position) => {
   const myLocation = usePlaceStore().places[0]
-  if (myLocation) {
-    throttledUpdatePlace(myLocation)
-  }
+  myLocation.address.position = position
+  throttledUpdatePlace(myLocation)
   useGeolocationStore().position = position
   useHelpRequestStore().updateRequests(position)
-  positionToAddress(position, usePlaceStore().places[0].address)
+  positionToAddress(position, myLocation.address)
 }
 
 if (import.meta.hot) {

@@ -55,7 +55,7 @@ export const usePlaceStore = defineStore('place', {
         if (place.status == 'loading') place.status = 'unknown'
         updatePlace(place, {
           positionChanged: true,
-          force: place == this.places[0] || place.status != 'success',
+          force: place.status != 'success',
         })
       })
       this.currentPlace = this.places[0]
@@ -77,7 +77,7 @@ export const updatePlace = async (
   { positionChanged = false, force = false }
 ) => {
   place.status = 'loading'
-  if (!place.alertSummary) {
+  if (!place.alertSummary || place.alertSummary == $t().summaryFailed) {
     place.alertSummary = $t().generatingSummary
   }
   if (!place.address.position.latitude || !place.address.position.latitude) {

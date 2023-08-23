@@ -163,7 +163,10 @@ export const fetchAlerts = async (place: Place, categories: Category[]) => {
       if (alertPrev != -1) {
         place.alerts.splice(alertPrev, 1)
       }
-      if (!response.ok) return false
+      if (!response.ok) {
+        console.error('Failed to request alert', alertRequest)
+        return false
+      }
       const alert = JSON.parse(await response.json()) as Alert
       if (!alert) return alertPrev != -1
       place.alerts = [...place.alerts, alert]
