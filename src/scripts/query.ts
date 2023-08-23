@@ -190,9 +190,13 @@ export const fetchAlerts = async (place: Place, categories: Category[]) => {
 }
 
 export const fetchAlertSummary = async (place: Place) => {
+  const user = JSON.parse(
+    JSON.stringify(useUserStore().$state)
+  ) satisfies UserData
+  if (!user.birthday) user.birthday = new Date(1990, 1, 1) // quickfix
   const alertRequest: AlertRequest = JSON.parse(
     JSON.stringify({
-      user: useUserStore().$state satisfies UserData,
+      user,
       place,
     })
   )
